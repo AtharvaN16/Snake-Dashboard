@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/eyelash-viper/gallery/1.jpg",
+    "/images/snakes/eyelash-viper/gallery/2.jpg",
+    "/images/snakes/eyelash-viper/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "caspar s",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eyelash_Viper_(Bothriechis_sp.)_(5558771999).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "photographer": "Pavel Kirillov from St.Petersburg, Russia",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eyelash_viper_(Bothriechis)_(9640274860).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    },
+    {
+      "photographer": "Pavel Kirillov from St.Petersburg, Russia",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eyelash_viper_(Bothriechis)_(9347558832).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  ]
+}

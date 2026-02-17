@@ -1,0 +1,22 @@
+{
+  "images": [
+    "/images/snakes/western-hognose/gallery/1.jpg",
+    "/images/snakes/western-hognose/gallery/2.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "A.Yantzie",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5154861356",
+      "license": "http://creativecommons.org/licenses/by/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "photographer": "Peter Paplanus from St. Louis, Missouri",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dusty_Hognose_Snake_(Heterodon_nasicus_gloydi)_(23262712026).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  ]
+}

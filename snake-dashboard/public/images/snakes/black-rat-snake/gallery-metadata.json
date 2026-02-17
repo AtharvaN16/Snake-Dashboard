@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/black-rat-snake/gallery/1.jpg",
+    "/images/snakes/black-rat-snake/gallery/2.jpg",
+    "/images/snakes/black-rat-snake/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Peter Paplanus from St. Louis, Missouri",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Rat_Snake_(Pantherophis_obsoletus)_(23931822917).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "photographer": "Chuck Homler, Focus On Wildlife",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Rat_Snake_(Pantherophis_obsoletus).jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "photographer": "Peter Paplanus ",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Erdnatter_(Pantherophis_obsoletus),_Oberseite.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  ]
+}

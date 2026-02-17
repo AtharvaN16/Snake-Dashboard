@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/coastal-taipan/gallery/1.jpg",
+    "/images/snakes/coastal-taipan/gallery/2.jpg",
+    "/images/snakes/coastal-taipan/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Bernard DUPONT from FRANCE",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taipan_(Oxyuranus_scutellatus)_close-up_(10249037565).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    },
+    {
+      "photographer": "Bernard DUPONT from FRANCE",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taipan_(Oxyuranus_scutellatus)_(10112734454).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    },
+    {
+      "photographer": "Sardaka",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:(1)Taipan.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  ]
+}

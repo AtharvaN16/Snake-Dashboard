@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "manual-fallback",
+        "notes": "Approximate range for inland taipan"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [136.0, -29.5],
+            [146.0, -29.5],
+            [146.0, -23.0],
+            [139.0, -20.0],
+            [136.0, -24.0],
+            [136.0, -29.5]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/montpellier-snake/gallery/1.jpg",
+    "/images/snakes/montpellier-snake/gallery/2.jpg",
+    "/images/snakes/montpellier-snake/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Diego Delso",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Culebra_bastarda_(Malpolon_monspessulanus),_Nig%C3%BCella,_Zaragoza,_Espa%C3%B1a,_2017-05-24,_DD_07.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "photographer": "Bernard DUPONT",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Montpellier_Snake_(Malpolon_monspessulanus)_male_2001.jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    },
+    {
+      "photographer": "Samuel GUIRAUDOU",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Malpolon_monspessulanus_266904027.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/massasauga/gallery/1.jpg",
+    "/images/snakes/massasauga/gallery/2.jpg",
+    "/images/snakes/massasauga/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Kim",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5153238722",
+      "license": "http://creativecommons.org/licenses/by/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "photographer": "Riley Stanton",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_3.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "photographer": "Riley Stanton",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_1.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  ]
+}

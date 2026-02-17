@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/emerald-tree-boa/gallery/1.jpg",
+    "/images/snakes/emerald-tree-boa/gallery/2.jpg",
+    "/images/snakes/emerald-tree-boa/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Photo by and (c)2014 Derek Ramsey (Ram-Man)",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Emerald_Tree_Boa_Corallus_caninus.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "photographer": "Щербаков Сергей Владимирович",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%D0%A1%D0%BE%D0%B1%D0%B0%D0%BA%D0%BE%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D1%8B%D0%B9_%D1%83%D0%B4%D0%B0%D0%B2_(Corallus_caninus).jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "photographer": "Σ64",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Corallus_caninus_01.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  ]
+}

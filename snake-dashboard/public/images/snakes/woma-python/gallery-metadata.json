@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/woma-python/gallery/1.jpg",
+    "/images/snakes/woma-python/gallery/2.jpg",
+    "/images/snakes/woma-python/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Connor Margetts",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5133150986",
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "photographer": "Brian Gratwicke",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aspidites_ramsayi_-Australia_Zoo,_Queensland,_Australia-8a.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "photographer": "Ltshears",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Woma_-_Aspidites_ramsayi_036.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  ]
+}

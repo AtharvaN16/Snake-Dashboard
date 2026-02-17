@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "manual-fallback",
+        "notes": "Approximate range for centralian carpet python"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [122.0, -31.5],
+            [141.0, -31.5],
+            [142.0, -20.0],
+            [131.0, -17.0],
+            [122.0, -22.0],
+            [122.0, -31.5]
+          ]
+        ]
+      }
+    }
+  ]
+}

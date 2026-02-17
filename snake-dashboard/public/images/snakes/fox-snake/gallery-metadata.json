@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/fox-snake/gallery/1.jpg",
+    "/images/snakes/fox-snake/gallery/2.jpg",
+    "/images/snakes/fox-snake/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "sofi v",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5140091646",
+      "license": "http://creativecommons.org/licenses/by/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "photographer": "Peter Paplanus",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Foxsnake_(Pantherophis_vulpinus)_-_2.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    },
+    {
+      "photographer": "Peter Paplanus",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Foxsnake_(Pantherophis_vulpinus)_-_1.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  ]
+}

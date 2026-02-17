@@ -1,0 +1,22 @@
+{
+  "images": [
+    "/images/snakes/cat-eyed-snake/gallery/1.jpg",
+    "/images/snakes/cat-eyed-snake/gallery/2.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Pavel Kirillov from St.Petersburg, Russia",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Northern_cat-eyed_snake_(Leptodeira_septentrionalis)%3F_(9607067145).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    },
+    {
+      "photographer": "Bernard DUPONT from FRANCE",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Northern_Cat-eyed_Snake_(Leptodeira_septentrionalis)_(36624219700).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "images": [
+    "/images/snakes/amazon-tree-boa/gallery/1.jpg",
+    "/images/snakes/amazon-tree-boa/gallery/2.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Vincent A. Vos",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6133105279",
+      "license": "http://creativecommons.org/licenses/by/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "photographer": "MauMirror",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Corallus_hortulanus.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  ]
+}

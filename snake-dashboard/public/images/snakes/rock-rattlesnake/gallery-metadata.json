@@ -1,0 +1,30 @@
+{
+  "images": [
+    "/images/snakes/rock-rattlesnake/gallery/1.jpg",
+    "/images/snakes/rock-rattlesnake/gallery/2.jpg",
+    "/images/snakes/rock-rattlesnake/gallery/3.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "cromulo",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_22972064.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "photographer": "Justin Pool",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_20230265.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    },
+    {
+      "photographer": "cromulo",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_klauberi_22972025.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  ]
+}

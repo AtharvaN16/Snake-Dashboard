@@ -1,0 +1,14 @@
+{
+  "images": [
+    "/images/snakes/red-bellied-snake/gallery/1.jpg"
+  ],
+  "attributions": [
+    {
+      "photographer": "Leila Dasher",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5063626019",
+      "license": "http://creativecommons.org/licenses/by/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+    }
+  ]
+}

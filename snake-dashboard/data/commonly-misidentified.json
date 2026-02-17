@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Mapping of snake IDs to commonly misidentified species. This file can be merged into index.json during build time.",
+  "version": "1.0.0",
+  "mappings": {
+    "copperhead": [
+      "cottonmouth",
+      "water-snake"
+    ],
+    "cottonmouth": [
+      "copperhead",
+      "water-snake"
+    ],
+    "coral-snake": [
+      "milk-snake"
+    ],
+    "water-snake": [
+      "cottonmouth"
+    ],
+    "russells-viper": [
+      "common-sand-boa",
+      "indian-rock-python"
+    ]
+  }
+}
