@@ -14,10 +14,18 @@ interface Segment {
 
 const SEGMENTS: Segment[] = [
   {
+    key: "clinicalScore",
+    label: "Clinical Severity",
+    shortLabel: "Clinical",
+    weight: 0.3,
+    color: "bg-rose-600",
+    hoverColor: "bg-rose-500",
+  },
+  {
     key: "potencyScore",
     label: "Venom Potency",
     shortLabel: "Potency",
-    weight: 0.4,
+    weight: 0.2,
     color: "bg-red-500",
     hoverColor: "bg-red-400",
   },
@@ -25,7 +33,7 @@ const SEGMENTS: Segment[] = [
     key: "yieldScore",
     label: "Venom Yield",
     shortLabel: "Yield",
-    weight: 0.25,
+    weight: 0.2,
     color: "bg-orange-500",
     hoverColor: "bg-orange-400",
   },
@@ -41,7 +49,7 @@ const SEGMENTS: Segment[] = [
     key: "speedScore",
     label: "Venom Speed",
     shortLabel: "Speed",
-    weight: 0.15,
+    weight: 0.1,
     color: "bg-yellow-500",
     hoverColor: "bg-yellow-400",
   },

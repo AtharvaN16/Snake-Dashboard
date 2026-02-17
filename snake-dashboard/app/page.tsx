@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { HomeSearchCard } from "@/components/HomeSearchCard";
 
 export default function Home() {
@@ -17,6 +18,15 @@ export default function Home() {
         </div>
 
         <HomeSearchCard inputId="main-search" />
+
+        <div className="text-center mt-3 shrink-0">
+          <Link
+            href="/phylogeny"
+            className="text-sm text-stone-600 hover:text-stone-900 transition-colors underline decoration-stone-300 decoration-dotted underline-offset-4"
+          >
+            Browse by taxonomy (phylogeny)
+          </Link>
+        </div>
 
         {/* Footer Attribution */}
         <div className="text-center mt-5 text-sm text-stone-600 shrink-0">

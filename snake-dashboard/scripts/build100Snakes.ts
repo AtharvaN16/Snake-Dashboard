@@ -1158,10 +1158,90 @@ const dataFixes: Record<string, DataFix> = {
   "european-cat-snake":       { ld50: 1,     range: "N/A",         method: "IV", dryYield: 0,   yieldQual: "Very Low", dataQuality: "insufficient" },
 };
 
+// ─── Clinical data: untreated fatality rates, WHO category, severity ───
+// Sources: WHO Snakebite Guidelines (2016), Warrell DA Clinical Toxicology,
+// Chippaux JP (2017) Snakebite envenomation, published case series
+type ClinicalFix = {
+  fatalityRate: [number, number]; // untreated CFR [low%, high%]
+  whoCategory?: 1 | 2;
+  severity: "Life-threatening" | "Severe" | "Moderate" | "Mild" | "Negligible";
+};
+const clinicalFixes: Record<string, ClinicalFix> = {
+  // === ELAPIDS (neurotoxic-dominant) ===
+  "inland-taipan":              { fatalityRate: [80, 100], whoCategory: 2, severity: "Life-threatening" },
+  "eastern-brown-snake":        { fatalityRate: [10, 20],  whoCategory: 1, severity: "Life-threatening" },
+  "coastal-taipan":             { fatalityRate: [60, 80],  whoCategory: 1, severity: "Life-threatening" },
+  "black-mamba":                { fatalityRate: [90, 100], whoCategory: 1, severity: "Life-threatening" },
+  "king-cobra":                 { fatalityRate: [50, 75],  whoCategory: 1, severity: "Life-threatening" },
+  "philippine-cobra":           { fatalityRate: [50, 70],  whoCategory: 1, severity: "Life-threatening" },
+  "indian-cobra":               { fatalityRate: [20, 40],  whoCategory: 1, severity: "Life-threatening" },
+  "egyptian-cobra":             { fatalityRate: [15, 30],  whoCategory: 1, severity: "Life-threatening" },
+  "cape-cobra":                 { fatalityRate: [40, 60],  whoCategory: 1, severity: "Life-threatening" },
+  "forest-cobra":               { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
+  "monocled-cobra":             { fatalityRate: [20, 40],  whoCategory: 1, severity: "Life-threatening" },
+  "black-necked-spitting-cobra":{ fatalityRate: [5, 10],   whoCategory: 1, severity: "Severe" },
+  "javan-spitting-cobra":       { fatalityRate: [10, 20],  whoCategory: 1, severity: "Severe" },
+  "tiger-snake":                { fatalityRate: [40, 60],  whoCategory: 1, severity: "Life-threatening" },
+  "death-adder":                { fatalityRate: [50, 60],  whoCategory: 1, severity: "Life-threatening" },
+  "red-bellied-black-snake":    { fatalityRate: [0, 1],    whoCategory: 2, severity: "Moderate" },
+  "lowlands-copperhead":        { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
+  "dugite":                     { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
+  "mulga-snake":                { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
+  "common-krait":               { fatalityRate: [50, 80],  whoCategory: 1, severity: "Life-threatening" },
+  "many-banded-krait":          { fatalityRate: [25, 50],  whoCategory: 1, severity: "Life-threatening" },
+  "banded-krait":               { fatalityRate: [10, 30],  whoCategory: 1, severity: "Life-threatening" },
+  "green-mamba":                { fatalityRate: [10, 20],  whoCategory: 1, severity: "Life-threatening" },
+  "coral-snake":                { fatalityRate: [5, 15],   whoCategory: 1, severity: "Severe" },
+  "texas-coral-snake":          { fatalityRate: [3, 10],   whoCategory: 2, severity: "Severe" },
+  "beaked-sea-snake":           { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
+  "yellow-bellied-sea-snake":   { fatalityRate: [10, 25],  whoCategory: 2, severity: "Life-threatening" },
+
+  // === VIPERIDS (hemotoxic/cytotoxic-dominant) ===
+  "russells-viper":             { fatalityRate: [30, 70],  whoCategory: 1, severity: "Life-threatening" },
+  "saw-scaled-viper":           { fatalityRate: [15, 30],  whoCategory: 1, severity: "Life-threatening" },
+  "carpet-viper":               { fatalityRate: [15, 30],  whoCategory: 1, severity: "Life-threatening" },
+  "puff-adder":                 { fatalityRate: [10, 20],  whoCategory: 1, severity: "Life-threatening" },
+  "gaboon-viper":               { fatalityRate: [15, 30],  whoCategory: 1, severity: "Life-threatening" },
+  "fer-de-lance":               { fatalityRate: [7, 15],   whoCategory: 1, severity: "Life-threatening" },
+  "bushmaster":                 { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
+  "jararaca":                   { fatalityRate: [3, 8],    whoCategory: 1, severity: "Severe" },
+  "south-american-rattlesnake": { fatalityRate: [50, 75],  whoCategory: 1, severity: "Life-threatening" },
+  "eastern-diamondback":        { fatalityRate: [10, 30],  whoCategory: 1, severity: "Life-threatening" },
+  "western-diamondback":        { fatalityRate: [10, 20],  whoCategory: 1, severity: "Life-threatening" },
+  "mojave-rattlesnake":         { fatalityRate: [5, 15],   whoCategory: 1, severity: "Life-threatening" },
+  "timber-rattlesnake":         { fatalityRate: [5, 15],   whoCategory: 1, severity: "Severe" },
+  "prairie-rattlesnake":        { fatalityRate: [3, 10],   whoCategory: 2, severity: "Severe" },
+  "rock-rattlesnake":           { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
+  "massasauga":                 { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
+  "copperhead":                 { fatalityRate: [0, 0.5],  severity: "Moderate" },
+  "cottonmouth":                { fatalityRate: [1, 5],    whoCategory: 2, severity: "Severe" },
+  "malayan-pit-viper":          { fatalityRate: [5, 15],   whoCategory: 1, severity: "Severe" },
+  "japanese-mamushi":           { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
+  "white-lipped-viper":         { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
+  "waglers-pit-viper":          { fatalityRate: [0, 1],    severity: "Mild" },
+  "eyelash-viper":              { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
+  "cantil":                     { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
+  "night-adder":                { fatalityRate: [0, 1],    severity: "Moderate" },
+  "common-adder":               { fatalityRate: [0, 1],    severity: "Moderate" },
+  "asp-viper":                  { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
+  "nose-horned-viper":          { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
+  "egyptian-viper":             { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
+
+  // === COLUBRIDS (rear-fanged) ===
+  "boomslang":                  { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
+  "boomslang-southern":         { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
+  "mangrove-snake":             { fatalityRate: [0, 0],    severity: "Mild" },
+  "green-vine-snake":           { fatalityRate: [0, 0],    severity: "Mild" },
+  "brown-tree-snake":           { fatalityRate: [0, 1],    severity: "Mild" },
+  "western-hognose":            { fatalityRate: [0, 0],    severity: "Negligible" },
+  "asian-vine-snake":           { fatalityRate: [0, 0],    severity: "Negligible" },
+  "european-cat-snake":         { fatalityRate: [0, 0],    severity: "Negligible" },
+};
+
 const corrected = unique.map((s: any) => {
   const fix = dataFixes[s.id];
-  if (!fix) return s;
-  return {
+  const clinical = clinicalFixes[s.id];
+  const result = fix ? {
     ...s,
     venomPotency: {
       ...s.venomPotency,
@@ -1175,7 +1255,15 @@ const corrected = unique.map((s: any) => {
       qualitative: fix.yieldQual,
     },
     ...(fix.dataQuality ? { dataQuality: fix.dataQuality } : {}),
-  };
+  } : s;
+  if (clinical) {
+    result.clinicalData = {
+      untreatedFatalityRate: { low: clinical.fatalityRate[0], high: clinical.fatalityRate[1] },
+      ...(clinical.whoCategory ? { whoCategory: clinical.whoCategory } : {}),
+      severity: clinical.severity,
+    };
+  }
+  return result;
 });
 
 // Normalize images for every snake: use new path structure and load attribution from file when present

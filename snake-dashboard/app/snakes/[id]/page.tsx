@@ -2,8 +2,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
-import { getSnakeById, getAllSnakes, isVenomous } from "@/lib/snakeData";
-import { VenomTypeChip } from "@/components/VenomTypeChip";
+import {
+  getSnakeById,
+  getAllSnakes,
+  isVenomous,
+} from "@/lib/snakeData";import { VenomTypeChip } from "@/components/VenomTypeChip";
 import { VenomSpeedChip } from "@/components/VenomSpeedChip";
 import { VenomYieldChip } from "@/components/VenomYieldChip";
 import { DistributionMap } from "@/components/DistributionMap";
@@ -189,7 +192,7 @@ export default async function SnakeDetailPage({
             <p style={{ marginBottom: "18px", display: "flex", alignItems: "baseline" }}>
               <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Family</span>
               <Link
-                href={`/family/${snake.family.toLowerCase().replace(/\s+/g, "-")}`}
+                href={`/snakes/${snake.id}/phylogeny`}
                 className="underline hover:text-stone-900 transition-colors"
                 style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
               >

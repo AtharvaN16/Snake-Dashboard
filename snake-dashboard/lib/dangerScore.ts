@@ -8,7 +8,7 @@ const MAX_LD50 = 300;
 const MIN_YIELD = 1;
 const MAX_YIELD = 600;
 
-/** Elapidae IV→SC ×4; Viperidae IV→SC ×6; Colubridae IV→SC ×4; IP→SC ×2 */
+/** IV→SC ×3 (uniform, literature-supported); IP→SC ×2 */
 export function normalizeLD50ToSC(
   ld50: number,
   method: "IV" | "SC" | "IM" | "IP",
@@ -20,12 +20,8 @@ export function normalizeLD50ToSC(
   if (method === "IP") {
     return { ld50Normalized: ld50 * 2, normalized: true };
   }
-  // IV
-  const lower = family.toLowerCase();
-  if (lower.includes("elapidae")) return { ld50Normalized: ld50 * 4, normalized: true };
-  if (lower.includes("viperidae")) return { ld50Normalized: ld50 * 6, normalized: true };
-  if (lower.includes("colubridae")) return { ld50Normalized: ld50 * 4, normalized: true };
-  return { ld50Normalized: ld50 * 4, normalized: true };
+  // IV → SC: uniform ×3 based on published conversion factors (Broad et al. 1979)
+  return { ld50Normalized: ld50 * 3, normalized: true };
 }
 
 /**
@@ -110,15 +106,15 @@ export function calculateClinicalScore(clinical: ClinicalData): number {
 
 /**
  * Composite danger score.
- * Weights: clinical 30%, potency 20%, yield 20%, speed 15%, encounters 15%.
+ * Weights: clinical 30%, potency 20%, yield 20%, encounters 20%, speed 10%.
  */
 export function calculateDangerScore(components: DangerScoreComponents): number {
   const score =
     components.clinicalScore * 0.3 +
     components.potencyScore * 0.2 +
     components.yieldScore * 0.2 +
-    components.speedScore * 0.15 +
-    components.encounterScore * 0.15;
+    components.encounterScore * 0.2 +
+    components.speedScore * 0.1;
   return Math.round(Math.max(0, Math.min(100, score)));
 }
 
@@ -152,7 +148,7 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
       ...snake,
       dangerScore: 5,
       dangerRank: snake.dangerRank,
-      dangerScoreComponents: { potencyScore: 0, yieldScore: 0, encounterScore: 20, speedScore: 0 },
+      dangerScoreComponents: { clinicalScore: 0, potencyScore: 0, yieldScore: 0, encounterScore: 20, speedScore: 0 },
       venomClassification: "Mildly Venomous",
       dataQuality: "insufficient",
     };
@@ -199,14 +195,20 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     yieldScore = calculateYieldScore(yieldMg);
   }
 
+  let clinicalScore = 0;
+  if (snake.clinicalData) {
+    clinicalScore = calculateClinicalScore(snake.clinicalData);
+  }
+
   const components: DangerScoreComponents = {
+    clinicalScore,
     potencyScore,
     yieldScore,
     encounterScore,
     speedScore,
   };
   const dangerScore = calculateDangerScore(components);
-  const venomClassification = deriveVenomClassification(dangerScore);
+  const venomClassification = deriveVenomClassification(components);
 
   return {
     ...snake,

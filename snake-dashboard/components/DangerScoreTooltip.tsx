@@ -9,13 +9,14 @@ const TOOLTIP_CONTENT = (
   <div className="text-left">
     <p className="font-semibold text-stone-800 mb-1.5">How danger score is calculated</p>
     <p className="text-xs text-stone-600 leading-relaxed">
-      The score (0–100) combines four factors with logarithmic scaling where relevant:
+      The score (0–100) combines five factors with logarithmic scaling where relevant:
     </p>
     <ul className="mt-1.5 text-xs text-stone-600 space-y-0.5 list-none">
-      <li><strong>Venom potency (40%)</strong> — LD₅₀ normalized to subcutaneous equivalent; lower = more potent</li>
-      <li><strong>Venom yield (25%)</strong> — dry venom per bite (mg)</li>
+      <li><strong>Clinical severity (30%)</strong> — untreated fatality rate and WHO medical importance</li>
+      <li><strong>Venom potency (20%)</strong> — LD₅₀ normalized to subcutaneous equivalent</li>
+      <li><strong>Venom yield (20%)</strong> — dry venom per bite (mg)</li>
       <li><strong>Human encounter rate (20%)</strong> — how often people encounter this species</li>
-      <li><strong>Venom speed (15%)</strong> — how quickly symptoms progress after a bite</li>
+      <li><strong>Venom speed (10%)</strong> — how quickly symptoms progress after a bite</li>
     </ul>
   </div>
 );
