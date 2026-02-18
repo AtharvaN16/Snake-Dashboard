@@ -15,12 +15,13 @@ interface VisibilityContext {
   getHoveredNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
 }
 
-/** Ext-label font size by rank — family > genus > species */
-function extLabelSize(rank: string, invK: number): number {
-  if (rank === "family") return 13 * invK;
-  if (rank === "genus") return 11 * invK;
-  if (rank === "species") return 9 * invK;
-  return 12 * invK; // suborder, infraorder, clade
+/** Ext-label font size by rank — family > genus > species. large=true for snake search highlight. */
+function extLabelSize(rank: string, invK: number, large = false): number {
+  const m = large ? 1.4 : 1;
+  if (rank === "family") return 13 * invK * m;
+  if (rank === "genus") return 11 * invK * m;
+  if (rank === "species") return 9 * invK * m;
+  return 12 * invK * m; // suborder, infraorder, clade
 }
 
 export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
@@ -74,7 +75,16 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
               addExtLabel(nodeEl, nd, rank, invK, scale, { lightStyle: true });
             }
           } else {
-            addExtLabel(nodeEl, nd, rank, invK, scale, { side: useSideLabels });
+            // Snake search highlight: genus in path gets label at top, larger labels
+            const searchNode = ctx.getSearchHighlightNode();
+            const genusInSearchPath =
+              rank === "genus" && searchNode && searchNode.parent === nd;
+            const useTopForGenus = genusInSearchPath;
+            const inSearchPath = searchNode && (nd === searchNode || nd === searchNode.parent);
+            addExtLabel(nodeEl, nd, rank, invK, scale, {
+              side: useTopForGenus ? false : useSideLabels,
+              large: !!inSearchPath,
+            });
           }
           return;
         }
@@ -105,12 +115,12 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     rank: string,
     invK: number,
     _scale: number,
-    opts: { lightStyle?: boolean; side?: boolean } = {},
+    opts: { lightStyle?: boolean; side?: boolean; large?: boolean } = {},
   ) {
-    const { lightStyle = false, side = false } = opts;
+    const { lightStyle = false, side = false, large = false } = opts;
     const r = nodeRadius(nd);
     const gap = r + 20 * invK;
-    const extFs = extLabelSize(rank, invK);
+    const extFs = extLabelSize(rank, invK, large);
     const extPadX = 6 * invK;
     const extPadY = 3 * invK;
     const extRx = 4 * invK;

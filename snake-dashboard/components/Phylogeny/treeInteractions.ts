@@ -81,25 +81,6 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       );
   }
 
-  function highlightPathAndSubtree(target: d3.HierarchyNode<HierarchyNode>) {
-    hoverActive = true;
-    const ancestors = nodeToAncestors.get(target)!;
-    const nodes = new Set(ancestors);
-    nodes.add(target);
-    target.each((n) => nodes.add(n));
-
-    nodeSelection
-      .transition().duration(200)
-      .style("opacity", (d) => (nodes.has(d) ? "1" : "0.05"));
-    nodeSelection
-      .style("pointer-events", (d) => (nodes.has(d) ? "auto" : "none"));
-    linkSelection
-      .transition().duration(200)
-      .attr("stroke-opacity", (d) =>
-        nodes.has(d.source) && nodes.has(d.target) ? 0.9 : 0.02
-      );
-  }
-
   function highlightPathToRoot(
     from: d3.HierarchyNode<HierarchyNode>,
     root: d3.HierarchyNode<HierarchyNode>,
@@ -145,15 +126,21 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
   // --- Floating label helper ---
 
-  function createLabel(parent: d3.Selection<SVGGElement, unknown, null, undefined>, node: d3.HierarchyPointNode<HierarchyNode>, cls: string) {
+  function createLabel(
+    parent: d3.Selection<SVGGElement, unknown, null, undefined>,
+    node: d3.HierarchyPointNode<HierarchyNode>,
+    cls: string,
+    opts?: { large?: boolean },
+  ) {
     const color = nodeColor(node);
     const r = nodeRadius(node);
     const [px, py] = radialPoint((node as any).x, (node as any).y);
     const k = (svg.node() as any).__currentZoomScale || 1;
     const invK = 1 / k;
-    const gap = r + 24 * invK;
+    const gap = r + (opts?.large ? 28 : 24) * invK;
     const labelG = parent.append("g").attr("class", cls).attr("transform", `translate(${px},${py - gap})`);
-    const fs = 14 * invK, padX = 8 * invK, padY = 5 * invK, rx = 6 * invK;
+    const baseFs = opts?.large ? 18 : 14;
+    const fs = baseFs * invK, padX = 8 * invK, padY = 5 * invK, rx = 6 * invK;
     const text = labelG.append("text")
       .attr("text-anchor", "middle").attr("font-size", `${fs}px`).attr("font-weight", "600")
       .attr("fill", "#fff").attr("y", 0).attr("dy", "0.35em").text(node.data.name);
@@ -176,6 +163,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       extLabel.select("text").attr("fill", "#fff").attr("font-weight", "600");
       return;
     }
+    if (searchHighlightNode && d === searchHighlightNode) return;
     hoverLabel = createLabel(g, d, "hover-label");
   }
 
@@ -224,7 +212,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   }
 
   function addSearchLabel(node: d3.HierarchyPointNode<HierarchyNode>) {
-    searchLabel = createLabel(g, node, "search-label");
+    searchLabel = createLabel(g, node, "search-label", { large: true });
   }
 
   // --- Bind mouse events ---
@@ -243,7 +231,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
         showHoverEffect(this as SVGGElement, d);
         return;
       }
-      highlightPathAndSubtree(d);
+      highlightPath(d);
       updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
       showHoverEffect(this as SVGGElement, d);
     })
