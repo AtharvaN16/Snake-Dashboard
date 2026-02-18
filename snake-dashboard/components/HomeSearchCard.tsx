@@ -27,14 +27,17 @@ function SnakeListItem({
   isActive,
   keyboardPriority,
   onHover,
+  getSnakeHref,
 }: {
   snake: Snake;
   isActive: boolean;
   keyboardPriority: boolean;
   onHover?: () => void;
+  getSnakeHref?: (snake: Snake) => string;
 }) {
   const venomous = isVenomous(snake.venomClassification);
   const classification = getClassificationTag(snake.venomClassification);
+  const href = getSnakeHref ? getSnakeHref(snake) : `/snakes/${snake.id}`;
   return (
     <div
       onMouseEnter={onHover}
@@ -43,7 +46,7 @@ function SnakeListItem({
       }`}
     >
       <Link
-        href={`/snakes/${snake.id}`}
+        href={href}
         className="flex items-center gap-2 flex-1 min-w-0 no-underline"
       >
         <span
@@ -83,6 +86,8 @@ function SnakeListItem({
 type HomeSearchCardProps = {
   inputId: string;
   onSelectSnake?: () => void;
+  /** When set (e.g. on phylogeny page), used for Link href and keyboard nav instead of /snakes/:id */
+  getSnakeHref?: (snake: Snake) => string;
   className?: string;
 };
 
@@ -103,6 +108,7 @@ function getGroupHeading(snake: Snake, sortBy: SortOption) {
 export function HomeSearchCard({
   inputId,
   onSelectSnake,
+  getSnakeHref,
   className = "bg-white rounded-2xl shadow-md overflow-hidden flex-1 min-h-0 flex flex-col",
 }: HomeSearchCardProps) {
   const router = useRouter();
@@ -187,8 +193,9 @@ export function HomeSearchCard({
 
   const navigateToActiveSnake = () => {
     if (activeIndex < 0) return;
+    const snake = filteredSnakes[activeIndex];
     onSelectSnake?.();
-    router.push(`/snakes/${filteredSnakes[activeIndex].id}`);
+    router.push(getSnakeHref ? getSnakeHref(snake) : `/snakes/${snake.id}`);
   };
 
   useEffect(() => {
@@ -305,6 +312,7 @@ export function HomeSearchCard({
                   if (isKeyboardNavigating) return;
                   setActiveIndex(index);
                 }}
+                getSnakeHref={getSnakeHref}
               />
             </div>
           ))
@@ -324,6 +332,7 @@ export function HomeSearchCard({
                       if (isKeyboardNavigating) return;
                       setActiveIndex(index);
                     }}
+                    getSnakeHref={getSnakeHref}
                   />
                 </div>
               ))}

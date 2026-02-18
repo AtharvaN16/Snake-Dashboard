@@ -10,8 +10,8 @@ interface Props {
 }
 
 const RADIUS = 2800;
-const SPECIES_ZOOM_THRESHOLD = 1.8;
-const SPECIES_LABEL_ZOOM = 2.5;
+const SPECIES_ZOOM_THRESHOLD = 0; // always show species (even at initial fit-to-screen zoom)
+const SPECIES_LABEL_ZOOM = 0; // always show species labels
 
 const BLOOM_BASE_DELAY = 200;
 const BLOOM_DURATION = 600;
@@ -89,7 +89,9 @@ function fontWeight(d: d3.HierarchyNode<HierarchyNode>): string {
 }
 
 function linkWidth(depth: number): number {
-  return Math.max(2, 18 - depth * 3.5);
+  // Thicker at root (depth 0), thinner as we go outward
+  // Base width 24 at root, decreases by 4.5 per level
+  return Math.max(1.5, 40 - depth * 6.5);
 }
 
 function radialPoint(angle: number, radius: number): [number, number] {
@@ -99,14 +101,11 @@ function radialPoint(angle: number, radius: number): [number, number] {
   ];
 }
 
-function convexHull(points: [number, number][]): [number, number][] | null {
-  if (points.length < 3) return null;
-  return d3.polygonHull(points);
-}
 
 export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  const hasBloomedRef = useRef(false);
 
   const { hierarchy, colorScale } = useMemo(() => {
     const h = d3.hierarchy(rootData);
@@ -129,6 +128,8 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const svg = d3.select(svgEl);
     svg.selectAll("*").remove();
     svg.style("font", "11px Inter, system-ui, sans-serif");
+
+    const shouldBloom = !hasBloomedRef.current && !currentSnakeId;
 
     const clusterLayout = d3
       .cluster<HierarchyNode>()
@@ -215,36 +216,6 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     const g = svg.append("g");
 
-    // --- Convex hull petals ---
-    const familyGroups = new Map<string, [number, number][]>();
-    allNodes.forEach((n) => {
-      const fam = familyOf(n);
-      if (!fam) return;
-      const [px, py] = radialPoint((n as any).x, (n as any).y);
-      if (!familyGroups.has(fam)) familyGroups.set(fam, []);
-      familyGroups.get(fam)!.push([px, py]);
-    });
-
-    const hullGroup = g.append("g").attr("class", "hulls");
-    familyGroups.forEach((points, fam) => {
-      const hull = convexHull(points);
-      if (!hull) return;
-      hullGroup
-        .append("path")
-        .attr("d", `M${hull.map((p) => p.join(",")).join("L")}Z`)
-        .attr("fill", colorScale(fam))
-        .attr("fill-opacity", 0)
-        .attr("stroke", colorScale(fam))
-        .attr("stroke-opacity", 0)
-        .attr("stroke-width", 2)
-        .transition()
-        .delay(BLOOM_BASE_DELAY * 4)
-        .duration(BLOOM_DURATION * 2)
-        .ease(d3.easeCubicOut)
-        .attr("fill-opacity", 0.06)
-        .attr("stroke-opacity", 0.1);
-    });
-
     // --- Links ---
     const linkGen = d3
       .linkRadial<
@@ -267,17 +238,19 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       .attr("stroke", (_d, i) => `url(#link-grad-${i})`)
       .attr("stroke-width", (d) => linkWidth(d.source.depth))
       .attr("stroke-linecap", "round")
-      .attr("stroke-opacity", 0);
+      .attr("stroke-opacity", shouldBloom ? 0 : 0.7);
 
-    linkSelection
-      .transition()
-      .delay((d) => {
-        const depth = d.source.depth;
-        return isSpecies(d.target) ? 0 : BLOOM_BASE_DELAY * depth;
-      })
-      .duration(BLOOM_DURATION)
-      .ease(d3.easeCubicOut)
-      .attr("stroke-opacity", (d) => (isSpecies(d.target) ? 0 : 0.7));
+    if (shouldBloom) {
+      linkSelection
+        .transition()
+        .delay((d) => {
+          const depth = d.source.depth;
+          return BLOOM_BASE_DELAY * depth;
+        })
+        .duration(BLOOM_DURATION)
+        .ease(d3.easeCubicOut)
+        .attr("stroke-opacity", 0.7);
+    }
 
     // --- Nodes ---
     const nodeSelection = g
@@ -297,23 +270,26 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     nodeSelection.each(function (d) {
       const el = d3.select(this);
       const r = nodeRadius(d);
-      const isCurrent = d.data.id === currentSnakeId;
+      const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
       const color = isCurrent ? "#f59e0b" : nodeColor(d);
-      const isSpec = isSpecies(d);
 
-      el.append("circle")
+      const circle = el.append("circle")
         .attr("r", r)
         .attr("fill", color)
-        .attr("fill-opacity", isSpec ? 0 : 1)
+        .attr("fill-opacity", 1)
         .attr("stroke", isCurrent ? "#fbbf24" : "rgba(255,255,255,0.5)")
         .attr("stroke-width", isCurrent ? 3 : Math.max(1.5, r * 0.05))
-        .attr("stroke-opacity", isSpec ? 0 : 1)
-        .attr("transform", isSpec ? "scale(1)" : "scale(0)")
-        .transition()
-        .delay(isSpec ? 0 : BLOOM_BASE_DELAY * d.depth)
-        .duration(BLOOM_DURATION)
-        .ease(d3.easeBackOut.overshoot(0.8))
-        .attr("transform", "scale(1)");
+        .attr("stroke-opacity", 1);
+
+      if (shouldBloom) {
+        circle
+          .attr("transform", "scale(0)")
+          .transition()
+          .delay(BLOOM_BASE_DELAY * d.depth)
+          .duration(BLOOM_DURATION)
+          .ease(d3.easeBackOut.overshoot(0.8))
+          .attr("transform", "scale(1)");
+      }
     });
 
     // Labels
@@ -330,11 +306,11 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           : "normal"
       )
       .attr("fill", (d) => {
-        if (d.data.id === currentSnakeId) return "#fefce8";
+        if (currentSnakeId && d.data.id === currentSnakeId) return "#fefce8";
         if (isSpecies(d)) return "#44403c";
         return "#ffffff";
       })
-      .attr("opacity", 0)
+      .attr("opacity", shouldBloom ? 0 : 1)
       .attr("class", (d) => (isSpecies(d) ? "species-label" : ""))
       .text((d) => {
         if (
@@ -344,14 +320,19 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           return `${d.data.name} (blind snakes)`;
         }
         return d.data.name;
-      })
-      .transition()
-      .delay((d) =>
-        isSpecies(d) ? 0 : BLOOM_BASE_DELAY * d.depth + BLOOM_DURATION * 0.5
-      )
-      .duration(BLOOM_DURATION * 0.6)
-      .ease(d3.easeCubicOut)
-      .attr("opacity", (d) => (isSpecies(d) ? 0 : 1));
+      });
+
+    if (shouldBloom) {
+      nodeSelection.selectAll("text")
+        .transition()
+        .delay((_d: unknown, i: number) => {
+          const d = allNodes[i];
+          return BLOOM_BASE_DELAY * d.depth + BLOOM_DURATION * 0.5;
+        })
+        .duration(BLOOM_DURATION * 0.6)
+        .ease(d3.easeCubicOut)
+        .attr("opacity", 1);
+    }
 
     // Tooltips
     nodeSelection
@@ -360,144 +341,117 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         d.ancestors().map((a) => a.data.name).reverse().join(" → ")
       );
 
-    // Species start hidden
-    g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(
-      ".species-node"
-    )
-      .style("opacity", "0")
-      .style("pointer-events", "none")
-      .style("transition", "opacity 0.2s ease");
+    // Keep quick transitions for zoom/hover-driven visibility changes
+    g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(".species-link")
+      .style("transition", "stroke-opacity 0.2s ease");
 
-    g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(
-      ".species-link"
-    ).style("transition", "stroke-opacity 0.2s ease");
-
-    // --- Hover: highlight ancestor path, blur the rest ---
+    // --- Hover, search highlight, and click-focus ---
     let hoverActive = false;
+    let searchHighlightNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
+    let clickFocusNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
+    if (currentSnakeId) {
+      const found = root.descendants().find((n) => n.data.id === currentSnakeId);
+      searchHighlightNode = found ?? null;
+    }
+
+    function highlightSubtree(target: d3.HierarchyPointNode<HierarchyNode>) {
+      // Click-focus: show target's descendant branches, fade everything else
+      hoverActive = true;
+      const subtreeNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
+      target.each((n) => subtreeNodes.add(n));
+
+      nodeSelection
+        .transition()
+        .duration(250)
+        .style("opacity", (d) => (subtreeNodes.has(d) ? "1" : "0.05"));
+
+      linkSelection
+        .transition()
+        .duration(250)
+        .attr(
+          "stroke-opacity",
+          (l) => (subtreeNodes.has(l.source) && subtreeNodes.has(l.target) ? 0.9 : 0.02)
+        );
+    }
 
     function highlightPath(
       target: d3.HierarchyNode<HierarchyNode>
     ) {
       hoverActive = true;
       const ancestors = nodeToAncestors.get(target)!;
+      // Build the path: ancestors + target itself
+      const pathNodes = new Set(ancestors);
+      pathNodes.add(target);
 
-      // Dim all non-species nodes + labels
+      // Dim all nodes (including species) and links in one go — group opacity fades circle + label together
       nodeSelection
-        .filter((d) => !isSpecies(d))
         .transition()
         .duration(200)
-        .style("opacity", (d) => (ancestors.has(d) ? "1" : "0.15"));
+        .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0.05"));
 
-      // Dim all non-species links
       linkSelection
-        .filter((d) => !isSpecies(d.target))
         .transition()
         .duration(200)
         .attr(
           "stroke-opacity",
           (d) =>
-            ancestors.has(d.source) && ancestors.has(d.target) ? 0.9 : 0.06
+            pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : 0.02
         );
-
-      // Dim hulls
-      hullGroup
-        .selectAll("path")
-        .transition()
-        .duration(200)
-        .attr("fill-opacity", 0.02)
-        .attr("stroke-opacity", 0.04);
-
-      // If hovering a genus, also reveal its species
-      if (target.data.rank === "genus" && target.children) {
-        g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(
-          ".species-node"
-        )
-          .filter((s) => s.parent === target)
-          .style("opacity", "1")
-          .style("pointer-events", "auto")
-          .select("circle")
-          .attr("fill-opacity", 1)
-          .attr("stroke-opacity", 1);
-        g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(
-          ".species-node"
-        )
-          .filter((s) => s.parent === target)
-          .select(".species-label")
-          .attr("opacity", 1);
-        g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(
-          ".species-link"
-        )
-          .filter((l) => l.source === target)
-          .attr("stroke-opacity", 0.7);
-      }
     }
 
     function clearHighlight() {
+      if (clickFocusNode) {
+        highlightSubtree(clickFocusNode);
+        return;
+      }
+      if (searchHighlightNode) {
+        highlightPath(searchHighlightNode);
+        return;
+      }
       hoverActive = false;
       const currentZoom =
         (svg.node() as any).__currentZoomScale || 1;
 
-      // Restore non-species nodes
       nodeSelection
-        .filter((d) => !isSpecies(d))
         .transition()
         .duration(300)
         .style("opacity", "1");
 
-      // Restore non-species links
       linkSelection
-        .filter((d) => !isSpecies(d.target))
         .transition()
         .duration(300)
         .attr("stroke-opacity", 0.7);
 
-      // Restore hulls
-      hullGroup
-        .selectAll("path")
-        .transition()
-        .duration(300)
-        .attr("fill-opacity", 0.06)
-        .attr("stroke-opacity", 0.1);
-
-      // Hide species again if below zoom threshold
-      if (currentZoom < SPECIES_ZOOM_THRESHOLD) {
-        g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(
-          ".species-node"
-        )
-          .style("opacity", "0")
-          .style("pointer-events", "none")
-          .select("circle")
-          .attr("fill-opacity", 0)
-          .attr("stroke-opacity", 0);
-        g.selectAll(".species-label").attr("opacity", 0);
-        g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(
-          ".species-link"
-        ).attr("stroke-opacity", 0);
-      }
+      updateSpeciesVisibility(currentZoom);
     }
 
+    // Hover handlers for all nodes (including species)
     nodeSelection
-      .filter((d) => !isSpecies(d))
       .on("mouseenter", function (_event, d) {
+        if (clickFocusNode) return;
         highlightPath(d);
       })
       .on("mouseleave", function () {
         clearHighlight();
       });
 
+    // No hover handlers for links (hover is node-only)
+
     // --- Click to zoom ---
     nodeSelection.style("cursor", "pointer").on("click", (event, d) => {
       event.stopPropagation();
+      clickFocusNode = d;
+      document.body.setAttribute("data-chart-zoomed", "true");
+      highlightSubtree(d);
       zoomToNode(d);
     });
 
-    // --- Bounding box for initial view ---
-    const nonSpecies = allNodes.filter((n) => !isSpecies(n));
+    // --- Bounding box for initial view (all nodes so nothing is clipped) ---
     let x0 = Infinity,
       y0 = Infinity,
       x1 = -Infinity,
       y1 = -Infinity;
-    nonSpecies.forEach((n) => {
+    allNodes.forEach((n) => {
       const [px, py] = radialPoint((n as any).x, (n as any).y);
       const r = nodeRadius(n);
       x0 = Math.min(x0, px - r);
@@ -559,6 +513,8 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           .scale(scale0)
       );
 
+    updateSpeciesVisibility(scale0);
+
     svg.on("dblclick.zoom", null);
     svg.on("dblclick", () => {
       svg
@@ -571,6 +527,14 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
             .translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0)
             .scale(scale0)
         );
+    });
+
+    // Click background to clear click-focus (but keep search highlight if present)
+    svg.on("click", () => {
+      if (!clickFocusNode) return;
+      clickFocusNode = null;
+      document.body.removeAttribute("data-chart-zoomed");
+      clearHighlight();
     });
 
     function zoomToNode(target: d3.HierarchyPointNode<HierarchyNode>) {
@@ -608,12 +572,110 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
             .scale(tscale)
         );
     }
+
+    /** Zoom so the path from root to target (ancestors + target) fits in the viewport */
+    function zoomToPath(target: d3.HierarchyPointNode<HierarchyNode>) {
+      const ancestors = nodeToAncestors.get(target)!;
+      const pathNodes = new Set(ancestors);
+      pathNodes.add(target);
+      let tx0 = Infinity,
+        ty0 = Infinity,
+        tx1 = -Infinity,
+        ty1 = -Infinity;
+      pathNodes.forEach((n) => {
+        const [px, py] = radialPoint((n as any).x, (n as any).y);
+        const r = nodeRadius(n);
+        tx0 = Math.min(tx0, px - r);
+        ty0 = Math.min(ty0, py - r);
+        tx1 = Math.max(tx1, px + r);
+        ty1 = Math.max(ty1, py + r);
+      });
+      const tpad = 100;
+      tx0 -= tpad;
+      ty0 -= tpad;
+      tx1 += tpad;
+      ty1 += tpad;
+      const tbw = tx1 - tx0;
+      const tbh = ty1 - ty0;
+      const tscale = Math.min(cw / tbw, ch / tbh, 4);
+      const tcx = (tx0 + tx1) / 2;
+      const tcy = (ty0 + ty1) / 2;
+
+      svg
+        .transition()
+        .duration(750)
+        .ease(d3.easeCubicInOut)
+        .call(
+          (zoomBehavior as any).transform,
+          d3.zoomIdentity
+            .translate(cw / 2 - tcx * tscale, ch / 2 - tcy * tscale)
+            .scale(tscale)
+        );
+    }
+
+    // When a snake is highlighted via search: show path, fade rest, zoom to path (after bloom)
+    if (searchHighlightNode) {
+      document.body.setAttribute("data-chart-zoomed", "true");
+      if (shouldBloom) {
+        const afterBloom = BLOOM_BASE_DELAY * 6 + BLOOM_DURATION * 2;
+        setTimeout(() => {
+          highlightPath(searchHighlightNode!);
+          zoomToPath(searchHighlightNode!);
+          updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+        }, afterBloom);
+      } else {
+        highlightPath(searchHighlightNode);
+        zoomToPath(searchHighlightNode);
+        updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+      }
+    }
+
+    // Defer so React Strict Mode's synchronous unmount/remount cycle
+    // doesn't mark bloom as done before the second (real) render.
+    const bloomTimer = setTimeout(() => {
+      hasBloomedRef.current = true;
+    }, 0);
+
+    // --- Backspace / Delete: clear any focus/highlight and reset to default view ---
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Backspace" && e.key !== "Delete") return;
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable) return;
+      if (!clickFocusNode && !searchHighlightNode) return;
+      e.preventDefault();
+      clickFocusNode = null;
+      searchHighlightNode = null;
+      document.body.removeAttribute("data-chart-zoomed");
+      hoverActive = false;
+
+      nodeSelection.transition().duration(300).style("opacity", "1");
+      linkSelection.transition().duration(300).attr("stroke-opacity", 0.7);
+
+      svg
+        .transition()
+        .duration(750)
+        .ease(d3.easeCubicInOut)
+        .call(
+          (zoomBehavior as any).transform,
+          d3.zoomIdentity
+            .translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0)
+            .scale(scale0)
+        );
+      updateSpeciesVisibility(scale0);
+    }
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      clearTimeout(bloomTimer);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.removeAttribute("data-chart-zoomed");
+    };
   }, [hierarchy, colorScale, currentSnakeId]);
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full flex-1 min-h-0 overflow-hidden bg-stone-50/50 rounded-lg"
+      className="relative w-full h-full min-h-0 overflow-hidden bg-stone-50/50"
     >
       <svg
         ref={svgRef}
@@ -621,8 +683,8 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         style={{ cursor: "grab" }}
       />
       <p className="absolute bottom-2 left-2 text-xs text-stone-400 pointer-events-none">
-        Drag to pan · Scroll to zoom · Click node to zoom · Hover to trace
-        lineage
+        Drag to pan · Scroll to zoom · Click node to focus · Backspace to
+        reset · Hover to trace lineage
       </p>
     </div>
   );

@@ -1,13 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useSearchModal } from "@/contexts/SearchModalContext";
 import { HomeSearchCard } from "@/components/HomeSearchCard";
 
 const MODAL_SEARCH_INPUT_ID = "search-modal-input";
 
 export function SearchModal() {
+  const pathname = usePathname();
   const { isOpen, closeModal } = useSearchModal();
+  const isPhylogeny = pathname === "/phylogeny";
+  const getSnakeHref = isPhylogeny
+    ? (snake: { id: string }) => `/phylogeny?snakeId=${snake.id}`
+    : undefined;
 
   useEffect(() => {
     if (isOpen) {
@@ -35,6 +41,7 @@ export function SearchModal() {
         <HomeSearchCard
           inputId={MODAL_SEARCH_INPUT_ID}
           onSelectSnake={closeModal}
+          getSnakeHref={getSnakeHref}
           className="h-full bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col"
         />
       </div>
