@@ -334,35 +334,9 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       return;
     }
 
-    // Backspace/Delete without focus = zoom out one level
     if (e.key === "Backspace" || e.key === "Delete") {
       e.preventDefault();
-      if (clickFocusNode) {
-        const parent = clickFocusNode.parent as d3.HierarchyPointNode<HierarchyNode>;
-        if (parent) {
-          // Close the info box
-          if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
-
-          // Set focus to parent
-          clickFocusNode = parent;
-          
-          // Highlight and zoom to parent
-          highlightSubtree(parent);
-          zoomToNode(parent);
-          updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
-
-          // Decide on zoomed attribute state. If parent is root, not zoomed.
-          if (parent.depth > 0) {
-            document.body.setAttribute("data-chart-zoomed", "true");
-          } else {
-            document.body.removeAttribute("data-chart-zoomed");
-          }
-        } else {
-          resetToDefault(); // at root, so reset fully
-        }
-      } else if (searchHighlightNode) {
-        resetToDefault();
-      }
+      resetToDefault();
     }
   }
   document.addEventListener("keydown", handleKeyDown, { capture: true });
