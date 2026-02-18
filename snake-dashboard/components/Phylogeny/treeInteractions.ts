@@ -53,13 +53,13 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
     nodeSelection
       .transition().duration(250)
-      .style("opacity", (d) => (subtreeNodes.has(d) ? "1" : "0.05"));
+      .style("opacity", (d) => (subtreeNodes.has(d) ? "1" : "0"));
     nodeSelection
       .style("pointer-events", (d) => (subtreeNodes.has(d) ? "auto" : "none"));
     linkSelection
       .transition().duration(250)
       .attr("stroke-opacity", (l) =>
-        subtreeNodes.has(l.source) && subtreeNodes.has(l.target) ? 0.9 : 0.02
+        subtreeNodes.has(l.source) && subtreeNodes.has(l.target) ? 0.9 : 0
       );
   }
 
@@ -71,13 +71,13 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
     nodeSelection
       .transition().duration(200)
-      .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0.05"));
+      .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0"));
     nodeSelection
       .style("pointer-events", (d) => (pathNodes.has(d) ? "auto" : "none"));
     linkSelection
       .transition().duration(200)
       .attr("stroke-opacity", (d) =>
-        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : 0.02
+        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : 0
       );
   }
 
@@ -94,13 +94,13 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
     nodeSelection
       .transition().duration(200)
-      .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0.05"));
+      .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0"));
     nodeSelection
       .style("pointer-events", (d) => (pathNodes.has(d) ? "auto" : "none"));
     linkSelection
       .transition().duration(200)
       .attr("stroke-opacity", (d) =>
-        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : 0.02
+        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : 0
       );
   }
 
