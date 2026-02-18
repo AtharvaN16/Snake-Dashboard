@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
-import { SPECIES_ZOOM_THRESHOLD, SPECIES_LABEL_ZOOM } from "./treeConstants";
+import { SPECIES_ZOOM_THRESHOLD, GENUS_SPECIES_LABEL_ZOOM } from "./treeConstants";
 import { nodeRadius, fontSize } from "./treeNodeStyles";
 
 interface VisibilityContext {
@@ -12,6 +12,15 @@ interface VisibilityContext {
   getClickFocusNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
   getSearchHighlightNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
   getHoverActive: () => boolean;
+  getHoveredNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
+}
+
+/** Ext-label font size by rank — family > genus > species */
+function extLabelSize(rank: string, invK: number): number {
+  if (rank === "family") return 13 * invK;
+  if (rank === "genus") return 11 * invK;
+  if (rank === "species") return 9 * invK;
+  return 12 * invK; // suborder, infraorder, clade
 }
 
 export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
@@ -19,19 +28,26 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
 
   return function updateSpeciesVisibility(scale: number) {
     (svg.node() as any).__currentZoomScale = scale;
-    if (ctx.getHoverActive()) return;
-    const show = scale >= SPECIES_ZOOM_THRESHOLD;
-    const showLabels = scale >= SPECIES_LABEL_ZOOM;
+    const hoverActive = ctx.getHoverActive();
 
-    g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".species-node")
-      .style("opacity", show ? "1" : "0")
-      .style("pointer-events", show ? "auto" : "none");
-    g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(".species-link")
-      .attr("stroke-opacity", show ? 0.7 : 0);
-    g.selectAll(".species-label").attr("opacity", showLabels ? 1 : 0);
+    // Species visibility is controlled by highlight when hover/click is active
+    if (!hoverActive) {
+      const show = scale >= SPECIES_ZOOM_THRESHOLD;
+      g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".species-node")
+        .style("opacity", show ? "1" : "0")
+        .style("pointer-events", show ? "auto" : "none");
+      g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(".species-link")
+        .attr("stroke-opacity", show ? 0.7 : 0);
+    }
 
     const invK = 1 / scale;
-    const isZoomedIn = !!ctx.getClickFocusNode() || !!ctx.getSearchHighlightNode();
+    const isClickZoomed = !!ctx.getClickFocusNode() || !!ctx.getSearchHighlightNode();
+    const isScaleZoomed = scale >= GENUS_SPECIES_LABEL_ZOOM;
+    const hovered = ctx.getHoveredNode();
+    const hoveredIsSpecies = hovered && ctx.isSpecies(hovered);
+    const showGenusSpeciesLabels =
+      isClickZoomed || (isScaleZoomed && !isClickZoomed) || (hoverActive && !!hoveredIsSpecies);
+    const useSideLabels = isClickZoomed && !hoveredIsSpecies;
     const MIN_READABLE_PX = 8;
 
     g.selectAll(".ext-label").remove();
@@ -41,50 +57,104 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
         const nodeEl = d3.select(this);
         const rank = nd.data.rank ?? "";
         const isHigherRank = rank === "suborder" || rank === "infraorder" || rank === "clade" || rank === "family";
+        const isGenusOrSpecies = rank === "genus" || rank === "species";
         const isHighlighted = !!currentSnakeId && nd.data.id === currentSnakeId;
         const inNodeText = nodeEl.select<SVGTextElement>("text");
 
         if (isHighlighted) return;
-        if (!isHigherRank && !isZoomedIn) {
-          inNodeText.attr("opacity", showLabels || !isSpecies(nd) ? 1 : 0);
+
+        // Genus/species: no in-node labels; show ext-labels
+        if (isGenusOrSpecies) {
+          if (!showGenusSpeciesLabels) return;
+          // When hovering a species, only show path (species + parent genus) above
+          if (hoveredIsSpecies) {
+            if (nd === hovered) {
+              addExtLabel(nodeEl, nd, rank, invK, scale, { lightStyle: false });
+            } else if (rank === "genus" && hovered!.parent === nd) {
+              addExtLabel(nodeEl, nd, rank, invK, scale, { lightStyle: true });
+            }
+          } else {
+            addExtLabel(nodeEl, nd, rank, invK, scale, { side: useSideLabels });
+          }
           return;
         }
 
+        // Higher ranks: show ext-label when in-node text is too small
+        if (!isHigherRank) return;
         const fs = fontSize(nd);
         const screenPx = fs * scale;
 
         if (screenPx < MIN_READABLE_PX) {
           inNodeText.attr("opacity", 0);
-          const r = nodeRadius(nd);
-          const gap = r + 24 * invK;
-          const extFs = 12 * invK;
-          const extPadX = 6 * invK;
-          const extPadY = 3 * invK;
-          const extRx = 4 * invK;
-
-          const extG = nodeEl.append("g")
-            .attr("class", "ext-label")
-            .attr("transform", `translate(0, ${-gap})`);
-          const extText = extG.append("text")
-            .attr("text-anchor", "middle")
-            .attr("font-size", `${extFs}px`)
-            .attr("font-weight", "500")
-            .attr("fill", nodeColor(nd))
-            .attr("y", 0)
-            .attr("dy", "0.35em")
-            .text(nd.data.name);
-          const bb = (extText.node() as SVGTextElement).getBBox();
-          extG.insert("rect", "text")
-            .attr("x", bb.x - extPadX)
-            .attr("y", bb.y - extPadY)
-            .attr("width", bb.width + extPadX * 2)
-            .attr("height", bb.height + extPadY * 2)
-            .attr("rx", extRx)
-            .attr("fill", "#fff")
-            .attr("fill-opacity", 0.85);
+          addExtLabel(nodeEl, nd, rank, invK, scale, {});
         } else {
           inNodeText.attr("opacity", 1);
         }
       });
   };
+
+  /**
+   * Radial tree label placement (D3 convention):
+   * - When side=true: place labels radially outward from node, rotate to align, counter-rotate
+   *   when angle >= π so text stays upright. This naturally spaces labels and reduces overlap.
+   * - When side=false: place above node (hover path labels).
+   */
+  function addExtLabel(
+    nodeEl: d3.Selection<SVGGElement, d3.HierarchyPointNode<HierarchyNode>, SVGGElement, unknown>,
+    nd: d3.HierarchyPointNode<HierarchyNode>,
+    rank: string,
+    invK: number,
+    _scale: number,
+    opts: { lightStyle?: boolean; side?: boolean } = {},
+  ) {
+    const { lightStyle = false, side = false } = opts;
+    const r = nodeRadius(nd);
+    const gap = r + 20 * invK;
+    const extFs = extLabelSize(rank, invK);
+    const extPadX = 6 * invK;
+    const extPadY = 3 * invK;
+    const extRx = 4 * invK;
+    const angle = (nd as any).x ?? 0;
+
+    let transform: string;
+    let textAnchor: string;
+    let textX: number;
+
+    if (side) {
+      // Radial placement: rotate to node angle, translate along radial axis (gap from node center),
+      // counter-rotate for readability. Use translate(gap,0) since +x points outward after rot1.
+      const rot1 = (angle * 180) / Math.PI - 90;
+      const rot2 = angle >= Math.PI ? 180 : 0;
+      transform = `rotate(${rot1}) translate(${gap},0) rotate(${rot2})`;
+      textAnchor = angle < Math.PI ? "start" : "end";
+      textX = angle < Math.PI ? extPadX : -extPadX;
+    } else {
+      transform = `translate(0,${-gap})`;
+      textAnchor = "middle";
+      textX = 0;
+    }
+
+    const extG = nodeEl.append("g")
+      .attr("class", "ext-label")
+      .attr("transform", transform);
+    const extText = extG.append("text")
+      .attr("text-anchor", textAnchor)
+      .attr("font-size", `${extFs}px`)
+      .attr("font-weight", "500")
+      .style("font-style", rank === "genus" || rank === "species" ? "italic" : "normal")
+      .attr("fill", nodeColor(nd))
+      .attr("y", 0)
+      .attr("dy", "0.35em")
+      .attr("x", textX)
+      .text(nd.data.name);
+    const bb = (extText.node() as SVGTextElement).getBBox();
+    extG.insert("rect", "text")
+      .attr("x", bb.x - extPadX)
+      .attr("y", bb.y - extPadY)
+      .attr("width", bb.width + extPadX * 2)
+      .attr("height", bb.height + extPadY * 2)
+      .attr("rx", extRx)
+      .attr("fill", lightStyle ? "#f8fafc" : "#fff")
+      .attr("fill-opacity", lightStyle ? 0.75 : 0.88);
+  }
 }

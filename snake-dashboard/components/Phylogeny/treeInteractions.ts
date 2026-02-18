@@ -21,16 +21,18 @@ export interface ChartContext {
   cy: number;
   scale0: number;
   zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>;
+  onSpeciesClick?: (snakeId: string) => void;
 }
 
 export function setupInteractions(ctx: ChartContext): { cleanup: () => void; updateSpeciesVisibility: (scale: number) => void } {
   const {
     svg, g, nodeSelection, linkSelection, nodeToAncestors,
     nodeColor, isSpecies, currentSnakeId, shouldBloom,
-    cw, ch, cx, cy, scale0, zoomBehavior,
+    cw, ch, cx, cy, scale0, zoomBehavior, onSpeciesClick,
   } = ctx;
 
   let hoverActive = false;
+  let hoveredNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
   let searchHighlightNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
   let clickFocusNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
   let hoverLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
@@ -79,11 +81,54 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       );
   }
 
+  function highlightPathAndSubtree(target: d3.HierarchyNode<HierarchyNode>) {
+    hoverActive = true;
+    const ancestors = nodeToAncestors.get(target)!;
+    const nodes = new Set(ancestors);
+    nodes.add(target);
+    target.each((n) => nodes.add(n));
+
+    nodeSelection
+      .transition().duration(200)
+      .style("opacity", (d) => (nodes.has(d) ? "1" : "0.05"));
+    nodeSelection
+      .style("pointer-events", (d) => (nodes.has(d) ? "auto" : "none"));
+    linkSelection
+      .transition().duration(200)
+      .attr("stroke-opacity", (d) =>
+        nodes.has(d.source) && nodes.has(d.target) ? 0.9 : 0.02
+      );
+  }
+
+  function highlightPathToRoot(
+    from: d3.HierarchyNode<HierarchyNode>,
+    root: d3.HierarchyNode<HierarchyNode>,
+  ) {
+    hoverActive = true;
+    const pathNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
+    for (let n: d3.HierarchyNode<HierarchyNode> | null = from; n; n = n.parent) {
+      pathNodes.add(n);
+      if (n === root) break;
+    }
+
+    nodeSelection
+      .transition().duration(200)
+      .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0.05"));
+    nodeSelection
+      .style("pointer-events", (d) => (pathNodes.has(d) ? "auto" : "none"));
+    linkSelection
+      .transition().duration(200)
+      .attr("stroke-opacity", (d) =>
+        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : 0.02
+      );
+  }
+
   const updateSpeciesVisibility = createUpdateSpeciesVisibility({
     svg, g, nodeColor, isSpecies, currentSnakeId,
     getClickFocusNode: () => clickFocusNode,
     getSearchHighlightNode: () => searchHighlightNode,
     getHoverActive: () => hoverActive,
+    getHoveredNode: () => hoveredNode,
   });
 
   function clearHighlight() {
@@ -186,22 +231,43 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
   nodeSelection
     .on("mouseenter", function (_event, d) {
-      if (clickFocusNode) return;
-      if (searchHighlightNode) {
+      hoveredNode = d;
+      if (clickFocusNode) {
+        highlightPathToRoot(d, clickFocusNode);
+        updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
         showHoverEffect(this as SVGGElement, d);
         return;
       }
-      highlightPath(d);
+      if (searchHighlightNode) {
+        updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+        showHoverEffect(this as SVGGElement, d);
+        return;
+      }
+      highlightPathAndSubtree(d);
+      updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
       showHoverEffect(this as SVGGElement, d);
     })
     .on("mouseleave", function (_event, d) {
+      hoveredNode = null;
       clearHoverEffect(this as SVGGElement, d);
-      if (searchHighlightNode) return;
+      if (clickFocusNode) {
+        highlightSubtree(clickFocusNode);
+        updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+        return;
+      }
+      if (searchHighlightNode) {
+        updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+        return;
+      }
       clearHighlight();
     });
 
   nodeSelection.style("cursor", "pointer").on("click", (event, d) => {
     event.stopPropagation();
+    if (isSpecies(d) && d.data.id && onSpeciesClick) {
+      onSpeciesClick(d.data.id);
+      return;
+    }
     clickFocusNode = d;
     document.body.setAttribute("data-chart-zoomed", "true");
     highlightSubtree(d);

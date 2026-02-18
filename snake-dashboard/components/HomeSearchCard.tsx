@@ -27,12 +27,14 @@ function SnakeListItem({
   isActive,
   keyboardPriority,
   onHover,
+  onSelectSnake,
   getSnakeHref,
 }: {
   snake: Snake;
   isActive: boolean;
   keyboardPriority: boolean;
   onHover?: () => void;
+  onSelectSnake?: () => void;
   getSnakeHref?: (snake: Snake) => string;
 }) {
   const venomous = isVenomous(snake.venomClassification);
@@ -48,6 +50,7 @@ function SnakeListItem({
       <Link
         href={href}
         className="flex items-center gap-2 flex-1 min-w-0 no-underline"
+        onClick={() => onSelectSnake?.()}
       >
         <span
           className={`font-semibold whitespace-nowrap ${
@@ -312,6 +315,7 @@ export function HomeSearchCard({
                   if (isKeyboardNavigating) return;
                   setActiveIndex(index);
                 }}
+                onSelectSnake={onSelectSnake}
                 getSnakeHref={getSnakeHref}
               />
             </div>
@@ -332,6 +336,7 @@ export function HomeSearchCard({
                       if (isKeyboardNavigating) return;
                       setActiveIndex(index);
                     }}
+                    onSelectSnake={onSelectSnake}
                     getSnakeHref={getSnakeHref}
                   />
                 </div>

@@ -8,6 +8,8 @@ export interface Props {
 export const RADIUS = 2800;
 export const SPECIES_ZOOM_THRESHOLD = 0;
 export const SPECIES_LABEL_ZOOM = 0;
+/** Zoom scale above which genus/species get external labels above nodes */
+export const GENUS_SPECIES_LABEL_ZOOM = 0.5;
 
 export const BLOOM_BASE_DELAY = 200;
 export const BLOOM_DURATION = 600;

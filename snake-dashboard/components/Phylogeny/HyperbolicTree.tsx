@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import {
@@ -17,6 +18,7 @@ import { TreeLegend } from "./TreeLegend";
 import { setupInteractions } from "./treeInteractions";
 
 export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
+  const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const hasBloomedRef = useRef(false);
@@ -184,15 +186,15 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       }
     });
 
-    // Labels
-    nodeSelection.append("text")
+    // Labels — only for higher ranks (genus/species labels are unreadable in-node)
+    nodeSelection
+      .filter((d) => d.data.rank !== "genus" && d.data.rank !== "species")
+      .append("text")
       .attr("x", 0).attr("dy", "0.35em").attr("text-anchor", "middle")
       .attr("font-size", (d) => `${fontSize(d)}px`)
       .attr("font-weight", (d) => fontWeight(d))
-      .style("font-style", (d) => d.data.rank === "genus" || d.data.rank === "species" ? "italic" : "normal")
       .attr("fill", (d) => nodeColor(d))
       .attr("opacity", shouldBloom ? 0 : 1)
-      .attr("class", (d) => (isSpecies(d) ? "species-label" : ""))
       .text((d) => {
         if (d.data.rank === "infraorder" && (!d.children || d.children.length === 0))
           return `${d.data.name} (blind snakes)`;
@@ -261,6 +263,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       svg, g, nodeSelection, linkSelection, nodeToAncestors,
       nodeColor, isSpecies, currentSnakeId, shouldBloom,
       cw, ch, cx, cy, scale0, zoomBehavior,
+      onSpeciesClick: (id) => router.push(`/snakes/${id}`),
     });
     updateSpeciesVisibility = interactions.updateSpeciesVisibility;
     interactions.updateSpeciesVisibility(scale0);
@@ -271,7 +274,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       clearTimeout(bloomTimer);
       interactions.cleanup();
     };
-  }, [hierarchy, colorScale, currentSnakeId]);
+  }, [hierarchy, colorScale, currentSnakeId, router]);
 
   return (
     <div
