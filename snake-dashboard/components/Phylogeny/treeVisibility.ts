@@ -42,13 +42,30 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     }
 
     const invK = 1 / scale;
-    const isClickZoomed = !!ctx.getClickFocusNode() || !!ctx.getSearchHighlightNode();
+    const clickFocusNode = ctx.getClickFocusNode();
+    const searchHighlightNode = ctx.getSearchHighlightNode();
+    const isClickFocused = !!clickFocusNode;
+    const isSearchHighlighted = !!searchHighlightNode;
+
+    let showLabelsOnFocus = false;
+    if (isClickFocused) {
+      const rank = clickFocusNode!.data.rank;
+      if (rank === "family" || rank === "genus" || rank === "species") {
+        showLabelsOnFocus = true;
+      }
+    }
+    if (isSearchHighlighted) {
+      showLabelsOnFocus = true;
+    }
+
     const isScaleZoomed = scale >= GENUS_SPECIES_LABEL_ZOOM;
     const hovered = ctx.getHoveredNode();
     const hoveredIsSpecies = hovered && ctx.isSpecies(hovered);
     const showGenusSpeciesLabels =
-      isClickZoomed || (isScaleZoomed && !isClickZoomed) || (hoverActive && !!hoveredIsSpecies);
-    const useSideLabels = isClickZoomed && !hoveredIsSpecies;
+      showLabelsOnFocus ||
+      (isScaleZoomed && !isClickFocused && !isSearchHighlighted) ||
+      (hoverActive && !!hoveredIsSpecies);
+    const useSideLabels = (isClickFocused || isSearchHighlighted) && !hoveredIsSpecies;
     const MIN_READABLE_PX = 8;
 
     g.selectAll(".ext-label").remove();

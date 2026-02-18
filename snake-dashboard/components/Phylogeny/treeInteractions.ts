@@ -256,10 +256,18 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       onSpeciesClick(d.data.id);
       return;
     }
+
     clickFocusNode = d;
-    document.body.setAttribute("data-chart-zoomed", "true");
     highlightSubtree(d);
-    zoomToNode(d);
+    updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+
+    const rank = d.data.rank;
+    if (rank === "family" || rank === "genus") {
+      document.body.setAttribute("data-chart-zoomed", "true");
+      zoomToNode(d);
+    } else {
+      document.body.removeAttribute("data-chart-zoomed");
+    }
   });
 
   // Click background to clear click-focus
