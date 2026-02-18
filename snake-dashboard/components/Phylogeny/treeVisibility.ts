@@ -17,7 +17,7 @@ interface VisibilityContext {
 
 /** Ext-label font size by rank — family > genus > species. large=true for snake search highlight. */
 function extLabelSize(rank: string, invK: number, large = false): number {
-  const m = large ? 1.4 : 1;
+  const m = large ? 1.2 : 1;
   if (rank === "family") return 13 * invK * m;
   if (rank === "genus") return 11 * invK * m;
   if (rank === "species") return 9 * invK * m;
@@ -163,7 +163,8 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
 
     const extG = nodeEl.append("g")
       .attr("class", "ext-label")
-      .attr("transform", transform);
+      .attr("transform", transform)
+      .style("pointer-events", "none");
     const extText = extG.append("text")
       .attr("text-anchor", textAnchor)
       .attr("font-size", `${extFs}px`)

@@ -139,7 +139,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     const invK = 1 / k;
     const gap = r + (opts?.large ? 28 : 24) * invK;
     const labelG = parent.append("g").attr("class", cls).attr("transform", `translate(${px},${py - gap})`);
-    const baseFs = opts?.large ? 18 : 14;
+    const baseFs = opts?.large ? 15 : 14;
     const fs = baseFs * invK, padX = 8 * invK, padY = 5 * invK, rx = 6 * invK;
     const text = labelG.append("text")
       .attr("text-anchor", "middle").attr("font-size", `${fs}px`).attr("font-weight", "600")
