@@ -101,6 +101,78 @@ function radialPoint(angle: number, radius: number): [number, number] {
   ];
 }
 
+/** Wavy starburst badge (like "People of San Francisco") using smooth cubic curves */
+function starburstPath(r: number, bumps = 12, depth = 0.12): string {
+  const outerR = r * (1 + depth);
+  const innerR = r * (1 - depth);
+  const points: [number, number][] = [];
+  const total = bumps * 2; // alternating outer/inner
+  for (let i = 0; i < total; i++) {
+    const angle = (i / total) * Math.PI * 2;
+    const rad = i % 2 === 0 ? outerR : innerR;
+    points.push([rad * Math.cos(angle), rad * Math.sin(angle)]);
+  }
+  // Build smooth closed path using Catmull-Rom → cubic bezier
+  const n = points.length;
+  let d = `M${points[0][0].toFixed(2)},${points[0][1].toFixed(2)}`;
+  for (let i = 0; i < n; i++) {
+    const p0 = points[(i - 1 + n) % n];
+    const p1 = points[i];
+    const p2 = points[(i + 1) % n];
+    const p3 = points[(i + 2) % n];
+    const tension = 0.45; // higher = rounder bumps
+    const cp1x = p1[0] + (p2[0] - p0[0]) * tension;
+    const cp1y = p1[1] + (p2[1] - p0[1]) * tension;
+    const cp2x = p2[0] - (p3[0] - p1[0]) * tension;
+    const cp2y = p2[1] - (p3[1] - p1[1]) * tension;
+    d += ` C${cp1x.toFixed(2)},${cp1y.toFixed(2)} ${cp2x.toFixed(2)},${cp2y.toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)}`;
+  }
+  return d + "Z";
+}
+
+/** Regular hexagon */
+function hexagonPath(r: number): string {
+  const pts: string[] = [];
+  for (let i = 0; i < 6; i++) {
+    const angle = (Math.PI / 3) * i - Math.PI / 6;
+    const px = r * Math.cos(angle);
+    const py = r * Math.sin(angle);
+    pts.push(`${i === 0 ? "M" : "L"}${px.toFixed(2)},${py.toFixed(2)}`);
+  }
+  return pts.join("") + "Z";
+}
+
+/** Rounded square (centered, side = 2*r, corner radius ~25%) */
+function roundedSquarePath(r: number): string {
+  const cr = r * 0.28; // corner radius
+  const s = r; // half-side
+  return [
+    `M${-s + cr},${-s}`,
+    `L${s - cr},${-s}`,
+    `Q${s},${-s} ${s},${-s + cr}`,
+    `L${s},${s - cr}`,
+    `Q${s},${s} ${s - cr},${s}`,
+    `L${-s + cr},${s}`,
+    `Q${-s},${s} ${-s},${s - cr}`,
+    `L${-s},${-s + cr}`,
+    `Q${-s},${-s} ${-s + cr},${-s}`,
+    "Z",
+  ].join(" ");
+}
+
+/** Simple diamond / rhombus — vertices at cardinal points */
+function diamondPath(r: number): string {
+  return `M0,${-r} L${r},0 L0,${r} L${-r},0 Z`;
+}
+
+
+/** Mix a hex color toward white to create a light tint */
+function lightTint(hex: string, amount = 0.82): string {
+  const c = d3.color(hex)?.rgb();
+  if (!c) return hex;
+  const mix = (v: number) => Math.round(v + (255 - v) * amount);
+  return d3.rgb(mix(c.r), mix(c.g), mix(c.b)).formatHex();
+}
 
 export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -266,23 +338,63 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         return `translate(${x},${y})`;
       });
 
-    // Circles
+    // Node shapes — rank-specific geometry with light fills + dark strokes
     nodeSelection.each(function (d) {
       const el = d3.select(this);
       const r = nodeRadius(d);
+      const color = nodeColor(d);
       const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
-      const color = isCurrent ? "#f59e0b" : nodeColor(d);
+      const fill = isCurrent ? color : lightTint(color, 0.82);
+      const fillOpacity = isCurrent ? 0.85 : 1;
+      const rank = d.data.rank;
+      const sw = Math.max(2, r * 0.06); // stroke width scales with node size
 
-      const circle = el.append("circle")
-        .attr("r", r)
-        .attr("fill", color)
-        .attr("fill-opacity", 1)
-        .attr("stroke", isCurrent ? "#fbbf24" : "rgba(255,255,255,0.5)")
-        .attr("stroke-width", isCurrent ? 3 : Math.max(1.5, r * 0.05))
-        .attr("stroke-opacity", 1);
+      let shape: d3.Selection<SVGElement, unknown, null, undefined>;
+
+      if (rank === "suborder") {
+        shape = el.append("path")
+          .attr("d", starburstPath(r, 18, 0.12))
+          .attr("fill", fill)
+          .attr("stroke", color)
+          .attr("stroke-width", 5)
+          .attr("stroke-linejoin", "round") as any;
+      } else if (rank === "family") {
+        const angleDeg = ((d as any).x * 180) / Math.PI - 90;
+        shape = el.append("path")
+          .attr("d", hexagonPath(r))
+          .attr("fill", fill)
+          .attr("stroke", color)
+          .attr("stroke-width", Math.max(3, sw))
+          .attr("stroke-linejoin", "round")
+          .attr("transform", `rotate(${angleDeg})`) as any;
+      } else if (rank === "genus") {
+        // Rotate diamond so top/bottom vertices align with the radial direction
+        const angleDeg = ((d as any).x * 180) / Math.PI - 90;
+        shape = el.append("path")
+          .attr("d", diamondPath(r))
+          .attr("fill", fill)
+          .attr("stroke", color)
+          .attr("stroke-width", Math.max(2, sw))
+          .attr("stroke-linejoin", "miter")
+          .attr("transform", `rotate(${angleDeg})`) as any;
+      } else if (rank === "infraorder") {
+        shape = el.append("path")
+          .attr("d", roundedSquarePath(r))
+          .attr("fill", fill)
+          .attr("stroke", color)
+          .attr("stroke-width", Math.max(3, sw))
+          .attr("stroke-linejoin", "round") as any;
+      } else {
+        // clade, species — circles
+        shape = el.append("circle")
+          .attr("r", r)
+          .attr("fill", fill)
+          .attr("stroke", color)
+          .attr("stroke-width", isCurrent ? 4 : Math.max(2, sw)) as any;
+      }
 
       if (shouldBloom) {
-        circle
+        shape
           .attr("transform", "scale(0)")
           .transition()
           .delay(BLOOM_BASE_DELAY * d.depth)
@@ -305,11 +417,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           ? "italic"
           : "normal"
       )
-      .attr("fill", (d) => {
-        if (currentSnakeId && d.data.id === currentSnakeId) return "#fefce8";
-        if (isSpecies(d)) return "#44403c";
-        return "#ffffff";
-      })
+      .attr("fill", (d) => nodeColor(d))
       .attr("opacity", shouldBloom ? 0 : 1)
       .attr("class", (d) => (isSpecies(d) ? "species-label" : ""))
       .text((d) => {
@@ -365,6 +473,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         .duration(250)
         .style("opacity", (d) => (subtreeNodes.has(d) ? "1" : "0.05"));
 
+      // Disable interaction on faded-out nodes
+      nodeSelection
+        .style("pointer-events", (d) => (subtreeNodes.has(d) ? "auto" : "none"));
+
       linkSelection
         .transition()
         .duration(250)
@@ -389,6 +501,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         .duration(200)
         .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0.05"));
 
+      // Disable interaction on faded-out nodes
+      nodeSelection
+        .style("pointer-events", (d) => (pathNodes.has(d) ? "auto" : "none"));
+
       linkSelection
         .transition()
         .duration(200)
@@ -412,6 +528,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       const currentZoom =
         (svg.node() as any).__currentZoomScale || 1;
 
+      // Re-enable interaction on all nodes
+      nodeSelection.style("pointer-events", "auto");
+
       nodeSelection
         .transition()
         .duration(300)
@@ -425,13 +544,86 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       updateSpeciesVisibility(currentZoom);
     }
 
-    // Hover handlers for all nodes (including species)
+    // --- Hover: highlight path + bright fill + floating label ---
+    let hoverLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
+
+    function showHoverEffect(el: SVGGElement, d: d3.HierarchyPointNode<HierarchyNode>) {
+      const color = nodeColor(d);
+      // Brighten the shape fill
+      d3.select(el).select<SVGElement>("circle, path").attr("fill", color).attr("fill-opacity", 0.85);
+
+      // If node already has a light label above, turn it dark
+      const extLabel = d3.select(el).select(".ext-label");
+      if (!extLabel.empty()) {
+        extLabel.select("rect").attr("fill", color).attr("fill-opacity", 0.92);
+        extLabel.select("text").attr("fill", "#fff").attr("font-weight", "600");
+        return; // no duplicate hover label
+      }
+
+      // Otherwise add floating label above the node — fixed screen size regardless of zoom
+      const r = nodeRadius(d);
+      const [px, py] = radialPoint((d as any).x, (d as any).y);
+      const k = (svg.node() as any).__currentZoomScale || 1;
+      const invK = 1 / k;
+      const gap = r + 24 * invK;
+      hoverLabel = g.append("g").attr("class", "hover-label").attr("transform", `translate(${px},${py - gap})`);
+      const labelText = d.data.name;
+      const fs = 14 * invK;
+      const padX = 8 * invK;
+      const padY = 5 * invK;
+      const rx = 6 * invK;
+      const text = hoverLabel.append("text")
+        .attr("text-anchor", "middle")
+        .attr("font-size", `${fs}px`)
+        .attr("font-weight", "600")
+        .attr("fill", "#fff")
+        .attr("y", 0)
+        .attr("dy", "0.35em")
+        .text(labelText);
+      const bbox = (text.node() as SVGTextElement).getBBox();
+      hoverLabel.insert("rect", "text")
+        .attr("x", bbox.x - padX)
+        .attr("y", bbox.y - padY)
+        .attr("width", bbox.width + padX * 2)
+        .attr("height", bbox.height + padY * 2)
+        .attr("rx", rx)
+        .attr("fill", color)
+        .attr("opacity", 0.92);
+    }
+
+    function clearHoverEffect(el: SVGGElement, d: d3.HierarchyPointNode<HierarchyNode>) {
+      const color = nodeColor(d);
+      const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
+      const fill = isCurrent ? color : lightTint(color, 0.82);
+      d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", isCurrent ? 0.85 : 1);
+
+      // Revert ext-label back to light style if present
+      const extLabel = d3.select(el).select(".ext-label");
+      if (!extLabel.empty()) {
+        extLabel.select("rect").attr("fill", "#fff").attr("fill-opacity", 0.85);
+        extLabel.select("text").attr("fill", color).attr("font-weight", "500");
+      }
+
+      if (hoverLabel) {
+        hoverLabel.remove();
+        hoverLabel = null;
+      }
+    }
+
     nodeSelection
       .on("mouseenter", function (_event, d) {
         if (clickFocusNode) return;
+        // When search-highlighted, only allow hover on path nodes (non-path already has pointer-events:none)
+        if (searchHighlightNode) {
+          showHoverEffect(this as SVGGElement, d);
+          return;
+        }
         highlightPath(d);
+        showHoverEffect(this as SVGGElement, d);
       })
-      .on("mouseleave", function () {
+      .on("mouseleave", function (_event, d) {
+        clearHoverEffect(this as SVGGElement, d);
+        if (searchHighlightNode) return; // don't clear the search highlight
         clearHighlight();
       });
 
@@ -473,6 +665,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const cx = (x0 + x1) / 2;
     const cy = (y0 + y1) / 2;
 
+    // Threshold: if in-node font renders smaller than this on screen, hide it
+    const MIN_READABLE_PX = 8;
+
     function updateSpeciesVisibility(scale: number) {
       (svg.node() as any).__currentZoomScale = scale;
       if (hoverActive) return; // don't fight with hover highlight
@@ -483,16 +678,78 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         ".species-node"
       )
         .style("opacity", show ? "1" : "0")
-        .style("pointer-events", show ? "auto" : "none")
-        .select("circle")
-        .attr("fill-opacity", show ? 1 : 0)
-        .attr("stroke-opacity", show ? 1 : 0);
+        .style("pointer-events", show ? "auto" : "none");
 
       g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(
         ".species-link"
       ).attr("stroke-opacity", show ? 0.7 : 0);
 
       g.selectAll(".species-label").attr("opacity", showLabels ? 1 : 0);
+
+      // Light labels above nodes when in-node text is too small to read.
+      // - Higher ranks (suborder, infraorder, clade, family): always eligible
+      // - Species/genus: only when zoomed in (click-focus or search highlight)
+      // - Highlighted snake: never (has its own dark search label)
+      const invK = 1 / scale;
+      const isZoomedIn = !!clickFocusNode || !!searchHighlightNode;
+
+      // Remove all ext-labels and recreate as needed for current zoom
+      g.selectAll(".ext-label").remove();
+
+      g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".node, .species-node")
+        .each(function (nd) {
+          const nodeEl = d3.select(this);
+          const rank = nd.data.rank ?? "";
+          const isHigherRank = rank === "suborder" || rank === "infraorder" || rank === "clade" || rank === "family";
+          const isHighlighted = !!currentSnakeId && nd.data.id === currentSnakeId;
+          const inNodeText = nodeEl.select<SVGTextElement>("text");
+
+          // Skip highlighted snake — it has its own search label
+          if (isHighlighted) return;
+
+          // Species/genus ext-labels only in zoomed-in view
+          if (!isHigherRank && !isZoomedIn) {
+            inNodeText.attr("opacity", showLabels || !isSpecies(nd) ? 1 : 0);
+            return;
+          }
+
+          const fs = fontSize(nd);
+          const screenPx = fs * scale;
+
+          if (screenPx < MIN_READABLE_PX) {
+            inNodeText.attr("opacity", 0);
+
+            const r = nodeRadius(nd);
+            const gap = r + 24 * invK;
+            const extFs = 12 * invK;
+            const extPadX = 6 * invK;
+            const extPadY = 3 * invK;
+            const extRx = 4 * invK;
+
+            const extG = nodeEl.append("g")
+              .attr("class", "ext-label")
+              .attr("transform", `translate(0, ${-gap})`);
+            const extText = extG.append("text")
+              .attr("text-anchor", "middle")
+              .attr("font-size", `${extFs}px`)
+              .attr("font-weight", "500")
+              .attr("fill", nodeColor(nd))
+              .attr("y", 0)
+              .attr("dy", "0.35em")
+              .text(nd.data.name);
+            const bb = (extText.node() as SVGTextElement).getBBox();
+            extG.insert("rect", "text")
+              .attr("x", bb.x - extPadX)
+              .attr("y", bb.y - extPadY)
+              .attr("width", bb.width + extPadX * 2)
+              .attr("height", bb.height + extPadY * 2)
+              .attr("rx", extRx)
+              .attr("fill", "#fff")
+              .attr("fill-opacity", 0.85);
+          } else {
+            inNodeText.attr("opacity", 1);
+          }
+        });
     }
 
     const zoomBehavior = d3
@@ -590,14 +847,14 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         tx1 = Math.max(tx1, px + r);
         ty1 = Math.max(ty1, py + r);
       });
-      const tpad = 100;
+      const tpad = 500;
       tx0 -= tpad;
       ty0 -= tpad;
       tx1 += tpad;
       ty1 += tpad;
       const tbw = tx1 - tx0;
       const tbh = ty1 - ty0;
-      const tscale = Math.min(cw / tbw, ch / tbh, 4);
+      const tscale = Math.min(cw / tbw, ch / tbh, 0.8);
       const tcx = (tx0 + tx1) / 2;
       const tcy = (ty0 + ty1) / 2;
 
@@ -613,7 +870,41 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         );
     }
 
-    // When a snake is highlighted via search: show path, fade rest, zoom to path (after bloom)
+    // When a snake is highlighted via search: show path, fade rest, zoom to path
+    // Also add a persistent floating label above the highlighted node
+    let searchLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
+
+    function addSearchLabel(node: d3.HierarchyPointNode<HierarchyNode>) {
+      const color = nodeColor(node);
+      const r = nodeRadius(node);
+      const [px, py] = radialPoint((node as any).x, (node as any).y);
+      const k = (svg.node() as any).__currentZoomScale || 1;
+      const invK = 1 / k;
+      const gap = r + 24 * invK;
+      searchLabel = g.append("g").attr("class", "search-label").attr("transform", `translate(${px},${py - gap})`);
+      const fs = 14 * invK;
+      const padX = 8 * invK;
+      const padY = 5 * invK;
+      const rx = 6 * invK;
+      const text = searchLabel.append("text")
+        .attr("text-anchor", "middle")
+        .attr("font-size", `${fs}px`)
+        .attr("font-weight", "600")
+        .attr("fill", "#fff")
+        .attr("y", 0)
+        .attr("dy", "0.35em")
+        .text(node.data.name);
+      const bbox = (text.node() as SVGTextElement).getBBox();
+      searchLabel.insert("rect", "text")
+        .attr("x", bbox.x - padX)
+        .attr("y", bbox.y - padY)
+        .attr("width", bbox.width + padX * 2)
+        .attr("height", bbox.height + padY * 2)
+        .attr("rx", rx)
+        .attr("fill", color)
+        .attr("opacity", 0.92);
+    }
+
     if (searchHighlightNode) {
       document.body.setAttribute("data-chart-zoomed", "true");
       if (shouldBloom) {
@@ -621,11 +912,13 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         setTimeout(() => {
           highlightPath(searchHighlightNode!);
           zoomToPath(searchHighlightNode!);
+          addSearchLabel(searchHighlightNode!);
           updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
         }, afterBloom);
       } else {
         highlightPath(searchHighlightNode);
         zoomToPath(searchHighlightNode);
+        addSearchLabel(searchHighlightNode);
         updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
       }
     }
@@ -648,6 +941,14 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       document.body.removeAttribute("data-chart-zoomed");
       hoverActive = false;
 
+      // Remove search label and reset all node fills to light tint
+      if (searchLabel) { searchLabel.remove(); searchLabel = null; }
+      nodeSelection.each(function (nd) {
+        const c = nodeColor(nd);
+        d3.select(this).select<SVGElement>("circle, path")
+          .attr("fill", lightTint(c, 0.82)).attr("fill-opacity", 1);
+      });
+      nodeSelection.style("pointer-events", "auto");
       nodeSelection.transition().duration(300).style("opacity", "1");
       linkSelection.transition().duration(300).attr("stroke-opacity", 0.7);
 
@@ -686,6 +987,66 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         Drag to pan · Scroll to zoom · Click node to focus · Backspace to
         reset · Hover to trace lineage
       </p>
+
+      {/* Shape legend */}
+      <div className="absolute bottom-3 right-3 pointer-events-none flex flex-col gap-1.5 bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2.5 shadow-sm border border-stone-200/60">
+        <span className="text-[10px] font-semibold text-stone-500 uppercase tracking-wider mb-0.5">
+          Taxonomy
+        </span>
+        {([
+          ["suborder", "Suborder", "#2d3436"],
+          ["infraorder", "Infraorder", "#6c5ce7"],
+          ["clade", "Clade", "#00b894"],
+          ["family", "Family", "#c44e52"],
+          ["genus", "Genus", "#8172b3"],
+          ["species", "Species", "#64b5cd"],
+        ] as const).map(([rank, label, color]) => (
+          <div key={rank} className="flex items-center gap-2">
+            <svg width="16" height="16" viewBox="-9 -9 18 18">
+              {rank === "suborder" ? (
+                <path
+                  d={starburstPath(7, 18, 0.12)}
+                  fill={lightTint(color)}
+                  stroke={color}
+                  strokeWidth={1.5}
+                />
+              ) : rank === "family" ? (
+                <path
+                  d={hexagonPath(7)}
+                  fill={lightTint(color)}
+                  stroke={color}
+                  strokeWidth={1.5}
+                  strokeLinejoin="round"
+                />
+              ) : rank === "genus" ? (
+                <path
+                  d={diamondPath(7)}
+                  fill={lightTint(color)}
+                  stroke={color}
+                  strokeWidth={1.5}
+                  strokeLinejoin="miter"
+                />
+              ) : rank === "infraorder" ? (
+                <path
+                  d={roundedSquarePath(6)}
+                  fill={lightTint(color)}
+                  stroke={color}
+                  strokeWidth={1.5}
+                  strokeLinejoin="round"
+                />
+              ) : (
+                <circle
+                  r={rank === "species" ? 4 : 6}
+                  fill={lightTint(color)}
+                  stroke={color}
+                  strokeWidth={1.5}
+                />
+              )}
+            </svg>
+            <span className="text-[11px] text-stone-600">{label}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
