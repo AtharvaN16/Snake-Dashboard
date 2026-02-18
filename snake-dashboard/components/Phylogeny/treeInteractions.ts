@@ -22,13 +22,14 @@ export interface ChartContext {
   scale0: number;
   zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>;
   onSpeciesClick?: (snakeId: string) => void;
+  onTaxonomyNodeClick?: (node: d3.HierarchyPointNode<HierarchyNode>) => void;
 }
 
 export function setupInteractions(ctx: ChartContext): { cleanup: () => void; updateSpeciesVisibility: (scale: number) => void } {
   const {
     svg, g, nodeSelection, linkSelection, nodeToAncestors,
     nodeColor, isSpecies, currentSnakeId, shouldBloom,
-    cw, ch, cx, cy, scale0, zoomBehavior, onSpeciesClick,
+    cw, ch, cx, cy, scale0, zoomBehavior, onSpeciesClick, onTaxonomyNodeClick,
   } = ctx;
 
   let hoverActive = false;
@@ -113,8 +114,17 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   });
 
   function clearHighlight() {
-    if (clickFocusNode) { highlightSubtree(clickFocusNode); return; }
-    if (searchHighlightNode) { highlightPath(searchHighlightNode); return; }
+    if (clickFocusNode) {
+      // If a node is focused, clearing a hover just reverts to the focused subtree
+      highlightSubtree(clickFocusNode);
+      updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+      return;
+    }
+    if (searchHighlightNode) {
+      highlightPath(searchHighlightNode);
+      updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+      return;
+    }
     hoverActive = false;
     const currentZoom = (svg.node() as any).__currentZoomScale || 1;
 
@@ -122,6 +132,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     nodeSelection.transition().duration(300).style("opacity", "1");
     linkSelection.transition().duration(300).attr("stroke-opacity", 0.7);
     updateSpeciesVisibility(currentZoom);
+    if (onTaxonomyNodeClick) onTaxonomyNodeClick(root as d3.HierarchyPointNode<HierarchyNode>);
   }
 
   // --- Floating label helper ---
@@ -164,6 +175,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       return;
     }
     if (searchHighlightNode && d === searchHighlightNode) return;
+    if (clickFocusNode && d === clickFocusNode) return;
     hoverLabel = createLabel(g, d, "hover-label");
   }
 
@@ -212,6 +224,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   }
 
   function addSearchLabel(node: d3.HierarchyPointNode<HierarchyNode>) {
+    if (searchLabel) searchLabel.remove();
     searchLabel = createLabel(g, node, "search-label", { large: true });
   }
 
@@ -227,6 +240,8 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
         return;
       }
       if (searchHighlightNode) {
+        // When a snake is highlighted, hovering shows path from hover to root.
+        highlightPath(d);
         updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
         showHoverEffect(this as SVGGElement, d);
         return;
@@ -238,15 +253,6 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     .on("mouseleave", function (_event, d) {
       hoveredNode = null;
       clearHoverEffect(this as SVGGElement, d);
-      if (clickFocusNode) {
-        highlightSubtree(clickFocusNode);
-        updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
-        return;
-      }
-      if (searchHighlightNode) {
-        updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
-        return;
-      }
       clearHighlight();
     });
 
@@ -254,6 +260,17 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     event.stopPropagation();
     if (isSpecies(d) && d.data.id && onSpeciesClick) {
       onSpeciesClick(d.data.id);
+      return;
+    }
+
+    if (onTaxonomyNodeClick) onTaxonomyNodeClick(d);
+    
+    // Clicking the same node toggles focus off
+    if (clickFocusNode === d) {
+      clickFocusNode = null;
+      document.body.removeAttribute("data-chart-zoomed");
+      clearHighlight();
+      if (onTaxonomyNodeClick) onTaxonomyNodeClick(root as d3.HierarchyPointNode<HierarchyNode>);
       return;
     }
 
@@ -283,13 +300,14 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
   function resetToDefault() {
     clickFocusNode = null;
-    searchHighlightNode = null;
+    searchHighlightNode = null; // Also clear search highlight on reset
     document.body.removeAttribute("data-chart-zoomed");
     hoverActive = false;
 
     if (searchLabel) { searchLabel.remove(); searchLabel = null; }
     nodeSelection.each(function (nd) {
       const c = nodeColor(nd);
+      // Reset all nodes to base state (light tint fill)
       d3.select(this).select<SVGElement>("circle, path")
         .attr("fill", lightTint(c, 0.82)).attr("fill-opacity", 1);
     });
@@ -300,6 +318,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     svg.transition().duration(750).ease(d3.easeCubicInOut)
       .call((zoomBehavior as any).transform, defaultTransform);
     updateSpeciesVisibility(scale0);
+    if (onTaxonomyNodeClick) onTaxonomyNodeClick(root as d3.HierarchyPointNode<HierarchyNode>);
   }
 
   // --- Keyboard: R = reset position; Backspace / Delete = reset when focused ---
@@ -314,10 +333,21 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       return;
     }
 
-    if (e.key !== "Backspace" && e.key !== "Delete") return;
-    if (!clickFocusNode && !searchHighlightNode) return;
-    e.preventDefault();
-    resetToDefault();
+    // Backspace/Delete without focus = zoom out one level
+    if (e.key === "Backspace" || e.key === "Delete") {
+      e.preventDefault();
+      if (clickFocusNode) {
+        const parent = clickFocusNode.parent as d3.HierarchyPointNode<HierarchyNode>;
+        if (parent) {
+          // Simulate click on parent
+          nodeSelection.filter((d) => d === parent).dispatch("click");
+        } else {
+          resetToDefault();
+        }
+      } else if (searchHighlightNode) {
+        resetToDefault();
+      }
+    }
   }
   document.addEventListener("keydown", handleKeyDown, { capture: true });
 

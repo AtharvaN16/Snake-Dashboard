@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
@@ -16,12 +16,30 @@ import { radialPoint, starburstPath, hexagonPath, roundedSquarePath, diamondPath
 import { nodeRadius, fontSize, fontWeight, linkWidth } from "./treeNodeStyles";
 import { TreeLegend } from "./TreeLegend";
 import { setupInteractions } from "./treeInteractions";
+import taxonomyDescriptions from "@/data/taxonomy_descriptions.json";
+import { TaxonomyInfoBox } from "./TaxonomyInfoBox";
 
 export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const hasBloomedRef = useRef(false);
+  const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
+
+  const handleTaxonomyNodeClick = (node: d3.HierarchyPointNode<HierarchyNode>) => {
+    const rank = node.data.rank;
+    const name = node.data.name.toLowerCase();
+    if (rank === 'family' || rank === 'clade' || rank === 'infraorder' || rank === 'suborder') {
+      const descriptionData = (taxonomyDescriptions as Record<string, {name: string, description: string}>)[name];
+      if (descriptionData) {
+        setSelectedTaxon(descriptionData);
+      } else {
+        setSelectedTaxon(null);
+      }
+    } else {
+      setSelectedTaxon(null);
+    }
+  };
 
   const { hierarchy, colorScale } = useMemo(() => {
     const h = d3.hierarchy(rootData);
@@ -264,6 +282,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       nodeColor, isSpecies, currentSnakeId, shouldBloom,
       cw, ch, cx, cy, scale0, zoomBehavior,
       onSpeciesClick: (id) => router.push(`/snakes/${id}`),
+      onTaxonomyNodeClick: handleTaxonomyNodeClick,
     });
     updateSpeciesVisibility = interactions.updateSpeciesVisibility;
     interactions.updateSpeciesVisibility(scale0);
@@ -288,6 +307,13 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         className="absolute inset-0 w-full h-full"
         style={{ cursor: "grab" }}
       />
+      {selectedTaxon && (
+        <TaxonomyInfoBox
+          name={selectedTaxon.name}
+          description={selectedTaxon.description}
+          onClose={() => setSelectedTaxon(null)}
+        />
+      )}
       <p className="absolute bottom-2 left-2 text-xs text-stone-400 pointer-events-none">
         Drag to pan · Scroll to zoom · Click node to focus · R to reset view ·
         Hover to trace lineage
