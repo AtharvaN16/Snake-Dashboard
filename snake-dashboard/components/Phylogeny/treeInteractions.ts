@@ -22,7 +22,7 @@ export interface ChartContext {
   scale0: number;
   zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>;
   onSpeciesClick?: (snakeId: string) => void;
-  onTaxonomyNodeClick?: (node: d3.HierarchyPointNode<HierarchyNode>) => void;
+  onTaxonomyNodeClick?: (node: d3.HierarchyPointNode<HierarchyNode> | null) => void;
 }
 
 export function setupInteractions(ctx: ChartContext): { cleanup: () => void; updateSpeciesVisibility: (scale: number) => void } {
@@ -132,7 +132,6 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     nodeSelection.transition().duration(300).style("opacity", "1");
     linkSelection.transition().duration(300).attr("stroke-opacity", 0.7);
     updateSpeciesVisibility(currentZoom);
-    if (onTaxonomyNodeClick) onTaxonomyNodeClick(root as d3.HierarchyPointNode<HierarchyNode>);
   }
 
   // --- Floating label helper ---
@@ -259,21 +258,22 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   nodeSelection.style("cursor", "pointer").on("click", (event, d) => {
     event.stopPropagation();
     if (isSpecies(d) && d.data.id && onSpeciesClick) {
+      if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
       onSpeciesClick(d.data.id);
       return;
     }
 
-    if (onTaxonomyNodeClick) onTaxonomyNodeClick(d);
-    
     // Clicking the same node toggles focus off
     if (clickFocusNode === d) {
       clickFocusNode = null;
       document.body.removeAttribute("data-chart-zoomed");
       clearHighlight();
-      if (onTaxonomyNodeClick) onTaxonomyNodeClick(root as d3.HierarchyPointNode<HierarchyNode>);
+      if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
       return;
     }
 
+    if (onTaxonomyNodeClick) onTaxonomyNodeClick(d);
+    
     clickFocusNode = d;
     highlightSubtree(d);
     updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
@@ -292,6 +292,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     if (!clickFocusNode) return;
     clickFocusNode = null;
     document.body.removeAttribute("data-chart-zoomed");
+    if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
     clearHighlight();
   });
 
@@ -318,7 +319,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     svg.transition().duration(750).ease(d3.easeCubicInOut)
       .call((zoomBehavior as any).transform, defaultTransform);
     updateSpeciesVisibility(scale0);
-    if (onTaxonomyNodeClick) onTaxonomyNodeClick(root as d3.HierarchyPointNode<HierarchyNode>);
+    if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
   }
 
   // --- Keyboard: R = reset position; Backspace / Delete = reset when focused ---
@@ -339,10 +340,25 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       if (clickFocusNode) {
         const parent = clickFocusNode.parent as d3.HierarchyPointNode<HierarchyNode>;
         if (parent) {
-          // Simulate click on parent
-          nodeSelection.filter((d) => d === parent).dispatch("click");
+          // Close the info box
+          if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
+
+          // Set focus to parent
+          clickFocusNode = parent;
+          
+          // Highlight and zoom to parent
+          highlightSubtree(parent);
+          zoomToNode(parent);
+          updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+
+          // Decide on zoomed attribute state. If parent is root, not zoomed.
+          if (parent.depth > 0) {
+            document.body.setAttribute("data-chart-zoomed", "true");
+          } else {
+            document.body.removeAttribute("data-chart-zoomed");
+          }
         } else {
-          resetToDefault();
+          resetToDefault(); // at root, so reset fully
         }
       } else if (searchHighlightNode) {
         resetToDefault();

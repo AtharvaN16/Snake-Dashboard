@@ -26,7 +26,11 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const hasBloomedRef = useRef(false);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
 
-  const handleTaxonomyNodeClick = (node: d3.HierarchyPointNode<HierarchyNode>) => {
+  const handleTaxonomyNodeClick = (node: d3.HierarchyPointNode<HierarchyNode> | null) => {
+    if (!node) {
+      setSelectedTaxon(null);
+      return;
+    }
     const rank = node.data.rank;
     const name = node.data.name.toLowerCase();
     if (rank === 'family' || rank === 'clade' || rank === 'infraorder' || rank === 'suborder') {

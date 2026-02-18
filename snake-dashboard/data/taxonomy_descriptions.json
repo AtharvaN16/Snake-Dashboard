@@ -1,22 +1,22 @@
 {
   "serpentes": {
-    "name": "Serpentes (Snakes)",
+    "name": "Serpentes",
     "description": "Snakes are a suborder of elongated, limbless, carnivorous reptiles. Their bodies are covered in overlapping scales, and they lack eyelids and external ears. Many species have highly flexible skulls, allowing them to swallow prey much larger than their heads. To accommodate their narrow bodies, paired internal organs like kidneys are arranged one in front of the other, and most possess only one functional lung."
   },
   "scolecophidia": {
-    "name": "Scolecophidia (Blind Snakes)",
+    "name": "Scolecophidia",
     "description": "Commonly known as blind snakes or thread snakes, this group is adapted for a burrowing (fossorial) lifestyle. They are typically small and worm-like, with smooth, glossy scales and reduced eyes covered by opaque scales. Their diet consists mainly of ants, termites, and their larvae."
   },
   "alethinophidia": {
-    "name": "Alethinophidia (True Snakes)",
+    "name": "Alethinophidia",
     "description": "This infraorder includes all snakes other than the blind snakes. The name means 'true snakes'. This diverse group includes everything from 'primitive' burrowing snakes to the 'advanced' snakes (Caenophidia) with large, flexible jaws (Macrostomata) capable of consuming large prey."
   },
   "henophidia": {
-    "name": "Henophidia (Boas, Pythons, etc.)",
+    "name": "Henophidia",
     "description": "A group containing boas, pythons, and other 'primitive' snakes. Most are non-venomous constrictors. Many retain vestigial hind limbs as small spurs. This group includes some of the world's largest snakes."
   },
   "caenophidia": {
-    "name": "Caenophidia (Advanced Snakes)",
+    "name": "Caenophidia",
     "description": "Representing over 80% of all snake species, this is considered the most 'advanced' group of snakes. It includes the families Colubridae, Elapidae, and Viperidae. The evolution of efficient venom delivery systems is a key characteristic of this clade."
   },
   "colubridae": {
@@ -24,19 +24,19 @@
     "description": "The largest family of snakes. Most are harmless to humans and are typically non-venomous or have mild, rear-fanged venom. They are found worldwide in nearly every habitat. Due to its diversity, it was historically a 'wastebasket' taxon for snakes that didn't fit elsewhere."
   },
   "elapidae": {
-    "name": "Elapidae (Cobras, Mambas, Taipans, etc.)",
+    "name": "Elapidae",
     "description": "A family of highly venomous snakes with fixed, hollow fangs at the front of the mouth (proteroglyphous). The venom is typically neurotoxic. This family includes cobras, mambas, coral snakes, and sea snakes. They have slender bodies and are found in tropical and subtropical regions around the world."
   },
   "viperidae": {
-    "name": "Viperidae (Vipers, Rattlesnakes, etc.)",
+    "name": "Viperidae",
     "description": "A family of venomous snakes with long, hollow, hinged fangs that fold back against the roof of the mouth (solenoglyphous). They typically have stocky bodies, a distinct triangular head, and vertically elliptical pupils. Most are nocturnal ambush predators. This family includes vipers, rattlesnakes, and adders."
   },
   "boidae": {
-    "name": "Boidae (Boas)",
+    "name": "Boidae",
     "description": "A family of non-venomous constrictors, including some of the world's largest snakes like the anaconda. They are primarily found in the Americas. Most give birth to live young (viviparous) and have heat-sensing pits along their lips to detect warm-blooded prey. They retain vestigial hind limbs as 'spurs'."
   },
   "pythonidae": {
-    "name": "Pythonidae (Pythons)",
+    "name": "Pythonidae",
     "description": "A family of non-venomous constrictors found in the Old World (Africa, Asia, Australia). Unlike boas, they lay eggs (oviparous) and some species exhibit maternal care by coiling around their eggs to incubate them. They also possess heat-sensing pits. Most have teeth on the premaxilla."
   }
 }
