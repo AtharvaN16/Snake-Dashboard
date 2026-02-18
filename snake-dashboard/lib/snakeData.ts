@@ -103,6 +103,26 @@ export function isVenomous(venomClassification: Snake["venomClassification"]): b
 }
 
 /**
+ * Get median potency score across all venomous snakes (0–100).
+ * Used for reference line on potency scale.
+ */
+export function getMedianPotencyScore(): number {
+  const snakes = getAllSnakes();
+  const scores = snakes
+    .filter((s) => isVenomous(s.venomClassification))
+    .map((s) => s.dangerScoreComponents?.potencyScore)
+    .filter((v): v is number => typeof v === "number");
+
+  if (scores.length === 0) return 50;
+
+  const sorted = [...scores].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0
+    ? Math.round((sorted[mid - 1]! + sorted[mid]!) / 2)
+    : sorted[mid]!;
+}
+
+/**
  * Get unique families from all snakes
  */
 export function getAllFamilies(): string[] {

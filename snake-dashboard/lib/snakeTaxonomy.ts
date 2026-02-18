@@ -49,7 +49,7 @@ export function buildFullSnakeHierarchy(snakes: Snake[]): HierarchyNode {
     rank: "suborder",
   };
 
-  // Scolecophidia: no families in our DB; include as empty branch for structure
+  // Scolecophidia: no families in our DB; keep as small decorative stub
   const scolecophidia: HierarchyNode = {
     name: INFRAORDER_SCOLEcOPHIDIA,
     children: [],
@@ -96,7 +96,7 @@ export function buildFullSnakeHierarchy(snakes: Snake[]): HierarchyNode {
   return root;
 }
 
-function buildFamilyNode(familyName: string, familySnakes: Snake[]): HierarchyNode {
+export function buildFamilyNode(familyName: string, familySnakes: Snake[]): HierarchyNode {
   const familyNode: HierarchyNode = {
     name: familyName,
     children: [],

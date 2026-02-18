@@ -6,6 +6,7 @@ import {
   getSnakeById,
   getAllSnakes,
   isVenomous,
+  getMedianPotencyScore,
 } from "@/lib/snakeData";import { VenomTypeChip } from "@/components/VenomTypeChip";
 import { VenomSpeedChip } from "@/components/VenomSpeedChip";
 import { VenomYieldChip } from "@/components/VenomYieldChip";
@@ -47,6 +48,8 @@ export default async function SnakeDetailPage({
   if (!snake) {
     notFound();
   }
+
+  const medianPotencyScore = getMedianPotencyScore();
 
   const venomous = isVenomous(snake.venomClassification);
   const classificationLabel =
@@ -192,7 +195,7 @@ export default async function SnakeDetailPage({
             <p style={{ marginBottom: "18px", display: "flex", alignItems: "baseline" }}>
               <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Family</span>
               <Link
-                href={`/snakes/${snake.id}/phylogeny`}
+                href={`/phylogeny?snakeId=${snake.id}`}
                 className="underline hover:text-stone-900 transition-colors"
                 style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
               >
@@ -459,26 +462,43 @@ export default async function SnakeDetailPage({
                     <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Venom potency (LD₅₀)</h3>
                     <Link
                       href={`/rank?view=potency&snakeId=${snake.id}`}
-                      className="block rounded-lg p-2 -m-2 hover:bg-stone-50 transition-colors no-underline"
+                      className="block rounded-lg p-2 -m-2 hover:bg-stone-50 transition-colors no-underline overflow-visible"
                     >
-                      <div className="relative h-3 bg-stone-200 rounded-full overflow-hidden mb-2">
-                        <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-red-500 via-orange-400 to-green-500 w-3/4" />
+                      <div className="relative pt-8 max-w-md px-8 overflow-visible">
+                        <div className="h-3 bg-stone-200 rounded-full overflow-visible relative">
+                          <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-red-500 via-orange-400 to-green-500 rounded-full overflow-hidden" />
+                          <div
+                            className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-8 bg-stone-600/70"
+                            style={{ left: `${Math.min(100, Math.max(0, 100 - medianPotencyScore))}%` }}
+                          />
+                          <span
+                            className="absolute left-0 bottom-full -translate-x-1/2 text-[10px] font-medium text-stone-500 whitespace-nowrap mb-4"
+                            style={{ left: `${Math.min(100, Math.max(0, 100 - medianPotencyScore))}%` }}
+                          >
+                            Median
+                          </span>
+                          <div
+                            className="absolute top-full left-0 flex flex-col items-center -translate-x-1/2"
+                            style={{
+                              left: `${Math.min(100, Math.max(0, 100 - (snake.dangerScoreComponents?.potencyScore ?? 0)))}%`,
+                              marginTop: "6px",
+                            }}
+                          >
+                            <div
+                              className="relative inline-flex items-center justify-center font-semibold text-sm px-2.5 py-1 rounded-[6px] text-[#2c2c2c]"
+                              style={{ backgroundColor: "#E5E5E5" }}
+                            >
+                              <div
+                                className="absolute -top-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[7px]"
+                                style={{ borderBottomColor: "#E5E5E5" }}
+                                aria-hidden
+                              />
+                              ~{snake.venomPotency.ld50Range}
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <span
-                        className="inline-flex font-semibold text-sm cursor-pointer"
-                        style={{
-                          padding: "4px 8px",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          gap: "10px",
-                          borderRadius: "4px",
-                          backgroundColor: "#E5E5E5",
-                          color: "#000",
-                        }}
-                      >
-                        ~{snake.venomPotency.ld50Range}
-                      </span>
-                      <p className="text-xs text-center text-stone-400 mt-2">View potency ladder →</p>
+                      <p className="text-xs text-center text-stone-400 mt-16">View potency ladder →</p>
                     </Link>
                   </div>
                 )}
