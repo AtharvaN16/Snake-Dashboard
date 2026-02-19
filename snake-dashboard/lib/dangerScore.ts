@@ -106,14 +106,14 @@ export function calculateClinicalScore(clinical: ClinicalData): number {
 
 /**
  * Composite danger score.
- * Weights: clinical 30%, potency 25%, yield 20%, encounters 15%, speed 10%.
+ * Weights: clinical 25%, potency 25%, yield 20%, encounters 20%, speed 10%.
  */
 export function calculateDangerScore(components: DangerScoreComponents): number {
   const score =
-    components.clinicalScore * 0.3 +
+    components.clinicalScore * 0.25 +
     components.potencyScore * 0.25 +
     components.yieldScore * 0.2 +
-    components.encounterScore * 0.15 +
+    components.encounterScore * 0.2 +
     components.speedScore * 0.1;
   return Math.round(Math.max(0, Math.min(100, score)));
 }
