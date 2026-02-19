@@ -5,9 +5,11 @@ import {
   setPrimaryImage,
   addToGallery,
   deleteCandidate,
+  commitSelections,
+  type Selection,
 } from "@/lib/imageRefresh";
 
-type Action = "search" | "set-primary" | "add-to-gallery" | "delete";
+type Action = "search" | "set-primary" | "add-to-gallery" | "delete" | "commit";
 
 /**
  * POST — Unified action endpoint.
@@ -23,14 +25,14 @@ export async function POST(
 
   const { id } = await params;
 
-  let body: { action?: Action; candidateIndex?: number };
+  let body: { action?: Action; candidateIndex?: number; selections?: Selection[] };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { action, candidateIndex } = body;
+  const { action, candidateIndex, selections } = body;
 
   try {
     switch (action) {
@@ -61,6 +63,14 @@ export async function POST(
         }
         const candidates = await deleteCandidate(id, candidateIndex);
         return NextResponse.json({ success: true, candidates });
+      }
+
+      case "commit": {
+        if (!Array.isArray(selections) || selections.length === 0) {
+          return NextResponse.json({ error: "selections array required" }, { status: 400 });
+        }
+        await commitSelections(id, selections);
+        return NextResponse.json({ success: true });
       }
 
       default:

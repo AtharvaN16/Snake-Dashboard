@@ -120,7 +120,8 @@ export async function searchAndDownloadCandidates(
 
 export async function setPrimaryImage(
   snakeId: string,
-  candidateIndex: number
+  candidateIndex: number,
+  options: { skipIndexUpdate?: boolean } = {}
 ): Promise<{ candidateIndex: number; attribution: ImageAttribution }> {
   const meta = await loadMetadata(snakeId);
   const entry = meta.find((e) => e.index === candidateIndex);
@@ -137,6 +138,7 @@ export async function setPrimaryImage(
   );
 
   const sd = snakeDir(snakeId);
+  await fs.mkdir(sd, { recursive: true });
 
   // Process primary and thumbnail from buffer, write atomically
   const primaryBuf = await sharp(imageBuffer)
@@ -165,6 +167,27 @@ export async function setPrimaryImage(
     JSON.stringify(entry.attribution, null, 2)
   );
 
+  if (!options.skipIndexUpdate) {
+    await atomicJsonUpdate<SnakeData>(DATA_PATH, (data) => {
+      const snake = data.snakes.find((s) => s.id === snakeId);
+      if (snake) {
+        if (!snake.images) {
+          // Initialize images if missing
+          snake.images = {
+            primary: `/images/snakes/${snakeId}/primary.jpg`,
+            thumbnail: `/images/snakes/${snakeId}/thumbnail.jpg`,
+            attribution: entry.attribution,
+          };
+        } else {
+          snake.images.primary = `/images/snakes/${snakeId}/primary.jpg`;
+          snake.images.thumbnail = `/images/snakes/${snakeId}/thumbnail.jpg`;
+          snake.images.attribution = entry.attribution;
+        }
+      }
+      return data;
+    });
+  }
+
   console.log(`[set-primary] ${snakeId}: done — candidate ${candidateIndex} is now primary`);
 
   return { candidateIndex, attribution: entry.attribution };
@@ -178,6 +201,9 @@ interface SnakeData {
   snakes: Array<{
     id: string;
     images?: {
+      primary: string;
+      thumbnail: string;
+      attribution: ImageAttribution;
       gallery?: string[];
       galleryAttributions?: ImageAttribution[];
     };
@@ -186,7 +212,8 @@ interface SnakeData {
 
 export async function addToGallery(
   snakeId: string,
-  candidateIndex: number
+  candidateIndex: number,
+  options: { skipIndexUpdate?: boolean; galleryIndex?: number } = {}
 ): Promise<{ galleryPath: string; galleryIndex: number }> {
   const meta = await loadMetadata(snakeId);
   const entry = meta.find((e) => e.index === candidateIndex);
@@ -197,15 +224,19 @@ export async function addToGallery(
 
   const imageBuffer = await fs.readFile(originalPath);
 
-  // Determine next gallery slot
+  // Determine gallery slot
   const galleryDir = join(snakeDir(snakeId), "gallery");
   await fs.mkdir(galleryDir, { recursive: true });
 
-  const existing = await fs.readdir(galleryDir);
-  const numbers = existing
-    .filter((f) => /^\d+\.jpg$/.test(f))
-    .map((f) => parseInt(f, 10));
-  const nextNum = numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
+  let nextNum = options.galleryIndex;
+  if (nextNum === undefined) {
+    const existing = await fs.readdir(galleryDir);
+    const numbers = existing
+      .filter((f) => /^\d+\.jpg$/.test(f))
+      .map((f) => parseInt(f, 10));
+    nextNum = numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
+  }
+  
   const publicPath = `/images/snakes/${snakeId}/gallery/${nextNum}.jpg`;
 
   // Process from buffer, write atomically
@@ -216,18 +247,20 @@ export async function addToGallery(
 
   await atomicWrite(join(galleryDir, `${nextNum}.jpg`), galleryBuf);
 
-  // Atomic JSON update of index.json
-  await atomicJsonUpdate<SnakeData>(DATA_PATH, (data) => {
-    const snake = data.snakes.find((s) => s.id === snakeId);
-    if (snake) {
-      if (!snake.images) snake.images = {};
-      if (!snake.images.gallery) snake.images.gallery = [];
-      if (!snake.images.galleryAttributions) snake.images.galleryAttributions = [];
-      snake.images.gallery.push(publicPath);
-      snake.images.galleryAttributions.push(entry.attribution);
-    }
-    return data;
-  });
+  if (!options.skipIndexUpdate) {
+    // Atomic JSON update of index.json
+    await atomicJsonUpdate<SnakeData>(DATA_PATH, (data) => {
+      const snake = data.snakes.find((s) => s.id === snakeId);
+      if (snake) {
+        if (!snake.images) throw new Error("Snake images not initialized — set primary first");
+        if (!snake.images.gallery) snake.images.gallery = [];
+        if (!snake.images.galleryAttributions) snake.images.galleryAttributions = [];
+        snake.images.gallery.push(publicPath);
+        snake.images.galleryAttributions.push(entry.attribution);
+      }
+      return data;
+    });
+  }
 
   console.log(`[add-to-gallery] ${snakeId}: added candidate ${candidateIndex} as gallery/${nextNum}.jpg`);
 
@@ -271,3 +304,131 @@ async function loadMetadata(snakeId: string): Promise<CandidateEntry[]> {
     throw new Error("No candidates found — search first");
   }
 }
+
+async function cleanupCandidates(snakeId: string): Promise<void> {
+  const dir = candidatesDir(snakeId);
+  try {
+    await fs.rm(dir, { recursive: true, force: true });
+    console.log(`[cleanup] ${snakeId}: removed candidates directory`);
+  } catch { /* already gone */ }
+}
+
+// ---------------------------------------------------------------------------
+// commitSelections — batch process selections, then clean up candidates
+// ---------------------------------------------------------------------------
+
+export interface Selection {
+  candidateIndex: number;
+  role: "primary" | "gallery";
+}
+
+export async function commitSelections(
+  snakeId: string,
+  selections: Selection[]
+): Promise<void> {
+  if (selections.length === 0) throw new Error("No selections provided");
+
+  const meta = await loadMetadata(snakeId);
+
+  // Validate all selections up front
+  for (const sel of selections) {
+    if (!meta.find((e) => e.index === sel.candidateIndex)) {
+      throw new Error(`Candidate ${sel.candidateIndex} not found`);
+    }
+  }
+
+  const primarySel = selections.find((s) => s.role === "primary");
+  const gallerySels = selections.filter((s) => s.role === "gallery");
+
+  // 1. Process primary if selected (skip index update for now)
+  let primaryAttribution: ImageAttribution | undefined;
+  if (primarySel) {
+    const result = await setPrimaryImage(snakeId, primarySel.candidateIndex, {
+      skipIndexUpdate: true,
+    });
+    primaryAttribution = result.attribution;
+  }
+
+  // 2. Process gallery images (skip index update for now)
+  let galleryResults: Array<{ path: string; attribution: ImageAttribution }> = [];
+  if (gallerySels.length > 0) {
+    // Determine starting gallery index to avoid race conditions and redundant reads
+    const galleryDir = join(snakeDir(snakeId), "gallery");
+    await fs.mkdir(galleryDir, { recursive: true });
+    const existing = await fs.readdir(galleryDir);
+    const numbers = existing
+      .filter((f) => /^\d+\.jpg$/.test(f))
+      .map((f) => parseInt(f, 10));
+    let nextNum = numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
+
+    // Process in parallel, assigning indexes upfront and maintaining order
+    galleryResults = await Promise.all(
+      gallerySels.map(async (sel, i) => {
+        const gIdx = nextNum + i;
+        const entry = meta.find((e) => e.index === sel.candidateIndex)!;
+        await addToGallery(snakeId, sel.candidateIndex, {
+          skipIndexUpdate: true,
+          galleryIndex: gIdx,
+        });
+        return {
+          path: `/images/snakes/${snakeId}/gallery/${gIdx}.jpg`,
+          attribution: entry.attribution,
+        };
+      })
+    );
+  }
+
+  // 3. Single atomic JSON update for everything
+  await atomicJsonUpdate<SnakeData>(DATA_PATH, (data) => {
+    const snake = data.snakes.find((s) => s.id === snakeId);
+    if (snake) {
+      // Initialize images if missing
+      if (!snake.images) {
+        if (primaryAttribution) {
+          snake.images = {
+            primary: `/images/snakes/${snakeId}/primary.jpg`,
+            thumbnail: `/images/snakes/${snakeId}/thumbnail.jpg`,
+            attribution: primaryAttribution,
+            gallery: [],
+            galleryAttributions: [],
+          };
+        } else if (galleryResults.length > 0) {
+          // This case is unlikely (adding gallery without primary), but let's be safe
+          // We need some primary/thumbnail even if it's not set here?
+          // For now, let's just initialize it with empty gallery
+          snake.images = {
+            primary: "", 
+            thumbnail: "",
+            attribution: { source: "", license: "" },
+            gallery: [],
+            galleryAttributions: [],
+          };
+        }
+      }
+
+      // Update primary if we have it
+      if (primaryAttribution && snake.images) {
+        snake.images.primary = `/images/snakes/${snakeId}/primary.jpg`;
+        snake.images.thumbnail = `/images/snakes/${snakeId}/thumbnail.jpg`;
+        snake.images.attribution = primaryAttribution;
+      }
+
+      // Add gallery images
+      if (galleryResults.length > 0 && snake.images) {
+        if (!snake.images.gallery) snake.images.gallery = [];
+        if (!snake.images.galleryAttributions) snake.images.galleryAttributions = [];
+        
+        for (const res of galleryResults) {
+          snake.images.gallery.push(res.path);
+          snake.images.galleryAttributions.push(res.attribution);
+        }
+      }
+    }
+    return data;
+  });
+
+  // 4. Clean up entire candidates directory
+  await cleanupCandidates(snakeId);
+  console.log(`[commit] ${snakeId}: committed ${selections.length} selections, candidates cleaned up`);
+}
+

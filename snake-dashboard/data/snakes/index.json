@@ -3185,11 +3185,11 @@
         "primary": "/images/snakes/mulga-snake/primary.jpg",
         "thumbnail": "/images/snakes/mulga-snake/thumbnail.jpg",
         "attribution": {
-          "photographer": "Calistemon",
+          "photographer": "Max Tibby",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Juvenile_King_brown_snake_(Pseudechis_australis)_at_Molah_Hill_Lookout,_September_2023_02.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pseudechis_australis_245207348.jpg",
+          "license": "CC0",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
         }
       },
       "sources": [
