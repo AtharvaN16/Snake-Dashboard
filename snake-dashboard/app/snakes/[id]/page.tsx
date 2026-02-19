@@ -443,6 +443,7 @@ export default async function SnakeDetailPage({
                     <DangerScoreSegmentedBar
                       dangerScore={snake.dangerScore}
                       components={snake.dangerScoreComponents}
+                      venomClassification={snake.venomClassification}
                     />
                   ) : (
                     <div>

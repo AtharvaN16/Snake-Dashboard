@@ -105,17 +105,78 @@ export function calculateClinicalScore(clinical: ClinicalData): number {
 }
 
 /**
- * Composite danger score.
- * Weights: encounters 30%, potency 25%, yield 20%, clinical 15%, speed 10%.
+ * Fixed intrinsic weights for the multiplicative danger score model.
+ * These do NOT vary by classification — encounter is handled separately
+ * as a multiplier, eliminating the circular dependency of the old model.
+ *
+ * Rationale (compromise between lab precision and clinical relevance):
+ * - Potency & Clinical tied at 30%: LD50 is precise but lab-based;
+ *   CFR is real-world but imprecise. Equal weight acknowledges both.
+ * - Yield at 25%: delivery capacity matters but is partly captured
+ *   by clinical outcomes already.
+ * - Speed at 15%: affects treatment window but is a secondary factor.
  */
-export function calculateDangerScore(components: DangerScoreComponents): number {
-  const score =
-    components.encounterScore * 0.3 +
-    components.potencyScore * 0.25 +
-    components.yieldScore * 0.2 +
-    components.clinicalScore * 0.15 +
-    components.speedScore * 0.1;
+export const INTRINSIC_WEIGHTS = {
+  potencyScore: 0.30,
+  clinicalScore: 0.30,
+  yieldScore: 0.25,
+  speedScore: 0.15,
+} as const;
+
+/**
+ * Encounter base floor for the multiplicative model.
+ * A snake that is never encountered retains this fraction of its
+ * intrinsic score. At 0.6, encounter can swing the final score by
+ * up to ±40% — enough to matter for rankings but not enough to
+ * let a harmless, high-encounter snake outrank a deadly, rare one.
+ */
+export const ENCOUNTER_BASE = 0.6;
+
+/**
+ * Multiplicative composite danger score.
+ *
+ * Model: dangerScore = intrinsic × encounterModifier
+ *
+ * Where:
+ *   intrinsic = Σ (weight_i × score_i)  for potency, clinical, yield, speed
+ *   encounterModifier = ENCOUNTER_BASE + (1 - ENCOUNTER_BASE) × (encounterScore / 100)
+ *
+ * This eliminates the circular dependency of the old additive model where
+ * venomClassification determined encounter weight. Encounter now acts as
+ * a scaling modifier: it can amplify danger that already exists but cannot
+ * create it. A mildly venomous snake scores low regardless of encounter rate.
+ */
+export function calculateDangerScore(
+  components: DangerScoreComponents,
+): number {
+  const intrinsic =
+    components.potencyScore * INTRINSIC_WEIGHTS.potencyScore +
+    components.clinicalScore * INTRINSIC_WEIGHTS.clinicalScore +
+    components.yieldScore * INTRINSIC_WEIGHTS.yieldScore +
+    components.speedScore * INTRINSIC_WEIGHTS.speedScore;
+
+  const encounterModifier =
+    ENCOUNTER_BASE + (1 - ENCOUNTER_BASE) * (components.encounterScore / 100);
+
+  const score = intrinsic * encounterModifier;
   return Math.round(Math.max(0, Math.min(100, score)));
+}
+
+/**
+ * Returns the intrinsic weights used for the danger score.
+ * Encounter is not included here — it's a multiplicative modifier,
+ * not an additive segment.
+ */
+export function getIntrinsicWeights(): typeof INTRINSIC_WEIGHTS {
+  return INTRINSIC_WEIGHTS;
+}
+
+/**
+ * Computes the encounter modifier for a given encounter score.
+ * Returns a value in [ENCOUNTER_BASE, 1.0].
+ */
+export function getEncounterModifier(encounterScore: number): number {
+  return ENCOUNTER_BASE + (1 - ENCOUNTER_BASE) * (encounterScore / 100);
 }
 
 /**
@@ -152,11 +213,14 @@ const mildlyVenomousIds = new Set([
 export function computeDangerScoreForSnake(snake: Snake): Snake {
   const insufficientIds = new Set(["european-cat-snake", "asian-vine-snake"]);
   if (snake.dataQuality === "insufficient" || insufficientIds.has(snake.id)) {
+    const components: DangerScoreComponents = {
+      clinicalScore: 0, potencyScore: 0, yieldScore: 0, encounterScore: 20, speedScore: 0,
+    };
     return {
       ...snake,
-      dangerScore: 5,
+      dangerScore: calculateDangerScore(components),
       dangerRank: snake.dangerRank,
-      dangerScoreComponents: { clinicalScore: 0, potencyScore: 0, yieldScore: 0, encounterScore: 20, speedScore: 0 },
+      dangerScoreComponents: components,
       venomClassification: "Mildly Venomous",
       dataQuality: "insufficient",
     };
@@ -164,19 +228,18 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
 
   if (mildlyVenomousIds.has(snake.id)) {
     const encounterScore = calculateEncounterScore(snake.humanEncounterChance);
+    const components: DangerScoreComponents = {
+      clinicalScore: 0,
+      potencyScore: 5,
+      yieldScore: 5,
+      encounterScore,
+      speedScore: 20,
+    };
     return {
       ...snake,
-      dangerScore: Math.round(
-        encounterScore * 0.3 + 5 * 0.25 + 5 * 0.2 + 0 * 0.15 + 20 * 0.1
-      ),
+      dangerScore: calculateDangerScore(components),
       dangerRank: snake.dangerRank,
-      dangerScoreComponents: {
-        clinicalScore: 0,
-        potencyScore: 5,
-        yieldScore: 5,
-        encounterScore,
-        speedScore: 20,
-      },
+      dangerScoreComponents: components,
       venomClassification: "Mildly Venomous",
     };
   }
@@ -234,8 +297,8 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     encounterScore,
     speedScore,
   };
-  const dangerScore = calculateDangerScore(components);
   const venomClassification = deriveVenomClassification(components);
+  const dangerScore = calculateDangerScore(components);
 
   return {
     ...snake,

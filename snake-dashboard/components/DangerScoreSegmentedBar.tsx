@@ -1,64 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { getIntrinsicWeights, getEncounterModifier } from "@/lib/dangerScore";
 import type { DangerScoreComponents } from "@/lib/types";
 
 interface Segment {
-  key: keyof DangerScoreComponents;
+  key: keyof typeof INTRINSIC_SEGMENTS_MAP;
   label: string;
   shortLabel: string;
-  weight: number;
   color: string;
   hoverColor: string;
 }
 
-// Segments ordered from highest to lowest weight; colors follow same order (strongest → lightest)
+const INTRINSIC_SEGMENTS_MAP = {
+  potencyScore: true,
+  clinicalScore: true,
+  yieldScore: true,
+  speedScore: true,
+} as const;
+
+// Segments ordered by weight (potency/clinical tied → yield → speed)
 const SEGMENTS: Segment[] = [
-  {
-    key: "encounterScore",
-    label: "Human Encounters",
-    shortLabel: "Encounters",
-    weight: 0.3,
-    color: "bg-rose-600",
-    hoverColor: "bg-rose-500",
-  },
-  {
-    key: "potencyScore",
-    label: "Venom Potency",
-    shortLabel: "Potency",
-    weight: 0.25,
-    color: "bg-red-500",
-    hoverColor: "bg-red-400",
-  },
-  {
-    key: "yieldScore",
-    label: "Venom Yield",
-    shortLabel: "Yield",
-    weight: 0.2,
-    color: "bg-orange-500",
-    hoverColor: "bg-orange-400",
-  },
-  {
-    key: "clinicalScore",
-    label: "Clinical Severity",
-    shortLabel: "Clinical",
-    weight: 0.15,
-    color: "bg-amber-500",
-    hoverColor: "bg-amber-400",
-  },
-  {
-    key: "speedScore",
-    label: "Venom Speed",
-    shortLabel: "Speed",
-    weight: 0.1,
-    color: "bg-yellow-500",
-    hoverColor: "bg-yellow-400",
-  },
+  { key: "potencyScore", label: "Venom Potency", shortLabel: "Potency", color: "bg-red-500", hoverColor: "bg-red-400" },
+  { key: "clinicalScore", label: "Clinical Severity", shortLabel: "Clinical", color: "bg-amber-500", hoverColor: "bg-amber-400" },
+  { key: "yieldScore", label: "Venom Yield", shortLabel: "Yield", color: "bg-orange-500", hoverColor: "bg-orange-400" },
+  { key: "speedScore", label: "Venom Speed", shortLabel: "Speed", color: "bg-yellow-500", hoverColor: "bg-yellow-400" },
 ];
 
 interface DangerScoreSegmentedBarProps {
   dangerScore: number;
   components: DangerScoreComponents;
+  venomClassification?: string;
 }
 
 export function DangerScoreSegmentedBar({
@@ -67,11 +39,20 @@ export function DangerScoreSegmentedBar({
 }: DangerScoreSegmentedBarProps) {
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
 
-  const segmentData = SEGMENTS.map((seg) => {
-    const rawScore = components[seg.key];
-    const contribution = rawScore * seg.weight;
-    return { ...seg, rawScore, contribution };
-  });
+  const weights = getIntrinsicWeights();
+  const encounterModifier = getEncounterModifier(components.encounterScore);
+
+  const segmentData = useMemo(() => {
+    return SEGMENTS.map((seg) => {
+      const rawScore = components[seg.key];
+      const weight = weights[seg.key];
+      const contribution = rawScore * weight;
+      return { ...seg, rawScore, weight, contribution };
+    });
+  }, [components, weights]);
+
+  // Total intrinsic score (before encounter modifier)
+  const intrinsicTotal = segmentData.reduce((sum, s) => sum + s.contribution, 0);
 
   const hoveredSegment = hoveredKey
     ? segmentData.find((s) => s.key === hoveredKey)
@@ -88,7 +69,7 @@ export function DangerScoreSegmentedBar({
         </span>
       </div>
 
-      {/* Segmented bar */}
+      {/* Segmented bar — shows intrinsic score components */}
       <div className="relative h-5 bg-stone-200 rounded-full overflow-hidden flex">
         {segmentData.map((seg) => {
           const widthPercent = seg.contribution;
@@ -114,10 +95,21 @@ export function DangerScoreSegmentedBar({
         })}
       </div>
 
+      {/* Encounter modifier indicator */}
+      <div className="flex items-center justify-between mt-1.5">
+        <span className="text-xs text-stone-400">
+          Intrinsic: {Math.round(intrinsicTotal)}
+        </span>
+        <span className="text-xs text-stone-500">
+          <span className="inline-block w-2 h-2 rounded-sm bg-rose-600 mr-1" />
+          Encounter modifier: ×{encounterModifier.toFixed(2)}
+        </span>
+      </div>
+
       {/* Hover detail card */}
       <div
         className={`
-          mt-3 rounded-lg border border-stone-200 bg-white px-3 py-2.5
+          mt-2 rounded-lg border border-stone-200 bg-white px-3 py-2.5
           transition-all duration-200
           ${hoveredSegment ? "opacity-100" : "opacity-0 pointer-events-none"}
         `}
