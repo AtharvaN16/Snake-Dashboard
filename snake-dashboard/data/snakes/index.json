@@ -797,6 +797,9 @@
       "id": "indian-cobra",
       "commonName": "Indian Cobra",
       "scientificName": "Naja naja",
+      "otherCommonNames": [
+        "Spectacled Cobra"
+      ],
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 61,
