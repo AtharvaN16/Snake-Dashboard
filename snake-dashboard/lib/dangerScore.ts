@@ -106,22 +106,22 @@ export function calculateClinicalScore(clinical: ClinicalData): number {
 
 /**
  * Composite danger score.
- * Weights: clinical 30%, potency 20%, yield 20%, encounters 20%, speed 10%.
+ * Weights: clinical 30%, potency 25%, yield 20%, encounters 15%, speed 10%.
  */
 export function calculateDangerScore(components: DangerScoreComponents): number {
   const score =
     components.clinicalScore * 0.3 +
-    components.potencyScore * 0.2 +
+    components.potencyScore * 0.25 +
     components.yieldScore * 0.2 +
-    components.encounterScore * 0.2 +
+    components.encounterScore * 0.15 +
     components.speedScore * 0.1;
   return Math.round(Math.max(0, Math.min(100, score)));
 }
 
 /**
  * Derive venom classification (the "venomous" tag) from venom potency and
- * yield only. Clinical data is not used here so the tag reflects the
- * venom itself (how potent and how much per bite), not outcome data.
+ * yield only. Potency is weighted more than yield so that very potent,
+ * low-yield snakes (e.g. Eastern Coral Snake) can be Highly Venomous.
  * Danger score and rankings still use the full formula including clinical
  * severity, encounter rate, and speed.
  */
@@ -129,7 +129,7 @@ export function deriveVenomClassification(
   components: DangerScoreComponents
 ): Snake["venomClassification"] {
   const venomScore =
-    components.potencyScore * 0.5 + components.yieldScore * 0.5;
+    components.potencyScore * 0.7 + components.yieldScore * 0.3;
   if (venomScore >= 50) return "Highly Venomous";
   if (venomScore >= 25) return "Moderately Venomous";
   if (venomScore >= 5) return "Mildly Venomous";
