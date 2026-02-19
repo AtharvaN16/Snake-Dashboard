@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { RefreshCw } from "lucide-react";
 
 export function ImageRefreshButton({ snakeId }: { snakeId: string }) {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,13 +21,14 @@ export function ImageRefreshButton({ snakeId }: { snakeId: string }) {
       if (!res.ok) {
         const data = await res.json();
         setError(data.error || "Failed to refresh image");
+        setLoading(false);
         return;
       }
 
-      router.refresh();
+      // Hard reload to bust browser image cache
+      window.location.reload();
     } catch {
       setError("Network error");
-    } finally {
       setLoading(false);
     }
   };
