@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-17",
+  "lastUpdated": "2026-02-19",
   "totalSnakes": 124,
   "snakes": [
     {
@@ -2490,7 +2490,7 @@
         "encounterScore": 40,
         "speedScore": 55
       },
-      "venomClassification": "Highly Venomous",
+      "venomClassification": "Moderately Venomous",
       "venomPotency": {
         "ld50": 0.09,
         "ld50Range": "0.08-0.1",
@@ -3386,7 +3386,7 @@
         "encounterScore": 40,
         "speedScore": 55
       },
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "venomPotency": {
         "ld50": 0.5,
         "ld50Range": "0.4-0.6",
@@ -3558,7 +3558,7 @@
         "Western United States"
       ],
       "dangerScore": 47,
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -3760,7 +3760,7 @@
         "North Africa"
       ],
       "dangerScore": 45,
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -3845,7 +3845,7 @@
         "encounterScore": 65,
         "speedScore": 55
       },
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "venomPotency": {
         "ld50": 2.5,
         "ld50Range": "2.0-3.0",
@@ -3937,7 +3937,7 @@
         "Indian Ocean"
       ],
       "dangerScore": 42,
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -4115,7 +4115,7 @@
         "encounterScore": 20,
         "speedScore": 55
       },
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "venomPotency": {
         "ld50": 3,
         "ld50Range": "2.5-4.0",
@@ -4204,7 +4204,7 @@
         "Midwest"
       ],
       "dangerScore": 41,
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -4321,7 +4321,7 @@
         "encounterScore": 40,
         "speedScore": 55
       },
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "venomPotency": {
         "ld50": 0.3,
         "ld50Range": "0.2-0.4",
@@ -4501,7 +4501,7 @@
         "encounterScore": 40,
         "speedScore": 20
       },
-      "venomClassification": "Moderately Venomous",
+      "venomClassification": "Highly Venomous",
       "venomPotency": {
         "ld50": 4,
         "ld50Range": "2.5-5.5",
@@ -5457,7 +5457,7 @@
         "encounterScore": 65,
         "speedScore": 20
       },
-      "venomClassification": "Mildly Venomous",
+      "venomClassification": "Moderately Venomous",
       "venomPotency": {
         "ld50": 10,
         "ld50Range": "5-15",
@@ -5546,7 +5546,7 @@
         "encounterScore": 20,
         "speedScore": 20
       },
-      "venomClassification": "Mildly Venomous",
+      "venomClassification": "Moderately Venomous",
       "venomPotency": {
         "ld50": 8,
         "ld50Range": "5-12",
@@ -5728,93 +5728,6 @@
       }
     },
     {
-      "id": "green-vine-snake",
-      "commonName": "Green Vine Snake",
-      "scientificName": "Ahaetulla nasuta",
-      "family": "Colubridae",
-      "genus": "Ahaetulla",
-      "dangerScore": 12,
-      "dangerRank": "62/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 0,
-        "potencyScore": 0,
-        "yieldScore": 11,
-        "encounterScore": 40,
-        "speedScore": 20
-      },
-      "venomClassification": "Non-venomous",
-      "venomPotency": {
-        "ld50": 300,
-        "ld50Range": "200-400",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 900,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 2,
-        "qualitative": "Very Low"
-      },
-      "venomTypes": [
-        "Mild"
-      ],
-      "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Mild local reaction"
-        ],
-        "progressive": [
-          "None"
-        ],
-        "critical": [
-          "Harmless"
-        ]
-      },
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "South Asia",
-          "Southeast Asia"
-        ],
-        "habitat": "Forests, gardens, shrubs",
-        "coordinates": [
-          {
-            "lat": 15,
-            "lng": 78
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/green-vine-snake/primary.jpg",
-        "thumbnail": "/images/snakes/green-vine-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Ltshears",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:American_vine_snake_at_Louisville_Zoo.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "Rear-fanged. Mild venom. Elongated body for arboreal life.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 0,
-          "high": 0
-        },
-        "severity": "Mild"
-      }
-    },
-    {
       "id": "asian-vine-snake",
       "commonName": "Asian Vine Snake",
       "scientificName": "Ahaetulla prasina",
@@ -5834,7 +5747,7 @@
         "habitat": "Forest edges, gardens, shrubs"
       },
       "description": "Famous green arboreal snake; mild rear-fanged venom.",
-      "dangerRank": "63/124",
+      "dangerRank": "62/124",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -5912,7 +5825,7 @@
         "habitat": "Dry rocky habitats"
       },
       "description": "Mildly venomous rear-fanged species known in Mediterranean regions.",
-      "dangerRank": "64/124",
+      "dangerRank": "63/124",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -5968,6 +5881,86 @@
           "high": 0
         },
         "severity": "Negligible"
+      }
+    },
+    {
+      "id": "green-vine-snake",
+      "commonName": "Green Vine Snake",
+      "scientificName": "Ahaetulla nasuta",
+      "family": "Colubridae",
+      "genus": "Ahaetulla",
+      "dangerScore": 0,
+      "dangerRank": "64/124",
+      "venomClassification": "Non-venomous",
+      "venomPotency": {
+        "ld50": 300,
+        "ld50Range": "200-400",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 900,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 2,
+        "qualitative": "Very Low"
+      },
+      "venomTypes": [
+        "Mild"
+      ],
+      "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Mild local reaction"
+        ],
+        "progressive": [
+          "None"
+        ],
+        "critical": [
+          "Harmless"
+        ]
+      },
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "South Asia",
+          "Southeast Asia"
+        ],
+        "habitat": "Forests, gardens, shrubs",
+        "coordinates": [
+          {
+            "lat": 15,
+            "lng": 78
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/green-vine-snake/primary.jpg",
+        "thumbnail": "/images/snakes/green-vine-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Ltshears",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:American_vine_snake_at_Louisville_Zoo.jpg",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        }
+      },
+      "description": "Rear-fanged. Mild venom. Elongated body for arboreal life.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "Asia",
+      "subregions": [
+        "South Asia",
+        "Southeast Asia"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 0,
+          "high": 0
+        },
+        "severity": "Mild"
       }
     },
     {

@@ -119,17 +119,17 @@ export function calculateDangerScore(components: DangerScoreComponents): number 
 }
 
 /**
- * Derive venomClassification from venom-intrinsic factors only
- * (potency + yield + clinical severity). Excludes encounter rate and
- * speed because the classification describes the venom, not the risk.
+ * Derive venom classification (the "venomous" tag) from venom potency and
+ * yield only. Clinical data is not used here so the tag reflects the
+ * venom itself (how potent and how much per bite), not outcome data.
+ * Danger score and rankings still use the full formula including clinical
+ * severity, encounter rate, and speed.
  */
 export function deriveVenomClassification(
   components: DangerScoreComponents
 ): Snake["venomClassification"] {
   const venomScore =
-    components.clinicalScore * 0.40 +
-    components.potencyScore * 0.30 +
-    components.yieldScore * 0.30;
+    components.potencyScore * 0.5 + components.yieldScore * 0.5;
   if (venomScore >= 50) return "Highly Venomous";
   if (venomScore >= 25) return "Moderately Venomous";
   if (venomScore >= 5) return "Mildly Venomous";

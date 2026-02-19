@@ -217,7 +217,7 @@ export default function RankPage() {
         <p className="text-stone-600 text-lg">
           {viewMode === "danger"
             ? "Most dangerous to least dangerous, sorted by danger score"
-            : "Most potent to least potent, sorted by LD₅₀ (lower = more potent)"}
+            : "Venom toxicity drop by drop — ranked by LD₅₀ (lower mg/kg = more toxic per dose)"}
         </p>
       </div>
 
