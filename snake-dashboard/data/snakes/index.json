@@ -1,6 +1,6 @@
 {
   "lastUpdated": "2026-02-19",
-  "totalSnakes": 124,
+  "totalSnakes": 125,
   "snakes": [
     {
       "id": "russells-viper",
@@ -9984,6 +9984,76 @@
       "subregions": [
         "South America"
       ]
+    },
+    {
+      "id": "stiletto-snake",
+      "commonName": "Stiletto Snake",
+      "scientificName": "Atractaspis bibronii",
+      "otherCommonNames": ["Bibron's Stiletto Snake", "Side-stabbing Snake", "Burrowing Asp"],
+      "family": "Atractaspididae",
+      "genus": "Atractaspis",
+      "dangerScore": 38,
+      "dangerRank": "65/125",
+      "dangerScoreComponents": {
+        "clinicalScore": 50,
+        "potencyScore": 35,
+        "yieldScore": 25,
+        "lethalityScore": 30,
+        "encounterScore": 45,
+        "speedScore": 55
+      },
+      "venomClassification": "Venomous",
+      "venomPotency": {
+        "ld50": 0.46,
+        "ld50Range": "0.3-0.6",
+        "unit": "mg/kg",
+        "method": "SC"
+      },
+      "venomYield": {
+        "dryWeight": 8,
+        "qualitative": "Low"
+      },
+      "venomTypes": ["Cytotoxic"],
+      "venomSpeed": "Quick",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": ["Sub-Saharan Africa", "Southern Africa", "East Africa"],
+        "habitat": "Savanna, grassland, sandy soils, suburban gardens; fossorial (burrowing) lifestyle",
+        "coordinates": [
+          { "lat": -26, "lng": 28 },
+          { "lat": -1, "lng": 37 }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/stiletto-snake/primary.jpg",
+        "thumbnail": "/images/snakes/stiletto-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "John Lyakurwa",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atractaspis_bibronii.jpg",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+        }
+      },
+      "description": "Unique among snakes for its ability to strike sideways without opening its mouth, using a single elongated fang that protrudes from the corner of its closed mouth. This makes it impossible to safely hold behind the head like other snakes. Burrowing lifestyle means bites often occur when accidentally unearthed during gardening or construction.",
+      "behaviorNotes": "Nocturnal and fossorial. Cannot be safely handled by conventional methods — the sideways-striking fang can envenomate even when gripped behind the head. Prefers to flee but will strike repeatedly if restrained.",
+      "clinicalData": {
+        "untreatedFatalityRate": { "low": 0, "high": 3 },
+        "severity": "Moderate"
+      },
+      "symptoms": {
+        "localEffects": ["Pain", "Swelling", "Necrosis", "Tissue Damage"],
+        "blood": ["N/A"],
+        "neurological": ["N/A"],
+        "muscle": ["N/A"],
+        "gastrointestinal": ["Nausea"]
+      },
+      "causesOfDeath": ["Secondary Infection", "Anaphylaxis"],
+      "firstAidInfo": "No specific antivenom widely available. Treat symptomatically — clean wound, manage pain, monitor for tissue necrosis. Surgical debridement may be required for severe necrosis. Seek medical attention promptly.",
+      "sources": ["WHO", "Reptile Database", "Wikipedia", "African Snakebite Institute"],
+      "continent": "Africa",
+      "subregions": ["Southern Africa", "East Africa"],
+      "dataQuality": "measured"
     }
   ]
 }

@@ -29,6 +29,7 @@ const CLADE_CAENOPHIDIA = "Caenophidia";
 const FAMILY_TO_CLADE: Record<string, string> = {
   Boidae: CLADE_HENOPHIDIA,
   Pythonidae: CLADE_HENOPHIDIA,
+  Atractaspididae: CLADE_CAENOPHIDIA,
   Colubridae: CLADE_CAENOPHIDIA,
   Elapidae: CLADE_CAENOPHIDIA,
   Viperidae: CLADE_CAENOPHIDIA,

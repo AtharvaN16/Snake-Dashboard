@@ -9,7 +9,7 @@ import {
   RADIUS,
   BLOOM_BASE_DELAY,
   BLOOM_DURATION,
-  FAMILY_PALETTE,
+  familyColor,
   RANK_COLORS,
 } from "./treeConstants";
 import { radialPoint, starburstPath, hexagonPath, roundedSquarePath, diamondPath } from "./treeGeometry";
@@ -68,18 +68,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     }
   };
 
-  const { hierarchy, colorScale } = useMemo(() => {
-    const h = d3.hierarchy(rootData);
-    const families = new Set<string>();
-    h.each((n) => {
-      if (n.data.rank === "family") families.add(n.data.name);
-    });
-    const cs = d3
-      .scaleOrdinal<string>()
-      .domain([...families].sort())
-      .range(FAMILY_PALETTE);
-    return { hierarchy: h, colorScale: cs };
-  }, [rootData]);
+  const hierarchy = useMemo(() => d3.hierarchy(rootData), [rootData]);
 
   const isSpecies = (d: d3.HierarchyNode<HierarchyNode>) => d.data.rank === "species";
 
@@ -99,8 +88,8 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       return null;
     }
     const f = familyOf(n);
-    return f ? colorScale(f) : "#94a3b8";
-  }, [colorMode, colorScale, snakeMap]);
+    return f ? familyColor(f) : "#94a3b8";
+  }, [colorMode, snakeMap]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -333,7 +322,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       clearTimeout(bloomTimer);
       interactions.cleanup();
     };
-  }, [hierarchy, colorScale, currentSnakeId, router]);
+  }, [hierarchy, currentSnakeId, router]);
 
   // Effect to update colors when colorMode changes (skip initial mount to avoid killing bloom)
   useEffect(() => {
