@@ -87,29 +87,11 @@ The original weights were: potency (25%) > yield (20%) > clinical (15%) > speed 
 
 A snake researcher would weight clinical severity highest.
 
-### The Compromise
+### The Precision vs. Importance Tension
 
-We initially proposed:
+We initially proposed clinical at 40%, but this puts the most weight on the least precise data. CFR ranges are broad estimates ("10–20%", "15–30%") — these overlap and come from heterogeneous sources with different treatment access, reporting standards, and sample sizes. LD₅₀, by contrast, is a precise lab measurement.
 
-| Factor | Original | Researcher-Informed |
-|---|---|---|
-| Clinical severity | 15% (3rd) | 40% (1st) |
-| Potency (LD₅₀) | 25% (1st) | 25% (2nd) |
-| Yield | 20% (2nd) | 20% (3rd) |
-| Speed | 10% (4th) | 15% (4th) |
-
-But weighting clinical at 40% puts the most weight on the least precise data. CFR ranges are broad estimates ("10–20%", "15–30%") — these overlap and come from heterogeneous sources with different treatment access, reporting standards, and sample sizes. LD₅₀, by contrast, is a precise lab measurement.
-
-**The compromise**: clinical and potency both at 30%. Equal footing. This acknowledges that clinical data is the right signal to follow but that its imprecision warrants tempering with precise lab data.
-
-Final intrinsic weights:
-
-| Factor | Weight | Rationale |
-|---|---|---|
-| Potency | 30% | Precise lab measurement of intrinsic toxicity |
-| Clinical | 30% | Real-world outcome data (the ground truth, but imprecise) |
-| Yield | 25% | Delivery capacity — partly captured by clinical already |
-| Speed | 15% | Treatment window — important but secondary |
+This led to a key insight: precision and importance are different axes. Clinical data is the most important signal but the least precise measurement. We needed a way to respect both.
 
 ## Version 2: The Multiplicative Model
 
@@ -121,53 +103,76 @@ encounterModifier = 0.6 + 0.4 × (encounterScore / 100)
 dangerScore = intrinsicScore × encounterModifier
 ```
 
-### Why This Works
+This eliminated the circular dependency and discontinuities — encounter amplifies danger but cannot create it.
 
-**Encounter can amplify danger but cannot create it.** A mildly venomous snake with a high encounter rate: low intrinsic (say 8) × high modifier (0.94) = 7.5. A deadly snake with a low encounter rate: high intrinsic (say 75) × low modifier (0.68) = 51. The math naturally prevents the Brown Tree Snake problem without any classification-based branching.
+But when we audited the rankings, a new problem emerged.
 
-**The base floor (0.6) is the key parameter.** It means a snake that is never encountered still retains 60% of its intrinsic score. A snake encountered very frequently gets up to 100% of its intrinsic score. The encounter modifier swings the score by up to ±40% — enough to differentiate within a tier but not enough to cause cross-tier ranking inversions.
+### The Interaction Problem: Potency and Yield Are Not Independent
 
-**No circularity.** The weights are fixed constants. The classification is still derived from potency and yield for display purposes but no longer affects the danger score calculation.
+Scoring potency and yield separately ignores that real-world lethality is their interaction. What determines whether a bite can kill is **lethal doses per bite**:
 
-**No discontinuities.** The encounter modifier is a continuous, linear function of encounter score. Small changes in inputs produce small changes in output. No classification boundaries, no step functions.
+```
+lethalDoses = yield_mg / (LD50_SC × bodyWeight_kg)
+```
 
-## Results
+Consider these two snakes:
 
-Key ranking changes (old → new):
-
-| Snake | Old Score | New Score | Why |
+| Snake | LD₅₀ (SC) | Yield | Lethal Doses (70kg human) |
 |---|---|---|---|
-| Black Mamba | 66 (11th) | 61 (7th) | 90–100% CFR now properly weighted |
-| Inland Taipan | 66 (10th) | 59 (9th) | Lowest LD₅₀ + 80–100% CFR keeps it high despite low encounter |
-| Eastern Coral Snake | — | 27 | Properly above Brown Tree Snake (19) |
-| Brown Tree Snake | — | 19 | High encounter can't compensate for near-zero lethality |
-| Fer-de-Lance | 68 (8th) | 56 (12th) | Lower CFR (7–15%) now pulls it down appropriately |
+| Eastern Brown Snake | 0.037 | 5mg | **1.9** |
+| Fer-de-Lance | 8.4 | 250mg | **0.43** |
 
-The rankings now better reflect what a toxicologist would expect: clinical outcomes and venom potency drive the score, encounter modulates it, and no mathematical tricks are needed to prevent absurd rankings.
+The Eastern Brown delivers nearly 2 lethal doses per bite. The Fer-de-Lance can't reliably deliver even one. Yet in v2, the Fer-de-Lance's massive yield score (250mg) pushed it above the Eastern Brown in rankings. Scoring the factors independently meant a snake could score high on yield alone even when the combination of potency and yield means it can't kill you.
 
-## Known Limitations & Future Directions
+## Version 3: The Lethality Model (Current)
 
-### Potency and Yield Are Scored Independently
+We replaced the separate potency and yield weights with a single **lethality score** — lethal doses per bite, log-scaled:
 
-The current model treats potency and yield as separate components, but real-world lethality is their interaction. What actually matters is **lethal doses per bite**: `yield_mg / (LD50_SC × bodyWeight_kg)`.
+```
+lethalityScore = log-scaled(yield_mg / (LD50_SC × 70kg))
+                 bounds: [0.01, 30] lethal doses → [0, 100] score
+```
 
-Consider: the Eastern Brown Snake (LD₅₀ 0.037 SC, 5mg yield) delivers ~1.9 lethal doses per bite to a 70kg human. The Fer-de-Lance (LD₅₀ 8.4 SC, 250mg yield) delivers ~0.43 — it can't reliably kill with one bite. Yet the Fer-de-Lance's high yield score gives it a higher ranking (#12 vs #14).
+This reduces the intrinsic model from four components to three:
 
-A future version could replace potency + yield with a single "lethality" component based on lethal doses per bite (log-scaled). This would better capture the interaction but would reduce the model to three intrinsic components, losing the ability to display potency and yield separately in the UI.
+```
+intrinsic = 0.45 × lethality + 0.35 × clinical + 0.20 × speed
+encounterModifier = 0.6 + 0.4 × (encounterScore / 100)
+dangerScore = intrinsic × encounterModifier
+```
 
-### Venom Classification Doesn't Reflect Clinical Reality
+### Why These Weights
 
-The `venomClassification` label ("Highly Venomous", "Venomous", etc.) is derived solely from potency and yield scores. This creates a disconnect: the Common European Adder is classified as "Highly Venomous" (potent venom, decent LD₅₀) despite a 0–1% untreated fatality rate.
+- **Lethality at 45%**: This replaces what was 55% combined (potency 30% + yield 25%) but better captures the interaction. It answers the fundamental question: "can one bite kill you?"
+- **Clinical at 35%**: Elevated from 30%. CFR is the ground truth — it validates whether the lethality score's theoretical danger translates to real-world deaths. Clinical and lethality together (80%) dominate the score, as they should.
+- **Speed at 20%**: Elevated from 15%. With fewer components, each needs more weight to be meaningful. Speed determines whether you have time to reach a hospital.
 
-Users interpret "Highly Venomous" as "this snake will kill you," but the label actually means "this venom is biochemically potent." Options for future improvement:
+### The Clinical Gate
 
-1. **Clinical gate**: Cap classification at "Venomous" if CFR midpoint < 5%, regardless of potency/yield. Simple, prevents the most misleading labels.
-2. **Rename the axis**: Use "Highly Toxic" (biochemical potency) vs. "Highly Dangerous" (real-world risk) — these are different claims.
-3. **Include clinical severity in classification**: Weight CFR into the venomScore derivation.
+We also fixed a classification problem. The venom classification label ("Highly Venomous", etc.) was derived from potency and yield only. This led to misleading labels — the Common European Adder was classified "Highly Venomous" despite a 0–1% CFR.
 
-### Score Compression in the Mid-Range
+The fix: a **clinical gate** that caps classification at "Venomous" if the untreated CFR midpoint is below 5%. The venom may be biochemically potent, but if the snake almost never kills, "Highly Venomous" is misleading to users.
 
-The multiplicative model compresses scores compared to the old additive one. Ranks 20–40 span only DS 49–33 (16 points for 20 snakes). This is honest — these snakes genuinely are similar in danger level — but it means small data imprecisions can swap adjacent rankings. This is acceptable for a reference tool but would be problematic if precise ordinal ranking were critical.
+## Final Results
+
+Top 15 rankings with the lethality model:
+
+| Rank | Snake | Score | Lethal Doses | CFR | Key Factor |
+|---|---|---|---|---|---|
+| 1 | Russell's Viper | 70 | 4.8 | 30–70% | High lethality + very high encounter + WHO Cat 1 |
+| 2 | Coastal Taipan | 70 | 7.1 | 60–80% | Extreme lethality + extremely fast venom |
+| 3 | Philippine Cobra | 69 | 3.1 | 50–70% | High clinical + fast venom + high encounter |
+| 4 | Tiger Snake | 66 | 3.3 | 40–60% | Strong across all factors |
+| 5 | Puff Adder | 65 | 4.2 | 10–20% | Massive yield + very high encounter + fast venom |
+| 6 | Inland Taipan | 65 | **25.1** | 80–100% | Most lethal venom on Earth, limited by low encounter |
+| 7 | Black Mamba | 63 | 1.8 | **90–100%** | Highest CFR, boosted by clinical weight |
+| 8 | Indian Cobra | 61 | 2.8 | 20–40% | Very high encounter in densely populated regions |
+
+Key improvements over v2:
+- **Inland Taipan** rose from #9 to #6 — its 25 lethal doses per bite are now properly captured
+- **Eastern Brown** (#14) now above **Fer-de-Lance** (#16) — 1.9 lethal doses > 0.43
+- **Brown Tree Snake** (DS=6) far below **Eastern Coral Snake** (DS=20) — original problem fully solved
+- **Common European Adder** reclassified from "Highly Venomous" to "Venomous" — clinical gate prevents misleading labels
 
 ## What We Learned
 
@@ -175,24 +180,34 @@ The multiplicative model compresses scores compared to the old additive one. Ran
 
 2. **Step functions in scoring systems create ranking instability.** Continuous functions handle edge cases gracefully. If you need categorical behavior, use a sigmoid — not if/else thresholds.
 
-3. **Weight the outcome, not the predictor.** Clinical severity (CFR) is the actual measure of danger. Lab measurements (LD₅₀) are predictors. The original model weighted predictors more than outcomes.
+3. **Score interacting factors together, not independently.** Potency and yield are not independent predictors of danger — they interact multiplicatively (lethal doses = yield / lethal dose). Scoring them separately allows one to compensate for the other, producing misleading results.
 
-4. **Precision ≠ importance.** LD₅₀ is more precise than CFR ranges, but precision doesn't determine how much weight a factor deserves. The compromise — equal weight for both — acknowledges this tension.
+4. **Weight the outcome, not the predictor.** Clinical severity (CFR) is the actual measure of danger. Lab measurements (LD₅₀) are predictors. The original model weighted predictors more than outcomes.
 
-5. **Multiplicative models are naturally self-correcting.** Multiplication by zero (or near-zero intrinsic score) eliminates the influence of the modifier. No special cases needed for "Mildly Venomous" or "Non-venomous" — the math handles it.
+5. **Precision ≠ importance.** LD₅₀ is more precise than CFR ranges, but precision doesn't determine how much weight a factor deserves. The lethality metric (which uses LD₅₀) gets the highest weight (45%) partly because it's more precise and partly because it answers the most important question directly.
+
+6. **Labels should match user expectations.** "Highly Venomous" means "this will kill you" to most people, not "this venom is biochemically potent." A clinical gate ensures the label reflects real-world danger, not just lab toxicology.
+
+7. **Multiplicative models are naturally self-correcting.** Multiplication by zero (or near-zero intrinsic score) eliminates the influence of the modifier. No special cases needed for mildly venomous or non-venomous species.
 
 ## Formula Reference
 
 ```
 // Individual component scores (each 0–100)
-potencyScore   = log-scaled inverse of SC-normalized LD₅₀
-clinicalScore  = sqrt-scaled midpoint CFR + WHO Category 1 bonus
-yieldScore     = log-scaled dry venom weight (mg)
+lethalityScore = log-scaled lethal doses per bite for 70kg human
+                 = log-scaled(yield_mg / (LD50_SC × 70))
+                 bounds: [0.01, 30] → [0, 100]
+clinicalScore  = sqrt-scaled midpoint CFR + WHO Category 1 bonus (+10)
 speedScore     = qualitative mapping (Extremely quick → 90, Quick → 55, Slow → 20)
 encounterScore = qualitative mapping (Low → 20, Moderate → 40, High → 65, Very High → 85)
 
 // Composite score
-intrinsic = 0.30 × potencyScore + 0.30 × clinicalScore + 0.25 × yieldScore + 0.15 × speedScore
+intrinsic = 0.45 × lethalityScore + 0.35 × clinicalScore + 0.20 × speedScore
 modifier  = 0.60 + 0.40 × (encounterScore / 100)
 dangerScore = round(intrinsic × modifier)    // clamped to [0, 100]
+
+// Venom classification (for display labels)
+venomScore = 0.70 × potencyScore + 0.30 × yieldScore
+classification = threshold-based (≥50 Highly Venomous, ≥35 Venomous, ≥12 Moderately, ≥5 Mildly)
+clinicalGate: if "Highly Venomous" but CFR midpoint < 5%, downgrade to "Venomous"
 ```

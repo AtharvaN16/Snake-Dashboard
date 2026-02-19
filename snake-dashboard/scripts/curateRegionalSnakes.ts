@@ -53,7 +53,10 @@ function baseVenomous(
     dangerScoreComponents: {
       potencyScore: 70,
       yieldScore: 60,
+      lethalityScore: 65,
+      clinicalScore: 50,
       encounterScore: 55,
+      speedScore: 50,
     },
     venomPotency: { ld50: 1, ld50Range: "Varies", unit: "mg/kg", method: "IV" },
     venomYield: { qualitative: "Moderate" },

@@ -76,9 +76,10 @@ function createSkeleton(c: Candidate, classification: string): object {
     dangerScoreComponents: {
       potencyScore: 50,
       yieldScore: 50,
-      aggressionScore: 50,
+      lethalityScore: 50,
+      clinicalScore: 50,
       encounterScore: 50,
-      medicalScore: 50,
+      speedScore: 50,
     },
     venomPotency: { ld50: 1, ld50Range: "TBD", unit: "mg/kg", method: "IV" as const },
     venomYield: { qualitative: "Moderate" as const },

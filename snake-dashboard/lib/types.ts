@@ -31,6 +31,8 @@ export interface DangerScoreComponents {
   clinicalScore: number;
   potencyScore: number;
   yieldScore: number;
+  /** Combined lethality: lethal doses per bite (log-scaled). Used in danger score formula. */
+  lethalityScore: number;
   encounterScore: number;
   speedScore: number;
 }

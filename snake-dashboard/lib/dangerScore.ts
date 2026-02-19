@@ -8,6 +8,11 @@ const MAX_LD50 = 300;
 const MIN_YIELD = 1;
 const MAX_YIELD = 600;
 
+// Bounds for lethal-doses-per-bite (log scale)
+const MIN_LETHAL_DOSES = 0.01;
+const MAX_LETHAL_DOSES = 30;
+const HUMAN_BODY_WEIGHT_KG = 70;
+
 /** IV→SC ×3 (uniform, literature-supported); IP→SC ×2 */
 export function normalizeLD50ToSC(
   ld50: number,
@@ -27,6 +32,7 @@ export function normalizeLD50ToSC(
 /**
  * Potency score from SC-equivalent LD50 (log-scale).
  * Lower LD50 = more potent = higher score. Clamped [0, 100].
+ * Kept for venom classification derivation and display.
  */
 export function calculatePotencyScore(ld50Sc: number): number {
   const logMin = Math.log(MIN_LD50);
@@ -39,12 +45,33 @@ export function calculatePotencyScore(ld50Sc: number): number {
 
 /**
  * Yield score from dry weight (mg). Log-scale. Clamped [0, 100].
+ * Kept for venom classification derivation and display.
  */
 export function calculateYieldScore(dryWeightMg: number): number {
   const yieldClamped = Math.max(MIN_YIELD, Math.min(MAX_YIELD, dryWeightMg));
   const logMin = Math.log(MIN_YIELD);
   const logMax = Math.log(MAX_YIELD);
   const raw = 100 * (Math.log(yieldClamped) - logMin) / (logMax - logMin);
+  return Math.round(Math.max(0, Math.min(100, raw)));
+}
+
+/**
+ * Lethality score: lethal doses per bite for a 70kg human.
+ * Combines potency (LD50) and yield into a single interaction metric.
+ *
+ * lethalDoses = yield_mg / (LD50_SC_mg_per_kg × bodyWeight_kg)
+ *
+ * This captures the real-world question: "can this snake kill you in one bite?"
+ * Log-scaled because the range spans ~3 orders of magnitude.
+ * Inland Taipan ≈ 25 doses, Fer-de-Lance ≈ 0.4 doses.
+ */
+export function calculateLethalityScore(ld50Sc: number, yieldMg: number): number {
+  if (ld50Sc <= 0 || yieldMg <= 0) return 0;
+  const lethalDoses = yieldMg / (ld50Sc * HUMAN_BODY_WEIGHT_KG);
+  const clamped = Math.max(MIN_LETHAL_DOSES, Math.min(MAX_LETHAL_DOSES, lethalDoses));
+  const logMin = Math.log(MIN_LETHAL_DOSES);
+  const logMax = Math.log(MAX_LETHAL_DOSES);
+  const raw = 100 * (Math.log(clamped) - logMin) / (logMax - logMin);
   return Math.round(Math.max(0, Math.min(100, raw)));
 }
 
@@ -105,22 +132,21 @@ export function calculateClinicalScore(clinical: ClinicalData): number {
 }
 
 /**
- * Fixed intrinsic weights for the multiplicative danger score model.
- * These do NOT vary by classification — encounter is handled separately
- * as a multiplier, eliminating the circular dependency of the old model.
+ * Intrinsic weights for the multiplicative danger score model.
  *
- * Rationale (compromise between lab precision and clinical relevance):
- * - Potency & Clinical tied at 30%: LD50 is precise but lab-based;
- *   CFR is real-world but imprecise. Equal weight acknowledges both.
- * - Yield at 25%: delivery capacity matters but is partly captured
- *   by clinical outcomes already.
- * - Speed at 15%: affects treatment window but is a secondary factor.
+ * The danger score uses three intrinsic factors:
+ * - Lethality (45%): lethal doses per bite — combines potency and yield
+ *   into the toxicologically correct metric of "can this snake kill you?"
+ * - Clinical (35%): real-world outcome data (CFR + WHO importance).
+ *   The ground truth, but imprecise due to broad estimate ranges.
+ * - Speed (20%): treatment window — faster venom = less time to get help.
+ *
+ * Encounter is a multiplicative modifier, not an additive component.
  */
 export const INTRINSIC_WEIGHTS = {
-  potencyScore: 0.30,
-  clinicalScore: 0.30,
-  yieldScore: 0.25,
-  speedScore: 0.15,
+  lethalityScore: 0.45,
+  clinicalScore: 0.35,
+  speedScore: 0.20,
 } as const;
 
 /**
@@ -138,21 +164,18 @@ export const ENCOUNTER_BASE = 0.6;
  * Model: dangerScore = intrinsic × encounterModifier
  *
  * Where:
- *   intrinsic = Σ (weight_i × score_i)  for potency, clinical, yield, speed
+ *   intrinsic = 0.45×lethality + 0.35×clinical + 0.20×speed
  *   encounterModifier = ENCOUNTER_BASE + (1 - ENCOUNTER_BASE) × (encounterScore / 100)
  *
- * This eliminates the circular dependency of the old additive model where
- * venomClassification determined encounter weight. Encounter now acts as
- * a scaling modifier: it can amplify danger that already exists but cannot
- * create it. A mildly venomous snake scores low regardless of encounter rate.
+ * Encounter acts as a scaling modifier: it can amplify danger that
+ * already exists but cannot create it.
  */
 export function calculateDangerScore(
   components: DangerScoreComponents,
 ): number {
   const intrinsic =
-    components.potencyScore * INTRINSIC_WEIGHTS.potencyScore +
+    components.lethalityScore * INTRINSIC_WEIGHTS.lethalityScore +
     components.clinicalScore * INTRINSIC_WEIGHTS.clinicalScore +
-    components.yieldScore * INTRINSIC_WEIGHTS.yieldScore +
     components.speedScore * INTRINSIC_WEIGHTS.speedScore;
 
   const encounterModifier =
@@ -164,8 +187,7 @@ export function calculateDangerScore(
 
 /**
  * Returns the intrinsic weights used for the danger score.
- * Encounter is not included here — it's a multiplicative modifier,
- * not an additive segment.
+ * Encounter is not included here — it's a multiplicative modifier.
  */
 export function getIntrinsicWeights(): typeof INTRINSIC_WEIGHTS {
   return INTRINSIC_WEIGHTS;
@@ -180,22 +202,43 @@ export function getEncounterModifier(encounterScore: number): number {
 }
 
 /**
- * Derive venom classification (the "venomous" tag) from venom potency and
- * yield only. Potency is weighted more than yield so that very potent,
- * low-yield snakes (e.g. Eastern Coral Snake) can be Highly Venomous.
- * Danger score and rankings still use the full formula including clinical
- * severity, encounter rate, and speed.
+ * Derive venom classification from potency and yield scores.
+ * Potency is weighted more than yield so that very potent, low-yield
+ * snakes (e.g. Eastern Coral Snake) can be Highly Venomous.
  */
-export function deriveVenomClassification(
-  components: DangerScoreComponents
+function deriveBaseClassification(
+  potencyScore: number,
+  yieldScore: number
 ): Snake["venomClassification"] {
-  const venomScore =
-    components.potencyScore * 0.7 + components.yieldScore * 0.3;
+  const venomScore = potencyScore * 0.7 + yieldScore * 0.3;
   if (venomScore >= 50) return "Highly Venomous";
   if (venomScore >= 35) return "Venomous";
   if (venomScore >= 12) return "Moderately Venomous";
   if (venomScore >= 5) return "Mildly Venomous";
   return "Non-venomous";
+}
+
+/**
+ * Derive venom classification with clinical gate.
+ * Base classification uses potency + yield, then a clinical gate
+ * caps at "Venomous" if untreated CFR midpoint < 5%.
+ *
+ * This prevents misleading labels like "Highly Venomous" on snakes
+ * with potent venom but near-zero fatality rates (e.g. Common European Adder).
+ */
+export function deriveVenomClassification(
+  components: DangerScoreComponents,
+  clinicalData?: ClinicalData
+): Snake["venomClassification"] {
+  const base = deriveBaseClassification(components.potencyScore, components.yieldScore);
+
+  if (base === "Highly Venomous" && clinicalData) {
+    const midCfr =
+      (clinicalData.untreatedFatalityRate.low + clinicalData.untreatedFatalityRate.high) / 2;
+    if (midCfr < 5) return "Venomous";
+  }
+
+  return base;
 }
 
 /**
@@ -208,13 +251,15 @@ const mildlyVenomousIds = new Set([
   "garter-snake",
   "hognose-eastern",
   "southern-hognose",
+  "green-vine-snake",
 ]);
 
 export function computeDangerScoreForSnake(snake: Snake): Snake {
   const insufficientIds = new Set(["european-cat-snake", "asian-vine-snake"]);
   if (snake.dataQuality === "insufficient" || insufficientIds.has(snake.id)) {
     const components: DangerScoreComponents = {
-      clinicalScore: 0, potencyScore: 0, yieldScore: 0, encounterScore: 20, speedScore: 0,
+      clinicalScore: 0, potencyScore: 0, yieldScore: 0,
+      lethalityScore: 0, encounterScore: 20, speedScore: 0,
     };
     return {
       ...snake,
@@ -232,6 +277,7 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
       clinicalScore: 0,
       potencyScore: 5,
       yieldScore: 5,
+      lethalityScore: 5,
       encounterScore,
       speedScore: 20,
     };
@@ -285,6 +331,8 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     yieldScore = calculateYieldScore(yieldMg);
   }
 
+  const lethalityScore = calculateLethalityScore(ld50Sc, yieldMg);
+
   let clinicalScore = 0;
   if (snake.clinicalData) {
     clinicalScore = calculateClinicalScore(snake.clinicalData);
@@ -294,10 +342,11 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     clinicalScore,
     potencyScore,
     yieldScore,
+    lethalityScore,
     encounterScore,
     speedScore,
   };
-  const venomClassification = deriveVenomClassification(components);
+  const venomClassification = deriveVenomClassification(components, snake.clinicalData);
   const dangerScore = calculateDangerScore(components);
 
   return {

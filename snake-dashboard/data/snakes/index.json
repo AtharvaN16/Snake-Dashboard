@@ -8,12 +8,13 @@
       "scientificName": "Daboia russelii",
       "family": "Viperidae",
       "genus": "Daboia",
-      "dangerScore": 68,
+      "dangerScore": 70,
       "dangerRank": "1/124",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 71,
         "yieldScore": 76,
+        "lethalityScore": 77,
         "encounterScore": 85,
         "speedScore": 55
       },
@@ -102,208 +103,18 @@
       }
     },
     {
-      "id": "philippine-cobra",
-      "commonName": "Philippine Cobra",
-      "scientificName": "Naja philippinensis",
-      "family": "Elapidae",
-      "genus": "Naja",
-      "dangerScore": 67,
-      "dangerRank": "2/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 87,
-        "potencyScore": 70,
-        "yieldScore": 70,
-        "encounterScore": 65,
-        "speedScore": 90
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 0.14,
-        "ld50Range": "0.12-0.18",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 0.42000000000000004,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 90,
-        "wetVolume": 0.2,
-        "qualitative": "Moderate"
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Blurred vision",
-          "Drowsiness",
-          "Difficulty breathing"
-        ],
-        "progressive": [
-          "Paralysis"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death within 1 hour"
-        ]
-      },
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "Philippines"
-        ],
-        "habitat": "Lowland forests, agricultural areas",
-        "coordinates": [
-          {
-            "lat": 14,
-            "lng": 121
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/philippine-cobra/primary.jpg",
-        "thumbnail": "/images/snakes/philippine-cobra/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Video13",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Redevelopment_Manila_Zoo_26.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "description": "Can accurately spit venom up to 3 meters. Neurotoxic venom acts rapidly.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "Philippines"
-      ],
-      "commonlyMisidentifiedAs": [
-        "monocled-cobra"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 50,
-          "high": 70
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
-      "id": "puff-adder",
-      "commonName": "Puff Adder",
-      "scientificName": "Bitis arietans",
-      "family": "Viperidae",
-      "genus": "Bitis",
-      "dangerScore": 65,
-      "dangerRank": "3/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 49,
-        "potencyScore": 59,
-        "yieldScore": 92,
-        "encounterScore": 85,
-        "speedScore": 90
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 0.4,
-        "ld50Range": "0.3-0.6",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 1.2000000000000002,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 350,
-        "wetVolume": 0.9,
-        "qualitative": "High"
-      },
-      "venomTypes": [
-        "Hemotoxic",
-        "Cytotoxic"
-      ],
-      "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Blisters"
-        ],
-        "progressive": [
-          "Necrosis",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Shock",
-          "Death"
-        ]
-      },
-      "humanEncounterChance": "Very High",
-      "distribution": {
-        "regions": [
-          "Africa",
-          "Arabian Peninsula"
-        ],
-        "habitat": "Savannas, grasslands, suburbs",
-        "coordinates": [
-          {
-            "lat": -25,
-            "lng": 28
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/puff-adder/primary.jpg",
-        "thumbnail": "/images/snakes/puff-adder/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Julius Rückert",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bitis_arietans.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
-        }
-      },
-      "description": "Causes more snakebite fatalities in Africa than any other. Relies on camouflage.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Africa",
-      "subregions": [
-        "Africa",
-        "Arabian Peninsula"
-      ],
-      "commonlyMisidentifiedAs": [
-        "night-adder"
-      ],
-      "misidentificationRisk": "high",
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 10,
-          "high": 20
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
       "id": "coastal-taipan",
       "commonName": "Coastal Taipan",
       "scientificName": "Oxyuranus scutellatus",
       "family": "Elapidae",
       "genus": "Oxyuranus",
-      "dangerScore": 65,
-      "dangerRank": "4/124",
+      "dangerScore": 70,
+      "dangerRank": "2/124",
       "dangerScoreComponents": {
         "clinicalScore": 94,
         "potencyScore": 85,
         "yieldScore": 75,
+        "lethalityScore": 93,
         "encounterScore": 40,
         "speedScore": 90
       },
@@ -417,17 +228,112 @@
       }
     },
     {
+      "id": "philippine-cobra",
+      "commonName": "Philippine Cobra",
+      "scientificName": "Naja philippinensis",
+      "family": "Elapidae",
+      "genus": "Naja",
+      "dangerScore": 69,
+      "dangerRank": "3/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 87,
+        "potencyScore": 70,
+        "yieldScore": 70,
+        "lethalityScore": 71,
+        "encounterScore": 65,
+        "speedScore": 90
+      },
+      "venomClassification": "Highly Venomous",
+      "venomPotency": {
+        "ld50": 0.14,
+        "ld50Range": "0.12-0.18",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.42000000000000004,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 90,
+        "wetVolume": 0.2,
+        "qualitative": "Moderate"
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Blurred vision",
+          "Drowsiness",
+          "Difficulty breathing"
+        ],
+        "progressive": [
+          "Paralysis"
+        ],
+        "critical": [
+          "Respiratory failure",
+          "Death within 1 hour"
+        ]
+      },
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "Philippines"
+        ],
+        "habitat": "Lowland forests, agricultural areas",
+        "coordinates": [
+          {
+            "lat": 14,
+            "lng": 121
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/philippine-cobra/primary.jpg",
+        "thumbnail": "/images/snakes/philippine-cobra/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Video13",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Redevelopment_Manila_Zoo_26.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "Can accurately spit venom up to 3 meters. Neurotoxic venom acts rapidly.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "Asia",
+      "subregions": [
+        "Philippines"
+      ],
+      "commonlyMisidentifiedAs": [
+        "monocled-cobra"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 50,
+          "high": 70
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
       "id": "tiger-snake",
       "commonName": "Tiger Snake",
       "scientificName": "Notechis scutatus",
       "family": "Elapidae",
       "genus": "Notechis",
-      "dangerScore": 64,
-      "dangerRank": "5/124",
+      "dangerScore": 66,
+      "dangerRank": "4/124",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 91,
         "yieldScore": 56,
+        "lethalityScore": 84,
         "encounterScore": 65,
         "speedScore": 55
       },
@@ -515,280 +421,99 @@
       }
     },
     {
-      "id": "indian-cobra",
-      "commonName": "Indian Cobra",
-      "scientificName": "Naja naja",
-      "family": "Elapidae",
-      "genus": "Naja",
-      "dangerScore": 62,
-      "dangerRank": "6/124",
+      "id": "puff-adder",
+      "commonName": "Puff Adder",
+      "scientificName": "Bitis arietans",
+      "family": "Viperidae",
+      "genus": "Bitis",
+      "dangerScore": 65,
+      "dangerRank": "5/124",
       "dangerScoreComponents": {
-        "clinicalScore": 65,
-        "potencyScore": 62,
-        "yieldScore": 80,
+        "clinicalScore": 49,
+        "potencyScore": 59,
+        "yieldScore": 92,
+        "lethalityScore": 75,
         "encounterScore": 85,
-        "speedScore": 55
+        "speedScore": 90
       },
       "venomClassification": "Highly Venomous",
       "venomPotency": {
-        "ld50": 0.29,
-        "ld50Range": "0.2-0.4",
+        "ld50": 0.4,
+        "ld50Range": "0.3-0.6",
         "unit": "mg/kg",
         "method": "IV",
-        "ld50Normalized": 0.8699999999999999,
+        "ld50Normalized": 1.2000000000000002,
         "normalized": true
       },
       "venomYield": {
-        "dryWeight": 170,
-        "wetVolume": 0.4,
-        "qualitative": "Moderate"
+        "dryWeight": 350,
+        "wetVolume": 0.9,
+        "qualitative": "High"
       },
       "venomTypes": [
-        "Neurotoxic",
+        "Hemotoxic",
         "Cytotoxic"
       ],
-      "venomSpeed": "Quick",
+      "venomSpeed": "Extremely quick",
       "symptomsProgression": {
         "shortTerm": [
-          "Pain",
+          "Severe pain",
           "Swelling",
-          "Drowsiness"
+          "Blisters"
         ],
         "progressive": [
-          "Paralysis",
-          "Ptosis"
+          "Necrosis",
+          "Coagulopathy"
         ],
         "critical": [
-          "Respiratory failure"
+          "Shock",
+          "Death"
         ]
       },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
-          "South Asia"
+          "Africa",
+          "Arabian Peninsula"
         ],
-        "habitat": "Farmland, villages, forests",
+        "habitat": "Savannas, grasslands, suburbs",
         "coordinates": [
           {
-            "lat": 20,
-            "lng": 77
+            "lat": -25,
+            "lng": 28
           }
         ]
       },
       "images": {
-        "primary": "/images/snakes/indian-cobra/primary.jpg",
-        "thumbnail": "/images/snakes/indian-cobra/thumbnail.jpg",
+        "primary": "/images/snakes/puff-adder/primary.jpg",
+        "thumbnail": "/images/snakes/puff-adder/thumbnail.jpg",
         "attribution": {
-          "photographer": "Holger Krisp",
+          "photographer": "Julius Rückert",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja-naja-kobra-kopf.jpg",
-          "license": "CC BY 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bitis_arietans.jpg",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
         }
       },
-      "description": "Sacred in Hinduism. Spectacled marking on hood. Major cause of snakebites in India.",
+      "description": "Causes more snakebite fatalities in Africa than any other. Relies on camouflage.",
       "sources": [
         "WHO",
         "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "asian-rat-snake"
-      ],
-      "misidentificationRisk": "high",
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 20,
-          "high": 40
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
-      "id": "black-mamba",
-      "commonName": "Black Mamba",
-      "scientificName": "Dendroaspis polylepis",
-      "family": "Elapidae",
-      "genus": "Dendroaspis",
-      "dangerScore": 61,
-      "dangerRank": "7/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 100,
-        "potencyScore": 61,
-        "yieldScore": 75,
-        "encounterScore": 40,
-        "speedScore": 90
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 0.32,
-        "ld50Range": "0.25-0.39",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 0.96,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 120,
-        "wetVolume": 0.4,
-        "qualitative": "High"
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain at bite site",
-          "Tingling sensation",
-          "Dizziness",
-          "Difficulty breathing"
-        ],
-        "progressive": [
-          "Progressive paralysis",
-          "Severe respiratory distress",
-          "Cardiovascular collapse",
-          "Convulsions"
-        ],
-        "critical": [
-          "Complete respiratory failure",
-          "Cardiac arrest",
-          "Death within 20 minutes to 3 hours without treatment"
-        ]
-      },
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Sub-Saharan Africa"
-        ],
-        "habitat": "Savannas, rocky hills, and open woodlands",
-        "coordinates": [
-          {
-            "lat": -15,
-            "lng": 30
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/black-mamba/primary.jpg",
-        "thumbnail": "/images/snakes/black-mamba/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Bernard DUPONT from FRANCE",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_(6002481884).jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        }
-      },
-      "description": "Africa's longest venomous snake and one of the fastest snakes in the world. Known for its speed, aggression, and potent venom.",
-      "sources": [
-        "WHO",
-        "African Snakebite Institute",
         "Wikipedia"
       ],
       "continent": "Africa",
       "subregions": [
-        "Sub-Saharan Africa"
+        "Africa",
+        "Arabian Peninsula"
       ],
       "commonlyMisidentifiedAs": [
-        "green-mamba"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 90,
-          "high": 100
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
-      "id": "monocled-cobra",
-      "commonName": "Monocled Cobra",
-      "scientificName": "Naja kaouthia",
-      "family": "Elapidae",
-      "genus": "Naja",
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
-      "dangerScore": 60,
-      "venomClassification": "Highly Venomous",
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "South Asia",
-          "Southeast Asia"
-        ],
-        "habitat": "Agricultural fields, forests, villages"
-      },
-      "description": "One of Asia's most recognized cobras, common in snakebite regions.",
-      "dangerRank": "8/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 65,
-        "potencyScore": 66,
-        "yieldScore": 87,
-        "encounterScore": 65,
-        "speedScore": 55
-      },
-      "venomPotency": {
-        "ld50": 0.2,
-        "ld50Range": "0.148-0.373",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 0.6000000000000001,
-        "normalized": true
-      },
-      "venomYield": {
-        "qualitative": "High",
-        "dryWeight": 263
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/monocled-cobra/primary.jpg",
-        "thumbnail": "/images/snakes/monocled-cobra/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Vassil",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_kaouthia_albino_Gen%C3%A8ve_24102014_2.jpg",
-          "license": "CC0",
-          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-        }
-      },
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "asian-rat-snake"
+        "night-adder"
       ],
       "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
-          "low": 20,
-          "high": 40
+          "low": 10,
+          "high": 20
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
@@ -800,12 +525,13 @@
       "scientificName": "Oxyuranus microlepidotus",
       "family": "Elapidae",
       "genus": "Oxyuranus",
-      "dangerScore": 59,
-      "dangerRank": "9/124",
+      "dangerScore": 65,
+      "dangerRank": "6/124",
       "dangerScoreComponents": {
         "clinicalScore": 95,
         "potencyScore": 100,
         "yieldScore": 59,
+        "lethalityScore": 98,
         "encounterScore": 20,
         "speedScore": 90
       },
@@ -896,17 +622,301 @@
       }
     },
     {
+      "id": "black-mamba",
+      "commonName": "Black Mamba",
+      "scientificName": "Dendroaspis polylepis",
+      "family": "Elapidae",
+      "genus": "Dendroaspis",
+      "dangerScore": 63,
+      "dangerRank": "7/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 100,
+        "potencyScore": 61,
+        "yieldScore": 75,
+        "lethalityScore": 65,
+        "encounterScore": 40,
+        "speedScore": 90
+      },
+      "venomClassification": "Highly Venomous",
+      "venomPotency": {
+        "ld50": 0.32,
+        "ld50Range": "0.25-0.39",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.96,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 120,
+        "wetVolume": 0.4,
+        "qualitative": "High"
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Severe pain at bite site",
+          "Tingling sensation",
+          "Dizziness",
+          "Difficulty breathing"
+        ],
+        "progressive": [
+          "Progressive paralysis",
+          "Severe respiratory distress",
+          "Cardiovascular collapse",
+          "Convulsions"
+        ],
+        "critical": [
+          "Complete respiratory failure",
+          "Cardiac arrest",
+          "Death within 20 minutes to 3 hours without treatment"
+        ]
+      },
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Sub-Saharan Africa"
+        ],
+        "habitat": "Savannas, rocky hills, and open woodlands",
+        "coordinates": [
+          {
+            "lat": -15,
+            "lng": 30
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/black-mamba/primary.jpg",
+        "thumbnail": "/images/snakes/black-mamba/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Bernard DUPONT from FRANCE",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_(6002481884).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+        }
+      },
+      "description": "Africa's longest venomous snake and one of the fastest snakes in the world. Known for its speed, aggression, and potent venom.",
+      "sources": [
+        "WHO",
+        "African Snakebite Institute",
+        "Wikipedia"
+      ],
+      "continent": "Africa",
+      "subregions": [
+        "Sub-Saharan Africa"
+      ],
+      "commonlyMisidentifiedAs": [
+        "green-mamba"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 90,
+          "high": 100
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
+      "id": "indian-cobra",
+      "commonName": "Indian Cobra",
+      "scientificName": "Naja naja",
+      "family": "Elapidae",
+      "genus": "Naja",
+      "dangerScore": 61,
+      "dangerRank": "8/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 65,
+        "potencyScore": 62,
+        "yieldScore": 80,
+        "lethalityScore": 70,
+        "encounterScore": 85,
+        "speedScore": 55
+      },
+      "venomClassification": "Highly Venomous",
+      "venomPotency": {
+        "ld50": 0.29,
+        "ld50Range": "0.2-0.4",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.8699999999999999,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 170,
+        "wetVolume": 0.4,
+        "qualitative": "Moderate"
+      },
+      "venomTypes": [
+        "Neurotoxic",
+        "Cytotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Pain",
+          "Swelling",
+          "Drowsiness"
+        ],
+        "progressive": [
+          "Paralysis",
+          "Ptosis"
+        ],
+        "critical": [
+          "Respiratory failure"
+        ]
+      },
+      "humanEncounterChance": "Very High",
+      "distribution": {
+        "regions": [
+          "South Asia"
+        ],
+        "habitat": "Farmland, villages, forests",
+        "coordinates": [
+          {
+            "lat": 20,
+            "lng": 77
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/indian-cobra/primary.jpg",
+        "thumbnail": "/images/snakes/indian-cobra/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Holger Krisp",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja-naja-kobra-kopf.jpg",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+        }
+      },
+      "description": "Sacred in Hinduism. Spectacled marking on hood. Major cause of snakebites in India.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "Asia",
+      "subregions": [
+        "South Asia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "asian-rat-snake"
+      ],
+      "misidentificationRisk": "high",
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 20,
+          "high": 40
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
+      "id": "monocled-cobra",
+      "commonName": "Monocled Cobra",
+      "scientificName": "Naja kaouthia",
+      "family": "Elapidae",
+      "genus": "Naja",
+      "continent": "Asia",
+      "subregions": [
+        "South Asia",
+        "Southeast Asia"
+      ],
+      "dangerScore": 60,
+      "venomClassification": "Highly Venomous",
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "South Asia",
+          "Southeast Asia"
+        ],
+        "habitat": "Agricultural fields, forests, villages"
+      },
+      "description": "One of Asia's most recognized cobras, common in snakebite regions.",
+      "dangerRank": "9/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 65,
+        "potencyScore": 66,
+        "yieldScore": 87,
+        "lethalityScore": 80,
+        "encounterScore": 65,
+        "speedScore": 55
+      },
+      "venomPotency": {
+        "ld50": 0.2,
+        "ld50Range": "0.148-0.373",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.6000000000000001,
+        "normalized": true
+      },
+      "venomYield": {
+        "qualitative": "High",
+        "dryWeight": 263
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Localized pain",
+          "Nausea"
+        ],
+        "progressive": [
+          "Systemic envenomation symptoms"
+        ],
+        "critical": [
+          "Severe untreated envenomation can be life-threatening"
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/monocled-cobra/primary.jpg",
+        "thumbnail": "/images/snakes/monocled-cobra/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Vassil",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_kaouthia_albino_Gen%C3%A8ve_24102014_2.jpg",
+          "license": "CC0",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+        }
+      },
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "asian-rat-snake"
+      ],
+      "misidentificationRisk": "high",
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 20,
+          "high": 40
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
       "id": "death-adder",
       "commonName": "Common Death Adder",
       "scientificName": "Acanthophis antarcticus",
       "family": "Elapidae",
       "genus": "Acanthophis",
-      "dangerScore": 58,
+      "dangerScore": 60,
       "dangerRank": "10/124",
       "dangerScoreComponents": {
         "clinicalScore": 84,
         "potencyScore": 70,
         "yieldScore": 66,
+        "lethalityScore": 69,
         "encounterScore": 40,
         "speedScore": 90
       },
@@ -985,205 +995,18 @@
       }
     },
     {
-      "id": "common-krait",
-      "commonName": "Common Krait",
-      "scientificName": "Bungarus caeruleus",
-      "family": "Elapidae",
-      "genus": "Bungarus",
-      "continent": "Asia",
-      "subregions": [
-        "Indian Subcontinent"
-      ],
-      "dangerScore": 57,
-      "venomClassification": "Highly Venomous",
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "India",
-          "Pakistan",
-          "Bangladesh",
-          "Sri Lanka"
-        ],
-        "habitat": "Rural settlements and fields"
-      },
-      "description": "Iconic nocturnal krait and major medically important species in South Asia.",
-      "dangerRank": "11/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 91,
-        "potencyScore": 73,
-        "yieldScore": 36,
-        "encounterScore": 65,
-        "speedScore": 55
-      },
-      "venomPotency": {
-        "ld50": 0.325,
-        "ld50Range": "0.089-0.325",
-        "unit": "mg/kg",
-        "method": "SC",
-        "ld50Normalized": 0.325,
-        "normalized": false
-      },
-      "venomYield": {
-        "qualitative": "Low",
-        "dryWeight": 10
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/common-krait/primary.jpg",
-        "thumbnail": "/images/snakes/common-krait/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Dr. Raju Kasambe",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Common_Krait_Bungarus_caeruleus_by_Dr._Raju_Kasambe_DSCN6488_(3)_01.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "asian-rat-snake",
-        "wolf-snake"
-      ],
-      "misidentificationRisk": "high",
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 50,
-          "high": 80
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
-      "id": "fer-de-lance",
-      "commonName": "Fer-de-Lance",
-      "scientificName": "Bothrops asper",
-      "family": "Viperidae",
-      "genus": "Bothrops",
-      "dangerScore": 56,
-      "dangerRank": "12/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 43,
-        "potencyScore": 38,
-        "yieldScore": 86,
-        "encounterScore": 85,
-        "speedScore": 90
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 2.8,
-        "ld50Range": "2.0-4.0",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 8.399999999999999,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 250,
-        "wetVolume": 0.5,
-        "qualitative": "High"
-      },
-      "venomTypes": [
-        "Hemotoxic",
-        "Cytotoxic",
-        "Myotoxic"
-      ],
-      "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "progressive": [
-          "Necrosis",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Shock",
-          "Death"
-        ]
-      },
-      "humanEncounterChance": "Very High",
-      "distribution": {
-        "regions": [
-          "Central America",
-          "Northern South America"
-        ],
-        "habitat": "Tropical rainforests, plantations",
-        "coordinates": [
-          {
-            "lat": 10,
-            "lng": -84
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/fer-de-lance/primary.jpg",
-        "thumbnail": "/images/snakes/fer-de-lance/thumbnail.jpg",
-        "attribution": {
-          "photographer": "thibaudaronson",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_asper_170971120.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "description": "Responsible for most snakebite fatalities in Central America. Aggressive and fast.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Central America",
-        "Northern South America"
-      ],
-      "commonlyMisidentifiedAs": [
-        "cantil"
-      ],
-      "misidentificationRisk": "high",
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 7,
-          "high": 15
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
       "id": "cape-cobra",
       "commonName": "Cape Cobra",
       "scientificName": "Naja nivea",
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 56,
-      "dangerRank": "13/124",
+      "dangerRank": "11/124",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 60,
         "yieldScore": 72,
+        "lethalityScore": 61,
         "encounterScore": 40,
         "speedScore": 90
       },
@@ -1267,17 +1090,192 @@
       }
     },
     {
+      "id": "south-american-rattlesnake",
+      "commonName": "South American Rattlesnake",
+      "scientificName": "Crotalus durissus",
+      "family": "Viperidae",
+      "genus": "Crotalus",
+      "continent": "South America",
+      "subregions": [
+        "Brazil",
+        "Bolivia",
+        "Paraguay"
+      ],
+      "dangerScore": 56,
+      "venomClassification": "Highly Venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "South America"
+        ],
+        "habitat": "Savanna and dry open habitats"
+      },
+      "description": "The best-known rattlesnake in South America.",
+      "dangerRank": "12/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 89,
+        "potencyScore": 72,
+        "yieldScore": 65,
+        "lethalityScore": 70,
+        "encounterScore": 40,
+        "speedScore": 55
+      },
+      "venomPotency": {
+        "ld50": 0.17,
+        "ld50Range": "0.07-0.19",
+        "unit": "mg/kg",
+        "method": "IP",
+        "ld50Normalized": 0.34,
+        "normalized": true
+      },
+      "venomYield": {
+        "qualitative": "Moderate",
+        "dryWeight": 63
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Localized pain",
+          "Nausea"
+        ],
+        "progressive": [
+          "Systemic envenomation symptoms"
+        ],
+        "critical": [
+          "Severe untreated envenomation can be life-threatening"
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/south-american-rattlesnake/primary.jpg",
+        "thumbnail": "/images/snakes/south-american-rattlesnake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Salomão Janderson Ferreira Bispo",
+          "source": "iNaturalist",
+          "sourceUrl": "https://www.inaturalist.org/observations/184945615",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+        }
+      },
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 50,
+          "high": 75
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
+      "id": "common-krait",
+      "commonName": "Common Krait",
+      "scientificName": "Bungarus caeruleus",
+      "family": "Elapidae",
+      "genus": "Bungarus",
+      "continent": "Asia",
+      "subregions": [
+        "Indian Subcontinent"
+      ],
+      "dangerScore": 55,
+      "venomClassification": "Highly Venomous",
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "India",
+          "Pakistan",
+          "Bangladesh",
+          "Sri Lanka"
+        ],
+        "habitat": "Rural settlements and fields"
+      },
+      "description": "Iconic nocturnal krait and major medically important species in South Asia.",
+      "dangerRank": "13/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 91,
+        "potencyScore": 73,
+        "yieldScore": 36,
+        "lethalityScore": 47,
+        "encounterScore": 65,
+        "speedScore": 55
+      },
+      "venomPotency": {
+        "ld50": 0.325,
+        "ld50Range": "0.089-0.325",
+        "unit": "mg/kg",
+        "method": "SC",
+        "ld50Normalized": 0.325,
+        "normalized": false
+      },
+      "venomYield": {
+        "qualitative": "Low",
+        "dryWeight": 10
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Localized pain",
+          "Nausea"
+        ],
+        "progressive": [
+          "Systemic envenomation symptoms"
+        ],
+        "critical": [
+          "Severe untreated envenomation can be life-threatening"
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/common-krait/primary.jpg",
+        "thumbnail": "/images/snakes/common-krait/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Dr. Raju Kasambe",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Common_Krait_Bungarus_caeruleus_by_Dr._Raju_Kasambe_DSCN6488_(3)_01.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "asian-rat-snake",
+        "wolf-snake"
+      ],
+      "misidentificationRisk": "high",
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 50,
+          "high": 80
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
       "id": "eastern-brown-snake",
       "commonName": "Eastern Brown Snake",
       "scientificName": "Pseudonaja textilis",
       "family": "Elapidae",
       "genus": "Pseudonaja",
-      "dangerScore": 55,
+      "dangerScore": 54,
       "dangerRank": "14/124",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 96,
         "yieldScore": 25,
+        "lethalityScore": 66,
         "encounterScore": 85,
         "speedScore": 55
       },
@@ -1374,12 +1372,13 @@
       "scientificName": "Ophiophagus hannah",
       "family": "Elapidae",
       "genus": "Ophiophagus",
-      "dangerScore": 55,
+      "dangerScore": 54,
       "dangerRank": "15/124",
       "dangerScoreComponents": {
         "clinicalScore": 89,
         "potencyScore": 43,
         "yieldScore": 100,
+        "lethalityScore": 63,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -1470,83 +1469,100 @@
       }
     },
     {
-      "id": "south-american-rattlesnake",
-      "commonName": "South American Rattlesnake",
-      "scientificName": "Crotalus durissus",
+      "id": "fer-de-lance",
+      "commonName": "Fer-de-Lance",
+      "scientificName": "Bothrops asper",
       "family": "Viperidae",
-      "genus": "Crotalus",
-      "continent": "South America",
-      "subregions": [
-        "Brazil",
-        "Bolivia",
-        "Paraguay"
-      ],
-      "dangerScore": 55,
-      "venomClassification": "Highly Venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "South America"
-        ],
-        "habitat": "Savanna and dry open habitats"
-      },
-      "description": "The best-known rattlesnake in South America.",
+      "genus": "Bothrops",
+      "dangerScore": 51,
       "dangerRank": "16/124",
       "dangerScoreComponents": {
-        "clinicalScore": 89,
-        "potencyScore": 72,
-        "yieldScore": 65,
-        "encounterScore": 40,
-        "speedScore": 55
+        "clinicalScore": 43,
+        "potencyScore": 38,
+        "yieldScore": 86,
+        "lethalityScore": 47,
+        "encounterScore": 85,
+        "speedScore": 90
       },
+      "venomClassification": "Highly Venomous",
       "venomPotency": {
-        "ld50": 0.17,
-        "ld50Range": "0.07-0.19",
+        "ld50": 2.8,
+        "ld50Range": "2.0-4.0",
         "unit": "mg/kg",
-        "method": "IP",
-        "ld50Normalized": 0.34,
+        "method": "IV",
+        "ld50Normalized": 8.399999999999999,
         "normalized": true
       },
       "venomYield": {
-        "qualitative": "Moderate",
-        "dryWeight": 63
+        "dryWeight": 250,
+        "wetVolume": 0.5,
+        "qualitative": "High"
       },
       "venomTypes": [
-        "Neurotoxic"
+        "Hemotoxic",
+        "Cytotoxic",
+        "Myotoxic"
       ],
-      "venomSpeed": "Quick",
+      "venomSpeed": "Extremely quick",
       "symptomsProgression": {
         "shortTerm": [
-          "Localized pain",
-          "Nausea"
+          "Severe pain",
+          "Swelling",
+          "Bleeding"
         ],
         "progressive": [
-          "Systemic envenomation symptoms"
+          "Necrosis",
+          "Coagulopathy"
         ],
         "critical": [
-          "Severe untreated envenomation can be life-threatening"
+          "Shock",
+          "Death"
+        ]
+      },
+      "humanEncounterChance": "Very High",
+      "distribution": {
+        "regions": [
+          "Central America",
+          "Northern South America"
+        ],
+        "habitat": "Tropical rainforests, plantations",
+        "coordinates": [
+          {
+            "lat": 10,
+            "lng": -84
+          }
         ]
       },
       "images": {
-        "primary": "/images/snakes/south-american-rattlesnake/primary.jpg",
-        "thumbnail": "/images/snakes/south-american-rattlesnake/thumbnail.jpg",
+        "primary": "/images/snakes/fer-de-lance/primary.jpg",
+        "thumbnail": "/images/snakes/fer-de-lance/thumbnail.jpg",
         "attribution": {
-          "photographer": "Salomão Janderson Ferreira Bispo",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/184945615",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+          "photographer": "thibaudaronson",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_asper_170971120.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         }
       },
+      "description": "Responsible for most snakebite fatalities in Central America. Aggressive and fast.",
       "sources": [
         "WHO",
         "Reptile Database",
         "Wikipedia"
       ],
+      "continent": "North America",
+      "subregions": [
+        "Central America",
+        "Northern South America"
+      ],
+      "commonlyMisidentifiedAs": [
+        "cantil"
+      ],
+      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
-          "low": 50,
-          "high": 75
+          "low": 7,
+          "high": 15
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
@@ -1558,12 +1574,13 @@
       "scientificName": "Echis ocellatus",
       "family": "Viperidae",
       "genus": "Echis",
-      "dangerScore": 54,
+      "dangerScore": 50,
       "dangerRank": "17/124",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 64,
         "yieldScore": 50,
+        "lethalityScore": 49,
         "encounterScore": 85,
         "speedScore": 55
       },
@@ -1643,17 +1660,208 @@
       }
     },
     {
+      "id": "egyptian-cobra",
+      "commonName": "Egyptian Cobra",
+      "scientificName": "Naja haje",
+      "family": "Elapidae",
+      "genus": "Naja",
+      "dangerScore": 50,
+      "dangerRank": "18/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 57,
+        "potencyScore": 67,
+        "yieldScore": 83,
+        "lethalityScore": 78,
+        "encounterScore": 40,
+        "speedScore": 55
+      },
+      "venomClassification": "Highly Venomous",
+      "venomPotency": {
+        "ld50": 0.19,
+        "ld50Range": "0.15-0.25",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.5700000000000001,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 200,
+        "wetVolume": 0.5,
+        "qualitative": "High"
+      },
+      "venomTypes": [
+        "Neurotoxic",
+        "Cytotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Pain",
+          "Swelling",
+          "Drowsiness"
+        ],
+        "progressive": [
+          "Paralysis"
+        ],
+        "critical": [
+          "Respiratory failure"
+        ]
+      },
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "North Africa",
+          "Arabian Peninsula"
+        ],
+        "habitat": "Deserts, semi-deserts, agricultural land",
+        "coordinates": [
+          {
+            "lat": 30,
+            "lng": 31
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/egyptian-cobra/primary.jpg",
+        "thumbnail": "/images/snakes/egyptian-cobra/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Dotun55",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Egyptian_cobra.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "Historically significant. Cleopatra reportedly died from its bite. Large hood display.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "Africa",
+      "subregions": [
+        "North Africa",
+        "Arabian Peninsula"
+      ],
+      "commonlyMisidentifiedAs": [
+        "cape-cobra"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 15,
+          "high": 30
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
+      "id": "forest-cobra",
+      "commonName": "Forest Cobra",
+      "scientificName": "Naja melanoleuca",
+      "family": "Elapidae",
+      "genus": "Naja",
+      "dangerScore": 50,
+      "dangerRank": "19/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 73,
+        "potencyScore": 65,
+        "yieldScore": 92,
+        "lethalityScore": 83,
+        "encounterScore": 20,
+        "speedScore": 55
+      },
+      "venomClassification": "Highly Venomous",
+      "venomPotency": {
+        "ld50": 0.22,
+        "ld50Range": "0.2-0.3",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.66,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 350,
+        "wetVolume": 0.9,
+        "qualitative": "High"
+      },
+      "venomTypes": [
+        "Neurotoxic",
+        "Cytotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Pain",
+          "Swelling",
+          "Numbness"
+        ],
+        "progressive": [
+          "Paralysis",
+          "Necrosis"
+        ],
+        "critical": [
+          "Respiratory failure"
+        ]
+      },
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Central Africa",
+          "West Africa"
+        ],
+        "habitat": "Forests, savannas, near water",
+        "coordinates": [
+          {
+            "lat": 0,
+            "lng": 20
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/forest-cobra/primary.jpg",
+        "thumbnail": "/images/snakes/forest-cobra/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Mark Pellegrini",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:MP-Naja_melanoleuca_1.jpg",
+          "license": "CC BY-SA 2.5",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
+        }
+      },
+      "description": "Africa's largest cobra. Aggressive when cornered. Good climber and swimmer.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "Africa",
+      "subregions": [
+        "Central Africa",
+        "West Africa"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 30,
+          "high": 50
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
       "id": "saw-scaled-viper",
       "commonName": "Saw-scaled Viper",
       "scientificName": "Echis carinatus",
       "family": "Viperidae",
       "genus": "Echis",
-      "dangerScore": 53,
-      "dangerRank": "18/124",
+      "dangerScore": 49,
+      "dangerRank": "20/124",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 64,
         "yieldScore": 47,
+        "lethalityScore": 46,
         "encounterScore": 85,
         "speedScore": 55
       },
@@ -1742,112 +1950,18 @@
       }
     },
     {
-      "id": "egyptian-cobra",
-      "commonName": "Egyptian Cobra",
-      "scientificName": "Naja haje",
-      "family": "Elapidae",
-      "genus": "Naja",
-      "dangerScore": 50,
-      "dangerRank": "19/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 57,
-        "potencyScore": 67,
-        "yieldScore": 83,
-        "encounterScore": 40,
-        "speedScore": 55
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 0.19,
-        "ld50Range": "0.15-0.25",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 0.5700000000000001,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 200,
-        "wetVolume": 0.5,
-        "qualitative": "High"
-      },
-      "venomTypes": [
-        "Neurotoxic",
-        "Cytotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Drowsiness"
-        ],
-        "progressive": [
-          "Paralysis"
-        ],
-        "critical": [
-          "Respiratory failure"
-        ]
-      },
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "North Africa",
-          "Arabian Peninsula"
-        ],
-        "habitat": "Deserts, semi-deserts, agricultural land",
-        "coordinates": [
-          {
-            "lat": 30,
-            "lng": 31
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/egyptian-cobra/primary.jpg",
-        "thumbnail": "/images/snakes/egyptian-cobra/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Dotun55",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Egyptian_cobra.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "description": "Historically significant. Cleopatra reportedly died from its bite. Large hood display.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Africa",
-      "subregions": [
-        "North Africa",
-        "Arabian Peninsula"
-      ],
-      "commonlyMisidentifiedAs": [
-        "cape-cobra"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 15,
-          "high": 30
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
       "id": "western-diamondback",
       "commonName": "Western Diamondback Rattlesnake",
       "scientificName": "Crotalus atrox",
       "family": "Viperidae",
       "genus": "Crotalus",
-      "dangerScore": 49,
-      "dangerRank": "20/124",
+      "dangerScore": 44,
+      "dangerRank": "21/124",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 41,
         "yieldScore": 86,
+        "lethalityScore": 50,
         "encounterScore": 65,
         "speedScore": 55
       },
@@ -1934,110 +2048,18 @@
       }
     },
     {
-      "id": "forest-cobra",
-      "commonName": "Forest Cobra",
-      "scientificName": "Naja melanoleuca",
-      "family": "Elapidae",
-      "genus": "Naja",
-      "dangerScore": 49,
-      "dangerRank": "21/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 73,
-        "potencyScore": 65,
-        "yieldScore": 92,
-        "encounterScore": 20,
-        "speedScore": 55
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 0.22,
-        "ld50Range": "0.2-0.3",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 0.66,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 350,
-        "wetVolume": 0.9,
-        "qualitative": "High"
-      },
-      "venomTypes": [
-        "Neurotoxic",
-        "Cytotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Numbness"
-        ],
-        "progressive": [
-          "Paralysis",
-          "Necrosis"
-        ],
-        "critical": [
-          "Respiratory failure"
-        ]
-      },
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Central Africa",
-          "West Africa"
-        ],
-        "habitat": "Forests, savannas, near water",
-        "coordinates": [
-          {
-            "lat": 0,
-            "lng": 20
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/forest-cobra/primary.jpg",
-        "thumbnail": "/images/snakes/forest-cobra/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Mark Pellegrini",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:MP-Naja_melanoleuca_1.jpg",
-          "license": "CC BY-SA 2.5",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
-        }
-      },
-      "description": "Africa's largest cobra. Aggressive when cornered. Good climber and swimmer.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Africa",
-      "subregions": [
-        "Central Africa",
-        "West Africa"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 30,
-          "high": 50
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
       "id": "eastern-diamondback",
       "commonName": "Eastern Diamondback Rattlesnake",
       "scientificName": "Crotalus adamanteus",
       "family": "Viperidae",
       "genus": "Crotalus",
-      "dangerScore": 47,
+      "dangerScore": 44,
       "dangerRank": "22/124",
       "dangerScoreComponents": {
         "clinicalScore": 55,
         "potencyScore": 44,
         "yieldScore": 94,
+        "lethalityScore": 60,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -2132,7 +2154,7 @@
         "Indian Ocean",
         "Southeast Asia"
       ],
-      "dangerScore": 46,
+      "dangerScore": 43,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -2148,6 +2170,7 @@
         "clinicalScore": 73,
         "potencyScore": 72,
         "yieldScore": 33,
+        "lethalityScore": 44,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -2210,12 +2233,13 @@
       "scientificName": "Naja nigricollis",
       "family": "Elapidae",
       "genus": "Naja",
-      "dangerScore": 45,
+      "dangerScore": 42,
       "dangerRank": "24/124",
       "dangerScoreComponents": {
         "clinicalScore": 37,
         "potencyScore": 48,
         "yieldScore": 83,
+        "lethalityScore": 55,
         "encounterScore": 40,
         "speedScore": 90
       },
@@ -2307,7 +2331,7 @@
       "subregions": [
         "Indonesia"
       ],
-      "dangerScore": 44,
+      "dangerScore": 41,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -2322,6 +2346,7 @@
         "clinicalScore": 49,
         "potencyScore": 50,
         "yieldScore": 81,
+        "lethalityScore": 57,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -2388,12 +2413,13 @@
       "scientificName": "Bungarus multicinctus",
       "family": "Elapidae",
       "genus": "Bungarus",
-      "dangerScore": 44,
+      "dangerScore": 40,
       "dangerRank": "26/124",
       "dangerScoreComponents": {
         "clinicalScore": 71,
         "potencyScore": 75,
         "yieldScore": 22,
+        "lethalityScore": 38,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -2484,12 +2510,13 @@
       "scientificName": "Lachesis muta",
       "family": "Viperidae",
       "genus": "Lachesis",
-      "dangerScore": 44,
+      "dangerScore": 40,
       "dangerRank": "27/124",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 44,
         "yieldScore": 83,
+        "lethalityScore": 51,
         "encounterScore": 20,
         "speedScore": 55
       },
@@ -2583,7 +2610,7 @@
       "subregions": [
         "East Africa"
       ],
-      "dangerScore": 43,
+      "dangerScore": 40,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -2598,6 +2625,7 @@
         "clinicalScore": 49,
         "potencyScore": 58,
         "yieldScore": 67,
+        "lethalityScore": 55,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -2658,6 +2686,91 @@
       }
     },
     {
+      "id": "boomslang-southern",
+      "commonName": "Southern Boomslang",
+      "scientificName": "Dispholidus typus",
+      "family": "Colubridae",
+      "genus": "Dispholidus",
+      "continent": "Africa",
+      "subregions": [
+        "Sub-Saharan Africa"
+      ],
+      "dangerScore": 38,
+      "venomClassification": "Highly Venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Sub-Saharan Africa"
+        ],
+        "habitat": "Savanna woodland and shrubland"
+      },
+      "description": "Famous rear-fanged species with clinically important venom.",
+      "dangerRank": "29/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 73,
+        "potencyScore": 77,
+        "yieldScore": 25,
+        "lethalityScore": 44,
+        "encounterScore": 20,
+        "speedScore": 55
+      },
+      "venomPotency": {
+        "ld50": 0.07,
+        "ld50Range": "0.05-0.10",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.21000000000000002,
+        "normalized": true
+      },
+      "venomYield": {
+        "qualitative": "Very Low",
+        "dryWeight": 5
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Localized pain",
+          "Nausea"
+        ],
+        "progressive": [
+          "Systemic envenomation symptoms"
+        ],
+        "critical": [
+          "Severe untreated envenomation can be life-threatening"
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/boomslang-southern/primary.jpg",
+        "thumbnail": "/images/snakes/boomslang-southern/thumbnail.jpg",
+        "attribution": {
+          "photographer": "William Warby from London, England",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dispholidus_typus.jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+        }
+      },
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "boomslang"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 30,
+          "high": 50
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
       "id": "banded-krait",
       "commonName": "Banded Krait",
       "scientificName": "Bungarus fasciatus",
@@ -2667,7 +2780,7 @@
       "subregions": [
         "Southeast Asia"
       ],
-      "dangerScore": 42,
+      "dangerScore": 37,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -2677,11 +2790,12 @@
         "habitat": "Grasslands, wetlands, forests"
       },
       "description": "Highly recognizable black-yellow banded krait.",
-      "dangerRank": "29/124",
+      "dangerRank": "30/124",
       "dangerScoreComponents": {
         "clinicalScore": 55,
         "potencyScore": 51,
         "yieldScore": 61,
+        "lethalityScore": 42,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -2743,91 +2857,6 @@
       }
     },
     {
-      "id": "timber-rattlesnake",
-      "commonName": "Timber Rattlesnake",
-      "scientificName": "Crotalus horridus",
-      "family": "Viperidae",
-      "genus": "Crotalus",
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
-      ],
-      "dangerScore": 41,
-      "venomClassification": "Highly Venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Eastern United States"
-        ],
-        "habitat": "Deciduous forests and rocky hills"
-      },
-      "description": "One of the best-known rattlesnakes in North America.",
-      "dangerRank": "30/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 42,
-        "potencyScore": 44,
-        "yieldScore": 77,
-        "encounterScore": 40,
-        "speedScore": 55
-      },
-      "venomPotency": {
-        "ld50": 1.64,
-        "ld50Range": "1.64-7.7",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 4.92,
-        "normalized": true
-      },
-      "venomYield": {
-        "qualitative": "High",
-        "dryWeight": 140
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/timber-rattlesnake/primary.jpg",
-        "thumbnail": "/images/snakes/timber-rattlesnake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Jonathunder",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:C_horridus.JPG",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "dataQuality": "estimated",
-      "commonlyMisidentifiedAs": [
-        "copperhead"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 5,
-          "high": 15
-        },
-        "whoCategory": 1,
-        "severity": "Severe"
-      }
-    },
-    {
       "id": "mulga-snake",
       "commonName": "Mulga Snake (King Brown)",
       "scientificName": "Pseudechis australis",
@@ -2837,7 +2866,7 @@
       "subregions": [
         "Australia"
       ],
-      "dangerScore": 40,
+      "dangerScore": 36,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -2852,6 +2881,7 @@
         "clinicalScore": 32,
         "potencyScore": 51,
         "yieldScore": 78,
+        "lethalityScore": 56,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -2912,193 +2942,18 @@
       }
     },
     {
-      "id": "malayan-pit-viper",
-      "commonName": "Malayan Pit Viper",
-      "scientificName": "Calloselasma rhodostoma",
-      "family": "Viperidae",
-      "genus": "Calloselasma",
-      "dangerScore": 40,
-      "dangerRank": "32/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 42,
-        "potencyScore": 44,
-        "yieldScore": 50,
-        "encounterScore": 65,
-        "speedScore": 55
-      },
-      "venomClassification": "Venomous",
-      "venomPotency": {
-        "ld50": 1.6,
-        "ld50Range": "1.2-2.0",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 4.800000000000001,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 25,
-        "wetVolume": 0.05,
-        "qualitative": "Low"
-      },
-      "venomTypes": [
-        "Hemotoxic",
-        "Cytotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Blisters"
-        ],
-        "progressive": [
-          "Necrosis",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Gangrene",
-          "Death"
-        ]
-      },
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "Southeast Asia"
-        ],
-        "habitat": "Forests, plantations, villages",
-        "coordinates": [
-          {
-            "lat": 14,
-            "lng": 101
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/malayan-pit-viper/primary.jpg",
-        "thumbnail": "/images/snakes/malayan-pit-viper/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Rushen",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Calloselasma_rhodostoma,_Malayan_pit_viper_-_Kaeng_Krachan_District,_Phetchaburi_(33670021633).jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        }
-      },
-      "description": "Common cause of bites in Southeast Asia. Often found in rubber plantations.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 5,
-          "high": 15
-        },
-        "whoCategory": 1,
-        "severity": "Severe"
-      }
-    },
-    {
-      "id": "boomslang-southern",
-      "commonName": "Southern Boomslang",
-      "scientificName": "Dispholidus typus",
-      "family": "Colubridae",
-      "genus": "Dispholidus",
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
-      "dangerScore": 40,
-      "venomClassification": "Highly Venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Sub-Saharan Africa"
-        ],
-        "habitat": "Savanna woodland and shrubland"
-      },
-      "description": "Famous rear-fanged species with clinically important venom.",
-      "dangerRank": "33/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 73,
-        "potencyScore": 77,
-        "yieldScore": 25,
-        "encounterScore": 20,
-        "speedScore": 55
-      },
-      "venomPotency": {
-        "ld50": 0.07,
-        "ld50Range": "0.05-0.10",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 0.21000000000000002,
-        "normalized": true
-      },
-      "venomYield": {
-        "qualitative": "Very Low",
-        "dryWeight": 5
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/boomslang-southern/primary.jpg",
-        "thumbnail": "/images/snakes/boomslang-southern/thumbnail.jpg",
-        "attribution": {
-          "photographer": "William Warby from London, England",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dispholidus_typus.jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-        }
-      },
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "boomslang"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 30,
-          "high": 50
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
       "id": "lowlands-copperhead",
       "commonName": "Lowlands Copperhead",
       "scientificName": "Austrelaps superbus",
       "family": "Elapidae",
       "genus": "Austrelaps",
-      "dangerScore": 39,
-      "dangerRank": "34/124",
+      "dangerScore": 36,
+      "dangerRank": "32/124",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 68,
         "yieldScore": 53,
+        "lethalityScore": 56,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -3179,148 +3034,45 @@
       }
     },
     {
-      "id": "gaboon-viper",
-      "commonName": "Gaboon Viper",
-      "scientificName": "Bitis gabonica",
+      "id": "timber-rattlesnake",
+      "commonName": "Timber Rattlesnake",
+      "scientificName": "Crotalus horridus",
       "family": "Viperidae",
-      "genus": "Bitis",
-      "dangerScore": 39,
-      "dangerRank": "35/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 57,
-        "potencyScore": 39,
-        "yieldScore": 100,
-        "encounterScore": 20,
-        "speedScore": 20
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 2.5,
-        "ld50Range": "2.0-5.0",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 7.5,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 600,
-        "wetVolume": 2.4,
-        "qualitative": "Extremely High"
-      },
-      "venomTypes": [
-        "Hemotoxic",
-        "Cytotoxic",
-        "Myotoxic"
+      "genus": "Crotalus",
+      "continent": "North America",
+      "subregions": [
+        "Eastern United States"
       ],
-      "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Rapid swelling",
-          "Bruising",
-          "Bleeding at bite site"
-        ],
-        "progressive": [
-          "Expanding swelling",
-          "Blistering",
-          "Abnormal bleeding (gums, urine)",
-          "Drop in blood pressure"
-        ],
-        "critical": [
-          "Severe tissue necrosis",
-          "Internal bleeding",
-          "Shock",
-          "Organ damage",
-          "Death if untreated"
-        ]
-      },
-      "humanEncounterChance": "Low",
+      "dangerScore": 35,
+      "venomClassification": "Highly Venomous",
+      "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
-          "Sub-Saharan Africa",
-          "Central Africa"
+          "Eastern United States"
         ],
-        "habitat": "Rainforests and woodland areas",
-        "coordinates": [
-          {
-            "lat": 0.5,
-            "lng": 25
-          }
-        ]
+        "habitat": "Deciduous forests and rocky hills"
       },
-      "images": {
-        "primary": "/images/snakes/gaboon-viper/primary.jpg",
-        "thumbnail": "/images/snakes/gaboon-viper/thumbnail.jpg",
-        "attribution": {
-          "photographer": "H. Zell",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bitis_gabonica_01.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "Has the longest fangs of any venomous snake (up to 2 inches) and the highest venom yield. Fortunately, it's docile and rarely encountered.",
-      "sources": [
-        "WHO",
-        "African Snakebite Institute",
-        "Wikipedia"
-      ],
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa",
-        "Central Africa"
-      ],
-      "commonlyMisidentifiedAs": [
-        "puff-adder"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 15,
-          "high": 30
-        },
-        "whoCategory": 1,
-        "severity": "Life-threatening"
-      }
-    },
-    {
-      "id": "dugite",
-      "commonName": "Dugite",
-      "scientificName": "Pseudonaja affinis",
-      "family": "Elapidae",
-      "genus": "Pseudonaja",
-      "continent": "Oceania",
-      "subregions": [
-        "Western Australia"
-      ],
-      "dangerScore": 38,
-      "venomClassification": "Highly Venomous",
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "Western Australia"
-        ],
-        "habitat": "Coastal scrub and urban fringes"
-      },
-      "description": "Famous urban-interface venomous snake in Western Australia.",
-      "dangerRank": "36/124",
+      "description": "One of the best-known rattlesnakes in North America.",
+      "dangerRank": "33/124",
       "dangerScoreComponents": {
-        "clinicalScore": 32,
-        "potencyScore": 65,
-        "yieldScore": 28,
-        "encounterScore": 65,
+        "clinicalScore": 42,
+        "potencyScore": 44,
+        "yieldScore": 77,
+        "lethalityScore": 46,
+        "encounterScore": 40,
         "speedScore": 55
       },
       "venomPotency": {
-        "ld50": 0.66,
-        "ld50Range": "0.56-0.80",
+        "ld50": 1.64,
+        "ld50Range": "1.64-7.7",
         "unit": "mg/kg",
-        "method": "SC",
-        "ld50Normalized": 0.66,
-        "normalized": false
+        "method": "IV",
+        "ld50Normalized": 4.92,
+        "normalized": true
       },
       "venomYield": {
-        "qualitative": "Very Low",
-        "dryWeight": 6
+        "qualitative": "High",
+        "dryWeight": 140
       },
       "venomTypes": [
         "Neurotoxic"
@@ -3339,14 +3091,14 @@
         ]
       },
       "images": {
-        "primary": "/images/snakes/dugite/primary.jpg",
-        "thumbnail": "/images/snakes/dugite/thumbnail.jpg",
+        "primary": "/images/snakes/timber-rattlesnake/primary.jpg",
+        "thumbnail": "/images/snakes/timber-rattlesnake/thumbnail.jpg",
         "attribution": {
-          "photographer": "Valentin Moser",
+          "photographer": "Jonathunder",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pseudonaja_affinis_30418354.jpg",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:C_horridus.JPG",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
         }
       },
       "sources": [
@@ -3354,189 +3106,16 @@
         "Reptile Database",
         "Wikipedia"
       ],
+      "dataQuality": "estimated",
       "commonlyMisidentifiedAs": [
-        "eastern-brown-snake"
+        "copperhead"
       ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 5,
           "high": 15
         },
-        "whoCategory": 2,
-        "severity": "Severe"
-      }
-    },
-    {
-      "id": "jararaca",
-      "commonName": "Jararaca",
-      "scientificName": "Bothrops jararaca",
-      "family": "Viperidae",
-      "genus": "Bothrops",
-      "continent": "South America",
-      "subregions": [
-        "Brazil",
-        "Paraguay",
-        "Argentina"
-      ],
-      "dangerScore": 38,
-      "venomClassification": "Venomous",
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "Brazil",
-          "Paraguay",
-          "Argentina"
-        ],
-        "habitat": "Atlantic forest and agricultural margins"
-      },
-      "description": "Most recognized pit viper in Brazil and a major medical species.",
-      "dangerRank": "37/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 33,
-        "potencyScore": 47,
-        "yieldScore": 50,
-        "encounterScore": 65,
-        "speedScore": 55
-      },
-      "venomPotency": {
-        "ld50": 1.2,
-        "ld50Range": "1.2-3.0",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 3.5999999999999996,
-        "normalized": true
-      },
-      "venomYield": {
-        "qualitative": "Low",
-        "dryWeight": 25
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/jararaca/primary.jpg",
-        "thumbnail": "/images/snakes/jararaca/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Reinaldo Oliveira Elias",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/257466664",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
-        }
-      },
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "fer-de-lance"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 3,
-          "high": 8
-        },
         "whoCategory": 1,
-        "severity": "Severe"
-      }
-    },
-    {
-      "id": "prairie-rattlesnake",
-      "commonName": "Prairie Rattlesnake",
-      "scientificName": "Crotalus viridis",
-      "family": "Viperidae",
-      "genus": "Crotalus",
-      "continent": "North America",
-      "subregions": [
-        "Great Plains",
-        "Western United States"
-      ],
-      "dangerScore": 38,
-      "venomClassification": "Venomous",
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "Great Plains",
-          "Western United States"
-        ],
-        "habitat": "Prairies, grasslands, scrub"
-      },
-      "description": "Famous prairie species and frequent human encounter rattlesnake.",
-      "dangerRank": "38/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 25,
-        "potencyScore": 44,
-        "yieldScore": 61,
-        "encounterScore": 65,
-        "speedScore": 55
-      },
-      "venomPotency": {
-        "ld50": 1.55,
-        "ld50Range": "1.55-2.1",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 4.65,
-        "normalized": true
-      },
-      "venomYield": {
-        "qualitative": "Moderate",
-        "dryWeight": 50
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/prairie-rattlesnake/primary.jpg",
-        "thumbnail": "/images/snakes/prairie-rattlesnake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Wendy McCrady",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_viridis_151463473.jpg",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-        }
-      },
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "massasauga"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 3,
-          "high": 10
-        },
-        "whoCategory": 2,
         "severity": "Severe"
       }
     },
@@ -3546,12 +3125,13 @@
       "scientificName": "Crotalus scutulatus",
       "family": "Viperidae",
       "genus": "Crotalus",
-      "dangerScore": 38,
-      "dangerRank": "39/124",
+      "dangerScore": 35,
+      "dangerRank": "34/124",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 65,
         "yieldScore": 61,
+        "lethalityScore": 58,
         "encounterScore": 20,
         "speedScore": 55
       },
@@ -3663,12 +3243,13 @@
       "scientificName": "Dispholidus typus",
       "family": "Colubridae",
       "genus": "Dispholidus",
-      "dangerScore": 38,
-      "dangerRank": "40/124",
+      "dangerScore": 35,
+      "dangerRank": "35/124",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 77,
         "yieldScore": 33,
+        "lethalityScore": 50,
         "encounterScore": 20,
         "speedScore": 20
       },
@@ -3752,179 +3333,201 @@
       }
     },
     {
-      "id": "egyptian-viper",
-      "commonName": "Horned Desert Viper",
-      "scientificName": "Cerastes cerastes",
+      "id": "gaboon-viper",
+      "commonName": "Gaboon Viper",
+      "scientificName": "Bitis gabonica",
       "family": "Viperidae",
-      "genus": "Cerastes",
-      "continent": "Africa",
-      "subregions": [
-        "North Africa"
-      ],
-      "dangerScore": 36,
-      "venomClassification": "Highly Venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "North Africa"
-        ],
-        "habitat": "Deserts and dune systems"
-      },
-      "description": "Iconic horned desert viper seen across documentaries and references.",
-      "dangerRank": "41/124",
+      "genus": "Bitis",
+      "dangerScore": 34,
+      "dangerRank": "36/124",
       "dangerScoreComponents": {
-        "clinicalScore": 32,
-        "potencyScore": 59,
-        "yieldScore": 49,
-        "encounterScore": 40,
-        "speedScore": 55
+        "clinicalScore": 57,
+        "potencyScore": 39,
+        "yieldScore": 100,
+        "lethalityScore": 59,
+        "encounterScore": 20,
+        "speedScore": 20
       },
+      "venomClassification": "Highly Venomous",
       "venomPotency": {
-        "ld50": 0.4,
-        "ld50Range": "0.40-3.0",
+        "ld50": 2.5,
+        "ld50Range": "2.0-5.0",
         "unit": "mg/kg",
         "method": "IV",
-        "ld50Normalized": 1.2000000000000002,
+        "ld50Normalized": 7.5,
         "normalized": true
       },
       "venomYield": {
-        "qualitative": "Low",
-        "dryWeight": 23
+        "dryWeight": 600,
+        "wetVolume": 2.4,
+        "qualitative": "Extremely High"
       },
       "venomTypes": [
-        "Neurotoxic"
+        "Hemotoxic",
+        "Cytotoxic",
+        "Myotoxic"
+      ],
+      "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Severe pain",
+          "Rapid swelling",
+          "Bruising",
+          "Bleeding at bite site"
+        ],
+        "progressive": [
+          "Expanding swelling",
+          "Blistering",
+          "Abnormal bleeding (gums, urine)",
+          "Drop in blood pressure"
+        ],
+        "critical": [
+          "Severe tissue necrosis",
+          "Internal bleeding",
+          "Shock",
+          "Organ damage",
+          "Death if untreated"
+        ]
+      },
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Sub-Saharan Africa",
+          "Central Africa"
+        ],
+        "habitat": "Rainforests and woodland areas",
+        "coordinates": [
+          {
+            "lat": 0.5,
+            "lng": 25
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/gaboon-viper/primary.jpg",
+        "thumbnail": "/images/snakes/gaboon-viper/thumbnail.jpg",
+        "attribution": {
+          "photographer": "H. Zell",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bitis_gabonica_01.jpg",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        }
+      },
+      "description": "Has the longest fangs of any venomous snake (up to 2 inches) and the highest venom yield. Fortunately, it's docile and rarely encountered.",
+      "sources": [
+        "WHO",
+        "African Snakebite Institute",
+        "Wikipedia"
+      ],
+      "continent": "Africa",
+      "subregions": [
+        "Sub-Saharan Africa",
+        "Central Africa"
+      ],
+      "commonlyMisidentifiedAs": [
+        "puff-adder"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 15,
+          "high": 30
+        },
+        "whoCategory": 1,
+        "severity": "Life-threatening"
+      }
+    },
+    {
+      "id": "malayan-pit-viper",
+      "commonName": "Malayan Pit Viper",
+      "scientificName": "Calloselasma rhodostoma",
+      "family": "Viperidae",
+      "genus": "Calloselasma",
+      "dangerScore": 32,
+      "dangerRank": "37/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 42,
+        "potencyScore": 44,
+        "yieldScore": 50,
+        "lethalityScore": 25,
+        "encounterScore": 65,
+        "speedScore": 55
+      },
+      "venomClassification": "Venomous",
+      "venomPotency": {
+        "ld50": 1.6,
+        "ld50Range": "1.2-2.0",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 4.800000000000001,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 25,
+        "wetVolume": 0.05,
+        "qualitative": "Low"
+      },
+      "venomTypes": [
+        "Hemotoxic",
+        "Cytotoxic"
       ],
       "venomSpeed": "Quick",
       "symptomsProgression": {
         "shortTerm": [
-          "Localized pain",
-          "Nausea"
+          "Severe pain",
+          "Swelling",
+          "Blisters"
         ],
         "progressive": [
-          "Systemic envenomation symptoms"
+          "Necrosis",
+          "Coagulopathy"
         ],
         "critical": [
-          "Severe untreated envenomation can be life-threatening"
+          "Gangrene",
+          "Death"
+        ]
+      },
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "Southeast Asia"
+        ],
+        "habitat": "Forests, plantations, villages",
+        "coordinates": [
+          {
+            "lat": 14,
+            "lng": 101
+          }
         ]
       },
       "images": {
-        "primary": "/images/snakes/egyptian-viper/primary.jpg",
-        "thumbnail": "/images/snakes/egyptian-viper/thumbnail.jpg",
+        "primary": "/images/snakes/malayan-pit-viper/primary.jpg",
+        "thumbnail": "/images/snakes/malayan-pit-viper/thumbnail.jpg",
         "attribution": {
-          "photographer": "Holger Krisp",
+          "photographer": "Rushen",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hornviper_Cerastes_cerastes.jpg",
-          "license": "CC BY 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Calloselasma_rhodostoma,_Malayan_pit_viper_-_Kaeng_Krachan_District,_Phetchaburi_(33670021633).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
         }
       },
+      "description": "Common cause of bites in Southeast Asia. Often found in rubber plantations.",
       "sources": [
         "WHO",
         "Reptile Database",
         "Wikipedia"
+      ],
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia"
       ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 5,
           "high": 15
         },
-        "whoCategory": 2,
+        "whoCategory": 1,
         "severity": "Severe"
-      }
-    },
-    {
-      "id": "red-bellied-black-snake",
-      "commonName": "Red-bellied Black Snake",
-      "scientificName": "Pseudechis porphyriacus",
-      "family": "Elapidae",
-      "genus": "Pseudechis",
-      "dangerScore": 34,
-      "dangerRank": "42/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 7,
-        "potencyScore": 51,
-        "yieldScore": 56,
-        "encounterScore": 65,
-        "speedScore": 55
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 2.5,
-        "ld50Range": "2.0-3.0",
-        "unit": "mg/kg",
-        "method": "SC",
-        "ld50Normalized": 2.5,
-        "normalized": false
-      },
-      "venomYield": {
-        "dryWeight": 37,
-        "wetVolume": 0.1,
-        "qualitative": "Moderate"
-      },
-      "venomTypes": [
-        "Neurotoxic",
-        "Hemotoxic",
-        "Myotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Nausea"
-        ],
-        "progressive": [
-          "Coagulopathy",
-          "Myolysis"
-        ],
-        "critical": [
-          "Rare death"
-        ]
-      },
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "Eastern Australia"
-        ],
-        "habitat": "Swamps, creeks, forests",
-        "coordinates": [
-          {
-            "lat": -33,
-            "lng": 151
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/red-bellied-black-snake/primary.jpg",
-        "thumbnail": "/images/snakes/red-bellied-black-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Matt from Melbourne, Australia",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red-bellied_Black_Snake_(Pseudechis_porphyriacus)_(8397137495).jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-        }
-      },
-      "description": "Often found near water. Generally shy. Bites painful but rarely fatal with treatment.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Oceania",
-      "subregions": [
-        "Eastern Australia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "tiger-snake"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 0,
-          "high": 1
-        },
-        "whoCategory": 2,
-        "severity": "Moderate"
       }
     },
     {
@@ -3938,7 +3541,7 @@
         "Pacific Ocean",
         "Indian Ocean"
       ],
-      "dangerScore": 34,
+      "dangerScore": 32,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -3949,11 +3552,12 @@
         "habitat": "Open ocean surface waters"
       },
       "description": "Most famous pelagic sea snake, globally distributed in warm oceans.",
-      "dangerRank": "43/124",
+      "dangerRank": "38/124",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 90,
         "yieldScore": 11,
+        "lethalityScore": 47,
         "encounterScore": 20,
         "speedScore": 55
       },
@@ -4014,92 +3618,346 @@
       }
     },
     {
-      "id": "white-lipped-viper",
-      "commonName": "White-lipped Pit Viper",
-      "scientificName": "Trimeresurus albolabris",
-      "family": "Viperidae",
-      "genus": "Trimeresurus",
-      "dangerScore": 33,
-      "dangerRank": "44/124",
+      "id": "dugite",
+      "commonName": "Dugite",
+      "scientificName": "Pseudonaja affinis",
+      "family": "Elapidae",
+      "genus": "Pseudonaja",
+      "continent": "Oceania",
+      "subregions": [
+        "Western Australia"
+      ],
+      "dangerScore": 31,
+      "venomClassification": "Highly Venomous",
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "Western Australia"
+        ],
+        "habitat": "Coastal scrub and urban fringes"
+      },
+      "description": "Famous urban-interface venomous snake in Western Australia.",
+      "dangerRank": "39/124",
       "dangerScoreComponents": {
-        "clinicalScore": 17,
-        "potencyScore": 41,
-        "yieldScore": 53,
+        "clinicalScore": 32,
+        "potencyScore": 65,
+        "yieldScore": 28,
+        "lethalityScore": 32,
         "encounterScore": 65,
         "speedScore": 55
       },
-      "venomClassification": "Venomous",
       "venomPotency": {
-        "ld50": 2.1,
-        "ld50Range": "1.5-3.0",
+        "ld50": 0.66,
+        "ld50Range": "0.56-0.80",
         "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 6.300000000000001,
-        "normalized": true
+        "method": "SC",
+        "ld50Normalized": 0.66,
+        "normalized": false
       },
       "venomYield": {
-        "dryWeight": 30,
-        "qualitative": "Low"
+        "qualitative": "Very Low",
+        "dryWeight": 6
       },
       "venomTypes": [
-        "Hemotoxic",
-        "Cytotoxic"
+        "Neurotoxic"
       ],
       "venomSpeed": "Quick",
       "symptomsProgression": {
         "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Bleeding"
+          "Localized pain",
+          "Nausea"
         ],
         "progressive": [
-          "Local necrosis"
+          "Systemic envenomation symptoms"
         ],
         "critical": [
-          "Rare"
-        ]
-      },
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "Southeast Asia"
-        ],
-        "habitat": "Forests, gardens, plantations",
-        "coordinates": [
-          {
-            "lat": 15,
-            "lng": 102
-          }
+          "Severe untreated envenomation can be life-threatening"
         ]
       },
       "images": {
-        "primary": "/images/snakes/white-lipped-viper/primary.jpg",
-        "thumbnail": "/images/snakes/white-lipped-viper/thumbnail.jpg",
+        "primary": "/images/snakes/dugite/primary.jpg",
+        "thumbnail": "/images/snakes/dugite/thumbnail.jpg",
         "attribution": {
-          "photographer": "Rushenb",
+          "photographer": "Valentin Moser",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Trimeresurus_albolabris,_White-lipped_pit_viper2_(adult,_male).jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pseudonaja_affinis_30418354.jpg",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
         }
       },
-      "description": "Common in Southeast Asia. Arboreal. Green with white lip.",
       "sources": [
         "WHO",
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
+      "commonlyMisidentifiedAs": [
+        "eastern-brown-snake"
       ],
       "clinicalData": {
         "untreatedFatalityRate": {
-          "low": 1,
-          "high": 5
+          "low": 5,
+          "high": 15
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Severe"
+      }
+    },
+    {
+      "id": "jararaca",
+      "commonName": "Jararaca",
+      "scientificName": "Bothrops jararaca",
+      "family": "Viperidae",
+      "genus": "Bothrops",
+      "continent": "South America",
+      "subregions": [
+        "Brazil",
+        "Paraguay",
+        "Argentina"
+      ],
+      "dangerScore": 31,
+      "venomClassification": "Venomous",
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "Brazil",
+          "Paraguay",
+          "Argentina"
+        ],
+        "habitat": "Atlantic forest and agricultural margins"
+      },
+      "description": "Most recognized pit viper in Brazil and a major medical species.",
+      "dangerRank": "40/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 33,
+        "potencyScore": 47,
+        "yieldScore": 50,
+        "lethalityScore": 29,
+        "encounterScore": 65,
+        "speedScore": 55
+      },
+      "venomPotency": {
+        "ld50": 1.2,
+        "ld50Range": "1.2-3.0",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 3.5999999999999996,
+        "normalized": true
+      },
+      "venomYield": {
+        "qualitative": "Low",
+        "dryWeight": 25
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Localized pain",
+          "Nausea"
+        ],
+        "progressive": [
+          "Systemic envenomation symptoms"
+        ],
+        "critical": [
+          "Severe untreated envenomation can be life-threatening"
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/jararaca/primary.jpg",
+        "thumbnail": "/images/snakes/jararaca/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Reinaldo Oliveira Elias",
+          "source": "iNaturalist",
+          "sourceUrl": "https://www.inaturalist.org/observations/257466664",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+        }
+      },
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "fer-de-lance"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 3,
+          "high": 8
+        },
+        "whoCategory": 1,
+        "severity": "Severe"
+      }
+    },
+    {
+      "id": "egyptian-viper",
+      "commonName": "Horned Desert Viper",
+      "scientificName": "Cerastes cerastes",
+      "family": "Viperidae",
+      "genus": "Cerastes",
+      "continent": "Africa",
+      "subregions": [
+        "North Africa"
+      ],
+      "dangerScore": 31,
+      "venomClassification": "Highly Venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "North Africa"
+        ],
+        "habitat": "Deserts and dune systems"
+      },
+      "description": "Iconic horned desert viper seen across documentaries and references.",
+      "dangerRank": "41/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 32,
+        "potencyScore": 59,
+        "yieldScore": 49,
+        "lethalityScore": 41,
+        "encounterScore": 40,
+        "speedScore": 55
+      },
+      "venomPotency": {
+        "ld50": 0.4,
+        "ld50Range": "0.40-3.0",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 1.2000000000000002,
+        "normalized": true
+      },
+      "venomYield": {
+        "qualitative": "Low",
+        "dryWeight": 23
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Localized pain",
+          "Nausea"
+        ],
+        "progressive": [
+          "Systemic envenomation symptoms"
+        ],
+        "critical": [
+          "Severe untreated envenomation can be life-threatening"
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/egyptian-viper/primary.jpg",
+        "thumbnail": "/images/snakes/egyptian-viper/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Holger Krisp",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hornviper_Cerastes_cerastes.jpg",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+        }
+      },
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 5,
+          "high": 15
+        },
+        "whoCategory": 2,
+        "severity": "Severe"
+      }
+    },
+    {
+      "id": "prairie-rattlesnake",
+      "commonName": "Prairie Rattlesnake",
+      "scientificName": "Crotalus viridis",
+      "family": "Viperidae",
+      "genus": "Crotalus",
+      "continent": "North America",
+      "subregions": [
+        "Great Plains",
+        "Western United States"
+      ],
+      "dangerScore": 30,
+      "venomClassification": "Venomous",
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "Great Plains",
+          "Western United States"
+        ],
+        "habitat": "Prairies, grasslands, scrub"
+      },
+      "description": "Famous prairie species and frequent human encounter rattlesnake.",
+      "dangerRank": "42/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 25,
+        "potencyScore": 44,
+        "yieldScore": 61,
+        "lethalityScore": 34,
+        "encounterScore": 65,
+        "speedScore": 55
+      },
+      "venomPotency": {
+        "ld50": 1.55,
+        "ld50Range": "1.55-2.1",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 4.65,
+        "normalized": true
+      },
+      "venomYield": {
+        "qualitative": "Moderate",
+        "dryWeight": 50
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Localized pain",
+          "Nausea"
+        ],
+        "progressive": [
+          "Systemic envenomation symptoms"
+        ],
+        "critical": [
+          "Severe untreated envenomation can be life-threatening"
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/prairie-rattlesnake/primary.jpg",
+        "thumbnail": "/images/snakes/prairie-rattlesnake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Wendy McCrady",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_viridis_151463473.jpg",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+        }
+      },
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "massasauga"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 3,
+          "high": 10
+        },
+        "whoCategory": 2,
+        "severity": "Severe"
       }
     },
     {
@@ -4113,8 +3971,8 @@
         "Great Lakes",
         "Midwest"
       ],
-      "dangerScore": 33,
-      "venomClassification": "Highly Venomous",
+      "dangerScore": 28,
+      "venomClassification": "Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -4124,11 +3982,12 @@
         "habitat": "Wet prairies and marshes"
       },
       "description": "Iconic small rattlesnake of the Great Lakes region.",
-      "dangerRank": "45/124",
+      "dangerRank": "43/124",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 57,
         "yieldScore": 53,
+        "lethalityScore": 43,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -4222,12 +4081,13 @@
       "scientificName": "Agkistrodon bilineatus",
       "family": "Viperidae",
       "genus": "Agkistrodon",
-      "dangerScore": 33,
-      "dangerRank": "46/124",
+      "dangerScore": 27,
+      "dangerRank": "44/124",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 37,
         "yieldScore": 78,
+        "lethalityScore": 40,
         "encounterScore": 20,
         "speedScore": 55
       },
@@ -4314,16 +4174,17 @@
       "scientificName": "Gloydius blomhoffii",
       "family": "Viperidae",
       "genus": "Gloydius",
-      "dangerScore": 32,
-      "dangerRank": "47/124",
+      "dangerScore": 27,
+      "dangerRank": "45/124",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 62,
         "yieldScore": 42,
+        "lethalityScore": 40,
         "encounterScore": 40,
         "speedScore": 55
       },
-      "venomClassification": "Highly Venomous",
+      "venomClassification": "Venomous",
       "venomPotency": {
         "ld50": 0.3,
         "ld50Range": "0.2-0.4",
@@ -4403,6 +4264,192 @@
       }
     },
     {
+      "id": "red-bellied-black-snake",
+      "commonName": "Red-bellied Black Snake",
+      "scientificName": "Pseudechis porphyriacus",
+      "family": "Elapidae",
+      "genus": "Pseudechis",
+      "dangerScore": 26,
+      "dangerRank": "46/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 7,
+        "potencyScore": 51,
+        "yieldScore": 56,
+        "lethalityScore": 38,
+        "encounterScore": 65,
+        "speedScore": 55
+      },
+      "venomClassification": "Venomous",
+      "venomPotency": {
+        "ld50": 2.5,
+        "ld50Range": "2.0-3.0",
+        "unit": "mg/kg",
+        "method": "SC",
+        "ld50Normalized": 2.5,
+        "normalized": false
+      },
+      "venomYield": {
+        "dryWeight": 37,
+        "wetVolume": 0.1,
+        "qualitative": "Moderate"
+      },
+      "venomTypes": [
+        "Neurotoxic",
+        "Hemotoxic",
+        "Myotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Pain",
+          "Swelling",
+          "Nausea"
+        ],
+        "progressive": [
+          "Coagulopathy",
+          "Myolysis"
+        ],
+        "critical": [
+          "Rare death"
+        ]
+      },
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "Eastern Australia"
+        ],
+        "habitat": "Swamps, creeks, forests",
+        "coordinates": [
+          {
+            "lat": -33,
+            "lng": 151
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/red-bellied-black-snake/primary.jpg",
+        "thumbnail": "/images/snakes/red-bellied-black-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Matt from Melbourne, Australia",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red-bellied_Black_Snake_(Pseudechis_porphyriacus)_(8397137495).jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+        }
+      },
+      "description": "Often found near water. Generally shy. Bites painful but rarely fatal with treatment.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "Oceania",
+      "subregions": [
+        "Eastern Australia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "tiger-snake"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 0,
+          "high": 1
+        },
+        "whoCategory": 2,
+        "severity": "Moderate"
+      }
+    },
+    {
+      "id": "white-lipped-viper",
+      "commonName": "White-lipped Pit Viper",
+      "scientificName": "Trimeresurus albolabris",
+      "family": "Viperidae",
+      "genus": "Trimeresurus",
+      "dangerScore": 24,
+      "dangerRank": "47/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 17,
+        "potencyScore": 41,
+        "yieldScore": 53,
+        "lethalityScore": 24,
+        "encounterScore": 65,
+        "speedScore": 55
+      },
+      "venomClassification": "Venomous",
+      "venomPotency": {
+        "ld50": 2.1,
+        "ld50Range": "1.5-3.0",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 6.300000000000001,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 30,
+        "qualitative": "Low"
+      },
+      "venomTypes": [
+        "Hemotoxic",
+        "Cytotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "progressive": [
+          "Local necrosis"
+        ],
+        "critical": [
+          "Rare"
+        ]
+      },
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "Southeast Asia"
+        ],
+        "habitat": "Forests, gardens, plantations",
+        "coordinates": [
+          {
+            "lat": 15,
+            "lng": 102
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/white-lipped-viper/primary.jpg",
+        "thumbnail": "/images/snakes/white-lipped-viper/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Rushenb",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Trimeresurus_albolabris,_White-lipped_pit_viper2_(adult,_male).jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "Common in Southeast Asia. Arboreal. Green with white lip.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 1,
+          "high": 5
+        },
+        "whoCategory": 2,
+        "severity": "Moderate"
+      }
+    },
+    {
       "id": "nose-horned-viper",
       "commonName": "Nose-horned Viper",
       "scientificName": "Vipera ammodytes",
@@ -4413,7 +4460,7 @@
         "Balkans",
         "Southern Europe"
       ],
-      "dangerScore": 30,
+      "dangerScore": 22,
       "venomClassification": "Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -4429,6 +4476,7 @@
         "clinicalScore": 17,
         "potencyScore": 47,
         "yieldScore": 47,
+        "lethalityScore": 26,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -4489,17 +4537,198 @@
       }
     },
     {
+      "id": "common-adder",
+      "commonName": "Common European Adder",
+      "scientificName": "Vipera berus",
+      "family": "Viperidae",
+      "genus": "Vipera",
+      "continent": "Europe",
+      "subregions": [
+        "Northern Europe",
+        "Central Europe"
+      ],
+      "dangerScore": 20,
+      "venomClassification": "Venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Europe"
+        ],
+        "habitat": "Heathlands, forests, grasslands"
+      },
+      "description": "Most famous and widespread venomous snake in Europe.",
+      "dangerRank": "49/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 7,
+        "potencyScore": 55,
+        "yieldScore": 39,
+        "lethalityScore": 29,
+        "encounterScore": 40,
+        "speedScore": 55
+      },
+      "venomPotency": {
+        "ld50": 0.55,
+        "ld50Range": "0.55-6.45",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 1.6500000000000001,
+        "normalized": true
+      },
+      "venomYield": {
+        "qualitative": "Low",
+        "dryWeight": 12
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Localized pain",
+          "Nausea"
+        ],
+        "progressive": [
+          "Systemic envenomation symptoms"
+        ],
+        "critical": [
+          "Severe untreated envenomation can be life-threatening"
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/common-adder/primary.jpg",
+        "thumbnail": "/images/snakes/common-adder/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Benny Trapp",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Benny_Trapp_Vipera_berus.jpg",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+        }
+      },
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "asp-viper"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 0,
+          "high": 1
+        },
+        "severity": "Moderate"
+      }
+    },
+    {
+      "id": "coral-snake",
+      "commonName": "Eastern Coral Snake",
+      "scientificName": "Micrurus fulvius",
+      "family": "Elapidae",
+      "genus": "Micrurus",
+      "dangerScore": 20,
+      "dangerRank": "50/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 42,
+        "potencyScore": 66,
+        "yieldScore": 17,
+        "lethalityScore": 25,
+        "encounterScore": 20,
+        "speedScore": 20
+      },
+      "venomClassification": "Highly Venomous",
+      "venomPotency": {
+        "ld50": 0.2,
+        "ld50Range": "0.15-0.3",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.6000000000000001,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 3,
+        "wetVolume": 0.001,
+        "qualitative": "Very Low"
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Minimal pain",
+          "Numbness"
+        ],
+        "progressive": [
+          "Paralysis",
+          "Respiratory depression"
+        ],
+        "critical": [
+          "Respiratory failure",
+          "Death rare due to small yield"
+        ]
+      },
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Southeastern United States"
+        ],
+        "habitat": "Forests, scrubland, suburban areas",
+        "coordinates": [
+          {
+            "lat": 28,
+            "lng": -82
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/coral-snake/primary.jpg",
+        "thumbnail": "/images/snakes/coral-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "John",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EASTERN_CORAL_SNAKE.jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+        }
+      },
+      "description": "Potent neurotoxin but tiny fangs and low yield. 'Red touch black' rhyme for identification.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "milk-snake"
+      ],
+      "continent": "North America",
+      "subregions": [
+        "Southeastern United States"
+      ],
+      "misidentificationRisk": "high",
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 5,
+          "high": 15
+        },
+        "whoCategory": 1,
+        "severity": "Severe"
+      }
+    },
+    {
       "id": "cottonmouth",
       "commonName": "Cottonmouth",
       "scientificName": "Agkistrodon piscivorus",
       "family": "Viperidae",
       "genus": "Agkistrodon",
-      "dangerScore": 28,
-      "dangerRank": "49/124",
+      "dangerScore": 19,
+      "dangerRank": "51/124",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 34,
         "yieldScore": 75,
+        "lethalityScore": 34,
         "encounterScore": 40,
         "speedScore": 20
       },
@@ -4590,12 +4819,13 @@
       "scientificName": "Causus rhombeatus",
       "family": "Viperidae",
       "genus": "Causus",
-      "dangerScore": 28,
-      "dangerRank": "50/124",
+      "dangerScore": 19,
+      "dangerRank": "52/124",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 48,
         "yieldScore": 47,
+        "lethalityScore": 27,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -4676,90 +4906,6 @@
       }
     },
     {
-      "id": "common-adder",
-      "commonName": "Common European Adder",
-      "scientificName": "Vipera berus",
-      "family": "Viperidae",
-      "genus": "Vipera",
-      "continent": "Europe",
-      "subregions": [
-        "Northern Europe",
-        "Central Europe"
-      ],
-      "dangerScore": 28,
-      "venomClassification": "Highly Venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Europe"
-        ],
-        "habitat": "Heathlands, forests, grasslands"
-      },
-      "description": "Most famous and widespread venomous snake in Europe.",
-      "dangerRank": "51/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 7,
-        "potencyScore": 55,
-        "yieldScore": 39,
-        "encounterScore": 40,
-        "speedScore": 55
-      },
-      "venomPotency": {
-        "ld50": 0.55,
-        "ld50Range": "0.55-6.45",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 1.6500000000000001,
-        "normalized": true
-      },
-      "venomYield": {
-        "qualitative": "Low",
-        "dryWeight": 12
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/common-adder/primary.jpg",
-        "thumbnail": "/images/snakes/common-adder/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Benny Trapp",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Benny_Trapp_Vipera_berus.jpg",
-          "license": "CC BY 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-        }
-      },
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "asp-viper"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 0,
-          "high": 1
-        },
-        "severity": "Moderate"
-      }
-    },
-    {
       "id": "asp-viper",
       "commonName": "Asp Viper",
       "scientificName": "Vipera aspis",
@@ -4769,7 +4915,7 @@
       "subregions": [
         "Southern Europe"
       ],
-      "dangerScore": 28,
+      "dangerScore": 19,
       "venomClassification": "Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -4779,11 +4925,12 @@
         "habitat": "Rocky slopes, vineyards, scrubland"
       },
       "description": "Classic Mediterranean viper known throughout Europe.",
-      "dangerRank": "52/124",
+      "dangerRank": "53/124",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 49,
         "yieldScore": 36,
+        "lethalityScore": 19,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -4844,17 +4991,226 @@
       }
     },
     {
+      "id": "rock-rattlesnake",
+      "commonName": "Rock Rattlesnake",
+      "scientificName": "Crotalus lepidus",
+      "family": "Viperidae",
+      "genus": "Crotalus",
+      "dangerScore": 18,
+      "dangerRank": "54/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 17,
+        "potencyScore": 39,
+        "yieldScore": 53,
+        "lethalityScore": 21,
+        "encounterScore": 20,
+        "speedScore": 55
+      },
+      "venomClassification": "Venomous",
+      "venomPotency": {
+        "ld50": 2.6,
+        "ld50Range": "2.0-3.5",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 7.800000000000001,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 30,
+        "qualitative": "Low"
+      },
+      "venomTypes": [
+        "Hemotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Pain",
+          "Swelling"
+        ],
+        "progressive": [
+          "Tissue damage"
+        ],
+        "critical": [
+          "Rare death"
+        ]
+      },
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Southwestern United States",
+          "Mexico"
+        ],
+        "habitat": "Rocky outcrops, canyonlands",
+        "coordinates": [
+          {
+            "lat": 31,
+            "lng": -106
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/rock-rattlesnake/primary.jpg",
+        "thumbnail": "/images/snakes/rock-rattlesnake/thumbnail.jpg",
+        "gallery": [
+          "/images/snakes/rock-rattlesnake/gallery/1.jpg",
+          "/images/snakes/rock-rattlesnake/gallery/2.jpg",
+          "/images/snakes/rock-rattlesnake/gallery/3.jpg"
+        ],
+        "attribution": {
+          "photographer": "Patrick Alexander",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_klauberi_12563031.jpg",
+          "license": "CC0",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+        },
+        "galleryAttributions": [
+          {
+            "photographer": "cromulo",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_22972064.jpg",
+            "license": "CC BY 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          },
+          {
+            "photographer": "Justin Pool",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_20230265.jpg",
+            "license": "CC BY 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          },
+          {
+            "photographer": "cromulo",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_klauberi_22972025.jpg",
+            "license": "CC BY 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          }
+        ]
+      },
+      "description": "Small rattlesnake. Venom potency variable. Rarely encountered.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "North America",
+      "subregions": [
+        "Southwestern United States",
+        "Mexico"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 1,
+          "high": 5
+        },
+        "whoCategory": 2,
+        "severity": "Moderate"
+      }
+    },
+    {
+      "id": "texas-coral-snake",
+      "commonName": "Texas Coral Snake",
+      "scientificName": "Micrurus tener",
+      "family": "Elapidae",
+      "genus": "Micrurus",
+      "dangerScore": 18,
+      "dangerRank": "55/124",
+      "dangerScoreComponents": {
+        "clinicalScore": 25,
+        "potencyScore": 66,
+        "yieldScore": 25,
+        "lethalityScore": 31,
+        "encounterScore": 20,
+        "speedScore": 20
+      },
+      "venomClassification": "Highly Venomous",
+      "venomPotency": {
+        "ld50": 0.2,
+        "ld50Range": "0.15-0.3",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 0.6000000000000001,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 5,
+        "qualitative": "Very Low"
+      },
+      "venomTypes": [
+        "Neurotoxic"
+      ],
+      "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Minimal pain",
+          "Numbness"
+        ],
+        "progressive": [
+          "Paralysis"
+        ],
+        "critical": [
+          "Respiratory failure rare"
+        ]
+      },
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Southern United States",
+          "Mexico"
+        ],
+        "habitat": "Scrubland, woodland",
+        "coordinates": [
+          {
+            "lat": 29,
+            "lng": -99
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/texas-coral-snake/primary.jpg",
+        "thumbnail": "/images/snakes/texas-coral-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Ubs6u!d-pongsakorn",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_Map.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "Similar to eastern coral. Secretive. Small fangs limit venom delivery.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "North America",
+      "subregions": [
+        "Southern United States",
+        "Mexico"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 3,
+          "high": 10
+        },
+        "whoCategory": 2,
+        "severity": "Severe"
+      }
+    },
+    {
       "id": "eyelash-viper",
       "commonName": "Eyelash Viper",
       "scientificName": "Bothriechis schlegelii",
       "family": "Viperidae",
       "genus": "Bothriechis",
-      "dangerScore": 27,
-      "dangerRank": "53/124",
+      "dangerScore": 17,
+      "dangerRank": "56/124",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 38,
         "yieldScore": 42,
+        "lethalityScore": 12,
         "encounterScore": 40,
         "speedScore": 55
       },
@@ -4963,125 +5319,32 @@
       }
     },
     {
-      "id": "coral-snake",
-      "commonName": "Eastern Coral Snake",
-      "scientificName": "Micrurus fulvius",
-      "family": "Elapidae",
-      "genus": "Micrurus",
-      "dangerScore": 27,
-      "dangerRank": "54/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 42,
-        "potencyScore": 66,
-        "yieldScore": 17,
-        "encounterScore": 20,
-        "speedScore": 20
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 0.2,
-        "ld50Range": "0.15-0.3",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 0.6000000000000001,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 3,
-        "wetVolume": 0.001,
-        "qualitative": "Very Low"
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Minimal pain",
-          "Numbness"
-        ],
-        "progressive": [
-          "Paralysis",
-          "Respiratory depression"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death rare due to small yield"
-        ]
-      },
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Southeastern United States"
-        ],
-        "habitat": "Forests, scrubland, suburban areas",
-        "coordinates": [
-          {
-            "lat": 28,
-            "lng": -82
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/coral-snake/primary.jpg",
-        "thumbnail": "/images/snakes/coral-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "John",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:EASTERN_CORAL_SNAKE.jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-        }
-      },
-      "description": "Potent neurotoxin but tiny fangs and low yield. 'Red touch black' rhyme for identification.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "milk-snake"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
-      "misidentificationRisk": "high",
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 5,
-          "high": 15
-        },
-        "whoCategory": 1,
-        "severity": "Severe"
-      }
-    },
-    {
-      "id": "rock-rattlesnake",
-      "commonName": "Rock Rattlesnake",
-      "scientificName": "Crotalus lepidus",
+      "id": "waglers-pit-viper",
+      "commonName": "Wagler's Pit Viper",
+      "scientificName": "Tropidolaemus wagleri",
       "family": "Viperidae",
-      "genus": "Crotalus",
-      "dangerScore": 26,
-      "dangerRank": "55/124",
+      "genus": "Tropidolaemus",
+      "dangerScore": 13,
+      "dangerRank": "57/124",
       "dangerScoreComponents": {
-        "clinicalScore": 17,
-        "potencyScore": 39,
-        "yieldScore": 53,
-        "encounterScore": 20,
+        "clinicalScore": 7,
+        "potencyScore": 30,
+        "yieldScore": 50,
+        "lethalityScore": 9,
+        "encounterScore": 40,
         "speedScore": 55
       },
       "venomClassification": "Venomous",
       "venomPotency": {
-        "ld50": 2.6,
-        "ld50Range": "2.0-3.5",
+        "ld50": 6,
+        "ld50Range": "4-8",
         "unit": "mg/kg",
         "method": "IV",
-        "ld50Normalized": 7.800000000000001,
+        "ld50Normalized": 18,
         "normalized": true
       },
       "venomYield": {
-        "dryWeight": 30,
+        "dryWeight": 25,
         "qualitative": "Low"
       },
       "venomTypes": [
@@ -5094,83 +5357,52 @@
           "Swelling"
         ],
         "progressive": [
-          "Tissue damage"
+          "Local tissue damage"
         ],
         "critical": [
-          "Rare death"
+          "Rare"
         ]
       },
-      "humanEncounterChance": "Low",
+      "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
-          "Southwestern United States",
-          "Mexico"
+          "Southeast Asia"
         ],
-        "habitat": "Rocky outcrops, canyonlands",
+        "habitat": "Forests, Temple of the Azure Cloud (famous population)",
         "coordinates": [
           {
-            "lat": 31,
-            "lng": -106
+            "lat": 5,
+            "lng": 100
           }
         ]
       },
       "images": {
-        "primary": "/images/snakes/rock-rattlesnake/primary.jpg",
-        "thumbnail": "/images/snakes/rock-rattlesnake/thumbnail.jpg",
-        "gallery": [
-          "/images/snakes/rock-rattlesnake/gallery/1.jpg",
-          "/images/snakes/rock-rattlesnake/gallery/2.jpg",
-          "/images/snakes/rock-rattlesnake/gallery/3.jpg"
-        ],
+        "primary": "/images/snakes/waglers-pit-viper/primary.jpg",
+        "thumbnail": "/images/snakes/waglers-pit-viper/thumbnail.jpg",
         "attribution": {
-          "photographer": "Patrick Alexander",
+          "photographer": "Rushen",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_klauberi_12563031.jpg",
-          "license": "CC0",
-          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-        },
-        "galleryAttributions": [
-          {
-            "photographer": "cromulo",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_22972064.jpg",
-            "license": "CC BY 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-          },
-          {
-            "photographer": "Justin Pool",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_20230265.jpg",
-            "license": "CC BY 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-          },
-          {
-            "photographer": "cromulo",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Crotalus_lepidus_klauberi_22972025.jpg",
-            "license": "CC BY 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-          }
-        ]
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tropidolaemus_wagleri,_Wagler%27s_palm_pit_viper_-_Takua_Pa_District,_Phang-nga_Province_(48238132136).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+        }
       },
-      "description": "Small rattlesnake. Venom potency variable. Rarely encountered.",
+      "description": "Arboreal. Docile. Temple pit viper in Penang.",
       "sources": [
         "WHO",
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
+      "continent": "Asia",
       "subregions": [
-        "Southwestern United States",
-        "Mexico"
+        "Southeast Asia"
       ],
       "clinicalData": {
         "untreatedFatalityRate": {
-          "low": 1,
-          "high": 5
+          "low": 0,
+          "high": 1
         },
-        "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Mild"
       }
     },
     {
@@ -5179,12 +5411,13 @@
       "scientificName": "Agkistrodon contortrix",
       "family": "Viperidae",
       "genus": "Agkistrodon",
-      "dangerScore": 25,
-      "dangerRank": "56/124",
+      "dangerScore": 11,
+      "dangerRank": "58/124",
       "dangerScoreComponents": {
         "clinicalScore": 5,
         "potencyScore": 24,
         "yieldScore": 69,
+        "lethalityScore": 16,
         "encounterScore": 65,
         "speedScore": 20
       },
@@ -5270,192 +5503,18 @@
       }
     },
     {
-      "id": "texas-coral-snake",
-      "commonName": "Texas Coral Snake",
-      "scientificName": "Micrurus tener",
-      "family": "Elapidae",
-      "genus": "Micrurus",
-      "dangerScore": 25,
-      "dangerRank": "57/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 25,
-        "potencyScore": 66,
-        "yieldScore": 25,
-        "encounterScore": 20,
-        "speedScore": 20
-      },
-      "venomClassification": "Highly Venomous",
-      "venomPotency": {
-        "ld50": 0.2,
-        "ld50Range": "0.15-0.3",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 0.6000000000000001,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 5,
-        "qualitative": "Very Low"
-      },
-      "venomTypes": [
-        "Neurotoxic"
-      ],
-      "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Minimal pain",
-          "Numbness"
-        ],
-        "progressive": [
-          "Paralysis"
-        ],
-        "critical": [
-          "Respiratory failure rare"
-        ]
-      },
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Southern United States",
-          "Mexico"
-        ],
-        "habitat": "Scrubland, woodland",
-        "coordinates": [
-          {
-            "lat": 29,
-            "lng": -99
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/texas-coral-snake/primary.jpg",
-        "thumbnail": "/images/snakes/texas-coral-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Ubs6u!d-pongsakorn",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_Map.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "description": "Similar to eastern coral. Secretive. Small fangs limit venom delivery.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Southern United States",
-        "Mexico"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 3,
-          "high": 10
-        },
-        "whoCategory": 2,
-        "severity": "Severe"
-      }
-    },
-    {
-      "id": "waglers-pit-viper",
-      "commonName": "Wagler's Pit Viper",
-      "scientificName": "Tropidolaemus wagleri",
-      "family": "Viperidae",
-      "genus": "Tropidolaemus",
-      "dangerScore": 24,
-      "dangerRank": "58/124",
-      "dangerScoreComponents": {
-        "clinicalScore": 7,
-        "potencyScore": 30,
-        "yieldScore": 50,
-        "encounterScore": 40,
-        "speedScore": 55
-      },
-      "venomClassification": "Venomous",
-      "venomPotency": {
-        "ld50": 6,
-        "ld50Range": "4-8",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 18,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 25,
-        "qualitative": "Low"
-      },
-      "venomTypes": [
-        "Hemotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling"
-        ],
-        "progressive": [
-          "Local tissue damage"
-        ],
-        "critical": [
-          "Rare"
-        ]
-      },
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Southeast Asia"
-        ],
-        "habitat": "Forests, Temple of the Azure Cloud (famous population)",
-        "coordinates": [
-          {
-            "lat": 5,
-            "lng": 100
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/waglers-pit-viper/primary.jpg",
-        "thumbnail": "/images/snakes/waglers-pit-viper/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Rushen",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tropidolaemus_wagleri,_Wagler%27s_palm_pit_viper_-_Takua_Pa_District,_Phang-nga_Province_(48238132136).jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        }
-      },
-      "description": "Arboreal. Docile. Temple pit viper in Penang.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 0,
-          "high": 1
-        },
-        "severity": "Mild"
-      }
-    },
-    {
       "id": "brown-tree-snake",
       "commonName": "Brown Tree Snake",
       "scientificName": "Boiga irregularis",
       "family": "Colubridae",
       "genus": "Boiga",
-      "dangerScore": 19,
+      "dangerScore": 6,
       "dangerRank": "59/124",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 25,
         "yieldScore": 36,
+        "lethalityScore": 0,
         "encounterScore": 65,
         "speedScore": 20
       },
@@ -5534,17 +5593,284 @@
       }
     },
     {
+      "id": "garter-snake",
+      "commonName": "Common Garter Snake",
+      "scientificName": "Thamnophis sirtalis",
+      "family": "Colubridae",
+      "genus": "Thamnophis",
+      "dangerScore": 5,
+      "dangerRank": "60/124",
+      "venomClassification": "Mildly Venomous",
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "North America"
+        ],
+        "habitat": "Gardens, wetlands, meadows, and forests",
+        "coordinates": [
+          {
+            "lat": 45,
+            "lng": -100
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/garter-snake/primary.jpg",
+        "thumbnail": "/images/snakes/garter-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "kclarksdnhmorg",
+          "source": "iNaturalist",
+          "sourceUrl": "https://www.inaturalist.org/observations/1203887",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+        }
+      },
+      "description": "One of the most common snakes in North America. Mild salivary toxins harmless to humans. Often found in suburban areas.",
+      "maxLength": {
+        "value": 1.3,
+        "unit": "m"
+      },
+      "diet": [
+        "earthworms",
+        "amphibians",
+        "fish",
+        "small mammals"
+      ],
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "North America",
+      "subregions": [
+        "North America"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 5,
+        "yieldScore": 5,
+        "lethalityScore": 5,
+        "encounterScore": 65,
+        "speedScore": 20
+      }
+    },
+    {
+      "id": "hognose-eastern",
+      "commonName": "Eastern Hognose Snake",
+      "scientificName": "Heterodon platirhinos",
+      "family": "Colubridae",
+      "genus": "Heterodon",
+      "dangerScore": 5,
+      "dangerRank": "61/124",
+      "venomClassification": "Mildly Venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Eastern United States"
+        ],
+        "habitat": "Sandy areas, forests",
+        "coordinates": [
+          {
+            "lat": 40,
+            "lng": -82
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/hognose-eastern/primary.jpg",
+        "thumbnail": "/images/snakes/hognose-eastern/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Sam Kieschnick",
+          "source": "iNaturalist",
+          "sourceUrl": "https://www.inaturalist.org/observations/51603365",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+        }
+      },
+      "description": "Dramatic death feigning. Mild venom. Eats toads.",
+      "maxLength": {
+        "value": 1.1,
+        "unit": "m"
+      },
+      "diet": [
+        "amphibians",
+        "reptiles"
+      ],
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "North America",
+      "subregions": [
+        "Eastern United States"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 5,
+        "yieldScore": 5,
+        "lethalityScore": 5,
+        "encounterScore": 40,
+        "speedScore": 20
+      }
+    },
+    {
+      "id": "green-vine-snake",
+      "commonName": "Green Vine Snake",
+      "scientificName": "Ahaetulla nasuta",
+      "family": "Colubridae",
+      "genus": "Ahaetulla",
+      "dangerScore": 5,
+      "dangerRank": "62/124",
+      "venomClassification": "Mildly Venomous",
+      "venomPotency": {
+        "ld50": 300,
+        "ld50Range": "200-400",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 900,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 2,
+        "qualitative": "Very Low"
+      },
+      "venomTypes": [
+        "Mild"
+      ],
+      "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "shortTerm": [
+          "Mild local reaction"
+        ],
+        "progressive": [
+          "None"
+        ],
+        "critical": [
+          "Harmless"
+        ]
+      },
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "South Asia",
+          "Southeast Asia"
+        ],
+        "habitat": "Forests, gardens, shrubs",
+        "coordinates": [
+          {
+            "lat": 15,
+            "lng": 78
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/green-vine-snake/primary.jpg",
+        "thumbnail": "/images/snakes/green-vine-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Ltshears",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:American_vine_snake_at_Louisville_Zoo.jpg",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        }
+      },
+      "description": "Rear-fanged. Mild venom. Elongated body for arboreal life.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "Asia",
+      "subregions": [
+        "South Asia",
+        "Southeast Asia"
+      ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 0,
+          "high": 0
+        },
+        "severity": "Mild"
+      },
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 5,
+        "yieldScore": 5,
+        "lethalityScore": 5,
+        "encounterScore": 40,
+        "speedScore": 20
+      }
+    },
+    {
+      "id": "southern-hognose",
+      "commonName": "Southern Hognose Snake",
+      "scientificName": "Heterodon simus",
+      "family": "Colubridae",
+      "genus": "Heterodon",
+      "dangerScore": 4,
+      "dangerRank": "63/124",
+      "venomClassification": "Mildly Venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Southeastern United States"
+        ],
+        "habitat": "Sandy pine woods",
+        "coordinates": [
+          {
+            "lat": 31,
+            "lng": -82
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/southern-hognose/primary.jpg",
+        "thumbnail": "/images/snakes/southern-hognose/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Court Harding",
+          "source": "iNaturalist",
+          "sourceUrl": "https://www.inaturalist.org/observations/67584526",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+        }
+      },
+      "description": "Rare. Feigns death. Eats toads.",
+      "maxLength": {
+        "value": 0.6,
+        "unit": "m"
+      },
+      "diet": [
+        "amphibians"
+      ],
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "North America",
+      "subregions": [
+        "Southeastern United States"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 5,
+        "yieldScore": 5,
+        "lethalityScore": 5,
+        "encounterScore": 20,
+        "speedScore": 20
+      }
+    },
+    {
       "id": "mangrove-snake",
       "commonName": "Mangrove Snake",
       "scientificName": "Boiga dendrophila",
       "family": "Colubridae",
       "genus": "Boiga",
-      "dangerScore": 15,
-      "dangerRank": "60/124",
+      "dangerScore": 3,
+      "dangerRank": "64/124",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 27,
         "yieldScore": 42,
+        "lethalityScore": 0,
         "encounterScore": 20,
         "speedScore": 20
       },
@@ -5626,12 +5952,13 @@
       "scientificName": "Heterodon nasicus",
       "family": "Colubridae",
       "genus": "Heterodon",
-      "dangerScore": 7,
-      "dangerRank": "61/124",
+      "dangerScore": 3,
+      "dangerRank": "65/124",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
         "yieldScore": 25,
+        "lethalityScore": 0,
         "encounterScore": 40,
         "speedScore": 20
       },
@@ -5730,181 +6057,6 @@
       }
     },
     {
-      "id": "garter-snake",
-      "commonName": "Common Garter Snake",
-      "scientificName": "Thamnophis sirtalis",
-      "family": "Colubridae",
-      "genus": "Thamnophis",
-      "dangerScore": 5,
-      "dangerRank": "62/124",
-      "venomClassification": "Mildly Venomous",
-      "humanEncounterChance": "High",
-      "distribution": {
-        "regions": [
-          "North America"
-        ],
-        "habitat": "Gardens, wetlands, meadows, and forests",
-        "coordinates": [
-          {
-            "lat": 45,
-            "lng": -100
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/garter-snake/primary.jpg",
-        "thumbnail": "/images/snakes/garter-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "kclarksdnhmorg",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/1203887",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
-        }
-      },
-      "description": "One of the most common snakes in North America. Mild salivary toxins harmless to humans. Often found in suburban areas.",
-      "maxLength": {
-        "value": 1.3,
-        "unit": "m"
-      },
-      "diet": [
-        "earthworms",
-        "amphibians",
-        "fish",
-        "small mammals"
-      ],
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "North America"
-      ],
-      "dangerScoreComponents": {
-        "clinicalScore": 0,
-        "potencyScore": 5,
-        "yieldScore": 5,
-        "encounterScore": 65,
-        "speedScore": 20
-      }
-    },
-    {
-      "id": "hognose-eastern",
-      "commonName": "Eastern Hognose Snake",
-      "scientificName": "Heterodon platirhinos",
-      "family": "Colubridae",
-      "genus": "Heterodon",
-      "dangerScore": 4,
-      "dangerRank": "63/124",
-      "venomClassification": "Mildly Venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Eastern United States"
-        ],
-        "habitat": "Sandy areas, forests",
-        "coordinates": [
-          {
-            "lat": 40,
-            "lng": -82
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/hognose-eastern/primary.jpg",
-        "thumbnail": "/images/snakes/hognose-eastern/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Sam Kieschnick",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/51603365",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
-        }
-      },
-      "description": "Dramatic death feigning. Mild venom. Eats toads.",
-      "maxLength": {
-        "value": 1.1,
-        "unit": "m"
-      },
-      "diet": [
-        "amphibians",
-        "reptiles"
-      ],
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
-      ],
-      "dangerScoreComponents": {
-        "clinicalScore": 0,
-        "potencyScore": 5,
-        "yieldScore": 5,
-        "encounterScore": 40,
-        "speedScore": 20
-      }
-    },
-    {
-      "id": "southern-hognose",
-      "commonName": "Southern Hognose Snake",
-      "scientificName": "Heterodon simus",
-      "family": "Colubridae",
-      "genus": "Heterodon",
-      "dangerScore": 4,
-      "dangerRank": "64/124",
-      "venomClassification": "Mildly Venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Southeastern United States"
-        ],
-        "habitat": "Sandy pine woods",
-        "coordinates": [
-          {
-            "lat": 31,
-            "lng": -82
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/southern-hognose/primary.jpg",
-        "thumbnail": "/images/snakes/southern-hognose/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Court Harding",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/67584526",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
-        }
-      },
-      "description": "Rare. Feigns death. Eats toads.",
-      "maxLength": {
-        "value": 0.6,
-        "unit": "m"
-      },
-      "diet": [
-        "amphibians"
-      ],
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
-      "dangerScoreComponents": {
-        "clinicalScore": 0,
-        "potencyScore": 5,
-        "yieldScore": 5,
-        "encounterScore": 20,
-        "speedScore": 20
-      }
-    },
-    {
       "id": "asian-vine-snake",
       "commonName": "Asian Vine Snake",
       "scientificName": "Ahaetulla prasina",
@@ -5924,11 +6076,12 @@
         "habitat": "Forest edges, gardens, shrubs"
       },
       "description": "Famous green arboreal snake; mild rear-fanged venom.",
-      "dangerRank": "65/124",
+      "dangerRank": "66/124",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
         "yieldScore": 0,
+        "lethalityScore": 0,
         "encounterScore": 20,
         "speedScore": 0
       },
@@ -6002,11 +6155,12 @@
         "habitat": "Dry rocky habitats"
       },
       "description": "Mildly venomous rear-fanged species known in Mediterranean regions.",
-      "dangerRank": "66/124",
+      "dangerRank": "67/124",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
         "yieldScore": 0,
+        "lethalityScore": 0,
         "encounterScore": 20,
         "speedScore": 0
       },
@@ -6058,86 +6212,6 @@
           "high": 0
         },
         "severity": "Negligible"
-      }
-    },
-    {
-      "id": "green-vine-snake",
-      "commonName": "Green Vine Snake",
-      "scientificName": "Ahaetulla nasuta",
-      "family": "Colubridae",
-      "genus": "Ahaetulla",
-      "dangerScore": 0,
-      "dangerRank": "67/124",
-      "venomClassification": "Non-venomous",
-      "venomPotency": {
-        "ld50": 300,
-        "ld50Range": "200-400",
-        "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 900,
-        "normalized": true
-      },
-      "venomYield": {
-        "dryWeight": 2,
-        "qualitative": "Very Low"
-      },
-      "venomTypes": [
-        "Mild"
-      ],
-      "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Mild local reaction"
-        ],
-        "progressive": [
-          "None"
-        ],
-        "critical": [
-          "Harmless"
-        ]
-      },
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "South Asia",
-          "Southeast Asia"
-        ],
-        "habitat": "Forests, gardens, shrubs",
-        "coordinates": [
-          {
-            "lat": 15,
-            "lng": 78
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/green-vine-snake/primary.jpg",
-        "thumbnail": "/images/snakes/green-vine-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Ltshears",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:American_vine_snake_at_Louisville_Zoo.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "Rear-fanged. Mild venom. Elongated body for arboreal life.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 0,
-          "high": 0
-        },
-        "severity": "Mild"
       }
     },
     {

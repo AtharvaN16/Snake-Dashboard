@@ -5,25 +5,17 @@ import { getIntrinsicWeights, getEncounterModifier } from "@/lib/dangerScore";
 import type { DangerScoreComponents } from "@/lib/types";
 
 interface Segment {
-  key: keyof typeof INTRINSIC_SEGMENTS_MAP;
+  key: "lethalityScore" | "clinicalScore" | "speedScore";
   label: string;
   shortLabel: string;
   color: string;
   hoverColor: string;
 }
 
-const INTRINSIC_SEGMENTS_MAP = {
-  potencyScore: true,
-  clinicalScore: true,
-  yieldScore: true,
-  speedScore: true,
-} as const;
-
-// Segments ordered by weight (potency/clinical tied → yield → speed)
+// Segments ordered by weight (lethality → clinical → speed)
 const SEGMENTS: Segment[] = [
-  { key: "potencyScore", label: "Venom Potency", shortLabel: "Potency", color: "bg-red-500", hoverColor: "bg-red-400" },
+  { key: "lethalityScore", label: "Lethality (doses/bite)", shortLabel: "Lethality", color: "bg-red-500", hoverColor: "bg-red-400" },
   { key: "clinicalScore", label: "Clinical Severity", shortLabel: "Clinical", color: "bg-amber-500", hoverColor: "bg-amber-400" },
-  { key: "yieldScore", label: "Venom Yield", shortLabel: "Yield", color: "bg-orange-500", hoverColor: "bg-orange-400" },
   { key: "speedScore", label: "Venom Speed", shortLabel: "Speed", color: "bg-yellow-500", hoverColor: "bg-yellow-400" },
 ];
 

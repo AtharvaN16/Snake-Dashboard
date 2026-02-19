@@ -9,13 +9,12 @@ const TOOLTIP_CONTENT = (
   <div className="text-left">
     <p className="font-semibold text-stone-800 mb-1.5">How danger score is calculated</p>
     <p className="text-xs text-stone-600 leading-relaxed">
-      An intrinsic danger score is computed from four factors, then scaled by encounter frequency:
+      An intrinsic danger score is computed from three factors, then scaled by encounter frequency:
     </p>
     <ul className="mt-1.5 text-xs text-stone-600 space-y-0.5 list-none">
-      <li><strong>Venom potency (30%)</strong> — LD₅₀ normalized to subcutaneous equivalent</li>
-      <li><strong>Clinical severity (30%)</strong> — untreated fatality rate and WHO medical importance</li>
-      <li><strong>Venom yield (25%)</strong> — dry venom per bite (mg)</li>
-      <li><strong>Venom speed (15%)</strong> — how quickly symptoms progress after a bite</li>
+      <li><strong>Lethality (45%)</strong> — lethal doses per bite for a 70kg human (potency × yield)</li>
+      <li><strong>Clinical severity (35%)</strong> — untreated fatality rate and WHO medical importance</li>
+      <li><strong>Venom speed (20%)</strong> — how quickly symptoms progress after a bite</li>
     </ul>
     <p className="mt-1.5 text-xs text-stone-600 leading-relaxed">
       <strong>Encounter modifier</strong> — scales the intrinsic score by how often people encounter the species (×0.6 to ×1.0)
