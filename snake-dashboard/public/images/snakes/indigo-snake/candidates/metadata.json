@@ -1,0 +1,132 @@
+[
+  {
+    "index": 1,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-1.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Ltshears",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Indigo_001.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "index": 3,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-3.jpg",
+    "source": "Wikimedia Commons",
+    "score": 75,
+    "attribution": {
+      "photographer": "compiled by rbrausse with Quantum GIS\nMap data: Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com.\nRange data: Hammerson, G.A. 2007. Drymarchon couperi. In: IUCN 2013. IUCN Red List of Threatened Species. Version 2013.1. &lt;www.iucnredlist.org&gt;. Downloaded on 06 November 2013.",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Drymarchon_couperi_distribution.png",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "index": 4,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-4.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Blake McCranie",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6147323065",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 5,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-5.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Coleman Evans",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6147500720",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 6,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-6.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Isaac Lord",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6147524979",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 7,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-7.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "shebringzthereptiles",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5063110480",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 8,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-8.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "TheCarnivoreConnection",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5064047655",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 9,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-9.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "James Rawson",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5237983772",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 10,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-10.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Sam Tavolieri",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5087602461",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 11,
+    "src": "/images/snakes/indigo-snake/candidates/thumb-11.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Dorler, Wayne",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5178179306",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  }
+]

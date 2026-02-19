@@ -1,0 +1,80 @@
+[
+  {
+    "index": 0,
+    "src": "/images/snakes/ribbon-snake/candidates/thumb-0.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Greg Schechter from San Francisco, USA",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_-_Flickr_-_GregTheBusker.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "index": 1,
+    "src": "/images/snakes/ribbon-snake/candidates/thumb-1.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Greg Schechter from San Francisco, USA",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_-_Flickr_-_GregTheBusker_(1).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "index": 3,
+    "src": "/images/snakes/ribbon-snake/candidates/thumb-3.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Greg Schechter from San Francisco, USA",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_-_Flickr_-_GregTheBusker_(4).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "index": 4,
+    "src": "/images/snakes/ribbon-snake/candidates/thumb-4.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Greg Schechter from San Francisco, USA",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_-_Flickr_-_GregTheBusker_(5).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "index": 6,
+    "src": "/images/snakes/ribbon-snake/candidates/thumb-6.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "MH Herpetology",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_ribbon_snake.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "index": 8,
+    "src": "/images/snakes/ribbon-snake/candidates/thumb-8.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "JorikThePooh",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Thamnophis_saurita_distribution_map.png",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  }
+]

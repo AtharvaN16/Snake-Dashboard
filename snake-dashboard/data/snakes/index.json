@@ -8401,7 +8401,35 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Thamnophis_saurita_distribution_map.png",
           "license": "CC BY 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-        }
+        },
+        "gallery": [
+          "/images/snakes/ribbon-snake/gallery/1.jpg",
+          "/images/snakes/ribbon-snake/gallery/2.jpg",
+          "/images/snakes/ribbon-snake/gallery/3.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "Greg Schechter from San Francisco, USA",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_-_Flickr_-_GregTheBusker_(1).jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          },
+          {
+            "photographer": "MH Herpetology",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_ribbon_snake.jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          },
+          {
+            "photographer": "Greg Schechter from San Francisco, USA",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_-_Flickr_-_GregTheBusker.jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          }
+        ]
       },
       "description": "Slender, fast. Related to garter snake. Eats amphibians.",
       "maxLength": {
