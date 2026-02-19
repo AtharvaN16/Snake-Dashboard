@@ -10,6 +10,7 @@ import {
 } from "@/lib/snakeData";import { VenomTypeChip } from "@/components/VenomTypeChip";
 import { VenomSpeedChip } from "@/components/VenomSpeedChip";
 import { VenomYieldChip } from "@/components/VenomYieldChip";
+import { SymptomChip } from "@/components/SymptomChip";
 import { DistributionMap } from "@/components/DistributionMap";
 import { DangerScoreSegmentedBar } from "@/components/DangerScoreSegmentedBar";
 import { hasRangeMapForSnake } from "@/lib/rangeMaps";
@@ -129,7 +130,7 @@ export default async function SnakeDetailPage({
       {/* Snake Info Card - hug content so map stays visible */}
       <div className="relative z-20 rounded-xl p-6 mb-6 max-w-[760px]">
           {/* Classification label at the very top */}
-          <div style={{ marginBottom: "28px" }}>
+          <div style={{ marginBottom: "28px", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
             <span
               className="inline-flex font-bold text-base"
               style={{
@@ -144,6 +145,34 @@ export default async function SnakeDetailPage({
             >
               {classificationLabel}
             </span>
+            {snake.clinicalData?.fatalitySummary === "Rarely Fatal" && (
+              <span
+                className="inline-flex font-bold text-base"
+                style={{
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  backgroundColor: "#E0E7FF", // Indigo-100
+                  color: "#3730A3", // Indigo-800
+                }}
+              >
+                Rarely Fatal
+              </span>
+            )}
+            {snake.accolades && snake.accolades.map(accolade => (
+              <span
+                key={accolade}
+                className="inline-flex font-bold text-base"
+                style={{
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  backgroundColor: "#FEF9C3", // Yellow-100
+                  color: "#854D0E", // Amber-800
+                  border: "1px solid #FDE68A", // Yellow-300
+                }}
+              >
+                🏆 {accolade}
+              </span>
+            ))}
           </div>
 
           {/* Scientific name: rgba(0,0,0,0.70), Inter, 20px, italic, 600 */}
@@ -560,44 +589,92 @@ export default async function SnakeDetailPage({
           {/* Right Column - Symptoms (venomous) or Info (non-venomous) */}
           <div className={venomous ? "md:col-span-2" : "md:col-span-3"}>
             <div className="bg-white rounded-xl p-6">
-              {venomous && snake.symptomsProgression ? (
+              {venomous && snake.symptoms ? (
                 <>
-                  <h3 className="text-sm font-bold text-[#2c2c2c] mb-4">Symptoms Progression</h3>
+                  <h3 className="text-lg font-bold text-[#2c2c2c] mb-4">Clinical Symptoms</h3>
                   <div className="space-y-5">
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-base">⏱️</span>
-                        <h4 className="text-xs font-bold text-[#2c2c2c]">Short Term</h4>
+                    {snake.symptoms.localEffects && snake.symptoms.localEffects.length > 0 && !(snake.symptoms.localEffects.length === 1 && snake.symptoms.localEffects[0] === 'N/A') && (
+                      <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                        <span className="mt-px">🩹</span>
+                        <div>
+                          <h4 className="text-sm font-bold text-stone-600 mb-2">Local Effects</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {snake.symptoms.localEffects.map((symptom) => (
+                              <SymptomChip key={symptom} symptom={symptom} />
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <ul className="space-y-1">
-                        {snake.symptomsProgression.shortTerm.map((symptom, i) => (
-                          <li key={i} className="text-sm text-stone-600">• {symptom}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-base">⚠️</span>
-                        <h4 className="text-xs font-bold text-[#2c2c2c]">Progressive</h4>
+                    )}
+                    {snake.symptoms.neurological && snake.symptoms.neurological.length > 0 && !(snake.symptoms.neurological.length === 1 && snake.symptoms.neurological[0] === 'N/A') && (
+                       <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                        <span className="mt-px">🧠</span>
+                        <div>
+                          <h4 className="text-sm font-bold text-stone-600 mb-2">Neurological</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {snake.symptoms.neurological.map((symptom) => (
+                              <SymptomChip key={symptom} symptom={symptom} />
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <ul className="space-y-1">
-                        {snake.symptomsProgression.progressive.map((symptom, i) => (
-                          <li key={i} className="text-sm text-stone-600">• {symptom}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-base">🚨</span>
-                        <h4 className="text-xs font-bold text-[#2c2c2c]">Critical</h4>
+                    )}
+                     {snake.symptoms.blood && snake.symptoms.blood.length > 0 && !(snake.symptoms.blood.length === 1 && snake.symptoms.blood[0] === 'N/A') && (
+                       <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                        <span className="mt-px">🩸</span>
+                        <div>
+                          <h4 className="text-sm font-bold text-stone-600 mb-2">Blood & Circulation</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {snake.symptoms.blood.map((symptom) => (
+                              <SymptomChip key={symptom} symptom={symptom} />
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <ul className="space-y-1">
-                        {snake.symptomsProgression.critical.map((symptom, i) => (
-                          <li key={i} className="text-sm text-stone-600">• {symptom}</li>
-                        ))}
-                      </ul>
-                    </div>
+                    )}
+                    {snake.symptoms.muscle && snake.symptoms.muscle.length > 0 && !(snake.symptoms.muscle.length === 1 && snake.symptoms.muscle[0] === 'N/A') && (
+                       <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                        <span className="mt-px">💪</span>
+                        <div>
+                          <h4 className="text-sm font-bold text-stone-600 mb-2">Muscle & Kidney</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {snake.symptoms.muscle.map((symptom) => (
+                              <SymptomChip key={symptom} symptom={symptom} />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {snake.symptoms.gastrointestinal && snake.symptoms.gastrointestinal.length > 0 && !(snake.symptoms.gastrointestinal.length === 1 && snake.symptoms.gastrointestinal[0] === 'N/A') && (
+                       <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                        <span className="mt-px">🤢</span>
+                        <div>
+                          <h4 className="text-sm font-bold text-stone-600 mb-2">Gastrointestinal</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {snake.symptoms.gastrointestinal.map((symptom) => (
+                              <SymptomChip key={symptom} symptom={symptom} />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
+
+                  {snake.causesOfDeath && snake.causesOfDeath.length > 0 && (
+                    <div className="mt-6 pt-5 border-t border-stone-200">
+                      <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                        <span className="mt-px">💀</span>
+                        <div>
+                          <h4 className="text-sm font-bold text-stone-600 mb-2">Primary Causes of Death</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {snake.causesOfDeath.map((cause) => (
+                              <SymptomChip key={cause} symptom={cause} />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </>
               ) : (
                 <>
@@ -629,7 +706,7 @@ export default async function SnakeDetailPage({
               )}
 
               {/* Habitat / regions info */}
-              <div className={venomous && snake.symptomsProgression ? "mt-6 pt-5 border-t border-stone-200" : ""}>
+              <div className={venomous && snake.symptoms ? "mt-6 pt-5 border-t border-stone-200" : ""}>
                 <h4 className="text-xs font-bold text-[#2c2c2c] mb-2">Habitat</h4>
                 <p className="text-sm text-stone-600 mb-1">
                   <strong className="font-semibold">Regions:</strong> {snake.distribution.regions.join(", ")}

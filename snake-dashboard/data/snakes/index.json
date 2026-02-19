@@ -37,22 +37,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "progressive": [
-          "Coagulopathy",
-          "Renal failure",
-          "Shock"
-        ],
-        "critical": [
-          "Internal bleeding",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -93,6 +77,7 @@
         "sand-boa",
         "african-rock-python"
       ],
+      "accolades": ["Most Dangerous"],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 30,
@@ -100,7 +85,33 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder",
+          "Shock"
+        ],
+        "muscle": [
+          "Kidney Damage"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding",
+        "Shock",
+        "Kidney Damage"
+      ]
     },
     {
       "id": "coastal-taipan",
@@ -138,22 +149,6 @@
         "Myotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Headache",
-          "Nausea",
-          "Abdominal pain"
-        ],
-        "progressive": [
-          "Paralysis",
-          "Coagulopathy",
-          "Renal damage"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death without treatment"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -225,7 +220,32 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "neurological": [
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting",
+          "Abdominal Pain"
+        ],
+        "muscle": [
+          "Kidney Damage"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis",
+        "Systemic Bleeding",
+        "Kidney Damage"
+      ]
     },
     {
       "id": "philippine-cobra",
@@ -261,20 +281,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Blurred vision",
-          "Drowsiness",
-          "Difficulty breathing"
-        ],
-        "progressive": [
-          "Paralysis"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death within 1 hour"
-        ]
-      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -319,7 +325,30 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "neurological": [
+          "Blurred Vision",
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "localEffects": [
+          "N/A"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "tiger-snake",
@@ -357,21 +386,6 @@
         "Myotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Local pain",
-          "Tingling",
-          "Sweating"
-        ],
-        "progressive": [
-          "Paralysis",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -418,7 +432,31 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "neurological": [
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "muscle": [
+          "Kidney Damage"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis",
+        "Systemic Bleeding",
+        "Kidney Damage"
+      ]
     },
     {
       "id": "puff-adder",
@@ -455,21 +493,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Blisters"
-        ],
-        "progressive": [
-          "Necrosis",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Shock",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -517,7 +540,33 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling",
+          "Blistering",
+          "Tissue Necrosis"
+        ],
+        "blood": [
+          "Clotting Disorder",
+          "Shock"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Shock",
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "inland-taipan",
@@ -555,27 +604,6 @@
         "Myotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Headache",
-          "Nausea and vomiting",
-          "Abdominal pain",
-          "Dizziness"
-        ],
-        "progressive": [
-          "Ptosis (drooping eyelids)",
-          "Blurred vision",
-          "Difficulty swallowing",
-          "Progressive paralysis"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Cardiac arrest",
-          "Rhabdomyolysis",
-          "Kidney failure",
-          "Death within hours without treatment"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -612,6 +640,7 @@
         "Central Australia",
         "Queensland"
       ],
+      "accolades": ["Most Potent Venom"],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 80,
@@ -619,7 +648,37 @@
         },
         "whoCategory": 2,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "neurological": [
+          "Ptosis (Drooping Eyelids)",
+          "Blurred Vision",
+          "Difficulty Speaking/Swallowing",
+          "Dizziness / Vertigo",
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "muscle": [
+          "Kidney Damage"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting",
+          "Abdominal Pain"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis",
+        "Cardiovascular Collapse",
+        "Kidney Damage",
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "black-mamba",
@@ -655,25 +714,35 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain at bite site",
-          "Tingling sensation",
-          "Dizziness",
-          "Difficulty breathing"
+      "symptoms": {
+        "localEffects": [
+          "Mild Pain",
+          "Swelling"
         ],
-        "progressive": [
-          "Progressive paralysis",
-          "Severe respiratory distress",
-          "Cardiovascular collapse",
-          "Convulsions"
+        "neurological": [
+          "Ptosis (Drooping Eyelids)",
+          "Difficulty Speaking/Swallowing",
+          "Dizziness / Vertigo",
+          "Muscle Weakness",
+          "Paralysis",
+          "Respiratory Failure"
         ],
-        "critical": [
-          "Complete respiratory failure",
-          "Cardiac arrest",
-          "Death within 20 minutes to 3 hours without treatment"
+        "gastrointestinal": [
+          "Nausea / Vomiting",
+          "Abdominal Pain"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
         ]
       },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis",
+        "Cardiovascular Collapse"
+      ],
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -755,20 +824,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Drowsiness"
-        ],
-        "progressive": [
-          "Paralysis",
-          "Ptosis"
-        ],
-        "critical": [
-          "Respiratory failure"
-        ]
-      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -814,7 +869,31 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "neurological": [
+          "Ptosis (Drooping Eyelids)",
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "monocled-cobra",
@@ -863,18 +942,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/monocled-cobra/primary.jpg",
         "thumbnail": "/images/snakes/monocled-cobra/thumbnail.jpg",
@@ -902,7 +969,27 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "death-adder",
@@ -938,19 +1025,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Numbness",
-          "Paralysis onset"
-        ],
-        "progressive": [
-          "Progressive paralysis"
-        ],
-        "critical": [
-          "Respiratory failure"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -992,7 +1066,29 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "neurological": [
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "cape-cobra",
@@ -1029,20 +1125,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Ptosis",
-          "Drowsiness"
-        ],
-        "progressive": [
-          "Paralysis"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death within 1-10 hours"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -1087,7 +1169,30 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "neurological": [
+          "Ptosis (Drooping Eyelids)",
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "south-american-rattlesnake",
@@ -1136,18 +1241,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/south-american-rattlesnake/primary.jpg",
         "thumbnail": "/images/snakes/south-american-rattlesnake/thumbnail.jpg",
@@ -1171,7 +1264,27 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "common-krait",
@@ -1221,18 +1334,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/common-krait/primary.jpg",
         "thumbnail": "/images/snakes/common-krait/thumbnail.jpg",
@@ -1261,7 +1362,28 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Mild Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting",
+          "Abdominal Pain"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "eastern-brown-snake",
@@ -1298,26 +1420,6 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Headache",
-          "Nausea",
-          "Abdominal pain",
-          "Coagulation abnormalities"
-        ],
-        "progressive": [
-          "Progressive coagulopathy",
-          "Renal damage",
-          "Severe bleeding",
-          "Collapse"
-        ],
-        "critical": [
-          "Cardiac arrest",
-          "Severe hemorrhage",
-          "Acute renal failure",
-          "Death if untreated"
-        ]
-      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -1364,7 +1466,32 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder"
+        ],
+        "muscle": [
+          "Kidney Damage"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting",
+          "Abdominal Pain"
+        ],
+        "neurological": [
+          "Paralysis"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding",
+        "Cardiovascular Collapse",
+        "Kidney Damage",
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "king-cobra",
@@ -1401,25 +1528,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Blurred vision",
-          "Drowsiness",
-          "Vertigo"
-        ],
-        "progressive": [
-          "Progressive paralysis",
-          "Difficulty speaking",
-          "Difficulty swallowing",
-          "Cardiovascular dysfunction"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Cardiac arrest",
-          "Death within 30 minutes to several hours"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -1466,7 +1574,34 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain"
+        ],
+        "neurological": [
+          "Blurred Vision",
+          "Difficulty Speaking/Swallowing",
+          "Dizziness / Vertigo",
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis",
+        "Cardiovascular Collapse"
+      ]
     },
     {
       "id": "fer-de-lance",
@@ -1504,21 +1639,6 @@
         "Myotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "progressive": [
-          "Necrosis",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Shock",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -1566,7 +1686,34 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling",
+          "Tissue Necrosis"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder",
+          "Shock"
+        ],
+        "muscle": [
+          "Kidney Damage"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding",
+        "Shock",
+        "Kidney Damage"
+      ]
     },
     {
       "id": "carpet-viper",
@@ -1602,20 +1749,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "progressive": [
-          "Coagulopathy",
-          "Renal damage"
-        ],
-        "critical": [
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -1657,7 +1790,29 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "egyptian-cobra",
@@ -1694,19 +1849,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Drowsiness"
-        ],
-        "progressive": [
-          "Paralysis"
-        ],
-        "critical": [
-          "Respiratory failure"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -1753,7 +1895,30 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "neurological": [
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "forest-cobra",
@@ -1790,20 +1955,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Numbness"
-        ],
-        "progressive": [
-          "Paralysis",
-          "Necrosis"
-        ],
-        "critical": [
-          "Respiratory failure"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -1847,7 +1998,31 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling",
+          "Tissue Necrosis"
+        ],
+        "neurological": [
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "saw-scaled-viper",
@@ -1884,21 +2059,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Local pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "progressive": [
-          "Coagulopathy",
-          "Renal damage"
-        ],
-        "critical": [
-          "Hemorrhage",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -1947,7 +2107,29 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "western-diamondback",
@@ -1984,21 +2166,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "progressive": [
-          "Tissue damage",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Shock",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -2045,7 +2212,32 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder",
+          "Shock"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding",
+        "Shock"
+      ]
     },
     {
       "id": "eastern-diamondback",
@@ -2082,21 +2274,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Bruising"
-        ],
-        "progressive": [
-          "Tissue damage",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Shock",
-          "Organ failure"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -2141,7 +2318,32 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling",
+          "Bruising"
+        ],
+        "blood": [
+          "Clotting Disorder",
+          "Shock"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Shock",
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "beaked-sea-snake",
@@ -2190,18 +2392,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/beaked-sea-snake/primary.jpg",
         "thumbnail": "/images/snakes/beaked-sea-snake/thumbnail.jpg",
@@ -2225,7 +2415,27 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "black-necked-spitting-cobra",
@@ -2262,19 +2472,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Extremely quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe eye pain",
-          "Blindness if sprayed",
-          "Local necrosis"
-        ],
-        "progressive": [
-          "Tissue damage"
-        ],
-        "critical": [
-          "Permanent eye damage if not flushed"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -2319,7 +2516,28 @@
         },
         "whoCategory": 1,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Tissue Necrosis"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "javan-spitting-cobra",
@@ -2366,18 +2584,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/javan-spitting-cobra/primary.jpg",
         "thumbnail": "/images/snakes/javan-spitting-cobra/thumbnail.jpg",
@@ -2405,7 +2611,27 @@
         },
         "whoCategory": 1,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "many-banded-krait",
@@ -2441,20 +2667,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Mild pain",
-          "Numbness"
-        ],
-        "progressive": [
-          "Progressive paralysis",
-          "Ptosis"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -2502,7 +2714,31 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Mild Pain"
+        ],
+        "neurological": [
+          "Ptosis (Drooping Eyelids)",
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "bushmaster",
@@ -2539,21 +2775,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Vomiting"
-        ],
-        "progressive": [
-          "Hypotension",
-          "Bradycardia"
-        ],
-        "critical": [
-          "Shock",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -2598,7 +2819,32 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Hypotension (Low Blood Pressure)",
+          "Shock",
+          "Clotting Disorder"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Shock",
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "green-mamba",
@@ -2645,18 +2891,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/green-mamba/primary.jpg",
         "thumbnail": "/images/snakes/green-mamba/thumbnail.jpg",
@@ -2683,7 +2917,27 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "boomslang-southern",
@@ -2730,18 +2984,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/boomslang-southern/primary.jpg",
         "thumbnail": "/images/snakes/boomslang-southern/thumbnail.jpg",
@@ -2768,7 +3010,27 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "banded-krait",
@@ -2815,18 +3077,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/banded-krait/primary.jpg",
         "thumbnail": "/images/snakes/banded-krait/thumbnail.jpg",
@@ -2854,7 +3104,27 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "mulga-snake",
@@ -2901,18 +3171,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/mulga-snake/primary.jpg",
         "thumbnail": "/images/snakes/mulga-snake/thumbnail.jpg",
@@ -2939,7 +3197,27 @@
         },
         "whoCategory": 2,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "lowlands-copperhead",
@@ -2975,19 +3253,6 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Nausea"
-        ],
-        "progressive": [
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Rare death"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -3031,7 +3296,29 @@
         },
         "whoCategory": 2,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "timber-rattlesnake",
@@ -3078,18 +3365,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/timber-rattlesnake/primary.jpg",
         "thumbnail": "/images/snakes/timber-rattlesnake/thumbnail.jpg",
@@ -3117,7 +3392,27 @@
         },
         "whoCategory": 1,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "mojave-rattlesnake",
@@ -3154,21 +3449,6 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Weakness",
-          "Difficulty breathing"
-        ],
-        "progressive": [
-          "Paralysis",
-          "Respiratory depression"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -3235,7 +3515,30 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "neurological": [
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis",
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "boomslang",
@@ -3271,21 +3574,6 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Headache",
-          "Nausea",
-          "Drowsiness"
-        ],
-        "progressive": [
-          "Internal bleeding",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Death from hemorrhage",
-          "Delayed 24-48 hours"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -3330,7 +3618,28 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "localEffects": [
+          "N/A"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "gaboon-viper",
@@ -3368,27 +3677,6 @@
         "Myotoxic"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Rapid swelling",
-          "Bruising",
-          "Bleeding at bite site"
-        ],
-        "progressive": [
-          "Expanding swelling",
-          "Blistering",
-          "Abnormal bleeding (gums, urine)",
-          "Drop in blood pressure"
-        ],
-        "critical": [
-          "Severe tissue necrosis",
-          "Internal bleeding",
-          "Shock",
-          "Organ damage",
-          "Death if untreated"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -3435,7 +3723,36 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling",
+          "Bruising",
+          "Blistering",
+          "Tissue Necrosis"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Shock",
+          "Clotting Disorder"
+        ],
+        "muscle": [
+          "Kidney Damage"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding",
+        "Shock",
+        "Kidney Damage"
+      ]
     },
     {
       "id": "malayan-pit-viper",
@@ -3472,21 +3789,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Blisters"
-        ],
-        "progressive": [
-          "Necrosis",
-          "Coagulopathy"
-        ],
-        "critical": [
-          "Gangrene",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -3528,7 +3830,31 @@
         },
         "whoCategory": 1,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling",
+          "Blistering",
+          "Tissue Necrosis"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "yellow-bellied-sea-snake",
@@ -3577,18 +3903,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/yellow-bellied-sea-snake/primary.jpg",
         "thumbnail": "/images/snakes/yellow-bellied-sea-snake/thumbnail.jpg",
@@ -3615,7 +3929,27 @@
         },
         "whoCategory": 2,
         "severity": "Life-threatening"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "dugite",
@@ -3662,18 +3996,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/dugite/primary.jpg",
         "thumbnail": "/images/snakes/dugite/thumbnail.jpg",
@@ -3700,7 +4022,27 @@
         },
         "whoCategory": 2,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "jararaca",
@@ -3751,18 +4093,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/jararaca/primary.jpg",
         "thumbnail": "/images/snakes/jararaca/thumbnail.jpg",
@@ -3789,7 +4119,27 @@
         },
         "whoCategory": 1,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "egyptian-viper",
@@ -3836,18 +4186,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/egyptian-viper/primary.jpg",
         "thumbnail": "/images/snakes/egyptian-viper/thumbnail.jpg",
@@ -3871,7 +4209,27 @@
         },
         "whoCategory": 2,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "prairie-rattlesnake",
@@ -3920,18 +4278,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/prairie-rattlesnake/primary.jpg",
         "thumbnail": "/images/snakes/prairie-rattlesnake/thumbnail.jpg",
@@ -3958,7 +4304,27 @@
         },
         "whoCategory": 2,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "massasauga",
@@ -4007,18 +4373,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/massasauga/primary.jpg",
         "thumbnail": "/images/snakes/massasauga/thumbnail.jpg",
@@ -4072,8 +4426,29 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "cantil",
@@ -4109,19 +4484,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "progressive": [
-          "Necrosis"
-        ],
-        "critical": [
-          "Rare death"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -4166,7 +4528,31 @@
         },
         "whoCategory": 2,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling",
+          "Tissue Necrosis"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Systemic Bleeding"
+      ]
     },
     {
       "id": "japanese-mamushi",
@@ -4203,21 +4589,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Nausea"
-        ],
-        "progressive": [
-          "Coagulopathy",
-          "Renal damage"
-        ],
-        "critical": [
-          "Shock",
-          "Death"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -4260,8 +4631,31 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Clotting Disorder",
+          "Shock"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "red-bellied-black-snake",
@@ -4299,20 +4693,6 @@
         "Myotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Nausea"
-        ],
-        "progressive": [
-          "Coagulopathy",
-          "Myolysis"
-        ],
-        "critical": [
-          "Rare death"
-        ]
-      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -4356,8 +4736,30 @@
           "high": 1
         },
         "whoCategory": 2,
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "muscle": [
+          "Kidney Damage"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "white-lipped-viper",
@@ -4393,19 +4795,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "progressive": [
-          "Local necrosis"
-        ],
-        "critical": [
-          "Rare"
-        ]
-      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -4446,8 +4835,32 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling",
+          "Tissue Necrosis"
+        ],
+        "blood": [
+          "Systemic Bleeding",
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "nose-horned-viper",
@@ -4496,18 +4909,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/nose-horned-viper/primary.jpg",
         "thumbnail": "/images/snakes/nose-horned-viper/thumbnail.jpg",
@@ -4533,8 +4934,29 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "common-adder",
@@ -4582,18 +5004,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/common-adder/primary.jpg",
         "thumbnail": "/images/snakes/common-adder/thumbnail.jpg",
@@ -4618,8 +5028,29 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "coral-snake",
@@ -4655,20 +5086,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Minimal pain",
-          "Numbness"
-        ],
-        "progressive": [
-          "Paralysis",
-          "Respiratory depression"
-        ],
-        "critical": [
-          "Respiratory failure",
-          "Death rare due to small yield"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -4714,7 +5131,29 @@
         },
         "whoCategory": 1,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "neurological": [
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "cottonmouth",
@@ -4751,20 +5190,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Severe pain",
-          "Swelling",
-          "Tissue damage"
-        ],
-        "progressive": [
-          "Necrosis",
-          "Coagulopathy rarely"
-        ],
-        "critical": [
-          "Rare death"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -4810,8 +5235,32 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Severe"
-      }
+        "severity": "Severe",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Extreme Pain",
+          "Swelling",
+          "Tissue Necrosis"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "night-adder",
@@ -4846,19 +5295,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Blisters"
-        ],
-        "progressive": [
-          "Local necrosis"
-        ],
-        "critical": [
-          "Rare systemic"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -4902,8 +5338,32 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling",
+          "Blistering",
+          "Tissue Necrosis"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "asp-viper",
@@ -4950,18 +5410,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/asp-viper/primary.jpg",
         "thumbnail": "/images/snakes/asp-viper/thumbnail.jpg",
@@ -4987,8 +5435,29 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "rock-rattlesnake",
@@ -5023,18 +5492,6 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling"
-        ],
-        "progressive": [
-          "Tissue damage"
-        ],
-        "critical": [
-          "Rare death"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -5105,8 +5562,30 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "texas-coral-snake",
@@ -5141,18 +5620,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Minimal pain",
-          "Numbness"
-        ],
-        "progressive": [
-          "Paralysis"
-        ],
-        "critical": [
-          "Respiratory failure rare"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -5196,7 +5663,29 @@
         },
         "whoCategory": 2,
         "severity": "Severe"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "neurological": [
+          "Paralysis",
+          "Respiratory Failure"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure",
+        "Paralysis"
+      ]
     },
     {
       "id": "eyelash-viper",
@@ -5232,19 +5721,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Blisters"
-        ],
-        "progressive": [
-          "Local necrosis"
-        ],
-        "critical": [
-          "Rare systemic"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -5315,8 +5791,32 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling",
+          "Blistering",
+          "Tissue Necrosis"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "waglers-pit-viper",
@@ -5351,18 +5851,6 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling"
-        ],
-        "progressive": [
-          "Local tissue damage"
-        ],
-        "critical": [
-          "Rare"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -5402,8 +5890,30 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Mild"
-      }
+        "severity": "Mild",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "copperhead",
@@ -5440,21 +5950,6 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Pain",
-          "Swelling",
-          "Nausea"
-        ],
-        "progressive": [
-          "Tissue damage",
-          "Rare systemic effects"
-        ],
-        "critical": [
-          "Rare death",
-          "Antivenom rarely needed"
-        ]
-      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -5499,8 +5994,30 @@
           "low": 0,
           "high": 0.5
         },
-        "severity": "Moderate"
-      }
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "blood": [
+          "Clotting Disorder"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Rarely Fatal"
+      ]
     },
     {
       "id": "brown-tree-snake",
@@ -5535,17 +6052,6 @@
         "Mild"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Mild local effects"
-        ],
-        "progressive": [
-          "Rare"
-        ],
-        "critical": [
-          "Not dangerous to adults"
-        ]
-      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -5590,7 +6096,25 @@
           "high": 1
         },
         "severity": "Mild"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "N/A"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": []
     },
     {
       "id": "garter-snake",
@@ -5737,17 +6261,6 @@
         "Mild"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Mild local reaction"
-        ],
-        "progressive": [
-          "None"
-        ],
-        "critical": [
-          "Harmless"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -5798,7 +6311,25 @@
         "lethalityScore": 5,
         "encounterScore": 40,
         "speedScore": 20
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "N/A"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": []
     },
     {
       "id": "southern-hognose",
@@ -5891,19 +6422,6 @@
         "Mild cytotoxic"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Local pain",
-          "Swelling",
-          "Mild necrosis"
-        ],
-        "progressive": [
-          "Rare systemic"
-        ],
-        "critical": [
-          "Essentially not life-threatening"
-        ]
-      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -5944,7 +6462,27 @@
           "high": 0
         },
         "severity": "Mild"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling",
+          "Tissue Necrosis"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": []
     },
     {
       "id": "western-hognose",
@@ -5979,19 +6517,6 @@
         "Mild cytotoxic"
       ],
       "venomSpeed": "Slow",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Mild swelling",
-          "Itching",
-          "Rare allergic reaction"
-        ],
-        "progressive": [
-          "Rare"
-        ],
-        "critical": [
-          "Essentially harmless to humans"
-        ]
-      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -6054,7 +6579,25 @@
           "high": 0
         },
         "severity": "Negligible"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Swelling"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": []
     },
     {
       "id": "asian-vine-snake",
@@ -6098,18 +6641,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/asian-vine-snake/primary.jpg",
         "thumbnail": "/images/snakes/asian-vine-snake/thumbnail.jpg",
@@ -6133,7 +6664,27 @@
           "high": 0
         },
         "severity": "Negligible"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "european-cat-snake",
@@ -6177,18 +6728,6 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
-      "symptomsProgression": {
-        "shortTerm": [
-          "Localized pain",
-          "Nausea"
-        ],
-        "progressive": [
-          "Systemic envenomation symptoms"
-        ],
-        "critical": [
-          "Severe untreated envenomation can be life-threatening"
-        ]
-      },
       "images": {
         "primary": "/images/snakes/european-cat-snake/primary.jpg",
         "thumbnail": "/images/snakes/european-cat-snake/thumbnail.jpg",
@@ -6212,7 +6751,27 @@
           "high": 0
         },
         "severity": "Negligible"
-      }
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain"
+        ],
+        "gastrointestinal": [
+          "Nausea / Vomiting"
+        ],
+        "neurological": [
+          "Paralysis"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ]
+      },
+      "causesOfDeath": [
+        "Respiratory Failure"
+      ]
     },
     {
       "id": "african-rock-python",

@@ -25,6 +25,8 @@ export interface ClinicalData {
   whoCategory?: 1 | 2;
   /** Overall clinical envenomation severity */
   severity: "Life-threatening" | "Severe" | "Moderate" | "Mild" | "Negligible";
+  /** Optional summary for specific fatality context */
+  fatalitySummary?: "Rarely Fatal";
 }
 
 export interface DangerScoreComponents {
@@ -118,7 +120,14 @@ export interface Snake {
   clinicalData?: ClinicalData;
 
   // Medical information (optional for non-venomous)
-  symptomsProgression?: SymptomsProgression;
+  symptoms?: {
+    localEffects?: string[];
+    neurological?: string[];
+    blood?: string[];
+    muscle?: string[];
+    gastrointestinal?: string[];
+  };
+  causesOfDeath?: string[];
   humanEncounterChance: "Low" | "Moderate" | "High" | "Very High";
   firstAidInfo?: string;
   
@@ -146,6 +155,9 @@ export interface Snake {
 
   /** Data quality for danger scoring */
   dataQuality?: "measured" | "estimated" | "insufficient";
+
+  /** Special distinctions for display */
+  accolades?: string[];
 
   // For non-venomous / constrictors
   maxLength?: { value: number; unit: "cm" | "m" };
