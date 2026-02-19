@@ -6,14 +6,17 @@ import {
   addToGallery,
   deleteCandidate,
   commitSelections,
+  deleteGalleryImage,
+  promoteGalleryToPrimary,
   type Selection,
 } from "@/lib/imageRefresh";
+import { getSnakeById } from "@/lib/snakeData";
 
-type Action = "search" | "set-primary" | "add-to-gallery" | "delete" | "commit";
+type Action = "search" | "set-primary" | "add-to-gallery" | "delete" | "commit" | "delete-gallery" | "promote-to-primary";
 
 /**
  * POST — Unified action endpoint.
- * Body: { action: Action, candidateIndex?: number }
+ * Body: { action: Action, candidateIndex?: number, imagePath?: string }
  */
 export async function POST(
   request: Request,
@@ -25,14 +28,14 @@ export async function POST(
 
   const { id } = await params;
 
-  let body: { action?: Action; candidateIndex?: number; selections?: Selection[] };
+  let body: { action?: Action; candidateIndex?: number; selections?: Selection[]; imagePath?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { action, candidateIndex, selections } = body;
+  const { action, candidateIndex, selections, imagePath } = body;
 
   try {
     switch (action) {
@@ -73,9 +76,25 @@ export async function POST(
         return NextResponse.json({ success: true });
       }
 
+      case "delete-gallery": {
+        if (!imagePath) {
+          return NextResponse.json({ error: "imagePath required" }, { status: 400 });
+        }
+        await deleteGalleryImage(id, imagePath);
+        return NextResponse.json({ success: true });
+      }
+
+      case "promote-to-primary": {
+        if (!imagePath) {
+          return NextResponse.json({ error: "imagePath required" }, { status: 400 });
+        }
+        await promoteGalleryToPrimary(id, imagePath);
+        return NextResponse.json({ success: true });
+      }
+
       default:
         return NextResponse.json(
-          { error: `Unknown action: ${action}. Use: search, set-primary, add-to-gallery, delete` },
+          { error: `Unknown action: ${action}. Use: search, set-primary, add-to-gallery, delete, commit, delete-gallery, promote-to-primary` },
           { status: 400 }
         );
     }
@@ -87,7 +106,7 @@ export async function POST(
 }
 
 /**
- * GET — Return existing candidates if they've already been fetched.
+ * GET — Return current snake images and existing candidates.
  */
 export async function GET(
   _request: Request,
@@ -99,5 +118,10 @@ export async function GET(
 
   const { id } = await params;
   const candidates = await getCandidates(id);
-  return NextResponse.json({ candidates });
+  const snake = getSnakeById(id);
+  
+  return NextResponse.json({ 
+    candidates,
+    images: snake?.images || null
+  });
 }

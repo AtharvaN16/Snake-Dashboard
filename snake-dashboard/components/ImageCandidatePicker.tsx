@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { RefreshCw, Star, ExternalLink, X, Check } from "lucide-react";
+import { RefreshCw, Star, ExternalLink, X, Check, Edit2, Trash2 } from "lucide-react";
 
 interface CandidateEntry {
   index: number;
@@ -15,6 +15,13 @@ interface CandidateEntry {
     license: string;
     licenseUrl: string;
   };
+}
+
+interface SnakeImages {
+  primary: string;
+  thumbnail: string;
+  gallery?: string[];
+  attribution: { photographer?: string; source: string };
 }
 
 type Role = "primary" | "gallery";
@@ -40,11 +47,15 @@ function useRefreshAction(snakeId: string) {
 
 export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
   const [candidates, setCandidates] = useState<CandidateEntry[]>([]);
+  const [currentImages, setCurrentImages] = useState<SnakeImages | null>(null);
   const [selections, setSelections] = useState<Map<number, Role>>(new Map());
   const [searching, setSearching] = useState(false);
   const [committing, setCommitting] = useState(false);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const [promoting, setPromoting] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   if (process.env.NODE_ENV === "production") return null;
 
@@ -52,6 +63,7 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
 
   const handleSearch = async () => {
     setOpen(true);
+    setEditOpen(false);
     setSearching(true);
     setError(null);
     setSelections(new Map());
@@ -63,6 +75,52 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
       setError(e instanceof Error ? e.message : "Network error");
     } finally {
       setSearching(false);
+    }
+  };
+
+  const handleEditOpen = async () => {
+    setEditOpen(true);
+    setOpen(false);
+    setError(null);
+    
+    try {
+      const res = await fetch(`/api/snakes/${snakeId}/refresh-image`);
+      const data = await res.json();
+      setCurrentImages(data.images);
+    } catch (e) {
+      setError("Failed to load current images");
+    }
+  };
+
+  const handleDeleteGallery = async (imagePath: string) => {
+    if (!confirm("Are you sure you want to delete this gallery image?")) return;
+    setDeleting(imagePath);
+    try {
+      await callAction("delete-gallery", { imagePath });
+      setCurrentImages(prev => {
+        if (!prev || !prev.gallery) return prev;
+        return {
+          ...prev,
+          gallery: prev.gallery.filter(p => p !== imagePath)
+        };
+      });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Delete failed");
+    } finally {
+      setDeleting(null);
+    }
+  };
+
+  const handlePromoteToPrimary = async (imagePath: string) => {
+    if (!confirm("Set this image as the main primary image?")) return;
+    setPromoting(imagePath);
+    try {
+      await callAction("promote-to-primary", { imagePath });
+      // Reload to reflect new primary image throughout page
+      window.location.reload();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Promotion failed");
+      setPromoting(null);
     }
   };
 
@@ -115,6 +173,7 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
 
   const handleClose = () => {
     setOpen(false);
+    setEditOpen(false);
     setCandidates([]);
     setSelections(new Map());
     setError(null);
@@ -129,9 +188,9 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
   ).length;
 
   // Collapsed state — just show the search button
-  if (!open) {
+  if (!open && !editOpen) {
     return (
-      <div className="relative z-20 max-w-[760px] mb-4">
+      <div className="relative z-20 max-w-[760px] mb-4 flex gap-2">
         <button
           onClick={handleSearch}
           disabled={searching}
@@ -141,6 +200,86 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
           <RefreshCw className={`w-3.5 h-3.5 ${searching ? "animate-spin" : ""}`} />
           {searching ? "Searching sources..." : "Search for images"}
         </button>
+        <button
+          onClick={handleEditOpen}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-stone-500 hover:text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-colors"
+          title="Manage existing images"
+        >
+          <Edit2 className="w-3.5 h-3.5" />
+          Edit gallery
+        </button>
+      </div>
+    );
+  }
+
+  // Expanded state — Gallery Editor
+  if (editOpen) {
+    return (
+      <div className="relative z-20 max-w-[760px] mb-6">
+        <div className="rounded-xl bg-white p-4 border border-stone-200 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-bold text-stone-700">Manage existing gallery</h3>
+            <button
+              onClick={handleClose}
+              className="p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          
+          {error && <p className="text-xs text-red-500 mb-3">{error}</p>}
+          
+          {currentImages?.gallery && currentImages.gallery.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {currentImages.gallery.map((path, idx) => (
+                <div key={path} className="group relative aspect-[4/3] rounded-lg border border-stone-200 bg-stone-50 overflow-hidden">
+                  <img
+                    src={`${path}?t=${Date.now()}`}
+                    alt={`Gallery ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                  
+                  <div className="absolute top-1.5 right-1.5 flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => handlePromoteToPrimary(path)}
+                      disabled={promoting === path || deleting === path}
+                      className="p-1.5 rounded-md bg-white/90 text-amber-500 shadow-sm hover:bg-amber-500 hover:text-white transition-all disabled:opacity-50"
+                      title="Set as primary"
+                    >
+                      <Star className={`w-3.5 h-3.5 ${promoting === path ? "animate-spin" : ""}`} />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteGallery(path)}
+                      disabled={deleting === path || promoting === path}
+                      className="p-1.5 rounded-md bg-white/90 text-red-500 shadow-sm hover:bg-red-500 hover:text-white transition-all disabled:opacity-50"
+                      title="Delete image"
+                    >
+                      <Trash2 className={`w-3.5 h-3.5 ${deleting === path ? "animate-pulse" : ""}`} />
+                    </button>
+                  </div>
+
+                  <div className="absolute bottom-1 left-1.5 text-[9px] text-white font-medium drop-shadow-sm">
+                    {path.split('/').pop()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-stone-400 py-6 text-center italic">
+              No gallery images found for this snake.
+            </p>
+          )}
+
+          <div className="mt-4 pt-3 border-t border-stone-100 flex justify-end gap-2">
+            <button
+              onClick={() => window.location.reload()}
+              className="text-xs font-medium text-stone-500 hover:text-stone-700 underline"
+            >
+              Finish & Refresh
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

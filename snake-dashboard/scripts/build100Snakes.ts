@@ -1236,6 +1236,9 @@ const clinicalFixes: Record<string, ClinicalFix> = {
   "western-hognose":            { fatalityRate: [0, 0],    severity: "Negligible" },
   "asian-vine-snake":           { fatalityRate: [0, 0],    severity: "Negligible" },
   "european-cat-snake":         { fatalityRate: [0, 0],    severity: "Negligible" },
+
+  // Atractaspid (stiletto / burrowing asp) — rarely fatal, no WHO category
+  "stiletto-snake":             { fatalityRate: [0, 3],    severity: "Moderate" },
 };
 
 const corrected = unique.map((s: any) => {

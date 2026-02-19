@@ -9,7 +9,7 @@
       "family": "Viperidae",
       "genus": "Daboia",
       "dangerScore": 70,
-      "dangerRank": "1/124",
+      "dangerRank": "1/125",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 71,
@@ -122,7 +122,7 @@
       "family": "Elapidae",
       "genus": "Oxyuranus",
       "dangerScore": 70,
-      "dangerRank": "2/124",
+      "dangerRank": "2/125",
       "dangerScoreComponents": {
         "clinicalScore": 94,
         "potencyScore": 85,
@@ -168,41 +168,15 @@
       "images": {
         "primary": "/images/snakes/coastal-taipan/primary.jpg",
         "thumbnail": "/images/snakes/coastal-taipan/thumbnail.jpg",
-        "gallery": [
-          "/images/snakes/coastal-taipan/gallery/1.jpg",
-          "/images/snakes/coastal-taipan/gallery/2.jpg",
-          "/images/snakes/coastal-taipan/gallery/3.jpg"
-        ],
+        "gallery": [],
         "attribution": {
-          "photographer": "Bernard DUPONT from FRANCE",
+          "photographer": "John Wombey, CSIRO",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taipan_(Oxyuranus_scutellatus)_(10113100415).jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:CSIRO_ScienceImage_3625_Taipan.jpg",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
         },
-        "galleryAttributions": [
-          {
-            "photographer": "Bernard DUPONT from FRANCE",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taipan_(Oxyuranus_scutellatus)_close-up_(10249037565).jpg",
-            "license": "CC BY-SA 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-          },
-          {
-            "photographer": "Bernard DUPONT from FRANCE",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taipan_(Oxyuranus_scutellatus)_(10112734454).jpg",
-            "license": "CC BY-SA 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-          },
-          {
-            "photographer": "Sardaka",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:(1)Taipan.jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          }
-        ]
+        "galleryAttributions": []
       },
       "description": "Third most venomous land snake. Aggressive when cornered. Previously caused many deaths before antivenom.",
       "sources": [
@@ -256,7 +230,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 69,
-      "dangerRank": "3/124",
+      "dangerRank": "3/125",
       "dangerScoreComponents": {
         "clinicalScore": 87,
         "potencyScore": 70,
@@ -359,7 +333,7 @@
       "family": "Elapidae",
       "genus": "Notechis",
       "dangerScore": 66,
-      "dangerRank": "4/124",
+      "dangerRank": "4/125",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 91,
@@ -467,7 +441,7 @@
       "family": "Viperidae",
       "genus": "Bitis",
       "dangerScore": 65,
-      "dangerRank": "5/124",
+      "dangerRank": "5/125",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 59,
@@ -577,7 +551,7 @@
       "family": "Elapidae",
       "genus": "Oxyuranus",
       "dangerScore": 65,
-      "dangerRank": "6/124",
+      "dangerRank": "6/125",
       "dangerScoreComponents": {
         "clinicalScore": 95,
         "potencyScore": 100,
@@ -624,11 +598,11 @@
         "primary": "/images/snakes/inland-taipan/primary.jpg",
         "thumbnail": "/images/snakes/inland-taipan/thumbnail.jpg",
         "attribution": {
-          "photographer": "Photo by XLerate",
+          "photographer": "Sheba_Also 43,000 photos",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fierce_Snake-Oxyuranus_microlepidotus.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Australia_Zoo_Brown_Snake-1and_(3706993200).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
         }
       },
       "description": "The Inland Taipan is the world's most venomous snake. A single bite contains enough venom to kill 100 adult humans or 250,000 mice.",
@@ -691,7 +665,7 @@
       "family": "Elapidae",
       "genus": "Dendroaspis",
       "dangerScore": 63,
-      "dangerRank": "7/124",
+      "dangerRank": "7/125",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 61,
@@ -766,7 +740,7 @@
         "attribution": {
           "photographer": "Bernard DUPONT from FRANCE",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_(6002481884).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_(6002570670).jpg",
           "license": "CC BY-SA 2.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
         }
@@ -803,7 +777,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 61,
-      "dangerRank": "8/124",
+      "dangerRank": "8/125",
       "dangerScoreComponents": {
         "clinicalScore": 65,
         "potencyScore": 62,
@@ -924,7 +898,7 @@
         "habitat": "Agricultural fields, forests, villages"
       },
       "description": "One of Asia's most recognized cobras, common in snakebite regions.",
-      "dangerRank": "9/124",
+      "dangerRank": "9/125",
       "dangerScoreComponents": {
         "clinicalScore": 65,
         "potencyScore": 66,
@@ -1005,7 +979,7 @@
       "family": "Elapidae",
       "genus": "Acanthophis",
       "dangerScore": 60,
-      "dangerRank": "10/124",
+      "dangerRank": "10/125",
       "dangerScoreComponents": {
         "clinicalScore": 84,
         "potencyScore": 70,
@@ -1049,11 +1023,11 @@
         "primary": "/images/snakes/death-adder/primary.jpg",
         "thumbnail": "/images/snakes/death-adder/thumbnail.jpg",
         "attribution": {
-          "photographer": "Tim",
+          "photographer": "John Wombey, CSIRO",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Acanthophis_antarcticus_242346538.jpg",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:CSIRO_ScienceImage_3990_Death_Adder.jpg",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
         }
       },
       "description": "Uses caudal lure to attract prey. Extremely fast strike. Can deliver multiple bites.",
@@ -1104,7 +1078,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 56,
-      "dangerRank": "11/124",
+      "dangerRank": "11/125",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 60,
@@ -1151,10 +1125,30 @@
         "attribution": {
           "photographer": "Bjoertvedt",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_nivea_IMG_5079_Kappkobra.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_nivea_IMG_5078_Kappkobra.jpg",
           "license": "CC BY-SA 3.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
+        },
+        "gallery": [
+          "/images/snakes/cape-cobra/gallery/1.jpg",
+          "/images/snakes/cape-cobra/gallery/2.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "JonRichfield",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_nivea,_Cape_Cobra_IMG_0167s.JPG",
+            "license": "CC BY-SA 3.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+          },
+          {
+            "photographer": "Bernard DUPONT from FRANCE",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cape_Cobra_(Naja_nivea)_(45167579285).jpg",
+            "license": "CC BY-SA 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+          }
+        ]
       },
       "description": "Highly venomous cobra. Variable in color. Aggressive when threatened.",
       "sources": [
@@ -1223,7 +1217,7 @@
         "habitat": "Savanna and dry open habitats"
       },
       "description": "The best-known rattlesnake in South America.",
-      "dangerRank": "12/124",
+      "dangerRank": "12/125",
       "dangerScoreComponents": {
         "clinicalScore": 89,
         "potencyScore": 72,
@@ -1316,7 +1310,7 @@
         "habitat": "Rural settlements and fields"
       },
       "description": "Iconic nocturnal krait and major medically important species in South Asia.",
-      "dangerRank": "13/124",
+      "dangerRank": "13/125",
       "dangerScoreComponents": {
         "clinicalScore": 91,
         "potencyScore": 73,
@@ -1345,12 +1339,24 @@
         "primary": "/images/snakes/common-krait/primary.jpg",
         "thumbnail": "/images/snakes/common-krait/thumbnail.jpg",
         "attribution": {
-          "photographer": "Dr. Raju Kasambe",
+          "photographer": "Davidvraju",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Common_Krait_Bungarus_caeruleus_by_Dr._Raju_Kasambe_DSCN6488_(3)_01.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Common_krait_.jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
+        },
+        "gallery": [
+          "/images/snakes/common-krait/gallery/1.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "Dr. Raju Kasambe",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Common_Krait_Bungarus_caeruleus_by_Dr._Raju_Kasambe_DSCN6488_(3)_01.jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          }
+        ]
       },
       "sources": [
         "WHO",
@@ -1399,7 +1405,7 @@
       "family": "Elapidae",
       "genus": "Pseudonaja",
       "dangerScore": 54,
-      "dangerRank": "14/124",
+      "dangerRank": "14/125",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 96,
@@ -1445,11 +1451,11 @@
         "primary": "/images/snakes/eastern-brown-snake/primary.jpg",
         "thumbnail": "/images/snakes/eastern-brown-snake/thumbnail.jpg",
         "attribution": {
-          "photographer": "Robert Myers",
+          "photographer": "Matt from Melbourne, Australia",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_brown_snake_(Pseudonaja_textilis)_and_Australian_Magpie_(Gymnorhina_tibicen)_at_Wiradjuri_Reserve.jpg",
-          "license": "CC BY-SA 3.0 au",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/au/deed.en"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Brown_Snake_(Pseudonaja_textilis)_(8257634810).jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
         }
       },
       "description": "Responsible for more deaths in Australia than any other snake species. Fast-moving and highly aggressive when threatened.",
@@ -1507,7 +1513,7 @@
       "family": "Elapidae",
       "genus": "Ophiophagus",
       "dangerScore": 54,
-      "dangerRank": "15/124",
+      "dangerRank": "15/125",
       "dangerScoreComponents": {
         "clinicalScore": 89,
         "potencyScore": 43,
@@ -1620,7 +1626,7 @@
       "family": "Viperidae",
       "genus": "Bothrops",
       "dangerScore": 51,
-      "dangerRank": "16/124",
+      "dangerRank": "16/125",
       "dangerScoreComponents": {
         "clinicalScore": 43,
         "potencyScore": 38,
@@ -1732,7 +1738,7 @@
       "family": "Viperidae",
       "genus": "Echis",
       "dangerScore": 50,
-      "dangerRank": "17/124",
+      "dangerRank": "17/125",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 64,
@@ -1831,7 +1837,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 50,
-      "dangerRank": "18/124",
+      "dangerRank": "18/125",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 67,
@@ -1937,7 +1943,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 50,
-      "dangerRank": "19/124",
+      "dangerRank": "19/125",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 65,
@@ -1983,11 +1989,11 @@
         "primary": "/images/snakes/forest-cobra/primary.jpg",
         "thumbnail": "/images/snakes/forest-cobra/thumbnail.jpg",
         "attribution": {
-          "photographer": "Mark Pellegrini",
+          "photographer": "Marius Burger",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:MP-Naja_melanoleuca_1.jpg",
-          "license": "CC BY-SA 2.5",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_melanoleuca_187777696.jpg",
+          "license": "CC0",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
         }
       },
       "description": "Africa's largest cobra. Aggressive when cornered. Good climber and swimmer.",
@@ -2041,7 +2047,7 @@
       "family": "Viperidae",
       "genus": "Echis",
       "dangerScore": 49,
-      "dangerRank": "20/124",
+      "dangerRank": "20/125",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 64,
@@ -2148,7 +2154,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 44,
-      "dangerRank": "21/124",
+      "dangerRank": "21/125",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 41,
@@ -2256,7 +2262,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 44,
-      "dangerRank": "22/124",
+      "dangerRank": "22/125",
       "dangerScoreComponents": {
         "clinicalScore": 55,
         "potencyScore": 44,
@@ -2377,7 +2383,7 @@
         "habitat": "Coastal marine waters"
       },
       "description": "Iconic highly venomous sea snake known from fisheries bycatch incidents.",
-      "dangerRank": "23/124",
+      "dangerRank": "23/125",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 72,
@@ -2406,12 +2412,32 @@
         "primary": "/images/snakes/beaked-sea-snake/primary.jpg",
         "thumbnail": "/images/snakes/beaked-sea-snake/thumbnail.jpg",
         "attribution": {
-          "photographer": "Adityamadhav83",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dead_Common_Seasnake_(Hydrophis_schistosus)_at_Kakinada_beach_03.jpg",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-        }
+          "photographer": "Pravin Kawale",
+          "source": "GBIF",
+          "sourceUrl": "https://www.gbif.org/occurrence/6131700310",
+          "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+          "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+        },
+        "gallery": [
+          "/images/snakes/beaked-sea-snake/gallery/2.jpg",
+          "/images/snakes/beaked-sea-snake/gallery/3.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "fonci",
+            "source": "GBIF",
+            "sourceUrl": "https://www.gbif.org/occurrence/5076915835",
+            "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+            "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+          },
+          {
+            "photographer": "Ramesh Shenai Jr.",
+            "source": "GBIF",
+            "sourceUrl": "https://www.gbif.org/occurrence/5088122754",
+            "license": "http://creativecommons.org/licenses/by/4.0/",
+            "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+          }
+        ]
       },
       "sources": [
         "WHO",
@@ -2454,7 +2480,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 42,
-      "dangerRank": "24/124",
+      "dangerRank": "24/125",
       "dangerScoreComponents": {
         "clinicalScore": 37,
         "potencyScore": 48,
@@ -2569,7 +2595,7 @@
         "habitat": "Lowland forests and cultivated areas"
       },
       "description": "Well-known Southeast Asian spitting cobra.",
-      "dangerRank": "25/124",
+      "dangerRank": "25/125",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 50,
@@ -2598,11 +2624,11 @@
         "primary": "/images/snakes/javan-spitting-cobra/primary.jpg",
         "thumbnail": "/images/snakes/javan-spitting-cobra/thumbnail.jpg",
         "attribution": {
-          "photographer": "Wibowo Djatmiko (Wie146)",
+          "photographer": "Joaquim Baeta",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_sputa_120818-28283_rwg.JPG",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Demonstration_of_how_to_respond_to_an_encounter_with_a_spitting_cobra_(Naja_sputatrix).webm",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         }
       },
       "sources": [
@@ -2650,7 +2676,7 @@
       "family": "Elapidae",
       "genus": "Bungarus",
       "dangerScore": 40,
-      "dangerRank": "26/124",
+      "dangerRank": "26/125",
       "dangerScoreComponents": {
         "clinicalScore": 71,
         "potencyScore": 75,
@@ -2757,7 +2783,7 @@
       "family": "Viperidae",
       "genus": "Lachesis",
       "dangerScore": 40,
-      "dangerRank": "27/124",
+      "dangerRank": "27/125",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 44,
@@ -2802,11 +2828,11 @@
         "primary": "/images/snakes/bushmaster/primary.jpg",
         "thumbnail": "/images/snakes/bushmaster/thumbnail.jpg",
         "attribution": {
-          "photographer": "Cen_Bamper",
-          "source": "GBIF",
-          "sourceUrl": "https://www.gbif.org/occurrence/6147568700",
-          "license": "http://creativecommons.org/licenses/by/4.0/",
-          "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+          "photographer": "Salomão Janderson Ferreira Bispo",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lachesis_muta_-_Salom%C3%A3o_Janderson_Ferreira_Bispo_-_322908738.jpeg",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
         }
       },
       "description": "Longest viper in the world. Produces loud rattling with tail. Rarely encountered.",
@@ -2876,7 +2902,7 @@
         "habitat": "Coastal forests and dense vegetation"
       },
       "description": "Highly recognizable arboreal mamba from East Africa.",
-      "dangerRank": "28/124",
+      "dangerRank": "28/125",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 58,
@@ -2969,7 +2995,7 @@
         "habitat": "Savanna woodland and shrubland"
       },
       "description": "Famous rear-fanged species with clinically important venom.",
-      "dangerRank": "29/124",
+      "dangerRank": "29/125",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 77,
@@ -2998,11 +3024,11 @@
         "primary": "/images/snakes/boomslang-southern/primary.jpg",
         "thumbnail": "/images/snakes/boomslang-southern/thumbnail.jpg",
         "attribution": {
-          "photographer": "Bjoertvedt",
+          "photographer": "William Warby from London, England",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dispholidus_typus_IMG_5071_Boomslange.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dispholidus_typus.jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
         }
       },
       "sources": [
@@ -3062,7 +3088,7 @@
         "habitat": "Grasslands, wetlands, forests"
       },
       "description": "Highly recognizable black-yellow banded krait.",
-      "dangerRank": "30/124",
+      "dangerRank": "30/125",
       "dangerScoreComponents": {
         "clinicalScore": 55,
         "potencyScore": 51,
@@ -3159,7 +3185,7 @@
         "habitat": "Arid and semi-arid habitats"
       },
       "description": "Well-known large Australian elapid with significant bite severity.",
-      "dangerRank": "31/124",
+      "dangerRank": "31/125",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 51,
@@ -3239,7 +3265,7 @@
       "family": "Elapidae",
       "genus": "Austrelaps",
       "dangerScore": 36,
-      "dangerRank": "32/124",
+      "dangerRank": "32/125",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 68,
@@ -3353,7 +3379,7 @@
         "habitat": "Deciduous forests and rocky hills"
       },
       "description": "One of the best-known rattlesnakes in North America.",
-      "dangerRank": "33/124",
+      "dangerRank": "33/125",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 44,
@@ -3434,7 +3460,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 35,
-      "dangerRank": "34/124",
+      "dangerRank": "34/125",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 65,
@@ -3560,7 +3586,7 @@
       "family": "Colubridae",
       "genus": "Dispholidus",
       "dangerScore": 35,
-      "dangerRank": "35/124",
+      "dangerRank": "35/125",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 77,
@@ -3661,7 +3687,7 @@
       "family": "Viperidae",
       "genus": "Bitis",
       "dangerScore": 34,
-      "dangerRank": "36/124",
+      "dangerRank": "36/125",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 39,
@@ -3774,7 +3800,7 @@
       "family": "Viperidae",
       "genus": "Calloselasma",
       "dangerScore": 32,
-      "dangerRank": "37/124",
+      "dangerRank": "37/125",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 44,
@@ -3891,7 +3917,7 @@
         "habitat": "Open ocean surface waters"
       },
       "description": "Most famous pelagic sea snake, globally distributed in warm oceans.",
-      "dangerRank": "38/124",
+      "dangerRank": "38/125",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 90,
@@ -3984,7 +4010,7 @@
         "habitat": "Coastal scrub and urban fringes"
       },
       "description": "Famous urban-interface venomous snake in Western Australia.",
-      "dangerRank": "39/124",
+      "dangerRank": "39/125",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 65,
@@ -4081,7 +4107,7 @@
         "habitat": "Atlantic forest and agricultural margins"
       },
       "description": "Most recognized pit viper in Brazil and a major medical species.",
-      "dangerRank": "40/124",
+      "dangerRank": "40/125",
       "dangerScoreComponents": {
         "clinicalScore": 33,
         "potencyScore": 47,
@@ -4174,7 +4200,7 @@
         "habitat": "Deserts and dune systems"
       },
       "description": "Iconic horned desert viper seen across documentaries and references.",
-      "dangerRank": "41/124",
+      "dangerRank": "41/125",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 59,
@@ -4266,7 +4292,7 @@
         "habitat": "Prairies, grasslands, scrub"
       },
       "description": "Famous prairie species and frequent human encounter rattlesnake.",
-      "dangerRank": "42/124",
+      "dangerRank": "42/125",
       "dangerScoreComponents": {
         "clinicalScore": 25,
         "potencyScore": 44,
@@ -4361,7 +4387,7 @@
         "habitat": "Wet prairies and marshes"
       },
       "description": "Iconic small rattlesnake of the Great Lakes region.",
-      "dangerRank": "43/124",
+      "dangerRank": "43/125",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 57,
@@ -4439,8 +4465,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -4470,7 +4495,7 @@
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 27,
-      "dangerRank": "44/124",
+      "dangerRank": "44/125",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 37,
@@ -4574,7 +4599,7 @@
       "family": "Viperidae",
       "genus": "Gloydius",
       "dangerScore": 27,
-      "dangerRank": "45/124",
+      "dangerRank": "45/125",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 62,
@@ -4644,8 +4669,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -4677,7 +4701,7 @@
       "family": "Elapidae",
       "genus": "Pseudechis",
       "dangerScore": 26,
-      "dangerRank": "46/124",
+      "dangerRank": "46/125",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 51,
@@ -4749,8 +4773,7 @@
           "high": 1
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -4775,13 +4798,128 @@
       ]
     },
     {
+      "id": "stiletto-snake",
+      "commonName": "Stiletto Snake",
+      "scientificName": "Atractaspis bibronii",
+      "otherCommonNames": [
+        "Bibron's Stiletto Snake",
+        "Side-stabbing Snake",
+        "Burrowing Asp"
+      ],
+      "family": "Atractaspididae",
+      "genus": "Atractaspis",
+      "dangerScore": 25,
+      "dangerRank": "47/125",
+      "dangerScoreComponents": {
+        "clinicalScore": 12,
+        "potencyScore": 69,
+        "yieldScore": 33,
+        "lethalityScore": 40,
+        "encounterScore": 40,
+        "speedScore": 55
+      },
+      "venomClassification": "Venomous",
+      "venomPotency": {
+        "ld50": 0.46,
+        "ld50Range": "0.3-0.6",
+        "unit": "mg/kg",
+        "method": "SC",
+        "ld50Normalized": 0.46,
+        "normalized": false
+      },
+      "venomYield": {
+        "dryWeight": 8,
+        "qualitative": "Low"
+      },
+      "venomTypes": [
+        "Cytotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Sub-Saharan Africa",
+          "Southern Africa",
+          "East Africa"
+        ],
+        "habitat": "Savanna, grassland, sandy soils, suburban gardens; fossorial (burrowing) lifestyle",
+        "coordinates": [
+          {
+            "lat": -26,
+            "lng": 28
+          },
+          {
+            "lat": -1,
+            "lng": 37
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/stiletto-snake/primary.jpg",
+        "thumbnail": "/images/snakes/stiletto-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Ryan van Huyssteen",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atractaspis_bibronii_full_body.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "Unique among snakes for its ability to strike sideways without opening its mouth, using a single elongated fang that protrudes from the corner of its closed mouth. This makes it impossible to safely hold behind the head like other snakes. Burrowing lifestyle means bites often occur when accidentally unearthed during gardening or construction.",
+      "behaviorNotes": "Nocturnal and fossorial. Cannot be safely handled by conventional methods — the sideways-striking fang can envenomate even when gripped behind the head. Prefers to flee but will strike repeatedly if restrained.",
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 0,
+          "high": 3
+        },
+        "severity": "Moderate"
+      },
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling",
+          "Necrosis",
+          "Tissue Damage"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "Nausea"
+        ]
+      },
+      "causesOfDeath": [
+        "Secondary Infection",
+        "Anaphylaxis"
+      ],
+      "firstAidInfo": "No specific antivenom widely available. Treat symptomatically — clean wound, manage pain, monitor for tissue necrosis. Surgical debridement may be required for severe necrosis. Seek medical attention promptly.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia",
+        "African Snakebite Institute"
+      ],
+      "continent": "Africa",
+      "subregions": [
+        "Southern Africa",
+        "East Africa"
+      ],
+      "dataQuality": "measured"
+    },
+    {
       "id": "white-lipped-viper",
       "commonName": "White-lipped Pit Viper",
       "scientificName": "Trimeresurus albolabris",
       "family": "Viperidae",
       "genus": "Trimeresurus",
       "dangerScore": 24,
-      "dangerRank": "47/124",
+      "dangerRank": "48/125",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 41,
@@ -4848,8 +4986,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -4897,7 +5034,7 @@
         "habitat": "Rocky grasslands and dry scrub"
       },
       "description": "One of Europe's most recognizable vipers.",
-      "dangerRank": "48/124",
+      "dangerRank": "49/125",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 47,
@@ -4947,8 +5084,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -4992,7 +5128,7 @@
         "habitat": "Heathlands, forests, grasslands"
       },
       "description": "Most famous and widespread venomous snake in Europe.",
-      "dangerRank": "49/124",
+      "dangerRank": "50/125",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 55,
@@ -5041,8 +5177,7 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -5072,7 +5207,7 @@
       "family": "Elapidae",
       "genus": "Micrurus",
       "dangerScore": 20,
-      "dangerRank": "50/124",
+      "dangerRank": "51/125",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 66,
@@ -5178,7 +5313,7 @@
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 19,
-      "dangerRank": "51/124",
+      "dangerRank": "52/125",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 34,
@@ -5251,8 +5386,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Severe",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Severe"
       },
       "symptoms": {
         "localEffects": [
@@ -5285,7 +5419,7 @@
       "family": "Viperidae",
       "genus": "Causus",
       "dangerScore": 19,
-      "dangerRank": "52/124",
+      "dangerRank": "53/125",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 48,
@@ -5354,8 +5488,7 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -5401,7 +5534,7 @@
         "habitat": "Rocky slopes, vineyards, scrubland"
       },
       "description": "Classic Mediterranean viper known throughout Europe.",
-      "dangerRank": "53/124",
+      "dangerRank": "54/125",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 49,
@@ -5451,8 +5584,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -5482,7 +5614,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 18,
-      "dangerRank": "54/124",
+      "dangerRank": "55/125",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 39,
@@ -5578,8 +5710,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -5610,7 +5741,7 @@
       "family": "Elapidae",
       "genus": "Micrurus",
       "dangerScore": 18,
-      "dangerRank": "55/124",
+      "dangerRank": "56/125",
       "dangerScoreComponents": {
         "clinicalScore": 25,
         "potencyScore": 66,
@@ -5654,40 +5785,12 @@
         "primary": "/images/snakes/texas-coral-snake/primary.jpg",
         "thumbnail": "/images/snakes/texas-coral-snake/thumbnail.jpg",
         "attribution": {
-          "photographer": "Ubs6u!d-pongsakorn",
+          "photographer": "Wendy McCrady",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_Map.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
-        "gallery": [
-          "/images/snakes/texas-coral-snake/gallery/1.jpg",
-          "/images/snakes/texas-coral-snake/gallery/2.jpg",
-          "/images/snakes/texas-coral-snake/gallery/3.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Rogelio Reyna-Hernández",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_450436859.jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          },
-          {
-            "photographer": "Rogelio Reyna-Hernández",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_450437268.jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          },
-          {
-            "photographer": "cclarkk",
-            "source": "GBIF",
-            "sourceUrl": "https://www.gbif.org/occurrence/5108492109",
-            "license": "http://creativecommons.org/licenses/by-nc/4.0/",
-            "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
-          }
-        ]
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_280310738.jpg",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+        }
       },
       "description": "Similar to eastern coral. Secretive. Small fangs limit venom delivery.",
       "sources": [
@@ -5738,7 +5841,7 @@
       "family": "Viperidae",
       "genus": "Bothriechis",
       "dangerScore": 17,
-      "dangerRank": "56/124",
+      "dangerRank": "57/125",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 38,
@@ -5835,8 +5938,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -5869,7 +5971,7 @@
       "family": "Viperidae",
       "genus": "Tropidolaemus",
       "dangerScore": 13,
-      "dangerRank": "57/124",
+      "dangerRank": "58/125",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 30,
@@ -5934,8 +6036,7 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Mild",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Mild"
       },
       "symptoms": {
         "localEffects": [
@@ -5966,7 +6067,7 @@
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 11,
-      "dangerRank": "58/124",
+      "dangerRank": "59/125",
       "dangerScoreComponents": {
         "clinicalScore": 5,
         "potencyScore": 24,
@@ -6011,12 +6112,32 @@
         "primary": "/images/snakes/copperhead/primary.jpg",
         "thumbnail": "/images/snakes/copperhead/thumbnail.jpg",
         "attribution": {
-          "photographer": "Quartl",
+          "photographer": "Andy Reago &amp; Chrissy McClarren",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Agkistrodon_contortrix_qtl1.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_copperhead_-_Agkistrodon_contortrix_(42669143530).jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+        },
+        "gallery": [
+          "/images/snakes/copperhead/gallery/1.jpg",
+          "/images/snakes/copperhead/gallery/2.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "Alan Rockefeller",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Agkistrodon_contortrix_242284249.jpg",
+            "license": "CC BY 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          },
+          {
+            "photographer": "Holger Krisp",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Agkistrodon-contortrix-kupferkopf.jpg",
+            "license": "CC BY 3.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+          }
+        ]
       },
       "description": "Most common venomous snake bite in eastern US. Usually not life-threatening.",
       "sources": [
@@ -6038,8 +6159,7 @@
           "low": 0,
           "high": 0.5
         },
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -6070,7 +6190,7 @@
       "family": "Colubridae",
       "genus": "Boiga",
       "dangerScore": 6,
-      "dangerRank": "59/124",
+      "dangerRank": "60/125",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 25,
@@ -6167,7 +6287,7 @@
       "family": "Colubridae",
       "genus": "Thamnophis",
       "dangerScore": 5,
-      "dangerRank": "60/124",
+      "dangerRank": "61/125",
       "venomClassification": "Mildly Venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -6228,7 +6348,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 5,
-      "dangerRank": "61/124",
+      "dangerRank": "62/125",
       "venomClassification": "Mildly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -6247,11 +6367,11 @@
         "primary": "/images/snakes/hognose-eastern/primary.jpg",
         "thumbnail": "/images/snakes/hognose-eastern/thumbnail.jpg",
         "attribution": {
-          "photographer": "Sam Kieschnick",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/51603365",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+          "photographer": "Benny Mazur from Toledo, OH",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heterodon_platirhinos.jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
         }
       },
       "description": "Dramatic death feigning. Mild venom. Eats toads.",
@@ -6287,7 +6407,7 @@
       "family": "Colubridae",
       "genus": "Ahaetulla",
       "dangerScore": 5,
-      "dangerRank": "62/124",
+      "dangerRank": "63/125",
       "venomClassification": "Mildly Venomous",
       "venomPotency": {
         "ld50": 300,
@@ -6382,7 +6502,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 4,
-      "dangerRank": "63/124",
+      "dangerRank": "64/125",
       "venomClassification": "Mildly Venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -6440,7 +6560,7 @@
       "family": "Colubridae",
       "genus": "Boiga",
       "dangerScore": 3,
-      "dangerRank": "64/124",
+      "dangerRank": "65/125",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 27,
@@ -6535,7 +6655,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 3,
-      "dangerRank": "65/124",
+      "dangerRank": "66/125",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -6663,7 +6783,7 @@
         "habitat": "Forest edges, gardens, shrubs"
       },
       "description": "Famous green arboreal snake; mild rear-fanged venom.",
-      "dangerRank": "66/124",
+      "dangerRank": "67/125",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -6750,7 +6870,7 @@
         "habitat": "Dry rocky habitats"
       },
       "description": "Mildly venomous rear-fanged species known in Mediterranean regions.",
-      "dangerRank": "67/124",
+      "dangerRank": "68/125",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -6824,7 +6944,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "68/124",
+      "dangerRank": "69/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -6845,7 +6965,7 @@
         "attribution": {
           "photographer": "Bernard DUPONT from FRANCE",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Southern_African_Python_(Python_natalensis)_(5983973851).jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Southern_African_Python_(Python_natalensis)_juvenile_(6046153604).jpg",
           "license": "CC BY-SA 2.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
         }
@@ -6877,7 +6997,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "69/124",
+      "dangerRank": "70/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -6931,7 +7051,7 @@
       "family": "Boidae",
       "genus": "Acrantophis",
       "dangerScore": 0,
-      "dangerRank": "70/124",
+      "dangerRank": "71/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -6983,7 +7103,7 @@
       "family": "Boidae",
       "genus": "Eryx",
       "dangerScore": 0,
-      "dangerRank": "71/124",
+      "dangerRank": "72/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7038,7 +7158,7 @@
       "family": "Colubridae",
       "genus": "Rhabdophis",
       "dangerScore": 0,
-      "dangerRank": "72/124",
+      "dangerRank": "73/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7089,7 +7209,7 @@
       "family": "Colubridae",
       "genus": "Ptyas",
       "dangerScore": 0,
-      "dangerRank": "73/124",
+      "dangerRank": "74/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7148,7 +7268,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "74/124",
+      "dangerRank": "75/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7167,11 +7287,11 @@
         "primary": "/images/snakes/blood-python/primary.jpg",
         "thumbnail": "/images/snakes/blood-python/thumbnail.jpg",
         "attribution": {
-          "photographer": "I would appreciate being notified if you use my work outside Wikimedia.\nDo not copy this image illegally by ignoring the terms of the license below, as it is not in the public domain. If you would like special permission to use, license, or purchase the image please contact me to negotiate terms.\n\nMore of my work can be found in my personal gallery.",
+          "photographer": "Rushen",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Python_brongersmai,_Va%C5%88kovka,_Brno.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Python_brongersmai_-_Sai_Yok_District,_Kanchanaburi_Province_-_Flickr_-_Rushen.jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
         }
       },
       "description": "Heavy-bodied. Variable red coloration. Sometimes aggressive.",
@@ -7200,7 +7320,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "75/124",
+      "dangerRank": "76/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7254,7 +7374,7 @@
       "family": "Colubridae",
       "genus": "Lampropeltis",
       "dangerScore": 0,
-      "dangerRank": "76/124",
+      "dangerRank": "77/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7310,7 +7430,7 @@
       "family": "Colubridae",
       "genus": "Chrysopelea",
       "dangerScore": 0,
-      "dangerRank": "77/124",
+      "dangerRank": "78/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7361,7 +7481,7 @@
       "family": "Pythonidae",
       "genus": "Malayopython",
       "dangerScore": 0,
-      "dangerRank": "78/124",
+      "dangerRank": "79/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7413,7 +7533,7 @@
       "family": "Colubridae",
       "genus": "Zamenis",
       "dangerScore": 0,
-      "dangerRank": "79/124",
+      "dangerRank": "80/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7466,7 +7586,7 @@
       "family": "Colubridae",
       "genus": "Natrix",
       "dangerScore": 0,
-      "dangerRank": "80/124",
+      "dangerRank": "81/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7519,7 +7639,7 @@
       "family": "Colubridae",
       "genus": "Zamenis",
       "dangerScore": 0,
-      "dangerRank": "81/124",
+      "dangerRank": "82/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7571,7 +7691,7 @@
       "family": "Colubridae",
       "genus": "Elaphe",
       "dangerScore": 0,
-      "dangerRank": "82/124",
+      "dangerRank": "83/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7622,7 +7742,7 @@
       "family": "Colubridae",
       "genus": "Natrix",
       "dangerScore": 0,
-      "dangerRank": "83/124",
+      "dangerRank": "84/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -7675,7 +7795,7 @@
       "family": "Colubridae",
       "genus": "Malpolon",
       "dangerScore": 0,
-      "dangerRank": "84/124",
+      "dangerRank": "85/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7755,7 +7875,7 @@
       "family": "Colubridae",
       "genus": "Coronella",
       "dangerScore": 0,
-      "dangerRank": "85/124",
+      "dangerRank": "86/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7806,7 +7926,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "86/124",
+      "dangerRank": "87/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -7886,7 +8006,7 @@
       "family": "Boidae",
       "genus": "Boa",
       "dangerScore": 0,
-      "dangerRank": "87/124",
+      "dangerRank": "88/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7966,7 +8086,7 @@
       ],
       "constrictor": true,
       "dangerScore": 0,
-      "dangerRank": "88/124",
+      "dangerRank": "89/125",
       "venomClassification": "Non-venomous",
       "images": {
         "primary": "/images/snakes/boa-imperator/primary.jpg",
@@ -7994,7 +8114,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "89/124",
+      "dangerRank": "90/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8046,7 +8166,7 @@
       "family": "Colubridae",
       "genus": "Lampropeltis",
       "dangerScore": 0,
-      "dangerRank": "90/124",
+      "dangerRank": "91/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8100,7 +8220,7 @@
       "family": "Colubridae",
       "genus": "Leptodeira",
       "dangerScore": 0,
-      "dangerRank": "91/124",
+      "dangerRank": "92/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8172,7 +8292,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "92/124",
+      "dangerRank": "93/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8224,7 +8344,7 @@
       "family": "Colubridae",
       "genus": "Chironius",
       "dangerScore": 0,
-      "dangerRank": "93/124",
+      "dangerRank": "94/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8277,7 +8397,7 @@
       "family": "Colubridae",
       "genus": "Storeria",
       "dangerScore": 0,
-      "dangerRank": "94/124",
+      "dangerRank": "95/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -8329,7 +8449,7 @@
       "family": "Colubridae",
       "genus": "Drymarchon",
       "dangerScore": 0,
-      "dangerRank": "95/124",
+      "dangerRank": "96/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8348,9 +8468,11 @@
         "primary": "/images/snakes/indigo-snake/primary.jpg",
         "thumbnail": "/images/snakes/indigo-snake/thumbnail.jpg",
         "attribution": {
-          "source": "Placeholder",
-          "license": "CC BY 4.0",
-          "url": "https://placeholder.com"
+          "photographer": "James Rawson",
+          "source": "GBIF",
+          "sourceUrl": "https://www.gbif.org/occurrence/5237983772",
+          "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+          "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
         }
       },
       "description": "Longest native US snake. Non-venomous. Federally threatened.",
@@ -8380,7 +8502,7 @@
       "family": "Colubridae",
       "genus": "Thamnophis",
       "dangerScore": 0,
-      "dangerRank": "96/124",
+      "dangerRank": "97/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -8399,40 +8521,12 @@
         "primary": "/images/snakes/ribbon-snake/primary.jpg",
         "thumbnail": "/images/snakes/ribbon-snake/thumbnail.jpg",
         "attribution": {
-          "photographer": "JorikThePooh",
+          "photographer": "Peter Paplanus from St. Louis, Missouri",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Thamnophis_saurita_distribution_map.png",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-        },
-        "gallery": [
-          "/images/snakes/ribbon-snake/gallery/1.jpg",
-          "/images/snakes/ribbon-snake/gallery/2.jpg",
-          "/images/snakes/ribbon-snake/gallery/3.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Greg Schechter from San Francisco, USA",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_-_Flickr_-_GregTheBusker_(1).jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          },
-          {
-            "photographer": "MH Herpetology",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_ribbon_snake.jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          },
-          {
-            "photographer": "Greg Schechter from San Francisco, USA",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_-_Flickr_-_GregTheBusker.jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          }
-        ]
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_Ribbon_Snake_(Thamnnophis_sauritus_sauritus)_(16614925437).jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+        }
       },
       "description": "Slender, fast. Related to garter snake. Eats amphibians.",
       "maxLength": {
@@ -8459,7 +8553,7 @@
       "family": "Colubridae",
       "genus": "Carphophis",
       "dangerScore": 0,
-      "dangerRank": "97/124",
+      "dangerRank": "98/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8510,7 +8604,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "98/124",
+      "dangerRank": "99/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8589,7 +8683,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "99/124",
+      "dangerRank": "100/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8641,7 +8735,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "100/124",
+      "dangerRank": "101/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8692,7 +8786,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "101/124",
+      "dangerRank": "102/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8743,7 +8837,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "102/124",
+      "dangerRank": "103/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8794,7 +8888,7 @@
       "family": "Colubridae",
       "genus": "Nerodia",
       "dangerScore": 0,
-      "dangerRank": "103/124",
+      "dangerRank": "104/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -8850,7 +8944,7 @@
       "family": "Colubridae",
       "genus": "Storeria",
       "dangerScore": 0,
-      "dangerRank": "104/124",
+      "dangerRank": "105/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8913,7 +9007,7 @@
       "family": "Colubridae",
       "genus": "Diadophis",
       "dangerScore": 0,
-      "dangerRank": "105/124",
+      "dangerRank": "106/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8965,7 +9059,7 @@
       "family": "Boidae",
       "genus": "Lichanura",
       "dangerScore": 0,
-      "dangerRank": "106/124",
+      "dangerRank": "107/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9019,7 +9113,7 @@
       "family": "Colubridae",
       "genus": "Opheodrys",
       "dangerScore": 0,
-      "dangerRank": "107/124",
+      "dangerRank": "108/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9070,7 +9164,7 @@
       "family": "Boidae",
       "genus": "Charina",
       "dangerScore": 0,
-      "dangerRank": "108/124",
+      "dangerRank": "109/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9134,7 +9228,7 @@
       "family": "Colubridae",
       "genus": "Opheodrys",
       "dangerScore": 0,
-      "dangerRank": "109/124",
+      "dangerRank": "110/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9185,7 +9279,7 @@
       "family": "Pythonidae",
       "genus": "Simalia",
       "dangerScore": 0,
-      "dangerRank": "110/124",
+      "dangerRank": "111/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9241,7 +9335,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "111/124",
+      "dangerRank": "112/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9295,7 +9389,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "112/124",
+      "dangerRank": "113/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9359,7 +9453,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "113/124",
+      "dangerRank": "114/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9434,7 +9528,7 @@
       ],
       "constrictor": true,
       "dangerScore": 0,
-      "dangerRank": "114/124",
+      "dangerRank": "115/125",
       "venomClassification": "Non-venomous",
       "images": {
         "primary": "/images/snakes/emerald-tree-python/primary.jpg",
@@ -9459,7 +9553,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "115/124",
+      "dangerRank": "116/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9515,7 +9609,7 @@
       "family": "Pythonidae",
       "genus": "Liasis",
       "dangerScore": 0,
-      "dangerRank": "116/124",
+      "dangerRank": "117/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9567,7 +9661,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "117/124",
+      "dangerRank": "118/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9618,7 +9712,7 @@
       "family": "Pythonidae",
       "genus": "Simalia",
       "dangerScore": 0,
-      "dangerRank": "118/124",
+      "dangerRank": "119/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9672,7 +9766,7 @@
       "family": "Pythonidae",
       "genus": "Aspidites",
       "dangerScore": 0,
-      "dangerRank": "119/124",
+      "dangerRank": "120/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9696,9 +9790,9 @@
           "/images/snakes/woma-python/gallery/3.jpg"
         ],
         "attribution": {
-          "photographer": "Nrg800",
+          "photographer": "Calistemon",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Woma.png",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Woma_python_(Aspidites_ramsayi)_at_Perth_Zoo,_February_2023_01.jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         },
@@ -9752,7 +9846,7 @@
       "family": "Boidae",
       "genus": "Corallus",
       "dangerScore": 0,
-      "dangerRank": "120/124",
+      "dangerRank": "121/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9775,11 +9869,11 @@
           "/images/snakes/amazon-tree-boa/gallery/2.jpg"
         ],
         "attribution": {
-          "photographer": "Lyokoï",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boa_d%E2%80%99Amazonie_au_zoo_de_Guyane.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          "photographer": "Vincent A. Vos",
+          "source": "GBIF",
+          "sourceUrl": "https://www.gbif.org/occurrence/6133105279",
+          "license": "http://creativecommons.org/licenses/by/4.0/",
+          "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
         },
         "galleryAttributions": [
           {
@@ -9824,7 +9918,7 @@
       "family": "Boidae",
       "genus": "Epicrates",
       "dangerScore": 0,
-      "dangerRank": "121/124",
+      "dangerRank": "122/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9876,7 +9970,7 @@
       "family": "Boidae",
       "genus": "Corallus",
       "dangerScore": 0,
-      "dangerRank": "122/124",
+      "dangerRank": "123/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9956,7 +10050,7 @@
       "family": "Boidae",
       "genus": "Eunectes",
       "dangerScore": 0,
-      "dangerRank": "123/124",
+      "dangerRank": "124/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10010,7 +10104,7 @@
       "family": "Boidae",
       "genus": "Eunectes",
       "dangerScore": 0,
-      "dangerRank": "124/124",
+      "dangerRank": "125/125",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10055,119 +10149,6 @@
       "subregions": [
         "South America"
       ]
-    },
-    {
-      "id": "stiletto-snake",
-      "commonName": "Stiletto Snake",
-      "scientificName": "Atractaspis bibronii",
-      "otherCommonNames": [
-        "Bibron's Stiletto Snake",
-        "Side-stabbing Snake",
-        "Burrowing Asp"
-      ],
-      "family": "Atractaspididae",
-      "genus": "Atractaspis",
-      "dangerScore": 38,
-      "dangerRank": "65/125",
-      "dangerScoreComponents": {
-        "clinicalScore": 50,
-        "potencyScore": 35,
-        "yieldScore": 25,
-        "lethalityScore": 30,
-        "encounterScore": 45,
-        "speedScore": 55
-      },
-      "venomClassification": "Venomous",
-      "venomPotency": {
-        "ld50": 0.46,
-        "ld50Range": "0.3-0.6",
-        "unit": "mg/kg",
-        "method": "SC"
-      },
-      "venomYield": {
-        "dryWeight": 8,
-        "qualitative": "Low"
-      },
-      "venomTypes": [
-        "Cytotoxic"
-      ],
-      "venomSpeed": "Quick",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Sub-Saharan Africa",
-          "Southern Africa",
-          "East Africa"
-        ],
-        "habitat": "Savanna, grassland, sandy soils, suburban gardens; fossorial (burrowing) lifestyle",
-        "coordinates": [
-          {
-            "lat": -26,
-            "lng": 28
-          },
-          {
-            "lat": -1,
-            "lng": 37
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/stiletto-snake/primary.jpg",
-        "thumbnail": "/images/snakes/stiletto-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Ryan van Huyssteen",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atractaspis_bibronii_full_body.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "description": "Unique among snakes for its ability to strike sideways without opening its mouth, using a single elongated fang that protrudes from the corner of its closed mouth. This makes it impossible to safely hold behind the head like other snakes. Burrowing lifestyle means bites often occur when accidentally unearthed during gardening or construction.",
-      "behaviorNotes": "Nocturnal and fossorial. Cannot be safely handled by conventional methods — the sideways-striking fang can envenomate even when gripped behind the head. Prefers to flee but will strike repeatedly if restrained.",
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 0,
-          "high": 3
-        },
-        "severity": "Moderate"
-      },
-      "symptoms": {
-        "localEffects": [
-          "Pain",
-          "Swelling",
-          "Necrosis",
-          "Tissue Damage"
-        ],
-        "blood": [
-          "N/A"
-        ],
-        "neurological": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "Nausea"
-        ]
-      },
-      "causesOfDeath": [
-        "Secondary Infection",
-        "Anaphylaxis"
-      ],
-      "firstAidInfo": "No specific antivenom widely available. Treat symptomatically — clean wound, manage pain, monitor for tissue necrosis. Surgical debridement may be required for severe necrosis. Seek medical attention promptly.",
-      "sources": [
-        "WHO",
-        "Reptile Database",
-        "Wikipedia",
-        "African Snakebite Institute"
-      ],
-      "continent": "Africa",
-      "subregions": [
-        "Southern Africa",
-        "East Africa"
-      ],
-      "dataQuality": "measured"
     }
   ]
 }

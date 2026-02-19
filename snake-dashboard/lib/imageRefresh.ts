@@ -293,6 +293,157 @@ export async function deleteCandidate(
 }
 
 // ---------------------------------------------------------------------------
+// deleteGalleryImage
+// ---------------------------------------------------------------------------
+
+export async function promoteGalleryToPrimary(
+  snakeId: string,
+  imagePath: string
+): Promise<void> {
+  const meta = await fs.readFile(DATA_PATH, "utf-8");
+  const data = JSON.parse(meta) as SnakeData;
+  const snake = data.snakes.find((s) => s.id === snakeId);
+
+  if (!snake || !snake.images || !snake.images.gallery) {
+    throw new Error("Snake or gallery not found");
+  }
+
+  const galleryIdx = snake.images.gallery.indexOf(imagePath);
+  if (galleryIdx === -1) throw new Error("Gallery image not found in index");
+
+  const newPrimaryAttribution = snake.images.galleryAttributions?.[galleryIdx];
+  if (!newPrimaryAttribution) throw new Error("Attribution not found for gallery image");
+
+  // Keep reference to the old primary info
+  const oldPrimaryAttribution = snake.images.attribution;
+  const sd = snakeDir(snakeId);
+  const oldPrimaryPath = join(sd, "original.jpg"); // We usually keep the high-res original
+
+  // 1. Read the NEW primary (currently in gallery)
+  const relativePath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
+  const newPrimarySourcePath = join(ROOT, "public", relativePath);
+  const newPrimaryBuffer = await fs.readFile(newPrimarySourcePath);
+
+  // 2. Read the OLD primary
+  let oldPrimaryBuffer: Buffer | null = null;
+  try {
+    oldPrimaryBuffer = await fs.readFile(oldPrimaryPath);
+  } catch {
+    // Fallback to primary.jpg if original.jpg is missing
+    try {
+      oldPrimaryBuffer = await fs.readFile(join(sd, "primary.jpg"));
+    } catch { /* ignore */ }
+  }
+
+  // 3. Process the NEW primary images
+  const primaryBuf = await sharp(newPrimaryBuffer)
+    .resize(800, 600, {
+      fit: "contain",
+      background: { r: 245, g: 245, b: 240 },
+      position: "center",
+    })
+    .jpeg({ quality: 90 })
+    .toBuffer();
+
+  const thumbBuf = await sharp(newPrimaryBuffer)
+    .resize(300, 225, {
+      fit: "cover",
+      background: { r: 245, g: 245, b: 240 },
+      position: "center",
+    })
+    .jpeg({ quality: 85 })
+    .toBuffer();
+
+  await atomicWrite(join(sd, "primary.jpg"), primaryBuf);
+  await atomicWrite(join(sd, "thumbnail.jpg"), thumbBuf);
+  await atomicWrite(join(sd, "original.jpg"), newPrimaryBuffer);
+  await atomicWrite(
+    join(sd, "attribution.json"),
+    JSON.stringify(newPrimaryAttribution, null, 2)
+  );
+
+  // 4. Move OLD primary to gallery
+  let movedOldToGalleryPath: string | null = null;
+  if (oldPrimaryBuffer) {
+    const galleryDir = join(sd, "gallery");
+    await fs.mkdir(galleryDir, { recursive: true });
+    const files = await fs.readdir(galleryDir);
+    const nums = files.filter(f => /^\d+\.jpg$/.test(f)).map(f => parseInt(f, 10));
+    const nextNum = nums.length > 0 ? Math.max(...nums) + 1 : 1;
+    
+    const galleryBuf = await sharp(oldPrimaryBuffer)
+      .resize(800, 600, { fit: "cover", position: "center" })
+      .jpeg({ quality: 85 })
+      .toBuffer();
+    
+    await atomicWrite(join(galleryDir, `${nextNum}.jpg`), galleryBuf);
+    movedOldToGalleryPath = `/images/snakes/${snakeId}/gallery/${nextNum}.jpg`;
+  }
+
+  // 5. Update index.json (Atomic update for the swap)
+  await atomicJsonUpdate<SnakeData>(DATA_PATH, (d) => {
+    const s = d.snakes.find((sn) => sn.id === snakeId);
+    if (s && s.images && s.images.gallery && s.images.galleryAttributions) {
+      // Set new primary
+      s.images.primary = `/images/snakes/${snakeId}/primary.jpg`;
+      s.images.thumbnail = `/images/snakes/${snakeId}/thumbnail.jpg`;
+      s.images.attribution = newPrimaryAttribution;
+
+      // Remove the promoted image from gallery
+      s.images.gallery.splice(galleryIdx, 1);
+      s.images.galleryAttributions.splice(galleryIdx, 1);
+
+      // Add the old primary to gallery
+      if (movedOldToGalleryPath && oldPrimaryAttribution) {
+        s.images.gallery.push(movedOldToGalleryPath);
+        s.images.galleryAttributions.push(oldPrimaryAttribution);
+      }
+    }
+    return d;
+  });
+
+  // 6. Delete the old gallery file of the promoted image
+  try {
+    await fs.unlink(newPrimarySourcePath);
+  } catch { /* already moved or gone */ }
+
+  console.log(`[promote-gallery] ${snakeId}: swapped gallery ${imagePath} with primary`);
+}
+
+export async function deleteGalleryImage(
+  snakeId: string,
+  imagePath: string
+): Promise<void> {
+  // 1. Update index.json first
+  await atomicJsonUpdate<SnakeData>(DATA_PATH, (data) => {
+    const snake = data.snakes.find((s) => s.id === snakeId);
+    if (snake && snake.images?.gallery) {
+      const idx = snake.images.gallery.indexOf(imagePath);
+      if (idx !== -1) {
+        snake.images.gallery.splice(idx, 1);
+        if (snake.images.galleryAttributions) {
+          snake.images.galleryAttributions.splice(idx, 1);
+        }
+        console.log(`[delete-gallery] ${snakeId}: removed ${imagePath} from index.json`);
+      }
+    }
+    return data;
+  });
+
+  // 2. Delete the file from public/
+  // imagePath is usually /images/snakes/[id]/gallery/[n].jpg
+  const relativePath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
+  const fullPath = join(ROOT, "public", relativePath);
+  
+  try {
+    await fs.unlink(fullPath);
+    console.log(`[delete-gallery] ${snakeId}: deleted file ${fullPath}`);
+  } catch (err) {
+    console.warn(`[delete-gallery] ${snakeId}: could not delete file ${fullPath} (might already be gone)`);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // helpers
 // ---------------------------------------------------------------------------
 
