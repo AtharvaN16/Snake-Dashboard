@@ -87,6 +87,7 @@ export interface Snake {
   id: string;
   commonName: string;
   scientificName: string;
+  otherCommonNames?: string[];
   family: string;
   genus: string;
   continent:

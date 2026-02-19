@@ -4,6 +4,7 @@ import type { Snake } from "./types";
 const fuseOptions = {
   keys: [
     { name: "commonName", weight: 2 },
+    { name: "otherCommonNames", weight: 2 },
     { name: "scientificName", weight: 1.5 },
     { name: "family", weight: 0.5 },
     { name: "genus", weight: 0.5 },

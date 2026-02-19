@@ -165,12 +165,11 @@ export default async function SnakeDetailPage({
                 style={{
                   padding: "4px 8px",
                   borderRadius: "4px",
-                  backgroundColor: "#FEF9C3", // Yellow-100
-                  color: "#854D0E", // Amber-800
-                  border: "1px solid #FDE68A", // Yellow-300
+                  backgroundColor: "#FDE68A", // Yellow-300
+                  color: "#78350F", // Amber-900
                 }}
               >
-                🏆 {accolade}
+                {accolade}
               </span>
             ))}
           </div>
@@ -220,6 +219,16 @@ export default async function SnakeDetailPage({
               fontSize: "18px",
             }}
           >
+            {snake.otherCommonNames && snake.otherCommonNames.length > 0 && (
+              <p style={{ marginBottom: "14px", display: "flex", alignItems: "baseline" }}>
+                <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Also Known As</span>
+                <span 
+                  style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)", marginLeft: "24px" }}
+                >
+                  {snake.otherCommonNames.join(", ")}
+                </span>
+              </p>
+            )}
             <p style={{ marginBottom: "18px", display: "flex", alignItems: "baseline" }}>
               <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Family</span>
               <Link

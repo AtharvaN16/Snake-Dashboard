@@ -105,6 +105,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     const allNodes = root.descendants();
     const allLinks = root.links();
+    const nodePoints = allNodes.map(n => radialPoint((n as any).x, (n as any).y));
 
     // --- Ancestor lookup for path highlighting ---
     const nodeToAncestors = new Map<
@@ -283,6 +284,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     // --- Interactions ---
     const interactions = setupInteractions({
       svg, g, nodeSelection, linkSelection, nodeToAncestors,
+      allNodes, nodePoints,
       nodeColor, isSpecies, currentSnakeId, shouldBloom,
       cw, ch, cx, cy, scale0, zoomBehavior,
       onSpeciesClick: (id) => router.push(`/snakes/${id}`),
