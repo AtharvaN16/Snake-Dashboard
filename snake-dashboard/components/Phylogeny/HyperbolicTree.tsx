@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useMemo, useState } from "react";
+import React, { useEffect, useRef, useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
@@ -18,6 +18,16 @@ import { TreeLegend } from "./TreeLegend";
 import { setupInteractions } from "./treeInteractions";
 import taxonomyDescriptions from "@/data/taxonomy_descriptions.json";
 import { TaxonomyInfoBox } from "./TaxonomyInfoBox";
+import { getAllSnakes } from "@/lib/snakeData";
+import type { Snake } from "@/lib/types";
+
+const venomClassificationColors: Record<Snake['venomClassification'], string> = {
+  "Highly Venomous": "#FF7373",
+  "Venomous": "#FFAB73",
+  "Moderately Venomous": "#FEF08A",
+  "Mildly Venomous": "#B9E948",
+  "Non-venomous": "#CCCCCC",
+};
 
 export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const router = useRouter();
@@ -25,6 +35,15 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const hasBloomedRef = useRef(false);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
+  const [colorMode, setColorMode] = useState<'family' | 'venom'>('family');
+  
+  // Create a lookup map for snake data by id
+  const snakeMap = useMemo(() => {
+    const snakes = getAllSnakes();
+    const map = new Map<string, Snake>();
+    snakes.forEach(snake => map.set(snake.id, snake));
+    return map;
+  }, []);
 
   const handleTaxonomyNodeClick = (node: d3.HierarchyPointNode<HierarchyNode> | null) => {
     if (!node) {
@@ -58,6 +77,27 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     return { hierarchy: h, colorScale: cs };
   }, [rootData]);
 
+  const isSpecies = (d: d3.HierarchyNode<HierarchyNode>) => d.data.rank === "species";
+
+  const nodeColor = useCallback((n: d3.HierarchyNode<HierarchyNode>): string => {
+    if (colorMode === 'venom' && isSpecies(n) && n.data.id) {
+      const snake = snakeMap.get(n.data.id);
+      if (snake?.venomClassification) {
+        return venomClassificationColors[snake.venomClassification] ?? "#94a3b8";
+      }
+    }
+    const rank = n.data.rank;
+    if (rank && RANK_COLORS[rank]) return RANK_COLORS[rank];
+    
+    function familyOf(n: d3.HierarchyNode<HierarchyNode>): string | null {
+      for (let c: typeof n | null = n; c; c = c.parent)
+        if (c.data.rank === "family") return c.data.name;
+      return null;
+    }
+    const f = familyOf(n);
+    return f ? colorScale(f) : "#94a3b8";
+  }, [colorMode, colorScale, snakeMap]);
+
   useEffect(() => {
     const container = containerRef.current;
     const svgEl = svgRef.current;
@@ -88,20 +128,6 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       (infraorders[1] as any).y *= 1.4;
     }
 
-    function familyOf(n: d3.HierarchyNode<HierarchyNode>): string | null {
-      for (let c: typeof n | null = n; c; c = c.parent)
-        if (c.data.rank === "family") return c.data.name;
-      return null;
-    }
-
-    function nodeColor(n: d3.HierarchyNode<HierarchyNode>): string {
-      const rank = n.data.rank;
-      if (rank && RANK_COLORS[rank]) return RANK_COLORS[rank];
-      const f = familyOf(n);
-      return f ? colorScale(f) : "#94a3b8";
-    }
-
-    const isSpecies = (d: d3.HierarchyNode<HierarchyNode>) => d.data.rank === "species";
 
     const allNodes = root.descendants();
     const allLinks = root.links();
@@ -126,6 +152,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       const targetPos = radialPoint((link.target as any).x, (link.target as any).y);
       const grad = defs
         .append("linearGradient")
+        .datum(link) // Bind link data to gradient for later updates
         .attr("id", `link-grad-${i}`)
         .attr("gradientUnits", "userSpaceOnUse")
         .attr("x1", sourcePos[0]).attr("y1", sourcePos[1])
@@ -175,7 +202,12 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       const r = nodeRadius(d);
       const color = nodeColor(d);
       const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
-      const fill = isCurrent ? color : lightTint(color, 0.82);
+      let fill: string;
+      if (colorMode === 'venom' && isSpecies(d)) {
+        fill = color; // Always use solid color in venom mode for species
+      } else {
+        fill = isCurrent ? color : lightTint(color, 0.82);
+      }
       const rank = d.data.rank;
       const sw = Math.max(2, r * 0.06);
 
@@ -301,6 +333,45 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     };
   }, [hierarchy, colorScale, currentSnakeId, router]);
 
+  // Effect to update colors when colorMode changes
+  useEffect(() => {
+    const svg = d3.select(svgRef.current);
+    if (!svg.node() || !svg.selectAll(".node").size()) return;
+
+    // Update node fills
+    svg.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".node")
+      .transition().duration(500)
+      .each(function(d) {
+        const newColor = nodeColor(d);
+        const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
+        
+        let fill: string;
+        if (colorMode === 'venom' && isSpecies(d)) {
+          fill = newColor; // Always use solid color in venom mode for species
+        } else {
+          fill = isCurrent ? newColor : lightTint(newColor, 0.82);
+        }
+
+        d3.select(this).select<SVGElement>("circle, path")
+          .attr("fill", fill)
+          .attr("stroke", newColor);
+      });
+
+    // Update link gradients
+    const defs = svg.select("defs");
+    if (defs.node()) {
+      defs.selectAll<SVGLinearGradientElement, d3.HierarchyPointLink<HierarchyNode>>("linearGradient")
+        .each(function(d) {
+          if (!d || !d.source || !d.target) return; // Guard against undefined data
+          const link = d; // Link data is bound to the gradient element
+          d3.select(this).selectAll("stop")
+            .transition().duration(500)
+            .attr("stop-color", (_stopD, i) => nodeColor(i === 0 ? link.source : link.target));
+        });
+    }
+      
+  }, [colorMode, nodeColor, currentSnakeId]);
+
   return (
     <div
       ref={containerRef}
@@ -320,6 +391,16 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           onClose={() => setSelectedTaxon(null)}
         />
       )}
+      <button
+        onClick={() => setColorMode((m) => (m === 'venom' ? 'family' : 'venom'))}
+        className={`absolute top-2 right-2 px-4 py-2 text-sm font-medium rounded-full transition-colors ${
+          colorMode === 'venom'
+            ? 'bg-stone-800 text-white shadow-sm'
+            : 'bg-white/80 text-stone-600 hover:text-stone-800 border border-stone-200/50 backdrop-blur-sm'
+        }`}
+      >
+        Venom
+      </button>
       <p className="absolute bottom-2 left-2 text-xs text-stone-400 pointer-events-none">
         Drag to pan · Scroll to zoom · Click node to focus · R to reset view ·
         Hover to trace lineage
