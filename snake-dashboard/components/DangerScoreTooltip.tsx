@@ -12,10 +12,10 @@ const TOOLTIP_CONTENT = (
       The score (0–100) combines five factors with logarithmic scaling where relevant:
     </p>
     <ul className="mt-1.5 text-xs text-stone-600 space-y-0.5 list-none">
-      <li><strong>Clinical severity (25%)</strong> — untreated fatality rate and WHO medical importance</li>
+      <li><strong>Human encounter rate (30%)</strong> — how often people encounter this species</li>
       <li><strong>Venom potency (25%)</strong> — LD₅₀ normalized to subcutaneous equivalent</li>
       <li><strong>Venom yield (20%)</strong> — dry venom per bite (mg)</li>
-      <li><strong>Human encounter rate (20%)</strong> — how often people encounter this species</li>
+      <li><strong>Clinical severity (15%)</strong> — untreated fatality rate and WHO medical importance</li>
       <li><strong>Venom speed (10%)</strong> — how quickly symptoms progress after a bite</li>
     </ul>
   </div>

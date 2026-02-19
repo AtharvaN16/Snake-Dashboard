@@ -12,12 +12,13 @@ interface Segment {
   hoverColor: string;
 }
 
+// Segments ordered from highest to lowest weight; colors follow same order (strongest → lightest)
 const SEGMENTS: Segment[] = [
   {
-    key: "clinicalScore",
-    label: "Clinical Severity",
-    shortLabel: "Clinical",
-    weight: 0.25,
+    key: "encounterScore",
+    label: "Human Encounters",
+    shortLabel: "Encounters",
+    weight: 0.3,
     color: "bg-rose-600",
     hoverColor: "bg-rose-500",
   },
@@ -38,10 +39,10 @@ const SEGMENTS: Segment[] = [
     hoverColor: "bg-orange-400",
   },
   {
-    key: "encounterScore",
-    label: "Human Encounters",
-    shortLabel: "Encounters",
-    weight: 0.2,
+    key: "clinicalScore",
+    label: "Clinical Severity",
+    shortLabel: "Clinical",
+    weight: 0.15,
     color: "bg-amber-500",
     hoverColor: "bg-amber-400",
   },
