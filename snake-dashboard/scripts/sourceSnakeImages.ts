@@ -4,8 +4,6 @@
 
 import { promises as fs } from "fs";
 import { join } from "path";
-import https from "https";
-import http from "http";
 
 export interface ImageAttribution {
   photographer?: string;
@@ -41,40 +39,29 @@ export async function downloadImage(
   url: string,
   outputPath: string
 ): Promise<DownloadResult> {
-  return new Promise((resolve) => {
-    const protocol = url.startsWith("https") ? https : http;
+  try {
+    const response = await fetch(url, {
+      headers: { "User-Agent": "SnakeDashboard/1.0 (Educational Project)" },
+      redirect: "follow",
+    });
 
-    protocol
-      .get(url, (response) => {
-        if (response.statusCode === 429) {
-          console.error(`Failed to download: 429 (rate limited)`);
-          resolve("rate-limited");
-          return;
-        }
-        if (response.statusCode !== 200) {
-          console.error(`Failed to download: ${response.statusCode}`);
-          resolve(false);
-          return;
-        }
+    if (response.status === 429) {
+      console.error(`Failed to download: 429 (rate limited)`);
+      return "rate-limited";
+    }
 
-        const fileStream = require("fs").createWriteStream(outputPath);
-        response.pipe(fileStream);
+    if (!response.ok) {
+      console.error(`Failed to download: ${response.status}`);
+      return false;
+    }
 
-        fileStream.on("finish", () => {
-          fileStream.close();
-          resolve(true);
-        });
-
-        fileStream.on("error", (error: Error) => {
-          console.error("Download error:", error);
-          resolve(false);
-        });
-      })
-      .on("error", (error) => {
-        console.error("Request error:", error);
-        resolve(false);
-      });
-  });
+    const buffer = Buffer.from(await response.arrayBuffer());
+    await fs.writeFile(outputPath, buffer);
+    return true;
+  } catch (error) {
+    console.error("Download error:", error);
+    return false;
+  }
 }
 
 /**
@@ -88,7 +75,7 @@ export async function searchWikimediaCommons(
   try {
     // Search using Wikimedia Commons API
     const searchQuery = encodeURIComponent(scientificName);
-    const apiUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search&gsrnamespace=6&gsrsearch=${searchQuery}&gsrlimit=10&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=1200`;
+    const apiUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search&gsrnamespace=6&gsrsearch=${searchQuery}&gsrlimit=20&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=1200`;
 
     const response = await fetch(apiUrl);
     const data = await response.json();
@@ -107,19 +94,19 @@ export async function searchWikimediaCommons(
       const licenseShortName = metadata.LicenseShortName?.value || "";
       const licenseUrl = metadata.LicenseUrl?.value || "";
       
-      // Only accept CC0, CC-BY, CC-BY-SA licenses
-      const acceptableLicenses = ["CC0", "CC BY", "CC-BY", "CC BY-SA", "CC-BY-SA"];
-      const isAcceptableLicense = acceptableLicenses.some(license => 
+      // Accept CC0, CC-BY, CC-BY-SA, and CC-BY-NC variants (educational project)
+      const acceptableLicenses = ["CC0", "CC BY", "CC-BY", "CC BY-SA", "CC-BY-SA", "CC BY-NC", "CC-BY-NC"];
+      const isAcceptableLicense = acceptableLicenses.some(license =>
         licenseShortName.includes(license)
       );
 
       if (!isAcceptableLicense) continue;
 
-      // Check dimensions
+      // Check dimensions — allow smaller images
       const width = info.width || 0;
       const height = info.height || 0;
-      
-      if (width < 1200) continue; // Minimum quality threshold
+
+      if (width < 400) continue; // Minimum usable threshold
 
       // Calculate quality score with preference for full-body shots
       const aspectRatio = width / height;
@@ -188,7 +175,7 @@ export async function searchINaturalist(
     const taxonId = taxonData.results[0].id;
 
     // Get observations with photos
-    const obsUrl = `https://api.inaturalist.org/v1/observations?taxon_id=${taxonId}&quality_grade=research&photos=true&per_page=10&order=desc&order_by=votes`;
+    const obsUrl = `https://api.inaturalist.org/v1/observations?taxon_id=${taxonId}&quality_grade=research&photos=true&per_page=20&order=desc&order_by=votes`;
     
     const obsResponse = await fetch(obsUrl, {
       headers: {
@@ -209,13 +196,13 @@ export async function searchINaturalist(
       // iNaturalist photos are typically CC-BY-NC or CC0
       const license = photo.license_code || "all-rights-reserved";
       
-      // Only accept open licenses
-      const acceptableLicenses = ["cc0", "cc-by", "cc-by-sa"];
+      // Accept open + non-commercial licenses (educational project)
+      const acceptableLicenses = ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"];
       if (!acceptableLicenses.includes(license.toLowerCase())) continue;
 
       // Use large size
       const url = photo.url.replace("square", "large");
-      
+
       // Estimate dimensions (large is typically 1024px)
       const width = 1024;
       const height = 1024;
@@ -224,6 +211,8 @@ export async function searchINaturalist(
         "cc0": { name: "CC0", url: "https://creativecommons.org/publicdomain/zero/1.0/" },
         "cc-by": { name: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
         "cc-by-sa": { name: "CC BY-SA 4.0", url: "https://creativecommons.org/licenses/by-sa/4.0/" },
+        "cc-by-nc": { name: "CC BY-NC 4.0", url: "https://creativecommons.org/licenses/by-nc/4.0/" },
+        "cc-by-nc-sa": { name: "CC BY-NC-SA 4.0", url: "https://creativecommons.org/licenses/by-nc-sa/4.0/" },
       };
 
       const licenseInfo = licenseMap[license.toLowerCase()] || { name: license, url: "" };
@@ -300,10 +289,12 @@ export async function searchGBIF(
         normalizedLicense.includes("publicdomain/zero") ||
         normalizedLicense.includes("cc by") ||
         normalizedLicense.includes("cc-by") ||
-        normalizedLicense.includes("creativecommons.org/licenses/by/") ||
+        normalizedLicense.includes("creativecommons.org/licenses/by") ||
         normalizedLicense.includes("cc by-sa") ||
         normalizedLicense.includes("cc-by-sa") ||
-        normalizedLicense.includes("creativecommons.org/licenses/by-sa/");
+        normalizedLicense.includes("cc by-nc") ||
+        normalizedLicense.includes("cc-by-nc") ||
+        normalizedLicense.includes("creativecommons.org/licenses/by-nc");
       if (!acceptable) continue;
 
       const width = Number(media.width || 0);

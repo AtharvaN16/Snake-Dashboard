@@ -15,7 +15,7 @@ import { DistributionMap } from "@/components/DistributionMap";
 import { DangerScoreWaterfall } from "@/components/DangerScoreWaterfall";
 import { LethalityScatterPlot } from "@/components/LethalityScatterPlot";
 import { hasRangeMapForSnake } from "@/lib/rangeMaps";
-import { ImageRefreshButton } from "@/components/ImageRefreshButton";
+import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
 
 export async function generateStaticParams() {
   const snakes = getAllSnakes();
@@ -387,12 +387,6 @@ export default async function SnakeDetailPage({
             />
           </div>
 
-          {process.env.NODE_ENV !== "production" && (
-            <div className="relative z-20 mb-2 max-w-[760px]">
-              <ImageRefreshButton snakeId={snake.id} />
-            </div>
-          )}
-
           {/* Attribution */}
           {snake.images.attribution && (
             <div className="relative z-20 mb-6 max-w-[760px] text-xs text-stone-500">
@@ -430,6 +424,10 @@ export default async function SnakeDetailPage({
             </div>
           )}
         </>
+      )}
+
+      {process.env.NODE_ENV !== "production" && (
+        <ImageCandidatePicker snakeId={snake.id} />
       )}
 
       {/* Gallery Section */}

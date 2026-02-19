@@ -77,7 +77,9 @@
         "sand-boa",
         "african-rock-python"
       ],
-      "accolades": ["Most Dangerous"],
+      "accolades": [
+        "Most Dangerous"
+      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 30,
@@ -640,7 +642,9 @@
         "Central Australia",
         "Queensland"
       ],
-      "accolades": ["Most Potent Venom"],
+      "accolades": [
+        "Most Potent Venom"
+      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 80,
@@ -1607,7 +1611,9 @@
       "id": "fer-de-lance",
       "commonName": "Fer-de-Lance",
       "scientificName": "Bothrops asper",
-      "otherCommonNames": ["Terciopelo"],
+      "otherCommonNames": [
+        "Terciopelo"
+      ],
       "family": "Viperidae",
       "genus": "Bothrops",
       "dangerScore": 51,
@@ -3131,7 +3137,9 @@
       "id": "mulga-snake",
       "commonName": "Mulga Snake (King Brown)",
       "scientificName": "Pseudechis australis",
-      "otherCommonNames": ["King Brown Snake"],
+      "otherCommonNames": [
+        "King Brown Snake"
+      ],
       "family": "Elapidae",
       "genus": "Pseudechis",
       "continent": "Oceania",
@@ -5161,7 +5169,9 @@
       "id": "cottonmouth",
       "commonName": "Cottonmouth",
       "scientificName": "Agkistrodon piscivorus",
-      "otherCommonNames": ["Water Moccasin"],
+      "otherCommonNames": [
+        "Water Moccasin"
+      ],
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 19,
@@ -5646,7 +5656,35 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_Map.jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
+        },
+        "gallery": [
+          "/images/snakes/texas-coral-snake/gallery/1.jpg",
+          "/images/snakes/texas-coral-snake/gallery/2.jpg",
+          "/images/snakes/texas-coral-snake/gallery/3.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "Rogelio Reyna-Hernández",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_450436859.jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          },
+          {
+            "photographer": "Rogelio Reyna-Hernández",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Micrurus_tener_450437268.jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          },
+          {
+            "photographer": "cclarkk",
+            "source": "GBIF",
+            "sourceUrl": "https://www.gbif.org/occurrence/5108492109",
+            "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+            "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+          }
+        ]
       },
       "description": "Similar to eastern coral. Secretive. Small fangs limit venom delivery.",
       "sources": [
@@ -7947,7 +7985,9 @@
       "id": "bullsnake",
       "commonName": "Bullsnake",
       "scientificName": "Pituophis catenifer sayi",
-      "otherCommonNames": ["Gopher Snake"],
+      "otherCommonNames": [
+        "Gopher Snake"
+      ],
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
@@ -9989,7 +10029,11 @@
       "id": "stiletto-snake",
       "commonName": "Stiletto Snake",
       "scientificName": "Atractaspis bibronii",
-      "otherCommonNames": ["Bibron's Stiletto Snake", "Side-stabbing Snake", "Burrowing Asp"],
+      "otherCommonNames": [
+        "Bibron's Stiletto Snake",
+        "Side-stabbing Snake",
+        "Burrowing Asp"
+      ],
       "family": "Atractaspididae",
       "genus": "Atractaspis",
       "dangerScore": 38,
@@ -10013,15 +10057,27 @@
         "dryWeight": 8,
         "qualitative": "Low"
       },
-      "venomTypes": ["Cytotoxic"],
+      "venomTypes": [
+        "Cytotoxic"
+      ],
       "venomSpeed": "Quick",
       "humanEncounterChance": "Moderate",
       "distribution": {
-        "regions": ["Sub-Saharan Africa", "Southern Africa", "East Africa"],
+        "regions": [
+          "Sub-Saharan Africa",
+          "Southern Africa",
+          "East Africa"
+        ],
         "habitat": "Savanna, grassland, sandy soils, suburban gardens; fossorial (burrowing) lifestyle",
         "coordinates": [
-          { "lat": -26, "lng": 28 },
-          { "lat": -1, "lng": 37 }
+          {
+            "lat": -26,
+            "lng": 28
+          },
+          {
+            "lat": -1,
+            "lng": 37
+          }
         ]
       },
       "images": {
@@ -10038,21 +10094,48 @@
       "description": "Unique among snakes for its ability to strike sideways without opening its mouth, using a single elongated fang that protrudes from the corner of its closed mouth. This makes it impossible to safely hold behind the head like other snakes. Burrowing lifestyle means bites often occur when accidentally unearthed during gardening or construction.",
       "behaviorNotes": "Nocturnal and fossorial. Cannot be safely handled by conventional methods — the sideways-striking fang can envenomate even when gripped behind the head. Prefers to flee but will strike repeatedly if restrained.",
       "clinicalData": {
-        "untreatedFatalityRate": { "low": 0, "high": 3 },
+        "untreatedFatalityRate": {
+          "low": 0,
+          "high": 3
+        },
         "severity": "Moderate"
       },
       "symptoms": {
-        "localEffects": ["Pain", "Swelling", "Necrosis", "Tissue Damage"],
-        "blood": ["N/A"],
-        "neurological": ["N/A"],
-        "muscle": ["N/A"],
-        "gastrointestinal": ["Nausea"]
+        "localEffects": [
+          "Pain",
+          "Swelling",
+          "Necrosis",
+          "Tissue Damage"
+        ],
+        "blood": [
+          "N/A"
+        ],
+        "neurological": [
+          "N/A"
+        ],
+        "muscle": [
+          "N/A"
+        ],
+        "gastrointestinal": [
+          "Nausea"
+        ]
       },
-      "causesOfDeath": ["Secondary Infection", "Anaphylaxis"],
+      "causesOfDeath": [
+        "Secondary Infection",
+        "Anaphylaxis"
+      ],
       "firstAidInfo": "No specific antivenom widely available. Treat symptomatically — clean wound, manage pain, monitor for tissue necrosis. Surgical debridement may be required for severe necrosis. Seek medical attention promptly.",
-      "sources": ["WHO", "Reptile Database", "Wikipedia", "African Snakebite Institute"],
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia",
+        "African Snakebite Institute"
+      ],
       "continent": "Africa",
-      "subregions": ["Southern Africa", "East Africa"],
+      "subregions": [
+        "Southern Africa",
+        "East Africa"
+      ],
       "dataQuality": "measured"
     }
   ]
