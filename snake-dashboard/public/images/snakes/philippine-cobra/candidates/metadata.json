@@ -1,0 +1,93 @@
+[
+  {
+    "index": 0,
+    "src": "/images/snakes/philippine-cobra/candidates/thumb-0.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Kolangski",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kingdom_of_Jesuschrist_unwanted_Visitor.JPG",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "index": 1,
+    "src": "/images/snakes/philippine-cobra/candidates/thumb-1.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Video13",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Redevelopment_Manila_Zoo_26.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "index": 5,
+    "src": "/images/snakes/philippine-cobra/candidates/thumb-5.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Video13",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Redevelopment_Manila_Zoo_37.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "index": 8,
+    "src": "/images/snakes/philippine-cobra/candidates/thumb-8.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "kenny_well",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5216320909",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 9,
+    "src": "/images/snakes/philippine-cobra/candidates/thumb-9.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Shiai",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/4606880918",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 10,
+    "src": "/images/snakes/philippine-cobra/candidates/thumb-10.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "ivy_bee",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/4854983394",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 11,
+    "src": "/images/snakes/philippine-cobra/candidates/thumb-11.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Forest Botial-Jarvis",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/4062828583",
+      "license": "http://creativecommons.org/licenses/by/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+    }
+  }
+]

@@ -2998,11 +2998,11 @@
         "primary": "/images/snakes/boomslang-southern/primary.jpg",
         "thumbnail": "/images/snakes/boomslang-southern/thumbnail.jpg",
         "attribution": {
-          "photographer": "William Warby from London, England",
+          "photographer": "Bjoertvedt",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dispholidus_typus.jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dispholidus_typus_IMG_5071_Boomslange.jpg",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
         }
       },
       "sources": [
@@ -8932,11 +8932,11 @@
         "primary": "/images/snakes/ringneck-snake/primary.jpg",
         "thumbnail": "/images/snakes/ringneck-snake/thumbnail.jpg",
         "attribution": {
-          "photographer": "Calinsdad",
-          "source": "GBIF",
-          "sourceUrl": "https://www.gbif.org/occurrence/5938284734",
-          "license": "http://creativecommons.org/publicdomain/zero/1.0/",
-          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/"
+          "photographer": "Connor Long",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coral-belly_Ringneck_Snake_(Diadophis_punctatus_ssp._pulchellus).jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         }
       },
       "description": "Small, secretive. Yellow ring around neck. Mild venom harmless to humans.",
@@ -10115,11 +10115,11 @@
         "primary": "/images/snakes/stiletto-snake/primary.jpg",
         "thumbnail": "/images/snakes/stiletto-snake/thumbnail.jpg",
         "attribution": {
-          "photographer": "John Lyakurwa",
+          "photographer": "Ryan van Huyssteen",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atractaspis_bibronii.jpg",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atractaspis_bibronii_full_body.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         }
       },
       "description": "Unique among snakes for its ability to strike sideways without opening its mouth, using a single elongated fang that protrudes from the corner of its closed mouth. This makes it impossible to safely hold behind the head like other snakes. Burrowing lifestyle means bites often occur when accidentally unearthed during gardening or construction.",
