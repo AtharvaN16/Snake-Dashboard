@@ -145,6 +145,30 @@ Key ranking changes (old → new):
 
 The rankings now better reflect what a toxicologist would expect: clinical outcomes and venom potency drive the score, encounter modulates it, and no mathematical tricks are needed to prevent absurd rankings.
 
+## Known Limitations & Future Directions
+
+### Potency and Yield Are Scored Independently
+
+The current model treats potency and yield as separate components, but real-world lethality is their interaction. What actually matters is **lethal doses per bite**: `yield_mg / (LD50_SC × bodyWeight_kg)`.
+
+Consider: the Eastern Brown Snake (LD₅₀ 0.037 SC, 5mg yield) delivers ~1.9 lethal doses per bite to a 70kg human. The Fer-de-Lance (LD₅₀ 8.4 SC, 250mg yield) delivers ~0.43 — it can't reliably kill with one bite. Yet the Fer-de-Lance's high yield score gives it a higher ranking (#12 vs #14).
+
+A future version could replace potency + yield with a single "lethality" component based on lethal doses per bite (log-scaled). This would better capture the interaction but would reduce the model to three intrinsic components, losing the ability to display potency and yield separately in the UI.
+
+### Venom Classification Doesn't Reflect Clinical Reality
+
+The `venomClassification` label ("Highly Venomous", "Venomous", etc.) is derived solely from potency and yield scores. This creates a disconnect: the Common European Adder is classified as "Highly Venomous" (potent venom, decent LD₅₀) despite a 0–1% untreated fatality rate.
+
+Users interpret "Highly Venomous" as "this snake will kill you," but the label actually means "this venom is biochemically potent." Options for future improvement:
+
+1. **Clinical gate**: Cap classification at "Venomous" if CFR midpoint < 5%, regardless of potency/yield. Simple, prevents the most misleading labels.
+2. **Rename the axis**: Use "Highly Toxic" (biochemical potency) vs. "Highly Dangerous" (real-world risk) — these are different claims.
+3. **Include clinical severity in classification**: Weight CFR into the venomScore derivation.
+
+### Score Compression in the Mid-Range
+
+The multiplicative model compresses scores compared to the old additive one. Ranks 20–40 span only DS 49–33 (16 points for 20 snakes). This is honest — these snakes genuinely are similar in danger level — but it means small data imprecisions can swap adjacent rankings. This is acceptable for a reference tool but would be problematic if precise ordinal ranking were critical.
+
 ## What We Learned
 
 1. **Additive models with variable weights create feedback loops.** If the weights depend on the inputs (or derived quantities), the function is self-referential. Fixed weights with multiplicative modifiers are cleaner.
