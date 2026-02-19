@@ -52,15 +52,14 @@ export default async function SnakeDetailPage({
   const medianPotencyScore = getMedianPotencyScore();
 
   const venomous = isVenomous(snake.venomClassification);
-  const classificationLabel =
-    snake.venomClassification === "Moderately Venomous"
-      ? "Venomous"
-      : snake.venomClassification;
+  const classificationLabel = snake.venomClassification;
   const classificationColor =
     snake.venomClassification === "Highly Venomous"
       ? "#FF7373"
-      : snake.venomClassification === "Moderately Venomous"
+      : snake.venomClassification === "Venomous"
       ? "#FFAB73"
+      : snake.venomClassification === "Moderately Venomous"
+      ? "#FEF08A"
       : snake.venomClassification === "Mildly Venomous"
       ? "#B9E948"
       : "#CCCCCC";
@@ -240,7 +239,8 @@ export default async function SnakeDetailPage({
                 if (isSnakeVenomous !== otherVenomous) return true;
                 if (
                   snake.venomClassification === "Highly Venomous" &&
-                  (other.venomClassification === "Moderately Venomous" ||
+                  (other.venomClassification === "Venomous" ||
+                    other.venomClassification === "Moderately Venomous" ||
                     other.venomClassification === "Mildly Venomous")
                 )
                   return true;
@@ -265,8 +265,10 @@ export default async function SnakeDetailPage({
                         fontSize: "14px",
                         background: snake.venomClassification === "Highly Venomous"
                           ? "#FF7373"
-                          : snake.venomClassification === "Moderately Venomous"
+                          : snake.venomClassification === "Venomous"
                           ? "#FFAB73"
+                          : snake.venomClassification === "Moderately Venomous"
+                          ? "#FEF08A"
                           : snake.venomClassification === "Mildly Venomous"
                           ? "#B9E948"
                           : "#CCCCCC",
@@ -283,11 +285,12 @@ export default async function SnakeDetailPage({
                       
                       // Get correct color based on venom classification
                       const getPillColor = (classification: string | undefined) => {
-                        if (!classification) return "#E5E5E5"; // Non-existent
-                        if (classification === "Highly Venomous") return "#FF7373"; // Red
-                        if (classification === "Moderately Venomous") return "#FFAB73"; // Orange
-                        if (classification === "Mildly Venomous") return "#B9E948"; // Light green
-                        return "#CCCCCC"; // Non-venomous
+                        if (!classification) return "#E5E5E5";
+                        if (classification === "Highly Venomous") return "#FF7373";
+                        if (classification === "Venomous") return "#FFAB73";
+                        if (classification === "Moderately Venomous") return "#FEF08A";
+                        if (classification === "Mildly Venomous") return "#B9E948";
+                        return "#CCCCCC";
                       };
                       
                       const pillStyle = {

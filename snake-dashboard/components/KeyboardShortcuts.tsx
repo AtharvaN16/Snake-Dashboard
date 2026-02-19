@@ -37,13 +37,24 @@ export function KeyboardShortcuts() {
       if (e.key === " ") {
         e.preventDefault();
         if (pathname === "/") {
-          // On home: focus the inline search
           const searchEl = document.getElementById(MAIN_SEARCH_INPUT_ID);
           if (searchEl) searchEl.focus();
         } else {
-          // On detail pages: open search modal to look up another snake
           openModal();
         }
+        return;
+      }
+
+      if (e.key === "r" || e.key === "R") {
+        e.preventDefault();
+        router.push("/rank");
+        return;
+      }
+
+      if (e.key === "t" || e.key === "T") {
+        e.preventDefault();
+        router.push("/phylogeny");
+        return;
       }
     }
 

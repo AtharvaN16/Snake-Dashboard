@@ -11,22 +11,25 @@ import type { Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
 
-function getClassificationColor(venomClassification: Snake["venomClassification"]) {
+/** Light background + dark text for small tags (rankings only) */
+function getClassificationTagStyle(venomClassification: Snake["venomClassification"]) {
   switch (venomClassification) {
     case "Highly Venomous":
-      return "#FF7373";
+      return { bg: "#FFDADA", text: "#B22222" };
+    case "Venomous":
+      return { bg: "#FFE4CC", text: "#C2410C" };
     case "Moderately Venomous":
-      return "#FFAB73";
+      return { bg: "#FEF08A", text: "#854D0E" };
     case "Mildly Venomous":
-      return "#B9E948";
+      return { bg: "#DCFCE7", text: "#166534" };
     case "Non-venomous":
     default:
-      return "#CCCCCC";
+      return { bg: "#F3F4F6", text: "#4B5563" };
   }
 }
 
 function RankTableRow({ snake, rank, viewMode }: { snake: Snake; rank: number; viewMode: ViewMode }) {
-  const classificationColor = getClassificationColor(snake.venomClassification);
+  const tagStyle = getClassificationTagStyle(snake.venomClassification);
   
   return (
     <Link
@@ -88,13 +91,11 @@ function RankTableRow({ snake, rank, viewMode }: { snake: Snake; rank: number; v
         <span
           className="text-xs font-medium px-3 py-1.5 rounded"
           style={{
-            backgroundColor: classificationColor,
-            color: "#111827",
+            backgroundColor: tagStyle.bg,
+            color: tagStyle.text,
           }}
         >
-          {snake.venomClassification === "Moderately Venomous"
-            ? "Venomous"
-            : snake.venomClassification}
+          {snake.venomClassification}
         </span>
       </div>
 

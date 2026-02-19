@@ -17,8 +17,10 @@ function getClassificationColor(venomClassification: Snake["venomClassification"
   switch (venomClassification) {
     case "Highly Venomous":
       return "#FF7373";
-    case "Moderately Venomous":
+    case "Venomous":
       return "#FFAB73";
+    case "Moderately Venomous":
+      return "#FEF08A";
     case "Mildly Venomous":
       return "#B9E948";
     case "Non-venomous":
@@ -113,9 +115,7 @@ function FamilyPhylogeneticTree({ family }: { family: string }) {
                                 color: "#111827",
                               }}
                             >
-                              {snake.venomClassification === "Moderately Venomous"
-                                ? "Venomous"
-                                : snake.venomClassification}
+                              {snake.venomClassification}
                             </span>
                           </div>
 

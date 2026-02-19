@@ -5,7 +5,33 @@ import { HomeSearchCard } from "@/components/HomeSearchCard";
 
 export default function Home() {
   return (
-    <div className="h-screen overflow-hidden bg-background py-8 px-[68px]">
+    <div className="h-screen overflow-hidden bg-background py-8 px-[68px] relative">
+      {/* Top right: keyboard shortcut labels */}
+      <nav className="absolute top-8 right-[68px] flex items-center gap-4 flex-wrap text-sm text-stone-600 shrink-0">
+        <span className="flex items-center gap-2">
+          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
+            R
+          </kbd>
+          <Link
+            href="/rank"
+            className="hover:text-stone-800 transition-colors no-underline"
+          >
+            Rankings
+          </Link>
+        </span>
+        <span className="flex items-center gap-2">
+          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
+            T
+          </kbd>
+          <Link
+            href="/phylogeny"
+            className="hover:text-stone-800 transition-colors no-underline"
+          >
+            Taxonomy
+          </Link>
+        </span>
+      </nav>
+
       <div className="h-full max-w-2xl mx-auto flex flex-col">
         {/* Header with Icon and Title */}
         <div className="text-center mb-5 shrink-0">
@@ -18,15 +44,6 @@ export default function Home() {
         </div>
 
         <HomeSearchCard inputId="main-search" />
-
-        <div className="text-center mt-3 shrink-0">
-          <Link
-            href="/phylogeny"
-            className="text-sm text-stone-600 hover:text-stone-900 transition-colors underline decoration-stone-300 decoration-dotted underline-offset-4"
-          >
-            Browse by taxonomy (phylogeny)
-          </Link>
-        </div>
 
         {/* Footer Attribution */}
         <div className="text-center mt-5 text-sm text-stone-600 shrink-0">

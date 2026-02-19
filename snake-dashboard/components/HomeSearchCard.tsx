@@ -8,17 +8,20 @@ import { searchSnakes, sortSnakes, type SortOption } from "@/lib/searchUtils";
 import { SearchBar } from "@/components/SearchBar";
 import type { Snake } from "@/lib/types";
 
+/** Light background + dark text for small tags (search & rankings only) */
 function getClassificationTag(venomClassification: Snake["venomClassification"]) {
   switch (venomClassification) {
     case "Highly Venomous":
-      return { label: "Highly Venomous", color: "#FF7373" };
+      return { label: "Highly Venomous", bg: "#FFDADA", text: "#B22222" };
+    case "Venomous":
+      return { label: "Venomous", bg: "#FFE4CC", text: "#C2410C" };
     case "Moderately Venomous":
-      return { label: "Venomous", color: "#FFAB73" };
+      return { label: "Moderately Venomous", bg: "#FEF08A", text: "#854D0E" };
     case "Mildly Venomous":
-      return { label: "Mildly Venomous", color: "#B9E948" };
+      return { label: "Mildly Venomous", bg: "#DCFCE7", text: "#166534" };
     case "Non-venomous":
     default:
-      return { label: "Non-venomous", color: "#CCCCCC" };
+      return { label: "Non-venomous", bg: "#F3F4F6", text: "#4B5563" };
   }
 }
 
@@ -71,11 +74,10 @@ function SnakeListItem({
       <div className="flex items-center gap-1 ml-4 shrink-0">
         <Link
           href="/rank"
-          className="text-[11px] font-medium px-2 py-0.5 hover:opacity-80 transition-opacity no-underline"
+          className="text-[11px] font-medium px-2 py-0.5 rounded hover:opacity-80 transition-opacity no-underline"
           style={{
-            backgroundColor: classification.color,
-            color: "#111827",
-            borderRadius: 4,
+            backgroundColor: classification.bg,
+            color: classification.text,
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -153,28 +155,25 @@ export function HomeSearchCard({
     });
   }, [filteredSnakes.length]);
 
+  // Auto-scroll only for keyboard navigation; do not scroll when hovering with cursor
   useEffect(() => {
-    if (!listRef.current || activeIndex < 0) return;
+    if (!isKeyboardNavigating || !listRef.current || activeIndex < 0) return;
     const activeItem = listRef.current.querySelector<HTMLElement>(
       `[data-snake-index="${activeIndex}"]`
     );
     if (activeItem) {
-      // Scroll with offset to account for the tooltip bar at bottom
       const container = listRef.current;
       const itemRect = activeItem.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
-      const tooltipHeight = 70; // Approximate height of tooltip bar
-      
-      // Check if item is hidden behind tooltip at bottom
+      const tooltipHeight = 70;
+
       if (itemRect.bottom > containerRect.bottom - tooltipHeight) {
-        // Scroll up to keep item visible above tooltip
         activeItem.scrollIntoView({ block: "center", behavior: "smooth" });
       } else if (itemRect.top < containerRect.top) {
-        // Item is above viewport, scroll it into view
         activeItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
       }
     }
-  }, [activeIndex]);
+  }, [activeIndex, isKeyboardNavigating]);
 
   useEffect(() => {
     setActiveIndex(-1);

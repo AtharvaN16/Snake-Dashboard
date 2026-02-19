@@ -41,9 +41,10 @@ export function sortSnakes(snakes: Snake[], sortBy: SortOption): Snake[] {
   const sorted = [...snakes];
   const classificationOrder: Record<Snake["venomClassification"], number> = {
     "Highly Venomous": 0,
-    "Moderately Venomous": 1,
-    "Mildly Venomous": 2,
-    "Non-venomous": 3,
+    Venomous: 1,
+    "Moderately Venomous": 2,
+    "Mildly Venomous": 3,
+    "Non-venomous": 4,
   };
 
   const getPrimaryVenomType = (snake: Snake) => snake.venomTypes?.[0] ?? "No venom type";

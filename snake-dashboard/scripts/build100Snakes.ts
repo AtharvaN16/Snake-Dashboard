@@ -69,7 +69,7 @@ const venomous = (
   habitat: string,
   coords: [number, number],
   description: string,
-  classification: "Highly Venomous" | "Moderately Venomous" | "Mildly Venomous" = "Highly Venomous"
+  classification: "Highly Venomous" | "Venomous" | "Moderately Venomous" | "Mildly Venomous" = "Highly Venomous"
 ) => ({
   id,
   commonName,

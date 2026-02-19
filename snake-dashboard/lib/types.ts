@@ -101,6 +101,7 @@ export interface Snake {
   dangerScoreComponents?: DangerScoreComponents;
   venomClassification:
     | "Highly Venomous"
+    | "Venomous"
     | "Moderately Venomous"
     | "Mildly Venomous"
     | "Non-venomous";

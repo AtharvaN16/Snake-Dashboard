@@ -131,7 +131,8 @@ export function deriveVenomClassification(
   const venomScore =
     components.potencyScore * 0.7 + components.yieldScore * 0.3;
   if (venomScore >= 50) return "Highly Venomous";
-  if (venomScore >= 25) return "Moderately Venomous";
+  if (venomScore >= 35) return "Venomous";
+  if (venomScore >= 12) return "Moderately Venomous";
   if (venomScore >= 5) return "Mildly Venomous";
   return "Non-venomous";
 }
@@ -141,6 +142,13 @@ export function deriveVenomClassification(
  * Returns updated snake with dangerScore, dangerScoreComponents,
  * venomPotency.ld50Normalized, and derived venomClassification.
  */
+/** Rear-fanged / mild salivary toxins: treat as Mildly Venomous with low danger score */
+const mildlyVenomousIds = new Set([
+  "garter-snake",
+  "hognose-eastern",
+  "southern-hognose",
+]);
+
 export function computeDangerScoreForSnake(snake: Snake): Snake {
   const insufficientIds = new Set(["european-cat-snake", "asian-vine-snake"]);
   if (snake.dataQuality === "insufficient" || insufficientIds.has(snake.id)) {
@@ -151,6 +159,25 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
       dangerScoreComponents: { clinicalScore: 0, potencyScore: 0, yieldScore: 0, encounterScore: 20, speedScore: 0 },
       venomClassification: "Mildly Venomous",
       dataQuality: "insufficient",
+    };
+  }
+
+  if (mildlyVenomousIds.has(snake.id)) {
+    const encounterScore = calculateEncounterScore(snake.humanEncounterChance);
+    return {
+      ...snake,
+      dangerScore: Math.round(
+        encounterScore * 0.3 + 5 * 0.25 + 5 * 0.2 + 0 * 0.15 + 20 * 0.1
+      ),
+      dangerRank: snake.dangerRank,
+      dangerScoreComponents: {
+        clinicalScore: 0,
+        potencyScore: 5,
+        yieldScore: 5,
+        encounterScore,
+        speedScore: 20,
+      },
+      venomClassification: "Mildly Venomous",
     };
   }
 

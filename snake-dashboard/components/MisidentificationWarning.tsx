@@ -18,7 +18,8 @@ export function MisidentificationWarning({
     if (isVenomous !== otherVenomous) return true;
     if (
       snake.venomClassification === "Highly Venomous" &&
-      (other.venomClassification === "Moderately Venomous" ||
+      (other.venomClassification === "Venomous" ||
+        other.venomClassification === "Moderately Venomous" ||
         other.venomClassification === "Mildly Venomous")
     )
       return true;
