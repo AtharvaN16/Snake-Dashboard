@@ -62,11 +62,48 @@ Cleaner than bar charts for ranked lists. Dot at the score, stem to zero, sorted
 **Data**: `symptomsProgression` (shortTerm, progressive, critical arrays), `venomSpeed`
 **Concept**: Horizontal timeline/flow diagram showing symptoms appearing over time (minutes → hours → days). A Gantt-style chart replacing the current chip-based display. Much more impactful for understanding envenomation progression.
 
-### E. Treemap — Species Distribution by Family
+### E. Sankey Diagram — Danger Score Decomposition
+
+**Where**: Detail page (alternative to waterfall)
+**Data**: Venom type → LD50/Yield → Lethality Score → Clinical Score → Final Danger Score
+**Concept**: Shows how raw venom attributes flow through scoring stages into the composite danger score. More narrative than the existing waterfall chart — users can trace how a snake's specific traits (e.g., high potency but low yield) combine into the final number. Connecting widths encode point contribution at each stage.
+
+### F. Violin Plot / Boxplot — LD50 Distribution by Family
+
+**Where**: Rankings or phylogeny page
+**Data**: `venomPotency.ld50Normalized` grouped by `family`
+**Concept**: Shows the spread and density of potency values within each taxonomic family. Reveals which families are consistently potent (tight, low distributions like Elapidae) vs. highly variable. Boxplot variant works if sample sizes are small. Gives population-level context that individual LD50 numbers lack.
+
+### G. Stream Graph — Venom Type Prevalence Across Taxonomy
+
+**Where**: Phylogeny page
+**Data**: `venomTypes` distribution across families/genera
+**Concept**: Flowing stacked area chart showing how venom type prevalence shifts across the taxonomic tree. Each "stream" is a venom type (hemotoxic, neurotoxic, cytotoxic, myotoxic). Visually striking and reveals evolutionary transitions — e.g., the neurotoxic dominance in Elapidae giving way to hemotoxic in Viperidae.
+
+### H. Contour / Density Plot — Potency × Yield Landscape
+
+**Where**: Detail page (overlay on existing scatter plot)
+**Data**: `venomPotency.ld50Normalized`, `venomYield.dryWeight` across all species
+**Concept**: 2D density contours overlaid on the existing Lethality Scatter Plot, showing where snakes cluster in potency-yield space. Highlights the "normal" zone vs. outliers. Current snake's position gains more context when you can see the density landscape around it.
+
+### I. Treemap — Species Distribution by Family
 
 **Where**: Homepage or phylogeny page
 **Data**: Family → genus → species hierarchy, `dangerScore`
 **Concept**: Tile size proportional to danger score. Most dangerous families visually dominate. Offers a different perspective from the existing sunburst phylogeny chart.
+
+---
+
+## Quick Wins
+
+Low-effort additions using data fields that already exist but aren't visualized:
+
+| Visualization | Data Field | Where | Notes |
+|---|---|---|---|
+| Data Quality indicator | `dataQuality` (measured / estimated / insufficient) | Detail page | Badge or icon showing confidence level of the danger score |
+| LD50 normalization badge | `venomPotency.normalized` boolean | Detail page | Flag showing whether LD50 was converted from another method |
+| Encounter frequency histogram | `humanEncounterChance` across all species | Rankings page | Distribution of encounter levels across the dataset |
+| CFR range comparison | `clinicalData.untreatedFatalityRate` (low/high) | Rankings page | Range bars showing fatality rate uncertainty per snake |
 
 ---
 
@@ -77,7 +114,12 @@ Cleaner than bar charts for ranked lists. Dot at the score, stem to zero, sorted
 | 1 | Scatter plot (rankings page) | High — directly communicates formula logic | Medium |
 | 2 | Radar diagram (detail page) | High — intuitive component breakdown | Medium |
 | 3 | Choropleth "danger by region" | High — visually compelling, great for engagement | High |
-| 4 | Symptom timeline (detail page) | Medium — better than current chips | Medium |
-| 5 | Parallel coordinates (comparison) | Medium — powerful but niche use case | High |
-| 6 | Heatmap venom × family | Medium — educational value | Low |
-| 7 | Treemap by family | Low — sunburst already covers this | Medium |
+| 4 | Symptom timeline (detail page) | High — much better than current chips | Medium |
+| 5 | Sankey diagram (detail page) | Medium — narrative score decomposition | Medium |
+| 6 | Parallel coordinates (comparison) | Medium — powerful but niche use case | High |
+| 7 | Heatmap venom × family | Medium — educational value | Low |
+| 8 | Violin plot LD50 by family | Medium — population-level potency context | Medium |
+| 9 | Stream graph (phylogeny) | Medium — visually striking evolutionary view | High |
+| 10 | Contour/density overlay | Low — enhances existing scatter plot | Low |
+| 11 | Treemap by family | Low — sunburst already covers this | Medium |
+| 12 | Quick wins (badges/indicators) | Low individually, good polish | Very Low |
