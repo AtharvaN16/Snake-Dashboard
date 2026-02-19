@@ -248,6 +248,29 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     searchLabel = createLabel(g, node, "search-label", { large: true });
   }
 
+  function clearAllHighlightsAndState() {
+    clickFocusNode = null;
+    searchHighlightNode = null;
+    hoveredNode = null;
+    document.body.removeAttribute("data-chart-zoomed");
+    hoverActive = false;
+
+    if (searchLabel) { searchLabel.remove(); searchLabel = null; }
+    if (hoverLabel) { hoverLabel.remove(); hoverLabel = null; }
+
+    // Reset all nodes to base state
+    nodeSelection.each(function (nd) {
+      const c = nodeColor(nd);
+      const fill = lightTint(c, 0.82); // ALWAYS reset to default tint
+      d3.select(this).select<SVGElement>("circle, path")
+        .attr("fill", fill).attr("fill-opacity", 1);
+    });
+    
+    nodeSelection.style("pointer-events", "auto");
+    nodeSelection.interrupt().transition().duration(200).style("opacity", "1");
+    linkSelection.interrupt().transition().duration(200).attr("stroke-opacity", 0.7);
+  }
+
   // --- Bind mouse events ---
   // Store a map from node object to its DOM element
   const nodeElementMap = new Map<d3.HierarchyPointNode<HierarchyNode>, SVGGElement>();
@@ -358,22 +381,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   const defaultTransform = d3.zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0);
 
   function resetToDefault() {
-    clickFocusNode = null;
-    searchHighlightNode = null; 
-    document.body.removeAttribute("data-chart-zoomed");
-    hoverActive = false;
-
-    if (searchLabel) { searchLabel.remove(); searchLabel = null; }
-    nodeSelection.each(function (nd) {
-      const c = nodeColor(nd);
-      const isCurrent = !!currentSnakeId && nd.data.id === currentSnakeId;
-      d3.select(this).select<SVGElement>("circle, path")
-        .attr("fill", lightTint(c, isCurrent ? 0 : 0.82)).attr("fill-opacity", 1);
-    });
-    nodeSelection.style("pointer-events", "auto");
-    nodeSelection.transition().duration(300).style("opacity", "1");
-    linkSelection.transition().duration(300).attr("stroke-opacity", 0.7);
-
+    clearAllHighlightsAndState();
     svg.transition().duration(750).ease(d3.easeCubicInOut)
       .call((zoomBehavior as any).transform, defaultTransform);
     updateSpeciesVisibility(scale0);
@@ -419,7 +427,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   return {
     cleanup() {
       document.removeEventListener("keydown", handleKeyDown, { capture: true });
-      document.body.removeAttribute("data-chart-zoomed");
+      clearAllHighlightsAndState();
     },
     updateSpeciesVisibility,
   };
