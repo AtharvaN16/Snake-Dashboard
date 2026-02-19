@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -138,7 +138,7 @@ function RankTableRow({ snake, rank, viewMode }: { snake: Snake; rank: number; v
   );
 }
 
-export default function RankPage() {
+function RankPageInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const viewParam = searchParams.get("view");
@@ -319,5 +319,13 @@ export default function RankPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function RankPage() {
+  return (
+    <Suspense>
+      <RankPageInner />
+    </Suspense>
   );
 }

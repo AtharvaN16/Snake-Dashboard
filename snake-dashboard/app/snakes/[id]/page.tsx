@@ -12,7 +12,8 @@ import { VenomSpeedChip } from "@/components/VenomSpeedChip";
 import { VenomYieldChip } from "@/components/VenomYieldChip";
 import { SymptomChip } from "@/components/SymptomChip";
 import { DistributionMap } from "@/components/DistributionMap";
-import { DangerScoreSegmentedBar } from "@/components/DangerScoreSegmentedBar";
+import { DangerScoreWaterfall } from "@/components/DangerScoreWaterfall";
+import { LethalityScatterPlot } from "@/components/LethalityScatterPlot";
 import { hasRangeMapForSnake } from "@/lib/rangeMaps";
 
 export async function generateStaticParams() {
@@ -475,14 +476,20 @@ export default async function SnakeDetailPage({
           {venomous && (
             <div>
               <div className="bg-white rounded-xl p-6">
-                {/* Danger Score — segmented bar */}
+                {/* Danger Score — waterfall chart */}
                 <div className="mb-6">
                   {snake.dangerScoreComponents ? (
-                    <DangerScoreSegmentedBar
-                      dangerScore={snake.dangerScore}
-                      components={snake.dangerScoreComponents}
-                      venomClassification={snake.venomClassification}
-                    />
+                    <>
+                      <DangerScoreWaterfall
+                        dangerScore={snake.dangerScore}
+                        components={snake.dangerScoreComponents}
+                        venomClassification={snake.venomClassification}
+                      />
+                      <LethalityScatterPlot
+                        currentSnakeId={snake.id}
+                        allSnakes={getAllSnakes()}
+                      />
+                    </>
                   ) : (
                     <div>
                       <h3 className="text-sm font-bold text-[#2c2c2c] mb-2">Danger Score</h3>

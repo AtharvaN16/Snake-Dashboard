@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import type { BaseType } from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import { SPECIES_ZOOM_THRESHOLD, GENUS_SPECIES_LABEL_ZOOM } from "./treeConstants";
 import { nodeRadius, fontSize } from "./treeNodeStyles";
@@ -73,7 +74,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
 
     g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".node, .species-node")
       .each(function (nd) {
-        const nodeEl = d3.select(this);
+        const nodeEl = d3.select<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(this);
         const rank = nd.data.rank ?? "";
         const isHigherRank = rank === "suborder" || rank === "infraorder" || rank === "clade" || rank === "family";
         const isGenusOrSpecies = rank === "genus" || rank === "species";
@@ -130,7 +131,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
    * - When side=false: place above node (hover path labels).
    */
   function addExtLabel(
-    nodeEl: d3.Selection<SVGGElement, d3.HierarchyPointNode<HierarchyNode>, SVGGElement, unknown>,
+    nodeEl: d3.Selection<SVGGElement, d3.HierarchyPointNode<HierarchyNode>, BaseType, unknown>,
     nd: d3.HierarchyPointNode<HierarchyNode>,
     rank: string,
     invK: number,
