@@ -10,6 +10,7 @@ interface VisibilityContext {
   nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string;
   isSpecies: (d: d3.HierarchyNode<HierarchyNode>) => boolean;
   currentSnakeId?: string;
+  zoomScaleRef: { current: number };
   getClickFocusNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
   getSearchHighlightNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
   getHoverActive: () => boolean;
@@ -29,7 +30,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
   const { svg, g, nodeColor, isSpecies, currentSnakeId } = ctx;
 
   return function updateSpeciesVisibility(scale: number) {
-    (svg.node() as any).__currentZoomScale = scale;
+    ctx.zoomScaleRef.current = scale;
     const hoverActive = ctx.getHoverActive();
 
     // Species visibility is controlled by highlight when hover/click is active

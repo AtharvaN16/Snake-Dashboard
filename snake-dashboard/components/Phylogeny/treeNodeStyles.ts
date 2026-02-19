@@ -1,5 +1,6 @@
 import type * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
+import { lightTint } from "./treeGeometry";
 
 export function nodeRadius(d: d3.HierarchyNode<HierarchyNode>): number {
   switch (d.data.rank) {
@@ -54,4 +55,19 @@ export function fontWeight(d: d3.HierarchyNode<HierarchyNode>): string {
 
 export function linkWidth(depth: number): number {
   return Math.max(1.5, 40 - depth * 6.5);
+}
+
+/** Compute node fill color — single source of truth for both render and update paths. */
+export function computeNodeFill(
+  d: d3.HierarchyNode<HierarchyNode>,
+  nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string,
+  colorMode: "family" | "venom",
+  currentSnakeId?: string,
+): string {
+  const color = nodeColor(d);
+  const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
+  if (colorMode === "venom" && d.data.rank === "species") {
+    return color;
+  }
+  return isCurrent ? color : lightTint(color, 0.82);
 }

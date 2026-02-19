@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import { BLOOM_BASE_DELAY, BLOOM_DURATION } from "./treeConstants";
-import { radialPoint, lightTint } from "./treeGeometry";
-import { nodeRadius } from "./treeNodeStyles";
+import { radialPoint } from "./treeGeometry";
+import { nodeRadius, computeNodeFill } from "./treeNodeStyles";
 import { createUpdateSpeciesVisibility } from "./treeVisibility";
 
 export interface ChartContext {
@@ -22,7 +22,9 @@ export interface ChartContext {
   cx: number;
   cy: number;
   scale0: number;
+  zoomScaleRef: { current: number };
   zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>;
+  getColorMode: () => "family" | "venom";
   onSpeciesClick?: (snakeId: string) => void;
   onTaxonomyNodeClick?: (node: d3.HierarchyPointNode<HierarchyNode> | null) => void;
 }
@@ -31,7 +33,8 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   const {
     svg, g, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
     nodeColor, isSpecies, currentSnakeId, shouldBloom,
-    cw, ch, cx, cy, scale0, zoomBehavior, onSpeciesClick, onTaxonomyNodeClick,
+    cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
+    getColorMode, onSpeciesClick, onTaxonomyNodeClick,
   } = ctx;
 
   let hoverActive = false;
@@ -109,7 +112,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   }
 
   const updateSpeciesVisibility = createUpdateSpeciesVisibility({
-    svg, g, nodeColor, isSpecies, currentSnakeId,
+    svg, g, nodeColor, isSpecies, currentSnakeId, zoomScaleRef,
     getClickFocusNode: () => clickFocusNode,
     getSearchHighlightNode: () => searchHighlightNode,
     getHoverActive: () => hoverActive,
@@ -119,16 +122,16 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   function clearHighlight() {
     if (clickFocusNode) {
       highlightSubtree(clickFocusNode);
-      updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+      updateSpeciesVisibility(zoomScaleRef.current);
       return;
     }
     if (searchHighlightNode) {
       highlightPath(searchHighlightNode);
-      updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+      updateSpeciesVisibility(zoomScaleRef.current);
       return;
     }
     hoverActive = false;
-    const currentZoom = (svg.node() as any).__currentZoomScale || 1;
+    const currentZoom = zoomScaleRef.current;
 
     nodeSelection.style("pointer-events", "auto");
     nodeSelection.transition().duration(300).style("opacity", "1");
@@ -147,7 +150,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     const color = nodeColor(node);
     const r = nodeRadius(node);
     const [px, py] = radialPoint((node as any).x, (node as any).y);
-    const k = (svg.node() as any).__currentZoomScale || 1;
+    const k = zoomScaleRef.current;
     const invK = 1 / k;
     const gap = r + (opts?.large ? 28 : 24) * invK;
     const labelG = parent.append("g").attr("class", cls).attr("transform", `translate(${px},${py - gap})`);
@@ -184,7 +187,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     if (!el) return;
     const color = nodeColor(d);
     const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
-    const fill = isCurrent ? color : lightTint(color, 0.82);
+    const fill = computeNodeFill(d, nodeColor, getColorMode(), currentSnakeId);
     d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", isCurrent ? 0.85 : 1);
     const extLabel = d3.select(el).select(".ext-label");
     if (!extLabel.empty()) {
@@ -258,10 +261,9 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     if (searchLabel) { searchLabel.remove(); searchLabel = null; }
     if (hoverLabel) { hoverLabel.remove(); hoverLabel = null; }
 
-    // Reset all nodes to base state
+    // Reset all nodes to base state respecting current color mode
     nodeSelection.each(function (nd) {
-      const c = nodeColor(nd);
-      const fill = lightTint(c, 0.82); // ALWAYS reset to default tint
+      const fill = computeNodeFill(nd, nodeColor, getColorMode(), currentSnakeId);
       d3.select(this).select<SVGElement>("circle, path")
         .attr("fill", fill).attr("fill-opacity", 1);
     });
@@ -297,17 +299,18 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     if (finalNode !== hoveredNode) {
       // Clear old hover
       if (hoveredNode) {
-        clearHoverEffect(nodeElementMap.get(hoveredNode)!, hoveredNode);
+        const oldEl = nodeElementMap.get(hoveredNode);
+        if (oldEl) clearHoverEffect(oldEl, hoveredNode);
       }
-      
+
       // Set new hover state
       hoveredNode = finalNode;
-      
+
       if (!hoveredNode) {
         clearHighlight();
         return;
       }
-      
+
       const el = nodeElementMap.get(hoveredNode);
       if (!el) return;
 
@@ -318,12 +321,13 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       } else {
         highlightPath(hoveredNode);
       }
-      updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+      updateSpeciesVisibility(zoomScaleRef.current);
       showHoverEffect(el, hoveredNode);
     }
   }).on("pointerleave", () => {
     if (hoveredNode) {
-      clearHoverEffect(nodeElementMap.get(hoveredNode)!, hoveredNode);
+      const el = nodeElementMap.get(hoveredNode);
+      if (el) clearHoverEffect(el, hoveredNode);
       hoveredNode = null;
       clearHighlight();
     }
@@ -361,7 +365,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     
     clickFocusNode = d;
     highlightSubtree(d);
-    updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+    updateSpeciesVisibility(zoomScaleRef.current);
 
     const rank = d.data.rank;
     const canZoomCladeOrInfra =
@@ -409,18 +413,19 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   if (searchHighlightNode) {
     document.body.setAttribute("data-chart-zoomed", "true");
     if (shouldBloom) {
-      const afterBloom = BLOOM_BASE_DELAY * 6 + BLOOM_DURATION * 2;
+      const maxDepth = Math.max(...allNodes.map(n => n.depth));
+      const afterBloom = BLOOM_BASE_DELAY * maxDepth + BLOOM_DURATION;
       setTimeout(() => {
         highlightPath(searchHighlightNode!);
         zoomToPath(searchHighlightNode!);
         addSearchLabel(searchHighlightNode!);
-        updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+        updateSpeciesVisibility(zoomScaleRef.current);
       }, afterBloom);
     } else {
       highlightPath(searchHighlightNode);
       zoomToPath(searchHighlightNode);
       addSearchLabel(searchHighlightNode);
-      updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
+      updateSpeciesVisibility(zoomScaleRef.current);
     }
   }
 

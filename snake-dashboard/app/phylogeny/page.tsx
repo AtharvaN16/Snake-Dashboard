@@ -21,11 +21,11 @@ export default async function GlobalPhylogenyPage({
   return (
     <div className="fixed inset-0 flex flex-col bg-background">
       {/* CSS-driven pill visibility based on body[data-chart-zoomed] */}
-      <style>{`
-        [data-hint="zoom-out"] { display: none; }
-        body[data-chart-zoomed] [data-hint="zoom-out"] { display: flex; }
-        body[data-chart-zoomed] [data-hint="back"] { display: none; }
-      `}</style>
+      <style dangerouslySetInnerHTML={{ __html: `
+        [data-hint='zoom-out'] { display: none; }
+        body[data-chart-zoomed] [data-hint='zoom-out'] { display: flex; }
+        body[data-chart-zoomed] [data-hint='back'] { display: none; }
+      `}} />
 
       {/* Back + keyboard shortcut hints */}
       <div className="absolute top-0 left-0 z-20 py-4 px-[68px] flex items-center gap-4 flex-wrap text-sm text-stone-600">
