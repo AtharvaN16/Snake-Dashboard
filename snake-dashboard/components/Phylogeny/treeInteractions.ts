@@ -193,6 +193,11 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
   // --- Zoom helpers ---
 
+  const ZOOM_PADDING = 100;
+  const ZOOM_MAX_SCALE = 4;
+  /** Min scale from zoom-to-fit for us to consider "ability to zoom" (subtree fits viewport). */
+  const ZOOM_ABLE_MIN_SCALE = 1.0;
+
   function zoomToBounds(nodes: Iterable<d3.HierarchyNode<HierarchyNode>>, padding: number, maxScale: number) {
     let tx0 = Infinity, ty0 = Infinity, tx1 = -Infinity, ty1 = -Infinity;
     for (const n of nodes) {
@@ -209,10 +214,25 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
         d3.zoomIdentity.translate(cw / 2 - tcx * tscale, ch / 2 - tcy * tscale).scale(tscale));
   }
 
+  /** Returns the scale that would be used to fit the node's subtree in the viewport. */
+  function zoomToFitScale(target: d3.HierarchyPointNode<HierarchyNode>): number {
+    const nodes: d3.HierarchyNode<HierarchyNode>[] = [];
+    target.each((n) => nodes.push(n));
+    let tx0 = Infinity, ty0 = Infinity, tx1 = -Infinity, ty1 = -Infinity;
+    for (const n of nodes) {
+      const [px, py] = radialPoint((n as any).x, (n as any).y);
+      const r = nodeRadius(n);
+      tx0 = Math.min(tx0, px - r); ty0 = Math.min(ty0, py - r);
+      tx1 = Math.max(tx1, px + r); ty1 = Math.max(ty1, py + r);
+    }
+    tx0 -= ZOOM_PADDING; ty0 -= ZOOM_PADDING; tx1 += ZOOM_PADDING; ty1 += ZOOM_PADDING;
+    return Math.min(cw / (tx1 - tx0), ch / (ty1 - ty0), ZOOM_MAX_SCALE);
+  }
+
   function zoomToNode(target: d3.HierarchyPointNode<HierarchyNode>) {
     const nodes: d3.HierarchyNode<HierarchyNode>[] = [];
     target.each((n) => nodes.push(n));
-    zoomToBounds(nodes, 100, 4);
+    zoomToBounds(nodes, ZOOM_PADDING, ZOOM_MAX_SCALE);
   }
 
   function zoomToPath(target: d3.HierarchyPointNode<HierarchyNode>) {
@@ -279,7 +299,12 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     updateSpeciesVisibility((svg.node() as any).__currentZoomScale ?? scale0);
 
     const rank = d.data.rank;
-    if (rank === "family" || rank === "genus") {
+    const canZoomCladeOrInfra =
+      (rank === "infraorder" || rank === "clade") &&
+      (d.data.name === "Henophidia" || zoomToFitScale(d) >= ZOOM_ABLE_MIN_SCALE);
+    const shouldZoom =
+      rank === "family" || rank === "genus" || canZoomCladeOrInfra;
+    if (shouldZoom) {
       document.body.setAttribute("data-chart-zoomed", "true");
       zoomToNode(d);
     } else {

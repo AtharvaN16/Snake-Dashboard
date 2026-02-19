@@ -50,7 +50,8 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     let showLabelsOnFocus = false;
     if (isClickFocused) {
       const rank = clickFocusNode!.data.rank;
-      if (rank === "family" || rank === "genus" || rank === "species") {
+      const isHenophidia = clickFocusNode!.data.name === "Henophidia";
+      if (rank === "family" || rank === "genus" || rank === "species" || isHenophidia) {
         showLabelsOnFocus = true;
       }
     }
@@ -110,10 +111,12 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
         if (!isHigherRank) return;
         const fs = fontSize(nd);
         const screenPx = fs * scale;
+        const isDirectChildOfHenophidia =
+          clickFocusNode?.data.name === "Henophidia" && nd.parent === clickFocusNode;
 
-        if (screenPx < MIN_READABLE_PX) {
+        if (isDirectChildOfHenophidia || screenPx < MIN_READABLE_PX) {
           inNodeText.attr("opacity", 0);
-          addExtLabel(nodeEl, nd, rank, invK, scale, {});
+          addExtLabel(nodeEl, nd, rank, invK, scale, { side: !!isDirectChildOfHenophidia });
         } else {
           inNodeText.attr("opacity", 1);
         }
