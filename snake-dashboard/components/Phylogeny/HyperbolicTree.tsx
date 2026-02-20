@@ -102,23 +102,111 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     const shouldBloom = !hasBloomedRef.current && !currentSnakeId;
 
-    // --- Layout ---
+    // --- Layout (D3 cluster radial) ---
+    // Sort so Scolecophidia is first, then Alethinophidia; stable order elsewhere
+    const hierarchyCopy = hierarchy.copy();
+    hierarchyCopy.sort((a, b) => {
+      if (a.depth === 1) {
+        if (a.data.name === "Scolecophidia") return -1;
+        if (b.data.name === "Scolecophidia") return 1;
+      }
+      return (a.data.name || "").localeCompare(b.data.name || "");
+    });
+
     const clusterLayout = d3
       .cluster<HierarchyNode>()
       .size([2 * Math.PI, RADIUS])
       .separation((a, b) => {
         const depth = Math.max(1, a.depth ?? 1);
-        return (a.parent === b.parent ? 2 : 3) / depth;
+        const base = a.parent === b.parent ? 2.6 : 3.5;
+        const infraA = a.ancestors().find((n) => n.depth === 1);
+        const infraB = b.ancestors().find((n) => n.depth === 1);
+        const inDifferentBranches = infraA && infraB && infraA !== infraB;
+        const familyA = a.ancestors().find((n) => (n.data as HierarchyNode).rank === "family");
+        const familyB = b.ancestors().find((n) => (n.data as HierarchyNode).rank === "family");
+        const inDifferentFamilies = familyA && familyB && familyA !== familyB;
+        // Extra gap between Pythonidae and Boidae under Henophidia so they don't look closer than Viper/Elapids
+        const clade2A = a.ancestors().find((n) => n.depth === 2);
+        const clade2B = b.ancestors().find((n) => n.depth === 2);
+        const underHenophidia = (n: d3.HierarchyNode<HierarchyNode>) => (n.data as HierarchyNode).name === "Henophidia";
+        const pythonVsBoa =
+          clade2A && clade2B && underHenophidia(clade2A) && underHenophidia(clade2B) &&
+          familyA && familyB && familyA !== familyB &&
+          ((familyA.data as HierarchyNode).name === "Pythonidae" && (familyB.data as HierarchyNode).name === "Boidae" ||
+           (familyA.data as HierarchyNode).name === "Boidae" && (familyB.data as HierarchyNode).name === "Pythonidae");
+        const raw = base + (inDifferentBranches ? 3 : 0) + (inDifferentFamilies ? 1.5 : 0) + (pythonVsBoa ? 2.2 : 0);
+        // Softer depth falloff so branches stay more open at deeper levels (flower effect)
+        const depthFactor = Math.pow(depth, 0.82);
+        return raw / depthFactor;
       });
 
-    const root = clusterLayout(hierarchy.copy());
+    const root = clusterLayout(hierarchyCopy);
 
+    // Pin infraorders: Scolecophidia in a small top sector; Alethinophidia gets the rest of the circle so the bottom is clearly separated (no cluster)
     const infraorders = root.children;
+    const TOP_SECTOR_RAD = 1.85; // sector at top for Scolecophidia — wider to open the flower
+    const GAP = 1.2; // circumferential gap so Alethinophidia (Atractaspididae) stays clear of top sector (Typhlopidae)
+    const BOTTOM_ANGLE_START = GAP;
+    const BOTTOM_ANGLE_END = 2 * Math.PI - GAP; // Alethinophidia spans most of the circle
     if (infraorders && infraorders.length === 2) {
-      (infraorders[0] as any).x = -Math.PI / 2;
-      (infraorders[0] as any).y = RADIUS * 0.25;
-      (infraorders[1] as any).x = Math.PI / 2;
-      (infraorders[1] as any).y *= 1.4;
+      const scolecophidia = infraorders.find((c) => c.data.name === "Scolecophidia");
+      const alethinophidia = infraorders.find((c) => c.data.name === "Alethinophidia");
+      const centerTop = 0;
+      const centerBottom = Math.PI;
+
+      function confineSubtreeToSector(
+        node: d3.HierarchyNode<HierarchyNode>,
+        center: number,
+        sectorRad: number,
+      ) {
+        const descendants = node.descendants();
+        if (descendants.length === 0) return;
+        const xs = descendants.map((n) => (n as any).x);
+        const xMin = Math.min(...xs);
+        const xMax = Math.max(...xs);
+        const span = xMax - xMin || 1;
+        descendants.forEach((n) => {
+          const x = (n as any).x;
+          (n as any).x = center + ((x - xMin) / span) * sectorRad - sectorRad / 2;
+        });
+      }
+
+      function confineSubtreeToArc(
+        node: d3.HierarchyNode<HierarchyNode>,
+        angleStart: number,
+        angleEnd: number,
+      ) {
+        const descendants = node.descendants();
+        if (descendants.length === 0) return;
+        const xs = descendants.map((n) => (n as any).x);
+        const xMin = Math.min(...xs);
+        const xMax = Math.max(...xs);
+        const span = xMax - xMin || 1;
+        const arcSpan = angleEnd - angleStart;
+        descendants.forEach((n) => {
+          const x = (n as any).x;
+          (n as any).x = angleStart + ((x - xMin) / span) * arcSpan;
+        });
+      }
+
+      if (scolecophidia) {
+        (scolecophidia as any).x = centerTop;
+        (scolecophidia as any).y = RADIUS * 0.25;
+        confineSubtreeToSector(scolecophidia, centerTop, TOP_SECTOR_RAD);
+      }
+      if (alethinophidia) {
+        (alethinophidia as any).x = centerBottom;
+        (alethinophidia as any).y *= 1.4;
+        confineSubtreeToArc(alethinophidia, BOTTOM_ANGLE_START, BOTTOM_ANGLE_END);
+        // Shift Henophidia along the circumference away from Caenophidia (Viper) so it reads as a distinct flower
+        const henophidia = alethinophidia.children?.find((c) => (c.data as HierarchyNode).name === "Henophidia");
+        const HENOPHIDIA_ANGULAR_OFFSET = 0.1; // radians; positive = away from Viper side
+        if (henophidia) {
+          henophidia.descendants().forEach((n) => {
+            (n as any).x += HENOPHIDIA_ANGULAR_OFFSET;
+          });
+        }
+      }
     }
 
 
@@ -138,7 +226,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       nodeToAncestors.set(n, ancestors);
     });
 
-    // --- SVG defs: gradient per link ---
+    // --- SVG defs: gradient per link (node centers) ---
     const defs = svg.append("defs");
     allLinks.forEach((link, i) => {
       const sourcePos = radialPoint((link.source as any).x, (link.source as any).y);
@@ -156,17 +244,62 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     const g = svg.append("g");
 
-    // --- Links ---
+    // --- Links: node centers; magnetic repulsion except for links within a family (family + its child branches) ---
     const linkGen = d3
       .linkRadial<d3.HierarchyLink<HierarchyNode>, d3.HierarchyPointNode<HierarchyNode>>()
       .angle((d) => (d as any).x)
       .radius((d) => (d as any).y);
 
+    const REPEL_SAMPLES = 24;
+    const REPEL_MARGIN = 12;
+
+    function linkPath(link: d3.HierarchyPointLink<HierarchyNode>): string {
+      const src = link.source as d3.HierarchyPointNode<HierarchyNode>;
+      const tgt = link.target as d3.HierarchyPointNode<HierarchyNode>;
+      const familyOf = (n: d3.HierarchyNode<HierarchyNode>) =>
+        n.ancestors().find((a) => (a.data as HierarchyNode).rank === "family");
+      const familySrc = familyOf(src);
+      const familyTgt = familyOf(tgt);
+      const sameFamily = familySrc && familyTgt && familySrc === familyTgt;
+      if (sameFamily) return linkGen(link) ?? "";
+
+      const obstacles = allNodes.filter((n) => n !== src && n !== tgt);
+      if (obstacles.length === 0) return linkGen(link) ?? "";
+
+      const points: [number, number][] = [];
+      for (let i = 0; i <= REPEL_SAMPLES; i++) {
+        const t = i / REPEL_SAMPLES;
+        const angle = src.x + t * (tgt.x - src.x);
+        const r = src.y + t * (tgt.y - src.y);
+        points.push(radialPoint(angle, r));
+      }
+
+      const displaced = points.map((p) => [p[0], p[1]] as [number, number]);
+      for (let i = 1; i < displaced.length; i++) {
+        const p = displaced[i];
+        for (const node of obstacles) {
+          const o = radialPoint((node as any).x, (node as any).y);
+          const dx = p[0] - o[0];
+          const dy = p[1] - o[1];
+          const dist = Math.hypot(dx, dy);
+          const minDist = nodeRadius(node) + REPEL_MARGIN;
+          if (dist < minDist && dist > 1e-6) {
+            const scale = minDist / dist;
+            p[0] = o[0] + dx * scale;
+            p[1] = o[1] + dy * scale;
+          }
+        }
+      }
+
+      const line = d3.line<[number, number]>().curve(d3.curveCatmullRom.alpha(0.5));
+      return line(displaced) ?? "";
+    }
+
     const linkSelection = g.append("g").attr("fill", "none")
       .selectAll<SVGPathElement, d3.HierarchyPointLink<HierarchyNode>>("path")
       .data(allLinks).join("path")
       .attr("class", (d) => isSpecies(d.target) ? "link species-link" : "link")
-      .attr("d", linkGen as any)
+      .attr("d", linkPath)
       .attr("stroke", (_d, i) => `url(#link-grad-${i})`)
       .attr("stroke-width", (d) => linkWidth(d.source.depth))
       .attr("stroke-linecap", "round")
