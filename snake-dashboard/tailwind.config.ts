@@ -61,7 +61,7 @@ const config: Config = {
         },
       },
       animation: {
-        "range-reveal": "range-reveal 0.65s ease-out forwards",
+        "range-reveal": "range-reveal 0.65s ease-out 0.4s forwards",
       },
     },
   },

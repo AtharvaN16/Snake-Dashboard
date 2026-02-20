@@ -5,37 +5,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getAllSnakes, filterByContinent } from "@/lib/snakeData";
-import { VenomTypeChip } from "@/components/VenomTypeChip";
 import { getDangerScoreBadgeColor } from "@/lib/dangerScore";
 import type { Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
 
-/** Light background + dark text for small tags (rankings only) */
-function getClassificationTagStyle(venomClassification: Snake["venomClassification"]) {
-  switch (venomClassification) {
-    case "Highly Venomous":
-      return { bg: "#FFDADA", text: "#B22222" };
-    case "Venomous":
-      return { bg: "#FFE4CC", text: "#C2410C" };
-    case "Moderately Venomous":
-      return { bg: "#FEF08A", text: "#854D0E" };
-    case "Mildly Venomous":
-      return { bg: "#DCFCE7", text: "#166534" };
-    case "Non-venomous":
-    default:
-      return { bg: "#F3F4F6", text: "#4B5563" };
-  }
-}
-
 function RankTableRow({ snake, rank, viewMode }: { snake: Snake; rank: number; viewMode: ViewMode }) {
-  const tagStyle = getClassificationTagStyle(snake.venomClassification);
-  
   return (
     <Link
       href={`/snakes/${snake.id}`}
       id={`rank-row-${snake.id}`}
-      className="grid grid-cols-[80px_200px_1fr_180px_120px] gap-4 py-4 px-6 hover:bg-stone-50 transition-colors border-b border-stone-200 items-center group"
+      className="grid grid-cols-[80px_200px_1fr_120px] gap-4 py-4 px-6 hover:bg-stone-50 transition-colors border-b border-stone-200 items-center group"
     >
       {/* Rank */}
       <div className="flex items-center justify-center">
@@ -74,40 +54,11 @@ function RankTableRow({ snake, rank, viewMode }: { snake: Snake; rank: number; v
         <p className="text-sm text-stone-500 italic truncate">
           {snake.scientificName}
         </p>
-        {snake.venomTypes && snake.venomTypes.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-1">
-            {snake.venomTypes.slice(0, 2).map((type) => (
-              <VenomTypeChip key={type} type={type} className="text-xs" />
-            ))}
-            {snake.venomTypes.length > 2 && (
-              <span className="text-xs text-stone-400">+{snake.venomTypes.length - 2}</span>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Classification */}
-      <div className="flex justify-center">
-        <span
-          className="text-xs font-medium px-3 py-1.5 rounded"
-          style={{
-            backgroundColor: tagStyle.bg,
-            color: tagStyle.text,
-          }}
-        >
-          {snake.venomClassification}
-        </span>
       </div>
 
       {/* Score (Danger or Potency depending on view) */}
-      {viewMode === "danger" ? (
-        <div className="flex flex-col items-center gap-2">
-          <div className="w-full bg-stone-200 rounded-full h-2 overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-red-500 via-orange-400 to-green-500 transition-all"
-              style={{ width: `${snake.dangerScore}%` }}
-            />
-          </div>
+      <div className="flex justify-center">
+        {viewMode === "danger" ? (
           <span
             className="inline-flex font-bold text-sm px-3 py-1 rounded"
             style={{
@@ -117,23 +68,23 @@ function RankTableRow({ snake, rank, viewMode }: { snake: Snake; rank: number; v
           >
             {snake.dangerScore}
           </span>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center gap-2">
-          <div className="text-xs text-stone-500 text-center">LD₅₀ (SC)</div>
-          <span
-            className="inline-flex font-bold text-sm px-3 py-1 rounded"
-            style={{
-              backgroundColor: "#E5E5E5",
-              color: "#000",
-            }}
-          >
-            {snake.venomPotency?.ld50Normalized
-              ? `${snake.venomPotency.ld50Normalized.toFixed(3)} mg/kg`
-              : "N/A"}
-          </span>
-        </div>
-      )}
+        ) : (
+          <div className="flex flex-col items-center gap-1">
+            <div className="text-[10px] text-stone-500 text-center leading-none">LD₅₀ (SC)</div>
+            <span
+              className="inline-flex font-bold text-sm px-3 py-1 rounded"
+              style={{
+                backgroundColor: "#E5E5E5",
+                color: "#000",
+              }}
+            >
+              {snake.venomPotency?.ld50Normalized
+                ? `${snake.venomPotency.ld50Normalized.toFixed(3)} mg/kg`
+                : "N/A"}
+            </span>
+          </div>
+        )}
+      </div>
     </Link>
   );
 }
@@ -275,7 +226,7 @@ function RankPageInner() {
       {/* Rankings Table */}
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden">
         {/* Table Header */}
-        <div className="grid grid-cols-[80px_200px_1fr_180px_120px] gap-4 py-4 px-6 bg-stone-100 border-b-2 border-stone-300">
+        <div className="grid grid-cols-[80px_200px_1fr_120px] gap-4 py-4 px-6 bg-stone-100 border-b-2 border-stone-300">
           <div className="text-xs font-bold text-stone-700 uppercase tracking-wide text-center">
             Rank
           </div>
@@ -284,9 +235,6 @@ function RankPageInner() {
           </div>
           <div className="text-xs font-bold text-stone-700 uppercase tracking-wide">
             Snake
-          </div>
-          <div className="text-xs font-bold text-stone-700 uppercase tracking-wide text-center">
-            Classification
           </div>
           <div className="text-xs font-bold text-stone-700 uppercase tracking-wide text-center">
             {viewMode === "danger" ? "Score" : "LD₅₀"}
