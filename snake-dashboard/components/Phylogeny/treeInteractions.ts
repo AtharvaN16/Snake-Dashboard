@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import { BLOOM_BASE_DELAY, BLOOM_DURATION } from "./treeConstants";
 import { radialPoint } from "./treeGeometry";
-import { nodeRadius, computeNodeFill } from "./treeNodeStyles";
+import { nodeRadius, computeNodeFill, getNodeHoverStyle } from "./treeNodeStyles";
 import { createUpdateSpeciesVisibility } from "./treeVisibility";
 
 export interface ChartContext {
@@ -15,6 +15,8 @@ export interface ChartContext {
   nodePoints: [number, number][];
   nodeToAncestors: Map<d3.HierarchyNode<HierarchyNode>, Set<d3.HierarchyNode<HierarchyNode>>>;
   nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string;
+  /** Returns current nodeColor (use when colorMode may have changed without effect re-run). */
+  getNodeColor?: () => (n: d3.HierarchyNode<HierarchyNode>) => string;
   isSpecies: (d: d3.HierarchyNode<HierarchyNode>) => boolean;
   currentSnakeId?: string;
   shouldBloom: boolean;
@@ -34,10 +36,12 @@ export interface ChartContext {
 export function setupInteractions(ctx: ChartContext): { cleanup: () => void; updateSpeciesVisibility: (scale: number) => void } {
   const {
     svg, g, labelsLayer, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
-    nodeColor, isSpecies, currentSnakeId, shouldBloom,
+    nodeColor, getNodeColor, isSpecies, currentSnakeId, shouldBloom,
     cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
     getColorMode, onSpeciesClick, onTaxonomyNodeClick, onResetView,
   } = ctx;
+
+  const currentNodeColor = () => (getNodeColor?.() ?? nodeColor);
 
   let hoverActive = false;
   let hoveredNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
@@ -199,7 +203,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     cls: string,
     opts?: { large?: boolean },
   ) {
-    const color = nodeColor(node);
+    const color = currentNodeColor()(node);
     const r = nodeRadius(node);
     const [px, py] = radialPoint((node as any).x, (node as any).y);
     const k = zoomScaleRef.current;
@@ -224,8 +228,8 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   // when zoomed in, ext-labels / in-node text are enough and we avoid duplicates.
 
   function showHoverEffect(el: SVGGElement, d: d3.HierarchyPointNode<HierarchyNode>) {
-    const color = nodeColor(d);
-    d3.select(el).select<SVGElement>("circle, path").attr("fill", color).attr("fill-opacity", 0.85);
+    const { fill, fillOpacity } = getNodeHoverStyle(getColorMode(), d, currentNodeColor(), currentSnakeId);
+    d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", fillOpacity);
     if (searchHighlightNode && d === searchHighlightNode) return;
     // Show highlight label only at default zoom; when zoomed in, skip to avoid duplicating ext-labels
     if (zoomScaleRef.current > scale0 * 1.001) return;
@@ -235,7 +239,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   function clearHoverEffect(el: SVGGElement | null, d: d3.HierarchyPointNode<HierarchyNode>) {
     if (!el) return;
     const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
-    const fill = computeNodeFill(d, nodeColor, getColorMode(), currentSnakeId);
+    const fill = computeNodeFill(d, currentNodeColor(), getColorMode(), currentSnakeId);
     d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", isCurrent ? 0.85 : 1);
     // ext-labels are in labelsLayer and are recreated on each visibility update; no per-node reset needed
     if (hoverLabel) { hoverLabel.remove(); hoverLabel = null; }
@@ -310,7 +314,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
     // Reset all nodes to base state respecting current color mode
     nodeSelection.each(function (nd) {
-      const fill = computeNodeFill(nd, nodeColor, getColorMode(), currentSnakeId);
+      const fill = computeNodeFill(nd, currentNodeColor(), getColorMode(), currentSnakeId);
       d3.select(this).select<SVGElement>("circle, path")
         .attr("fill", fill).attr("fill-opacity", 1);
     });
@@ -450,7 +454,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       .call((zoomBehavior as any).transform, defaultTransform);
     t.on("end", () => {
       if (nodeToFade) {
-        const targetFill = computeNodeFill(nodeToFade, nodeColor, getColorMode(), undefined);
+        const targetFill = computeNodeFill(nodeToFade, currentNodeColor(), getColorMode(), undefined);
         nodeSelection.filter((d) => d === nodeToFade)
           .select<SVGElement>("circle, path")
           .transition().duration(480).ease(d3.easeCubicOut)

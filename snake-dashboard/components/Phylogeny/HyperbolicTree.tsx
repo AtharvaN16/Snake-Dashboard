@@ -36,6 +36,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const hasBloomedRef = useRef(false);
   const zoomScaleRef = useRef<number>(1);
   const colorModeRef = useRef<'family' | 'venom'>('family');
+  const nodeColorRef = useRef<(n: d3.HierarchyNode<HierarchyNode>) => string>(() => "#94a3b8");
   const isInitialRenderRef = useRef(true);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [colorMode, setColorMode] = useState<'family' | 'venom'>('family');
@@ -90,6 +91,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const f = familyOf(n);
     return f ? familyColor(f) : "#94a3b8";
   }, [colorMode, snakeMap]);
+  nodeColorRef.current = nodeColor;
 
   useEffect(() => {
     const container = containerRef.current;
@@ -445,7 +447,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const interactions = setupInteractions({
       svg, g, labelsLayer, nodeSelection, linkSelection, nodeToAncestors,
       allNodes, nodePoints,
-      nodeColor, isSpecies, currentSnakeId, shouldBloom,
+      nodeColor, getNodeColor: () => nodeColorRef.current, isSpecies, currentSnakeId, shouldBloom,
       cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
       getColorMode: () => colorModeRef.current,
       onSpeciesClick: (id) => router.push(`/snakes/${id}`),

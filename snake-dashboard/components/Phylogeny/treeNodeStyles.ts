@@ -2,6 +2,8 @@ import type * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import { lightTint } from "./treeGeometry";
 
+export type ColorMode = "family" | "venom";
+
 export function nodeRadius(d: d3.HierarchyNode<HierarchyNode>): number {
   switch (d.data.rank) {
     case "suborder":
@@ -61,7 +63,7 @@ export function linkWidth(depth: number): number {
 export function computeNodeFill(
   d: d3.HierarchyNode<HierarchyNode>,
   nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string,
-  colorMode: "family" | "venom",
+  colorMode: ColorMode,
   currentSnakeId?: string,
 ): string {
   const color = nodeColor(d);
@@ -70,4 +72,23 @@ export function computeNodeFill(
     return color;
   }
   return isCurrent ? color : lightTint(color, 0.82);
+}
+
+/** Hover appearance per view — single place to extend when adding new views. */
+export function getNodeHoverStyle(
+  colorMode: ColorMode,
+  d: d3.HierarchyNode<HierarchyNode>,
+  nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string,
+  currentSnakeId?: string,
+): { fill: string; fillOpacity: number } {
+  if (colorMode === "venom" && d.data.rank === "species") {
+    return {
+      fill: computeNodeFill(d, nodeColor, "venom", currentSnakeId),
+      fillOpacity: 1,
+    };
+  }
+  return {
+    fill: nodeColor(d),
+    fillOpacity: 0.85,
+  };
 }
