@@ -156,6 +156,14 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
       .interpolate(d3.interpolateRgb)
       .clamp(true);
 
+    const radiusScale = d3.scaleSqrt()
+      .domain([0, 600])
+      .range([3.5, 14]);
+
+    const vYield = currentSnake.venomYield;
+    const dryMg = vYield?.dryWeight ?? (vYield?.wetVolume != null ? vYield.wetVolume * 200 : null);
+    const currentYieldMg = dryMg ?? (vYield ? imputeDryYield(vYield.qualitative) : 0);
+
     // 1. Horizontal grid lines with labels
     svg.selectAll(".ladder-line")
       .data(ladderTicks)
@@ -231,37 +239,38 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
         const dryMg = vYield?.dryWeight ?? (vYield?.wetVolume != null ? vYield.wetVolume * 200 : null);
         const yieldMg = dryMg ?? (vYield ? imputeDryYield(vYield.qualitative) : 0);
         const potency = getPotency(ld50);
+        const x0 = xScale(ld50);
+        const y0 = yScale(Math.max(0, Math.min(yMax, potency)));
         return { 
           snake: s, 
           ld50, 
           potency, 
           yieldMg,
-          // Initial x/y for simulation
-          x: xScale(ld50),
-          y: yScale(Math.max(0, Math.min(yMax, potency)))
+          // Original coords (overlapping)
+          x0,
+          y0,
+          // Simulation coords (spread)
+          x: x0,
+          y: y0
         };
       });
 
-      const radiusScale = d3.scaleSqrt()
-        .domain([0, 600])
-        .range([3.5, 14]);
-
       // Simple force simulation to de-cluster dots (Beeswarm effect)
       const simulation = d3.forceSimulation(snakeData as any)
-        .force("x", d3.forceX((d: any) => xScale(d.ld50)).strength(0.8))
-        .force("y", d3.forceY((d: any) => yScale(Math.max(0, Math.min(yMax, d.potency)))).strength(0.8))
+        .force("x", d3.forceX((d: any) => d.x0).strength(0.8))
+        .force("y", d3.forceY((d: any) => d.y0).strength(0.8))
         .force("collide", d3.forceCollide((d: any) => (scaleByYield ? radiusScale(d.yieldMg) : 5.5) + 0.5).iterations(2))
         .stop();
 
       // Run simulation synchronously for instant results
       for (let i = 0; i < 120; ++i) simulation.tick();
 
-      mainChartG.selectAll(".all-snake-dot")
+      const dots = mainChartG.selectAll(".all-snake-dot")
         .data(snakeData)
         .join("circle")
         .attr("class", "all-snake-dot")
-        .attr("cx", d => (d as any).x)
-        .attr("cy", d => (d as any).y)
+        .attr("cx", d => d.x0)
+        .attr("cy", d => d.y0)
         .attr("r", d => scaleByYield ? radiusScale(d.yieldMg) : 5.5)
         .attr("fill", d => dotColorScale(d.ld50))
         .attr("fill-opacity", 0.7)
@@ -289,11 +298,41 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
           d3.select(this).attr("r", r).attr("fill-opacity", 0.7).attr("stroke-width", 1);
           tooltip.style("opacity", 0);
         });
+
+      // Interactive Localized Beeswarm: 
+      // Dots stay at x0, y0 unless the mouse is nearby, then they interpolate towards x, y (spread)
+      const updateLocalizedSpread = (mx: number | null, my: number | null) => {
+        const spreadRadius = 100; // Trigger distance in pixels
+        dots.attr("cx", (d: any) => {
+          if (mx === null || my === null) return d.x0;
+          const dist = Math.sqrt((d.x0 - mx) ** 2 + (d.y0 - my) ** 2);
+          const weight = Math.max(0, Math.min(1, 1 - dist / spreadRadius));
+          const easedWeight = weight * weight * (3 - 2 * weight); // Smooth step
+          return d.x0 + (d.x - d.x0) * easedWeight;
+        })
+        .attr("cy", (d: any) => {
+          if (mx === null || my === null) return d.y0;
+          const dist = Math.sqrt((d.x0 - mx) ** 2 + (d.y0 - my) ** 2);
+          const weight = Math.max(0, Math.min(1, 1 - dist / spreadRadius));
+          const easedWeight = weight * weight * (3 - 2 * weight);
+          return d.y0 + (d.y - d.y0) * easedWeight;
+        });
+      };
+
+      // Listener on the main group for localized interaction
+      // We use mainChartG node to get pointer relative to the chart group
+      svg.on("mousemove", (event) => {
+        const [mx, my] = d3.pointer(event, mainChartG.node());
+        updateLocalizedSpread(mx, my);
+      })
+      .on("mouseleave", () => {
+        updateLocalizedSpread(null, null);
+      });
     }
 
     // 4. Primary data markers (snake, median) - current snake label above curve
     const points = [
-      { id: "snake", val: currentLD50, label: currentSnake.commonName.toUpperCase(), color: "#2c2c2c", weight: 700 },
+      { id: "snake", val: currentLD50, label: currentSnake.commonName.toUpperCase(), color: "#2c2c2c", weight: 700, yieldMg: currentYieldMg },
       { id: "median", val: medianLD50, label: "MEDIAN", color: "#78716c", weight: 600 }
     ].sort((a, b) => a.val - b.val);
 
@@ -321,10 +360,14 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
         .attr("stroke-dasharray", isSnake ? "none" : "2,2")
         .attr("opacity", isSnake ? 0 : 0.3);
 
-      const circle = svg.append("circle")
+      const radius = isSnake && scaleByYield 
+        ? radiusScale(p.yieldMg!) 
+        : (isSnake ? 6 : 4.5);
+
+      const circle = markerG.append("circle")
         .attr("class", isSnake ? "current-snake-dot" : "")
         .attr("cx", x).attr("cy", y)
-        .attr("r", isSnake ? 6 : 4.5)
+        .attr("r", radius)
         .attr("fill", isSnake ? "#ef4444" : "white")
         .attr("stroke", p.color)
         .attr("stroke-width", 1.5);
