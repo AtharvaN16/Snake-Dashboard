@@ -17,6 +17,7 @@ interface VisibilityContext {
   getHoverActive: () => boolean;
   getHoveredNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
   getHighlightedNodes: () => Set<d3.HierarchyNode<HierarchyNode>>;
+  getFamilyBranchNodes: () => Set<d3.HierarchyNode<HierarchyNode>> | null;
   getDimmedOpacity: () => { node: string; link: number };
 }
 
@@ -36,9 +37,14 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     ctx.zoomScaleRef.current = scale;
     const hoverActive = ctx.getHoverActive();
     const highlightedNodes = ctx.getHighlightedNodes();
+    const familyBranchNodes = ctx.getFamilyBranchNodes();
     const dimmedOpacity = ctx.getDimmedOpacity();
-    const labelOpacityFor = (nd: d3.HierarchyNode<HierarchyNode>) =>
-      hoverActive ? (highlightedNodes.has(nd) ? "1" : dimmedOpacity.node) : "1";
+    const labelOpacityFor = (nd: d3.HierarchyNode<HierarchyNode>) => {
+      if (!hoverActive) return "1";
+      if (highlightedNodes.has(nd)) return "1";
+      if (familyBranchNodes?.has(nd)) return "0.2";
+      return dimmedOpacity.node;
+    };
 
     // Species visibility is controlled by highlight when hover/click is active
     if (!hoverActive) {

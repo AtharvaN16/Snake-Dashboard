@@ -47,6 +47,8 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   let focusLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
   /** Set of nodes at full opacity during highlight; used to sync label opacity in labelsLayer. */
   let currentHighlightedNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
+  /** When hovering a species at default zoom: family branch stays at 0.2; used for label opacity. */
+  let currentFamilyBranchNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
 
   // --- Voronoi/Delaunay setup ---
   const delaunay = d3.Delaunay.from(nodePoints);
@@ -71,6 +73,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   // --- Highlight helpers ---
   function highlightSubtree(target: d3.HierarchyPointNode<HierarchyNode>) {
     hoverActive = true;
+    currentFamilyBranchNodes = null;
     const subtreeNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
     target.each((n) => subtreeNodes.add(n));
     currentHighlightedNodes = subtreeNodes;
@@ -96,16 +99,36 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     currentHighlightedNodes = pathNodes;
     const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
 
+    const isSpeciesAtDefaultZoom =
+      isSpecies(target) && dimmedNode === "0";
+    let familyBranch: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
+    if (isSpeciesAtDefaultZoom && target.parent?.parent) {
+      const family = target.parent.parent;
+      familyBranch = new Set<d3.HierarchyNode<HierarchyNode>>();
+      family.each((n) => familyBranch!.add(n));
+      currentFamilyBranchNodes = familyBranch;
+    } else {
+      currentFamilyBranchNodes = null;
+    }
+
     nodeSelection
       .transition().duration(200)
-      .style("opacity", (d) => (pathNodes.has(d) ? "1" : dimmedNode));
+      .style("opacity", (d) => {
+        if (pathNodes.has(d)) return "1";
+        if (familyBranch?.has(d)) return "0.2";
+        return dimmedNode;
+      });
     nodeSelection
-      .style("pointer-events", (d) => (pathNodes.has(d) ? "auto" : "none"));
+      .style("pointer-events", (d) =>
+        pathNodes.has(d) || (familyBranch != null && familyBranch.has(d)) ? "auto" : "none"
+      );
     linkSelection
       .transition().duration(200)
-      .attr("stroke-opacity", (d) =>
-        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : dimmedLink
-      );
+      .attr("stroke-opacity", (l) => {
+        if (pathNodes.has(l.source) && pathNodes.has(l.target)) return 0.9;
+        if (familyBranch && familyBranch.has(l.source) && familyBranch.has(l.target)) return 0.1;
+        return dimmedNode === "0" ? 0 : dimmedLink;
+      });
   }
   
   function highlightPathToRoot(
@@ -113,6 +136,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     root: d3.HierarchyNode<HierarchyNode>,
   ) {
     hoverActive = true;
+    currentFamilyBranchNodes = null;
     const pathNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
     for (let n: d3.HierarchyNode<HierarchyNode> | null = from; n; n = n.parent) {
       pathNodes.add(n);
@@ -140,6 +164,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     getHoverActive: () => hoverActive,
     getHoveredNode: () => hoveredNode,
     getHighlightedNodes: () => currentHighlightedNodes,
+    getFamilyBranchNodes: () => currentFamilyBranchNodes,
     getDimmedOpacity: () => getDimmedOpacity(),
   });
 
@@ -156,6 +181,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     }
     hoverActive = false;
     currentHighlightedNodes = new Set();
+    currentFamilyBranchNodes = null;
     const currentZoom = zoomScaleRef.current;
 
     nodeSelection.style("pointer-events", "auto");
@@ -273,6 +299,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     searchHighlightNode = null;
     hoveredNode = null;
     currentHighlightedNodes = new Set();
+    currentFamilyBranchNodes = null;
     document.body.removeAttribute("data-chart-zoomed");
     hoverActive = false;
 
