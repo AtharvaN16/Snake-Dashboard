@@ -8,6 +8,8 @@ import { writeFileSync, readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { computeDangerScoreForSnake, rankSnakes } from "../lib/dangerScore";
 import type { Snake } from "../lib/types";
+import { dataFixes } from "./build/dataFixes";
+import { clinicalFixes } from "./build/clinicalFixes";
 
 // Helper to load attribution from file system
 const loadAttributionFromFile = (id: string) => {
@@ -1044,6 +1046,102 @@ const newSnakes = [
     "Similar to eastern coral. Secretive. Small fangs limit venom delivery.",
     "Moderately Venomous"
   ),
+  venomous(
+    "blue-malayan-coral-snake",
+    "Blue Malayan Coral Snake",
+    "Calliophis bivirgatus",
+    "Elapidae",
+    "Calliophis",
+    62,
+    "44/100",
+    { ld50: 0.5, range: "0.3-0.8", method: "IV" },
+    { dry: 15, qual: "Low" },
+    ["Neurotoxic"],
+    "Quick",
+    {
+      short: ["Pain", "Swelling", "Numbness"],
+      prog: ["Paralysis", "Respiratory depression"],
+      crit: ["Respiratory failure", "Rare death"],
+    },
+    "Low",
+    ["Southeast Asia"],
+    "Forests, plantations",
+    [5, 102],
+    "Long, slender. Red head and tail, blue-black dorsum. Potent neurotoxin; bites rare.",
+    "Moderately Venomous"
+  ),
+  venomous(
+    "twig-snake",
+    "Twig Snake",
+    "Thelotornis capensis",
+    "Colubridae",
+    "Thelotornis",
+    58,
+    "45/100",
+    { ld50: 0.12, range: "0.08-0.18", method: "IV" },
+    { dry: 8, qual: "Very Low" },
+    ["Hemotoxic"],
+    "Slow",
+    {
+      short: ["Minimal pain", "Nausea"],
+      prog: ["Coagulopathy", "Bleeding"],
+      crit: ["Hemorrhage", "Death; no antivenom"],
+    },
+    "Low",
+    ["Sub-Saharan Africa"],
+    "Savanna, woodland",
+    [-15, 28],
+    "Rear-fanged. Hemotoxic venom similar to boomslang; slow-acting. Bites rare.",
+    "Moderately Venomous"
+  ),
+  venomous(
+    "indian-coral-snake",
+    "Indian Coral Snake",
+    "Calliophis melanurus",
+    "Elapidae",
+    "Calliophis",
+    55,
+    "46/100",
+    { ld50: 0.4, range: "0.3-0.6", method: "IV" },
+    { dry: 5, qual: "Very Low" },
+    ["Neurotoxic"],
+    "Slow",
+    {
+      short: ["Minimal pain", "Numbness"],
+      prog: ["Paralysis"],
+      crit: ["Respiratory failure rare"],
+    },
+    "Low",
+    ["South Asia"],
+    "Forests, scrubland",
+    [15, 78],
+    "Slender coral snake. Small fangs, low yield. India, Bangladesh, Sri Lanka.",
+    "Moderately Venomous"
+  ),
+  venomous(
+    "banded-malayan-coral-snake",
+    "Banded Malayan Coral Snake",
+    "Calliophis intestinalis",
+    "Elapidae",
+    "Calliophis",
+    52,
+    "47/100",
+    { ld50: 0.35, range: "0.2-0.5", method: "IV" },
+    { dry: 3, qual: "Very Low" },
+    ["Neurotoxic"],
+    "Slow",
+    {
+      short: ["Minimal pain", "Numbness"],
+      prog: ["Paralysis"],
+      crit: ["Respiratory failure rare"],
+    },
+    "Low",
+    ["Southeast Asia"],
+    "Forests, Borneo to Singapore",
+    [2, 112],
+    "Small coral snake. Red vertebral stripe, red tail. Potent neurotoxin; low yield.",
+    "Moderately Venomous"
+  ),
 ];
 
 const fixedSnakes = newSnakes;
@@ -1130,9 +1228,12 @@ const moreSnakes = [
   nonvenomous("cuban-tree-snake", "Cuban Tree Snake", "Chironius carinatus", "Colubridae", "Chironius", "Low", ["Caribbean", "South America"], "Forests", [20, -75], "Arboreal. Fast. Harmless.", { maxLength: [2.5, "m"], diet: ["frogs", "lizards"] }),
 ];
 
-// Load existing 9 snakes
+// Load existing snakes (used for merge + preserving optional fields)
 const existingPath = join(__dirname, "../data/snakes/index.json");
 const existing = JSON.parse(readFileSync(existingPath, "utf-8"));
+const existingById = new Map<string, Record<string, unknown>>(
+  (existing.snakes ?? []).map((s: any) => [s.id, s])
+);
 
 // Use all new venomous snakes (fixed ids already)
 const allNew = fixedSnakes;
@@ -1143,125 +1244,7 @@ const byId = new Map<string, unknown>();
 combined.forEach((s: any) => byId.set(s.id, s));
 const unique = Array.from(byId.values()) as typeof combined;
 
-// ─── Data corrections: replace placeholder LD50/yield with researched values ───
-// Sources: snakeDB.org, Wikipedia species pages, Brown (1973), Minton (1974), PubMed
-type DataFix = {
-  ld50: number;
-  range: string;
-  method: "IV" | "SC" | "IP";
-  dryYield: number;
-  yieldQual: "Extremely High" | "High" | "Moderate" | "Low" | "Very Low";
-  dataQuality?: "measured" | "estimated" | "insufficient";
-};
-const dataFixes: Record<string, DataFix> = {
-  "common-krait":             { ld50: 0.325, range: "0.089-0.325", method: "SC", dryYield: 10,  yieldQual: "Low" },
-  "monocled-cobra":           { ld50: 0.20,  range: "0.148-0.373", method: "IV", dryYield: 263, yieldQual: "High" },
-  "timber-rattlesnake":       { ld50: 1.64,  range: "1.64-7.7",    method: "IV", dryYield: 140, yieldQual: "High", dataQuality: "estimated" },
-  "beaked-sea-snake":         { ld50: 0.1125,range: "0.10-0.12",   method: "IV", dryYield: 8,   yieldQual: "Very Low" },
-  "green-mamba":              { ld50: 1.3,   range: "0.45-3.0",    method: "SC", dryYield: 75,  yieldQual: "Moderate" },
-  "banded-krait":             { ld50: 2.4,   range: "0.45-3.6",    method: "SC", dryYield: 50,  yieldQual: "Moderate" },
-  "javan-spitting-cobra":     { ld50: 0.9,   range: "0.59-1.36",   method: "IV", dryYield: 175, yieldQual: "High", dataQuality: "estimated" },
-  "dugite":                   { ld50: 0.66,  range: "0.56-0.80",   method: "SC", dryYield: 6,   yieldQual: "Very Low" },
-  "mulga-snake":              { ld50: 2.38,  range: "1.91-2.38",   method: "SC", dryYield: 150, yieldQual: "High" },
-  "yellow-bellied-sea-snake": { ld50: 0.067, range: "0.04-0.10",   method: "SC", dryYield: 2,   yieldQual: "Very Low" },
-  "jararaca":                 { ld50: 1.2,   range: "1.2-3.0",     method: "IV", dryYield: 25,  yieldQual: "Low" },
-  "south-american-rattlesnake":{ ld50: 0.17, range: "0.07-0.19",   method: "IP", dryYield: 63,  yieldQual: "Moderate" },
-  "egyptian-viper":           { ld50: 0.40,  range: "0.40-3.0",    method: "IV", dryYield: 23,  yieldQual: "Low" },
-  "boomslang-southern":       { ld50: 0.07,  range: "0.05-0.10",   method: "IV", dryYield: 5,   yieldQual: "Very Low" },
-  "asp-viper":                { ld50: 1.0,   range: "1.0-2.0",     method: "IV", dryYield: 10,  yieldQual: "Low" },
-  "common-adder":             { ld50: 0.55,  range: "0.55-6.45",   method: "IV", dryYield: 12,  yieldQual: "Low" },
-  "nose-horned-viper":        { ld50: 1.2,   range: "0.44-2.0",    method: "IV", dryYield: 20,  yieldQual: "Low" },
-  "massasauga":               { ld50: 0.7,   range: "0.7-2.5",     method: "IP", dryYield: 30,  yieldQual: "Low" },
-  "prairie-rattlesnake":      { ld50: 1.55,  range: "1.55-2.1",    method: "IV", dryYield: 50,  yieldQual: "Moderate" },
-  // No real data — medically insignificant rear-fanged colubrids
-  "asian-vine-snake":         { ld50: 1,     range: "N/A",         method: "IV", dryYield: 0,   yieldQual: "Very Low", dataQuality: "insufficient" },
-  "european-cat-snake":       { ld50: 1,     range: "N/A",         method: "IV", dryYield: 0,   yieldQual: "Very Low", dataQuality: "insufficient" },
-};
-
-// ─── Clinical data: untreated fatality rates, WHO category, severity ───
-// Sources: WHO Snakebite Guidelines (2016), Warrell DA Clinical Toxicology,
-// Chippaux JP (2017) Snakebite envenomation, published case series
-type ClinicalFix = {
-  fatalityRate: [number, number]; // untreated CFR [low%, high%]
-  whoCategory?: 1 | 2;
-  severity: "Life-threatening" | "Severe" | "Moderate" | "Mild" | "Negligible";
-};
-const clinicalFixes: Record<string, ClinicalFix> = {
-  // === ELAPIDS (neurotoxic-dominant) ===
-  "inland-taipan":              { fatalityRate: [80, 100], whoCategory: 2, severity: "Life-threatening" },
-  "eastern-brown-snake":        { fatalityRate: [10, 20],  whoCategory: 1, severity: "Life-threatening" },
-  "coastal-taipan":             { fatalityRate: [60, 80],  whoCategory: 1, severity: "Life-threatening" },
-  "black-mamba":                { fatalityRate: [90, 100], whoCategory: 1, severity: "Life-threatening" },
-  "king-cobra":                 { fatalityRate: [50, 75],  whoCategory: 1, severity: "Life-threatening" },
-  "philippine-cobra":           { fatalityRate: [50, 70],  whoCategory: 1, severity: "Life-threatening" },
-  "indian-cobra":               { fatalityRate: [20, 40],  whoCategory: 1, severity: "Life-threatening" },
-  "egyptian-cobra":             { fatalityRate: [15, 30],  whoCategory: 1, severity: "Life-threatening" },
-  "cape-cobra":                 { fatalityRate: [40, 60],  whoCategory: 1, severity: "Life-threatening" },
-  "forest-cobra":               { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
-  "monocled-cobra":             { fatalityRate: [20, 40],  whoCategory: 1, severity: "Life-threatening" },
-  "black-necked-spitting-cobra":{ fatalityRate: [5, 10],   whoCategory: 1, severity: "Severe" },
-  "javan-spitting-cobra":       { fatalityRate: [10, 20],  whoCategory: 1, severity: "Severe" },
-  "tiger-snake":                { fatalityRate: [40, 60],  whoCategory: 1, severity: "Life-threatening" },
-  "death-adder":                { fatalityRate: [50, 60],  whoCategory: 1, severity: "Life-threatening" },
-  "red-bellied-black-snake":    { fatalityRate: [0, 1],    whoCategory: 2, severity: "Moderate" },
-  "lowlands-copperhead":        { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
-  "dugite":                     { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
-  "mulga-snake":                { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
-  "common-krait":               { fatalityRate: [50, 80],  whoCategory: 1, severity: "Life-threatening" },
-  "many-banded-krait":          { fatalityRate: [25, 50],  whoCategory: 1, severity: "Life-threatening" },
-  "banded-krait":               { fatalityRate: [10, 30],  whoCategory: 1, severity: "Life-threatening" },
-  "green-mamba":                { fatalityRate: [10, 20],  whoCategory: 1, severity: "Life-threatening" },
-  "coral-snake":                { fatalityRate: [5, 15],   whoCategory: 1, severity: "Severe" },
-  "texas-coral-snake":          { fatalityRate: [3, 10],   whoCategory: 2, severity: "Severe" },
-  "beaked-sea-snake":           { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
-  "yellow-bellied-sea-snake":   { fatalityRate: [10, 25],  whoCategory: 2, severity: "Life-threatening" },
-
-  // === VIPERIDS (hemotoxic/cytotoxic-dominant) ===
-  "russells-viper":             { fatalityRate: [30, 70],  whoCategory: 1, severity: "Life-threatening" },
-  "saw-scaled-viper":           { fatalityRate: [15, 30],  whoCategory: 1, severity: "Life-threatening" },
-  "carpet-viper":               { fatalityRate: [15, 30],  whoCategory: 1, severity: "Life-threatening" },
-  "puff-adder":                 { fatalityRate: [10, 20],  whoCategory: 1, severity: "Life-threatening" },
-  "gaboon-viper":               { fatalityRate: [15, 30],  whoCategory: 1, severity: "Life-threatening" },
-  "fer-de-lance":               { fatalityRate: [7, 15],   whoCategory: 1, severity: "Life-threatening" },
-  "bushmaster":                 { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
-  "jararaca":                   { fatalityRate: [3, 8],    whoCategory: 1, severity: "Severe" },
-  "south-american-rattlesnake": { fatalityRate: [50, 75],  whoCategory: 1, severity: "Life-threatening" },
-  "eastern-diamondback":        { fatalityRate: [10, 30],  whoCategory: 1, severity: "Life-threatening" },
-  "western-diamondback":        { fatalityRate: [10, 20],  whoCategory: 1, severity: "Life-threatening" },
-  "mojave-rattlesnake":         { fatalityRate: [5, 15],   whoCategory: 1, severity: "Life-threatening" },
-  "timber-rattlesnake":         { fatalityRate: [5, 15],   whoCategory: 1, severity: "Severe" },
-  "prairie-rattlesnake":        { fatalityRate: [3, 10],   whoCategory: 2, severity: "Severe" },
-  "rock-rattlesnake":           { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
-  "massasauga":                 { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
-  "copperhead":                 { fatalityRate: [0, 0.5],  severity: "Moderate" },
-  "cottonmouth":                { fatalityRate: [1, 5],    whoCategory: 2, severity: "Severe" },
-  "malayan-pit-viper":          { fatalityRate: [5, 15],   whoCategory: 1, severity: "Severe" },
-  "japanese-mamushi":           { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
-  "white-lipped-viper":         { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
-  "waglers-pit-viper":          { fatalityRate: [0, 1],    severity: "Mild" },
-  "eyelash-viper":              { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
-  "cantil":                     { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
-  "night-adder":                { fatalityRate: [0, 1],    severity: "Moderate" },
-  "common-adder":               { fatalityRate: [0, 1],    severity: "Moderate" },
-  "asp-viper":                  { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
-  "nose-horned-viper":          { fatalityRate: [1, 5],    whoCategory: 2, severity: "Moderate" },
-  "egyptian-viper":             { fatalityRate: [5, 15],   whoCategory: 2, severity: "Severe" },
-
-  // === COLUBRIDS (rear-fanged) ===
-  "boomslang":                  { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
-  "boomslang-southern":         { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
-  "keelback":                   { fatalityRate: [1, 5],    whoCategory: 2, severity: "Severe" },
-  "mangrove-snake":             { fatalityRate: [0, 0],    severity: "Mild" },
-  "green-vine-snake":           { fatalityRate: [0, 0],    severity: "Mild" },
-  "brown-tree-snake":           { fatalityRate: [0, 1],    severity: "Mild" },
-  "western-hognose":            { fatalityRate: [0, 0],    severity: "Negligible" },
-  "asian-vine-snake":           { fatalityRate: [0, 0],    severity: "Negligible" },
-  "european-cat-snake":         { fatalityRate: [0, 0],    severity: "Negligible" },
-
-  // Atractaspid (stiletto / burrowing asp) — rarely fatal, no WHO category
-  "stiletto-snake":             { fatalityRate: [0, 3],    severity: "Moderate" },
-};
-
+// Data corrections and clinical overrides are in scripts/build/dataFixes.ts and scripts/build/clinicalFixes.ts
 const corrected = unique.map((s: any) => {
   const fix = dataFixes[s.id];
   const clinical = clinicalFixes[s.id];
@@ -1290,11 +1273,23 @@ const corrected = unique.map((s: any) => {
   return result;
 });
 
-// Normalize images for every snake: use new path structure and load attribution from file when present
-const snakesWithNormalizedImages = corrected.map((s: any) => ({
-  ...s,
-  images: img(s.id),
-}));
+// Normalize images for every snake: use new path structure and load attribution from file when present.
+// Preserve existing gallery / galleryAttributions from the snake so user-added images (e.g. from
+// "search for images") are not lost on rebuild. File-based data (attribution.json, gallery-metadata.json)
+// is used as fallback when the snake has no gallery data.
+const snakesWithNormalizedImages = corrected.map((s: any) => {
+  const baseImages = img(s.id);
+  const hasExistingGallery = Array.isArray(s.images?.gallery) && s.images.gallery.length > 0;
+  const hasExistingAttributions = Array.isArray(s.images?.galleryAttributions) && s.images.galleryAttributions.length > 0;
+  return {
+    ...s,
+    images: {
+      ...baseImages,
+      ...(hasExistingGallery && { gallery: s.images.gallery }),
+      ...(hasExistingAttributions && { galleryAttributions: s.images.galleryAttributions }),
+    },
+  };
+});
 
 // Compute danger scores from potency, yield, encounter, speed (log-transform formula) and assign ranks
 const withScores = snakesWithNormalizedImages.map((s: any) =>
@@ -1329,11 +1324,12 @@ try {
 // Only one snake gets "Also Known As" (single primary alias to keep UI minimal)
 const otherCommonNamesMap: Record<string, string[]> = {
   "copperhead": ["Highland Moccasin"],
+  "cottonmouth": ["Water Moccasin"],
 };
 
 /** Snakes that should always show the "Rarely Fatal" tag (very low untreated CFR). */
 const rarelyFatalIds = new Set([
-  "copperhead", "waglers-pit-viper", "night-adder", "common-adder", "massasauga", "red-bellied-black-snake",
+  "copperhead", "cottonmouth", "waglers-pit-viper", "night-adder", "common-adder", "massasauga", "red-bellied-black-snake",
 ]);
 
 const enriched = ranked.map((s: any) => {
@@ -1377,10 +1373,33 @@ const enriched = ranked.map((s: any) => {
   return out;
 });
 
+// Preserve optional fields from existing JSON so rebuilds don't drop user-added or feature data.
+// Adding a new feature that stores data on the snake? Add the field to the Snake type in lib/types.ts,
+// then add the field name here so rebuilds preserve it.
+const PRESERVED_FIELDS_FROM_EXISTING = [
+  "firstAidInfo", "behaviorNotes", "conservationStatus", "accolades", "causesOfDeath",
+  "dataQuality", "maxLength", "diet", "constrictor",
+] as const;
+function pickPreserved(prev: Record<string, unknown> | undefined): Record<string, unknown> {
+  if (!prev) return {};
+  const out: Record<string, unknown> = {};
+  for (const key of PRESERVED_FIELDS_FROM_EXISTING) {
+    if (prev[key] !== undefined && prev[key] !== null) out[key] = prev[key];
+  }
+  return out;
+}
+
+const withPreserved = enriched.map((s: any) => {
+  const prev = existingById.get(s.id) as Record<string, unknown> | undefined;
+  const preserved = pickPreserved(prev);
+  if (Object.keys(preserved).length === 0) return s;
+  return { ...s, ...preserved };
+});
+
 const out = {
   lastUpdated: new Date().toISOString().split("T")[0],
-  totalSnakes: enriched.length,
-  snakes: enriched,
+  totalSnakes: withPreserved.length,
+  snakes: withPreserved,
 };
 
 writeFileSync(join(__dirname, "../data/snakes/index.json"), JSON.stringify(out, null, 2));

@@ -91,15 +91,24 @@ Composite score is calculated by `lib/dangerScore.ts` with weights:
 
 #### Range Maps (GeoJSON)
 
+**Why is there no map or snake range?**  
+The detail page shows a distribution map only when the app can load range geometry. That happens when **at least one** of these is true:
+
+- A file exists at `public/geojson/ranges/<snake-id>.json`, or
+- The snake’s `distribution.rangeGeoJsonPath` points to a GeoJSON file, or
+- The snake’s `distribution.geometry` contains inline GeoJSON.
+
+Snakes added via the build script only get `distribution.regions`, `habitat`, and `coordinates` — **no** `geometry` or `rangeGeoJsonPath`. So they have **no map until you add a range file**. Add the file (see below) and the map will appear; the app discovers ranges by snake `id` from `public/geojson/ranges/`.
+
 To show a distribution overlay on the map, provide a GeoJSON file:
 
 1.  **Locate/Generate GeoJSON**: 
     - Use authoritative sources like IUCN or GARD (see `scripts/README-RANGE-MAPS.md`).
     - Or fetch from iNaturalist using scientific name matches: `bun run scripts/fetchINatRangeGeojsons.ts`.
 2.  **Save File**: Place the file in `public/geojson/ranges/<snake-id>.json`.
-    - Use the snake's `id` as the filename.
+    - Use the snake's `id` as the filename (e.g. `blue-malayan-coral-snake.json`).
     - Format must be a GeoJSON `Feature` or `FeatureCollection` containing a `Polygon` or `MultiPolygon`.
-3.  **Reference in JSON**: Add `"rangeGeoJsonPath": "/geojson/ranges/<snake-id>.json"` to the `distribution` object.
+3.  **Optional — reference in JSON**: For manually edited entries you can add `"rangeGeoJsonPath": "/geojson/ranges/<snake-id>.json"` to the `distribution` object. For build-added snakes, the file alone is enough; the app checks for `public/geojson/ranges/<id>.json` by snake id.
 
 ### Images
 
@@ -187,6 +196,15 @@ bun run images:validate
 
 - Run `bun run data:build` once. The enrichment step re-applies to all snakes and rewrites the JSON. Your dev server will then serve the updated data (refresh the detail page).
 
+**Images (gallery / “search for images”):**
+
+- The build **preserves** existing `images.gallery` and `images.galleryAttributions` from each snake when present. So if you added extra images via the search-for-images feature (stored in the JSON), they will **not** be removed on future rebuilds.
+- The build still loads primary/thumbnail attribution and optional gallery from the filesystem (`attribution.json`, `gallery-metadata.json`) when a snake has no gallery data in the JSON. To make gallery data survive rebuilds without relying on the JSON, add a `gallery-metadata.json` (and image files) under `public/images/snakes/<snake-id>/`.
+
+**Other optional fields (first aid, accolades, causes of death, etc.):**
+
+- The build **preserves** these from the existing JSON when present: `firstAidInfo`, `behaviorNotes`, `conservationStatus`, `accolades`, `causesOfDeath`, `dataQuality`, `maxLength`, `diet`, `constrictor`. User- or feature-added data in those fields is not lost on rebuild. If you add a **new** optional field to the `Snake` type and store it in the JSON, add it to the `PRESERVED_FIELDS_FROM_EXISTING` array in `scripts/build100Snakes.ts` so rebuilds keep it.
+
 ---
 
 ## Step 5: Verify
@@ -220,7 +238,60 @@ If you add a new snake in `scripts/build100Snakes.ts` (in `newSnakes` or `moreSn
 6. **Symptoms**  
    For venomous snakes, the build maps `symptomsProgression` (short / prog / crit) to `symptoms` automatically. Provide `symptomsProgression` in the `venomous()` call.
 
+7. **Map and snake range**  
+   The build does **not** add range geometry or `rangeGeoJsonPath`. To show the distribution map and range on the detail page, add a GeoJSON file at `public/geojson/ranges/<snake-id>.json` (use the same `id` as in the build). The app will detect it and show the map. To generate range files, see **Distribution → Range Maps (GeoJSON)** above and `scripts/README-RANGE-MAPS.md`, or use `bun run scripts/fetchINatRangeGeojsons.ts` to fetch by scientific name.
+
 After editing the script or `commonly-misidentified.json`, run `bun run data:build` once. New snakes will then get all of the above and will keep it on future builds.
+
+---
+
+## Build-safe checklist (new features + new snakes)
+
+Use this so rebuilds don’t break things.
+
+**When adding a new snake (in the build script):**
+
+1. Add it in `newSnakes` or `moreSnakes` with `venomous()` or `nonvenomous()`.
+2. If venomous: add an entry to `clinicalFixes` (fatality rate, severity).
+3. If rarely fatal: add its `id` to `rarelyFatalIds` in the enrichment section.
+4. If commonly confused: add a mapping in `data/commonly-misidentified.json`.
+5. For “Also known as” (one alias): add to `otherCommonNamesMap` if desired.
+6. Run `bun run data:build` once.
+7. **Map / range:** To show the distribution map, add `public/geojson/ranges/<snake-id>.json` (see **Distribution → Range Maps** and `scripts/README-RANGE-MAPS.md`).
+
+**When adding a new feature that stores data on the snake:**
+
+1. Add the field to the `Snake` interface in `lib/types.ts`.
+2. If the data is stored in `data/snakes/index.json` and should survive rebuilds, add the field name to the `PRESERVED_FIELDS_FROM_EXISTING` array in `scripts/build100Snakes.ts` (near the end, after the enrichment step). Then the build will merge that field from the existing JSON onto the built snake.
+3. Alternatively, store the data elsewhere (e.g. a separate JSON or API) and merge at load time in `lib/snakeData.ts` so the build never touches it.
+
+There is a matching comment in `scripts/build100Snakes.ts` above `PRESERVED_FIELDS_FROM_EXISTING`: *"Adding a new feature that stores data on the snake? Add the field to the Snake type in lib/types.ts, then add the field name here so rebuilds preserve it."*
+
+**What the build overwrites vs preserves:**
+
+| Handled by build (overwritten or added) | Preserved from existing JSON when present |
+|----------------------------------------|-------------------------------------------|
+| dangerScore, dangerRank, dangerScoreComponents, venomClassification, venomPotency, venomYield, venomTypes, venomSpeed, symptomsProgression, distribution, description, sources, humanEncounterChance | firstAidInfo, behaviorNotes, conservationStatus, accolades, causesOfDeath, dataQuality, maxLength, diet, constrictor |
+| continent, subregions, commonlyMisidentifiedAs, misidentificationRisk, otherCommonNames, clinicalData, fatalitySummary, symptoms (from symptomsProgression) | images.gallery, images.galleryAttributions |
+| images.primary, images.thumbnail, images.attribution (from filesystem) | (any new optional field you add to PRESERVED_FIELDS_FROM_EXISTING) |
+
+---
+
+## Why is `build100Snakes.ts` so long? Is that good practice?
+
+The script is long (~1500+ lines) because it mixes **data** and **logic** in one file:
+
+- **~1000 lines**: `newSnakes` — array of `venomous()` calls (one per venomous snake).
+- **~250 lines**: `dataFixes` and `clinicalFixes` — maps of researched LD50/yield and clinical overrides.
+- **~85 lines**: `moreSnakes` — array of `nonvenomous()` calls.
+- **~200 lines**: Pipeline logic (merge, normalize images, scores, enrichment, preserve, write).
+
+**Is that good practice?** Not really. Best practice is to **separate data from logic**: keep the build script as a short orchestrator and move large data into separate modules or JSON so the script stays readable and data is easier to edit. For example:
+
+- Move **`dataFixes`** and **`clinicalFixes`** into `scripts/build/dataFixes.ts` and `scripts/build/clinicalFixes.ts` (or JSON), and import them in `build100Snakes.ts`.
+- Optionally move **`newSnakes`** / **`moreSnakes`** into data modules (e.g. `scripts/build/venomousSnakes.ts`) or a structured format; the main script would then load and pass that data into the same `venomous()` / `nonvenomous()` helpers.
+
+The project uses this split: LD50/yield overrides live in `scripts/build/dataFixes.ts` and clinical (fatality/severity) overrides in `scripts/build/clinicalFixes.ts`; both are imported by `build100Snakes.ts`. When adding a new venomous snake or correcting potency/clinical data, add entries to those files. New snake definitions (`newSnakes` / `moreSnakes`) remain in the main script for now.
 
 ---
 
@@ -234,7 +305,9 @@ After editing the script or `commonly-misidentified.json`, run `bun run data:bui
 | `lib/snakeTaxonomy.ts` | Auto-builds taxonomy tree for visualizations |
 | `lib/dangerScore.ts` | Danger score calculation engine |
 | `lib/searchUtils.ts` | Fuse.js search with weighted matching |
-| `scripts/build100Snakes.ts` | Database rebuild script |
+| `scripts/build100Snakes.ts` | Database rebuild script (orchestrator; imports data from `scripts/build/`) |
+| `scripts/build/dataFixes.ts` | LD50 and yield overrides per snake (used by build) |
+| `scripts/build/clinicalFixes.ts` | Clinical/fatality overrides per snake (used by build) |
 | `scripts/imageProcessing.ts` | Image resize/optimization utilities |
 | `scripts/validateImages.ts` | Image validation |
 

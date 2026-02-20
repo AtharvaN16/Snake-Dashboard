@@ -754,5 +754,29 @@
     "taxonId": 539844,
     "taxonName": "Indotyphlops braminus",
     "status": "matched"
+  },
+  "blue-malayan-coral-snake": {
+    "scientificName": "Calliophis bivirgatus",
+    "taxonId": 558849,
+    "taxonName": "Calliophis bivirgatus",
+    "status": "matched"
+  },
+  "twig-snake": {
+    "scientificName": "Thelotornis capensis",
+    "taxonId": 28334,
+    "taxonName": "Thelotornis capensis",
+    "status": "matched"
+  },
+  "indian-coral-snake": {
+    "scientificName": "Calliophis melanurus",
+    "taxonId": 30430,
+    "taxonName": "Calliophis intestinalis",
+    "status": "matched"
+  },
+  "banded-malayan-coral-snake": {
+    "scientificName": "Calliophis intestinalis",
+    "taxonId": 30430,
+    "taxonName": "Calliophis intestinalis",
+    "status": "matched"
   }
 }
