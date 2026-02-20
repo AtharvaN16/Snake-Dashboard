@@ -28,6 +28,7 @@ export interface ChartContext {
   getColorMode: () => "family" | "venom";
   onSpeciesClick?: (snakeId: string) => void;
   onTaxonomyNodeClick?: (node: d3.HierarchyPointNode<HierarchyNode> | null) => void;
+  onResetView?: () => void;
 }
 
 export function setupInteractions(ctx: ChartContext): { cleanup: () => void; updateSpeciesVisibility: (scale: number) => void } {
@@ -35,7 +36,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     svg, g, labelsLayer, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
     nodeColor, isSpecies, currentSnakeId, shouldBloom,
     cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
-    getColorMode, onSpeciesClick, onTaxonomyNodeClick,
+    getColorMode, onSpeciesClick, onTaxonomyNodeClick, onResetView,
   } = ctx;
 
   let hoverActive = false;
@@ -443,9 +444,22 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   const defaultTransform = d3.zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0);
 
   function resetToDefault() {
+    const nodeToFade = searchHighlightNode ?? (currentSnakeId ? allNodes.find((n) => n.data.id === currentSnakeId) ?? null : null);
     clearAllHighlightsAndState();
-    svg.transition().duration(750).ease(d3.easeCubicInOut)
+    const t = svg.transition().duration(750).ease(d3.easeCubicInOut)
       .call((zoomBehavior as any).transform, defaultTransform);
+    t.on("end", () => {
+      if (nodeToFade) {
+        const targetFill = computeNodeFill(nodeToFade, nodeColor, getColorMode(), undefined);
+        nodeSelection.filter((d) => d === nodeToFade)
+          .select<SVGElement>("circle, path")
+          .transition().duration(480).ease(d3.easeCubicOut)
+          .attr("fill", targetFill)
+          .on("end", () => onResetView?.());
+      } else {
+        onResetView?.();
+      }
+    });
     updateSpeciesVisibility(scale0);
     if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
   }

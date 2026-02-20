@@ -450,6 +450,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       getColorMode: () => colorModeRef.current,
       onSpeciesClick: (id) => router.push(`/snakes/${id}`),
       onTaxonomyNodeClick: handleTaxonomyNodeClick,
+      onResetView: () => router.replace("/phylogeny"),
     });
     updateSpeciesVisibility = interactions.updateSpeciesVisibility;
     interactions.updateSpeciesVisibility(scale0);
