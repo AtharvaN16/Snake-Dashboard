@@ -170,6 +170,23 @@ bun run data:build
 bun run images:validate
 ```
 
+**Important:** The build script **overwrites** `data/snakes/index.json`. It merges existing data with `newSnakes` / `moreSnakes` (last occurrence wins per snake id), then **enriches** every snake with:
+
+- `continent` and `subregions` (from `distribution.regions` when missing)
+- `commonlyMisidentifiedAs` and `misidentificationRisk` (from `data/commonly-misidentified.json`)
+- `fatalitySummary: "Rarely Fatal"` (when untreated fatality rate is very low, or snake is in the rarely-fatal list)
+- `symptoms` (from `symptomsProgression` for venomous snakes when missing)
+- `otherCommonNames` (only for snakes in the build’s `otherCommonNamesMap` — kept to one snake for “Also known as”)
+
+**To avoid losing this extra info in the future:**
+
+- Do **not** edit `data/snakes/index.json` by hand for fields that the build derives (continent, subregions, misidentification, fatalitySummary, symptoms, otherCommonNames). Those come from the build.
+- Always run `bun run data:build` after changing the build script or the source data (e.g. `commonly-misidentified.json`).
+
+**If extra info is missing (e.g. Region, Rarely Fatal, Also known as, Symptoms, Commonly misidentified):**
+
+- Run `bun run data:build` once. The enrichment step re-applies to all snakes and rewrites the JSON. Your dev server will then serve the updated data (refresh the detail page).
+
 ---
 
 ## Step 5: Verify
@@ -178,6 +195,32 @@ bun run images:validate
 - **Detail page**: Navigate to `/snakes/<snake-id>` — all data renders correctly
 - **Taxonomy**: Snake appears in the phylogeny tree under its family/genus (auto-built from `lib/snakeTaxonomy.ts`)
 - **Search**: Snake is findable by common name, scientific name, family, and genus
+
+---
+
+## Adding a New Snake via the Build Script
+
+If you add a new snake in `scripts/build100Snakes.ts` (in `newSnakes` or `moreSnakes`), do the following so it gets full detail-page data and does not lose it on future builds:
+
+1. **Venomous snakes — clinical data**  
+   Add an entry to the `clinicalFixes` object in `build100Snakes.ts` with `fatalityRate: [low%, high%]`, optional `whoCategory`, and `severity`. Otherwise the snake will have no clinical block and no “Rarely Fatal” tag.
+
+2. **Rarely Fatal tag**  
+   If the snake is rarely fatal (untreated CFR &lt; ~2%), add its `id` to the `rarelyFatalIds` set in the enrichment section of `build100Snakes.ts`. The build will then set `fatalitySummary: "Rarely Fatal"` (and minimal `clinicalData` if missing).
+
+3. **Commonly misidentified**  
+   If the snake is often confused with others, add a mapping in `data/commonly-misidentified.json` under `mappings` (e.g. `"new-snake-id": ["other-snake-id"]`). The build merges this into each snake and sets `misidentificationRisk: "high"` when present.
+
+4. **Also known as**  
+   Only one snake should show “Also known as” (to keep the UI minimal). To give that snake an alias, add it to the `otherCommonNamesMap` in the enrichment section (e.g. `"copperhead": ["Highland Moccasin"]`). Use a single primary alias.
+
+5. **Region (continent / subregions)**  
+   Ensure the snake’s `distribution.regions` is set in its `venomous()` or `nonvenomous()` call. The build infers `continent` and `subregions` from `distribution.regions` when they are missing.
+
+6. **Symptoms**  
+   For venomous snakes, the build maps `symptomsProgression` (short / prog / crit) to `symptoms` automatically. Provide `symptomsProgression` in the `venomous()` call.
+
+After editing the script or `commonly-misidentified.json`, run `bun run data:build` once. New snakes will then get all of the above and will keep it on future builds.
 
 ---
 

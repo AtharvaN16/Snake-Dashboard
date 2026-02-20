@@ -249,9 +249,10 @@ export function deriveVenomClassification(
 /** Rear-fanged / mild salivary toxins: treat as Mildly Venomous with low danger score */
 const mildlyVenomousIds = new Set([
   "garter-snake",
-  "hognose-eastern",
-  "southern-hognose",
   "green-vine-snake",
+  "hognose-eastern",
+  "ringneck-snake",
+  "southern-hognose",
 ]);
 
 export function computeDangerScoreForSnake(snake: Snake): Snake {

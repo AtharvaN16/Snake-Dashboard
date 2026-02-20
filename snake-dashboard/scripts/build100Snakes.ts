@@ -1092,7 +1092,30 @@ const moreSnakes = [
   nonvenomous("scrub-python", "Scrub Python", "Simalia kinghorni", "Pythonidae", "Simalia", "Low", ["Australia", "New Guinea"], "Rainforests", [-15, 145], "Large python. Variable pattern. Good climber.", { maxLength: [5, "m"], diet: ["mammals", "birds"], constrictor: true }),
   nonvenomous("centralian-carpet-python", "Centralian Carpet Python", "Morelia bredli", "Pythonidae", "Morelia", "Low", ["Central Australia"], "Rocky ranges, gorges", [-24, 134], "Reddish coloration. Popular in captivity.", { maxLength: [2.5, "m"], diet: ["mammals", "birds"], constrictor: true }),
   nonvenomous("rough-scaled-python", "Rough-scaled Python", "Morelia carinata", "Pythonidae", "Morelia", "Low", ["Western Australia"], "Rocky outcrops", [-15, 128], "Keeled scales. Rare. Small population.", { maxLength: [2, "m"], diet: ["mammals"], constrictor: true }),
-  nonvenomous("keelback", "Asian Keelback", "Rhabdophis subminiatus", "Colubridae", "Rhabdophis", "Moderate", ["Southeast Asia"], "Forests, near water", [15, 105], "Rear-fanged. Mild venom. Red neck when threatened.", { maxLength: [1.2, "m"], diet: ["frogs", "fish"] }),
+  venomous(
+    "keelback",
+    "Asian Keelback",
+    "Rhabdophis subminiatus",
+    "Colubridae",
+    "Rhabdophis",
+    45,
+    "44/100",
+    { ld50: 2.5, range: "1.5-4", method: "IV" },
+    { dry: 15, qual: "Low" },
+    ["Hemotoxic"],
+    "Quick",
+    {
+      short: ["Pain", "Swelling", "Bleeding"],
+      prog: ["Coagulopathy", "Defibrinogenation"],
+      crit: ["Severe hemorrhage", "Renal failure", "Death rare but documented"],
+    },
+    "Moderate",
+    ["Southeast Asia"],
+    "Forests, near water",
+    [15, 105],
+    "Rear-fanged. Medically significant venom: potent procoagulant and defibrinogenating. Severe coagulopathy and fatalities documented. Red neck when threatened.",
+    "Moderately Venomous"
+  ),
   nonvenomous("gopher-snake", "Gopher Snake", "Pituophis catenifer", "Colubridae", "Pituophis", "Moderate", ["Western North America"], "Deserts, grasslands", [36, -120], "Mimics rattlesnake when threatened. Beneficial rodent control.", { maxLength: [2.4, "m"], diet: ["rodents", "birds", "eggs"] }),
   nonvenomous("fox-snake", "Fox Snake", "Pantherophis vulpinus", "Colubridae", "Pantherophis", "Moderate", ["Central United States"], "Prairies, farmlands", [42, -88], "Copper head. Hisses and vibrates tail when threatened.", { maxLength: [1.7, "m"], diet: ["rodents", "birds"] }),
   nonvenomous("gray-rat-snake", "Gray Rat Snake", "Pantherophis spiloides", "Colubridae", "Pantherophis", "Moderate", ["Eastern United States"], "Forests, rocky hills", [36, -85], "Excellent climber. Gray with dark blotches.", { maxLength: [2.5, "m"], diet: ["rodents", "birds"] }),
@@ -1114,14 +1137,11 @@ const existing = JSON.parse(readFileSync(existingPath, "utf-8"));
 // Use all new venomous snakes (fixed ids already)
 const allNew = fixedSnakes;
 
-// Remove duplicate/erroneous entries, ensure we have exactly 91 new + 9 = 100
+// Remove duplicate/erroneous entries; later entries override earlier (so updated definitions in allNew/moreSnakes win)
 const combined = [...existing.snakes, ...allNew, ...moreSnakes];
-const seen = new Set<string>();
-const unique = combined.filter((s: any) => {
-  if (seen.has(s.id)) return false;
-  seen.add(s.id);
-  return true;
-});
+const byId = new Map<string, unknown>();
+combined.forEach((s: any) => byId.set(s.id, s));
+const unique = Array.from(byId.values()) as typeof combined;
 
 // ─── Data corrections: replace placeholder LD50/yield with researched values ───
 // Sources: snakeDB.org, Wikipedia species pages, Brown (1973), Minton (1974), PubMed
@@ -1230,6 +1250,7 @@ const clinicalFixes: Record<string, ClinicalFix> = {
   // === COLUBRIDS (rear-fanged) ===
   "boomslang":                  { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
   "boomslang-southern":         { fatalityRate: [30, 50],  whoCategory: 1, severity: "Life-threatening" },
+  "keelback":                   { fatalityRate: [1, 5],    whoCategory: 2, severity: "Severe" },
   "mangrove-snake":             { fatalityRate: [0, 0],    severity: "Mild" },
   "green-vine-snake":           { fatalityRate: [0, 0],    severity: "Mild" },
   "brown-tree-snake":           { fatalityRate: [0, 1],    severity: "Mild" },
@@ -1281,10 +1302,85 @@ const withScores = snakesWithNormalizedImages.map((s: any) =>
 );
 const ranked = rankSnakes(withScores as Snake[]);
 
+// ─── Enrich: continent, subregions, misidentification, fatalitySummary, symptoms, otherCommonNames ───
+// This step runs on every build. Do not edit data/snakes/index.json by hand — run `bun run data:build`
+// to regenerate. When adding a new snake: 1) add venomous()/nonvenomous() in newSnakes or moreSnakes;
+// 2) if venomous, add to clinicalFixes (fatality rate, severity); 3) if rarely fatal, add to rarelyFatalIds below;
+// 4) if commonly confused, add to data/commonly-misidentified.json; 5) for one primary alias only, add to otherCommonNamesMap.
+function inferContinent(regions: string[]): Snake["continent"] {
+  if (!regions?.length) return "North America";
+  const r = regions.join(" ").toLowerCase();
+  if (r.includes("united states") || r.includes("mexico") || r.includes("canada") || r.includes("central america") || r.includes("north america")) return "North America";
+  if (r.includes("south america") || r.includes("amazon") || r.includes("brazil") || r.includes("argentina")) return "South America";
+  if (r.includes("australia") || r.includes("new guinea") || r.includes("papua") || r.includes("oceania") || r.includes("indonesia") || r.includes("philippines")) return "Oceania";
+  if (r.includes("africa") || r.includes("sahara") || r.includes("madagascar")) return "Africa";
+  if (r.includes("europe") || r.includes("mediterranean") || r.includes("iberia")) return "Europe";
+  if (r.includes("asia") || r.includes("india") || r.includes("china") || r.includes("japan") || r.includes("middle east") || r.includes("arabian")) return "Asia";
+  return "North America";
+}
+
+let misidentificationMappings: Record<string, string[]> = {};
+try {
+  const cmPath = join(__dirname, "../data/commonly-misidentified.json");
+  const cm = JSON.parse(readFileSync(cmPath, "utf-8"));
+  misidentificationMappings = cm.mappings ?? {};
+} catch (_) {}
+
+// Only one snake gets "Also Known As" (single primary alias to keep UI minimal)
+const otherCommonNamesMap: Record<string, string[]> = {
+  "copperhead": ["Highland Moccasin"],
+};
+
+/** Snakes that should always show the "Rarely Fatal" tag (very low untreated CFR). */
+const rarelyFatalIds = new Set([
+  "copperhead", "waglers-pit-viper", "night-adder", "common-adder", "massasauga", "red-bellied-black-snake",
+]);
+
+const enriched = ranked.map((s: any) => {
+  const regions = s.distribution?.regions ?? [];
+  const continent = s.continent ?? inferContinent(regions);
+  const subregions = Array.isArray(s.subregions) && s.subregions.length > 0 ? s.subregions : regions;
+  const out = {
+    ...s,
+    continent,
+    subregions,
+    ...(misidentificationMappings[s.id] ? {
+      commonlyMisidentifiedAs: misidentificationMappings[s.id],
+      misidentificationRisk: "high" as const,
+    } : {}),
+    ...(otherCommonNamesMap[s.id] ? { otherCommonNames: otherCommonNamesMap[s.id] } : {}),
+  };
+  // Rarely Fatal: from clinicalData (high < 2%) or explicit rarelyFatalIds
+  const rate = out.clinicalData?.untreatedFatalityRate;
+  const isRarelyFatal =
+    rarelyFatalIds.has(s.id) ||
+    (rate && rate.high >= 0 && rate.high < 2);
+  if (isRarelyFatal && out.clinicalData) {
+    out.clinicalData = { ...out.clinicalData, fatalitySummary: "Rarely Fatal" as const };
+  } else if (isRarelyFatal && !out.clinicalData && s.venomClassification !== "Non-venomous") {
+    out.clinicalData = {
+      untreatedFatalityRate: { low: 0, high: 1 },
+      severity: "Moderate",
+      fatalitySummary: "Rarely Fatal" as const,
+    };
+  }
+  if (s.venomClassification !== "Non-venomous" && s.symptomsProgression && !s.symptoms) {
+    const sp = s.symptomsProgression;
+    out.symptoms = {
+      localEffects: sp.short ?? [],
+      neurological: sp.prog ?? [],
+      blood: sp.crit ?? [],
+      muscle: [],
+      gastrointestinal: [],
+    };
+  }
+  return out;
+});
+
 const out = {
   lastUpdated: new Date().toISOString().split("T")[0],
-  totalSnakes: ranked.length,
-  snakes: ranked,
+  totalSnakes: enriched.length,
+  snakes: enriched,
 };
 
 writeFileSync(join(__dirname, "../data/snakes/index.json"), JSON.stringify(out, null, 2));

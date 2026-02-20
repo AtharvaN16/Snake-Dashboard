@@ -5,6 +5,7 @@ import * as d3 from "d3";
 import { Snake } from "@/lib/types";
 import { getAllSnakes } from "@/lib/snakeData";
 import { imputeDryYield } from "@/lib/dangerScore";
+import { familyColor } from "@/components/Phylogeny/treeConstants";
 
 interface VenomPotencyChartProps {
   currentSnake: Snake;
@@ -13,59 +14,99 @@ interface VenomPotencyChartProps {
 
 const EXCLUDED_CLASSIFICATIONS = new Set(["Non-venomous", "Mildly Venomous"]);
 
+const REFERENCE_ANCHORS = [
+  { id: "inland-taipan", name: "Inland Taipan", ld50: 0.025 },
+  { id: "black-mamba",   name: "Black Mamba",   ld50: 0.96  },
+  { id: "king-cobra",    name: "King Cobra",     ld50: 5.4   },
+] as const;
+
+/** Append 2-digit hex opacity suffix to a hex color string */
+function withOpacity(hex: string, opacity: number): string {
+  return hex + Math.round(opacity * 255).toString(16).padStart(2, "0");
+}
+
 function getSnakeLD50(snake: Snake): number | null {
   if (!snake.venomPotency) return null;
   const val = snake.venomPotency.ld50Normalized || snake.venomPotency.ld50;
   return val > 0 ? val : null;
 }
 
+type SimEntry = {
+  snake: Snake;
+  ld50: number;
+  potency: number;
+  yieldMg: number;
+  x0: number; y0: number;
+  x: number;  y: number;
+};
+
 export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChartProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const simCacheRef = useRef<{ key: string; data: SimEntry[] } | null>(null);
 
   const [showAllSnakes, setShowAllSnakes] = useState(false);
   const [scaleByYield, setScaleByYield] = useState(false);
-  const [xMax, setXMax] = useState(100);
+  const [filterFamily, setFilterFamily] = useState<string | null>(null);
+  const [filterRegion, setFilterRegion] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!showAllSnakes) {
+      setFilterFamily(null);
+      setFilterRegion(null);
+    }
+  }, [showAllSnakes]);
 
   const currentLD50 = useMemo(() => getSnakeLD50(currentSnake), [currentSnake]);
-
   const getPotency = useCallback((ld50: number) => 100 / ld50, []);
 
-  const allVenomousSnakes = useMemo(() => {
-    return getAllSnakes().filter(s =>
+  const allVenomousSnakes = useMemo(() =>
+    getAllSnakes().filter(s =>
       !EXCLUDED_CLASSIFICATIONS.has(s.venomClassification) &&
       getSnakeLD50(s) !== null &&
       s.id !== currentSnake.id
-    );
-  }, [currentSnake.id]);
+    ), [currentSnake.id]);
+
+  // Auto-fit x-axis to cover all data; snap to next decade, minimum 100
+  const xMax = useMemo(() => {
+    if (currentLD50 === null) return 100;
+    const allLD50s = allVenomousSnakes.map(s => getSnakeLD50(s) ?? 0).filter(v => v > 0);
+    const maxData = Math.max(currentLD50, ...allLD50s);
+    const snap = Math.pow(10, Math.ceil(Math.log10(maxData)));
+    return Math.min(500, Math.max(100, snap));
+  }, [currentLD50, allVenomousSnakes]);
+
+  const uniqueFamilies = useMemo(() =>
+    [...new Set(allVenomousSnakes.map(s => s.family))].sort()
+  , [allVenomousSnakes]);
+
+  const uniqueRegions = useMemo(() =>
+    [...new Set(allVenomousSnakes.map(s => s.continent))].sort()
+  , [allVenomousSnakes]);
+
+  const potencyPercentile = useMemo(() => {
+    if (currentLD50 === null) return null;
+    const count = allVenomousSnakes.filter(s => getSnakeLD50(s)! > currentLD50).length;
+    return Math.round((count / allVenomousSnakes.length) * 100);
+  }, [currentLD50, allVenomousSnakes]);
 
   const defaultYMax = useMemo(() => {
     if (currentLD50 === null) return 500;
-    const potency = getPotency(currentLD50);
-    return Math.min(5000, Math.max(200, Math.ceil(potency * 1.3)));
+    const p = getPotency(currentLD50);
+    return Math.min(5000, Math.max(200, Math.ceil(p * 1.3)));
   }, [currentLD50, getPotency]);
 
   const [yMax, setYMax] = useState(defaultYMax);
+  useEffect(() => { setYMax(defaultYMax); }, [defaultYMax]);
 
-  useEffect(() => {
-    setYMax(defaultYMax);
-  }, [defaultYMax]);
-
-  // Pinch-to-zoom only (wheel with ctrlKey); scroll over graph does not zoom
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
     const handleWheel = (e: WheelEvent) => {
       if (!e.ctrlKey) return;
       e.preventDefault();
-      setYMax(prev => {
-        const step = prev * 0.1;
-        const next = e.deltaY > 0 ? prev + step : prev - step;
-        return Math.round(Math.min(5000, Math.max(100, next)));
-      });
+      setYMax(prev => Math.round(Math.min(5000, Math.max(100, e.deltaY > 0 ? prev * 1.1 : prev * 0.9))));
     };
-
     container.addEventListener("wheel", handleWheel, { passive: false });
     return () => container.removeEventListener("wheel", handleWheel);
   }, []);
@@ -73,9 +114,7 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
   const ladderTicks = useMemo(() => {
     const step = Math.ceil(yMax / 5 / 10) * 10;
     const ticks = [0];
-    for (let v = step; v <= yMax; v += step) {
-      ticks.push(v);
-    }
+    for (let v = step; v <= yMax; v += step) ticks.push(v);
     return ticks;
   }, [yMax]);
 
@@ -90,426 +129,306 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
 
     const width = 760;
     const height = 520;
-    const margin = { top: 40, right: 100, bottom: 120, left: 80 };
+    const margin = { top: 40, right: 100, bottom: 100, left: 80 };
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = 360;
 
     d3.select(svgRef.current).selectAll("*").remove();
 
-    const svg = d3
-      .select(svgRef.current)
+    const svg = d3.select(svgRef.current)
       .attr("viewBox", `0 0 ${width} ${height}`)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const xScale = d3.scaleLog()
-      .domain([0.01, xMax])
-      .range([0, chartWidth]);
-
-    const yScale = d3.scaleLinear()
-      .domain([0, yMax])
-      .range([chartHeight, 0]);
-
-    const getCurveY = (val: number) => {
-      const potency = getPotency(val);
-      return yScale(Math.max(0, Math.min(yMax, potency)));
-    };
+    const xScale = d3.scaleLog().domain([0.01, xMax]).range([0, chartWidth]);
+    const yScale = d3.scaleLinear().domain([0, yMax]).range([chartHeight, 0]);
+    const getCurveY = (val: number) => yScale(Math.max(0, Math.min(yMax, getPotency(val))));
 
     const maxLog = Math.log10(xMax);
     const curvePoints: number[] = [];
-    for (let i = -2; i <= maxLog; i += 0.005) {
-      curvePoints.push(Math.pow(10, i));
-    }
+    for (let i = -2; i <= maxLog; i += 0.005) curvePoints.push(Math.pow(10, i));
 
-    // --- Gradient & ClipPath definitions ---
+    // Defs
     const defs = svg.append("defs");
+    defs.append("clipPath").attr("id", "chart-clip")
+      .append("rect").attr("width", chartWidth).attr("height", chartHeight);
 
-    // Clip path for the chart area
-    defs.append("clipPath")
-      .attr("id", "chart-clip")
-      .append("rect")
-      .attr("width", chartWidth)
-      .attr("height", chartHeight);
+    const areaGrad = defs.append("linearGradient").attr("id", "area-gradient")
+      .attr("x1", "0%").attr("x2", "100%").attr("y1", "0%").attr("y2", "0%");
+    areaGrad.append("stop").attr("offset", "0%").attr("stop-color", "#ef4444").attr("stop-opacity", 0.12);
+    areaGrad.append("stop").attr("offset", "50%").attr("stop-color", "#eab308").attr("stop-opacity", 0.06);
+    areaGrad.append("stop").attr("offset", "100%").attr("stop-color", "#22c55e").attr("stop-opacity", 0.03);
 
-    // Horizontal gradient for area fill: red (left/potent) → green (right/mild)
-    const areaGradient = defs.append("linearGradient")
-      .attr("id", "area-gradient")
-      .attr("x1", "0%").attr("y1", "0%")
-      .attr("x2", "100%").attr("y2", "0%");
-    areaGradient.append("stop").attr("offset", "0%").attr("stop-color", "#ef4444").attr("stop-opacity", 0.12);
-    areaGradient.append("stop").attr("offset", "50%").attr("stop-color", "#eab308").attr("stop-opacity", 0.06);
-    areaGradient.append("stop").attr("offset", "100%").attr("stop-color", "#22c55e").attr("stop-opacity", 0.03);
+    const lineGrad = defs.append("linearGradient").attr("id", "line-gradient")
+      .attr("x1", "0%").attr("x2", "100%").attr("y1", "0%").attr("y2", "0%");
+    lineGrad.append("stop").attr("offset", "0%").attr("stop-color", "#ef4444").attr("stop-opacity", 0.7);
+    lineGrad.append("stop").attr("offset", "50%").attr("stop-color", "#eab308").attr("stop-opacity", 0.5);
+    lineGrad.append("stop").attr("offset", "100%").attr("stop-color", "#22c55e").attr("stop-opacity", 0.4);
 
-    // Horizontal gradient for stroke: red → green
-    const lineGradient = defs.append("linearGradient")
-      .attr("id", "line-gradient")
-      .attr("x1", "0%").attr("y1", "0%")
-      .attr("x2", "100%").attr("y2", "0%");
-    lineGradient.append("stop").attr("offset", "0%").attr("stop-color", "#ef4444").attr("stop-opacity", 0.7);
-    lineGradient.append("stop").attr("offset", "50%").attr("stop-color", "#eab308").attr("stop-opacity", 0.5);
-    lineGradient.append("stop").attr("offset", "100%").attr("stop-color", "#22c55e").attr("stop-opacity", 0.4);
-
-    // Color scale for dots: maps LD50 → red (potent) to green (mild)
     const dotColorScale = d3.scaleLog<string>()
-      .domain([0.01, 1, 100])
-      .range(["#ef4444", "#eab308", "#22c55e"])
-      .interpolate(d3.interpolateRgb)
-      .clamp(true);
+      .domain([0.01, 1, 100]).range(["#ef4444", "#eab308", "#22c55e"])
+      .interpolate(d3.interpolateRgb).clamp(true);
 
-    const radiusScale = d3.scaleSqrt()
-      .domain([0, 600])
-      .range([3.5, 14]);
+    const radiusScale = d3.scaleSqrt().domain([0, 600]).range([3.5, 14]);
 
     const vYield = currentSnake.venomYield;
     const dryMg = vYield?.dryWeight ?? (vYield?.wetVolume != null ? vYield.wetVolume * 200 : null);
     const currentYieldMg = dryMg ?? (vYield ? imputeDryYield(vYield.qualitative) : 0);
 
-    // 1. Horizontal grid lines with labels
-    svg.selectAll(".ladder-line")
-      .data(ladderTicks)
-      .join("line")
+    // 1. Grid lines
+    svg.selectAll(".ladder-line").data(ladderTicks).join("line")
       .attr("x1", 0).attr("x2", chartWidth)
-      .attr("y1", d => yScale(d))
-      .attr("y2", d => yScale(d))
-      .attr("stroke", "#e7e5e4")
-      .attr("stroke-width", 1);
+      .attr("y1", d => yScale(d)).attr("y2", d => yScale(d))
+      .attr("stroke", "#e7e5e4").attr("stroke-width", 1);
 
-    svg.selectAll(".ladder-label")
-      .data(ladderTicks.filter(d => d > 0))
-      .join("text")
-      .attr("x", chartWidth + 10)
-      .attr("y", d => yScale(d) + 3)
+    svg.selectAll(".ladder-label").data(ladderTicks.filter(d => d > 0)).join("text")
+      .attr("x", chartWidth + 10).attr("y", d => yScale(d) + 3)
       .attr("fill", "#78716c")
-      .style("font-size", "10px")
-      .style("font-family", "ui-monospace, monospace")
-      .style("font-weight", "600")
+      .style("font-size", "10px").style("font-family", "ui-monospace, monospace").style("font-weight", "600")
       .text(d => formatTick(d));
 
-    // 2. Area & Curve with gradient inside clipped group
+    // 2. Area & curve
     const mainChartG = svg.append("g").attr("clip-path", "url(#chart-clip)");
 
-    const area = d3.area<number>()
-      .x(d => xScale(d))
-      .y0(chartHeight)
-      .y1(d => getCurveY(d))
-      .curve(d3.curveLinear);
-
-    mainChartG.append("path")
-      .datum(curvePoints)
-      .attr("d", area)
+    mainChartG.append("path").datum(curvePoints)
+      .attr("d", d3.area<number>().x(d => xScale(d)).y0(chartHeight).y1(d => getCurveY(d)).curve(d3.curveLinear))
       .attr("fill", "url(#area-gradient)");
 
-    const line = d3.line<number>()
-      .x(d => xScale(d))
-      .y(d => getCurveY(d))
-      .curve(d3.curveLinear);
+    mainChartG.append("path").datum(curvePoints)
+      .attr("d", d3.line<number>().x(d => xScale(d)).y(d => getCurveY(d)).curve(d3.curveLinear))
+      .attr("fill", "none").attr("stroke", "url(#line-gradient)").attr("stroke-width", 1.5);
 
-    mainChartG.append("path")
-      .datum(curvePoints)
-      .attr("d", line)
-      .attr("fill", "none")
-      .attr("stroke", "url(#line-gradient)")
-      .attr("stroke-width", 1.5);
-
-    // 3. All-snakes dots (when toggled on)
+    // 3. All-snakes comparison dots
     if (showAllSnakes) {
       const tooltip = d3.select(containerRef.current)
-        .append("div")
-        .attr("class", "potency-tooltip")
-        .style("position", "absolute")
-        .style("pointer-events", "none")
-        .style("opacity", 0)
-        .style("background", "#1c1917")
-        .style("color", "#fafaf9")
-        .style("padding", "6px 10px")
-        .style("border-radius", "6px")
-        .style("font-size", "11px")
-        .style("font-family", "ui-monospace, monospace")
-        .style("line-height", "1.4")
-        .style("white-space", "nowrap")
-        .style("z-index", "50")
-        .style("box-shadow", "0 4px 12px rgba(0,0,0,0.15)");
+        .append("div").attr("class", "potency-tooltip")
+        .style("position", "absolute").style("pointer-events", "none").style("opacity", 0)
+        .style("background", "#1c1917").style("color", "#fafaf9")
+        .style("padding", "6px 10px").style("border-radius", "6px")
+        .style("font-size", "11px").style("font-family", "ui-monospace, monospace")
+        .style("line-height", "1.4").style("white-space", "nowrap")
+        .style("z-index", "50").style("box-shadow", "0 4px 12px rgba(0,0,0,0.15)");
 
-      // Filter only snakes within current visible range for cleaner display
       const visibleSnakes = allVenomousSnakes.filter(s => getSnakeLD50(s)! <= xMax * 1.1);
+      const simCacheKey = `${currentSnake.id}|${scaleByYield}|${xMax}|${yMax}`;
 
-      const snakeData = visibleSnakes.map(s => {
-        const ld50 = getSnakeLD50(s)!;
-        const vYield = s.venomYield;
-        const dryMg = vYield?.dryWeight ?? (vYield?.wetVolume != null ? vYield.wetVolume * 200 : null);
-        const yieldMg = dryMg ?? (vYield ? imputeDryYield(vYield.qualitative) : 0);
-        const potency = getPotency(ld50);
-        const x0 = xScale(ld50);
-        const y0 = yScale(Math.max(0, Math.min(yMax, potency)));
-        return { 
-          snake: s, 
-          ld50, 
-          potency, 
-          yieldMg,
-          // Original coords (overlapping)
-          x0,
-          y0,
-          // Simulation coords (spread)
-          x: x0,
-          y: y0
-        };
+      let allSimData: SimEntry[];
+      if (simCacheRef.current?.key === simCacheKey) {
+        allSimData = simCacheRef.current.data;
+      } else {
+        const rawData: SimEntry[] = visibleSnakes.map(s => {
+          const ld50 = getSnakeLD50(s)!;
+          const sv = s.venomYield;
+          const dm = sv?.dryWeight ?? (sv?.wetVolume != null ? sv.wetVolume * 200 : null);
+          const yieldMg = dm ?? (sv ? imputeDryYield(sv.qualitative) : 0);
+          const x0 = xScale(ld50);
+          const y0 = yScale(Math.max(0, Math.min(yMax, getPotency(ld50))));
+          return { snake: s, ld50, potency: getPotency(ld50), yieldMg, x0, y0, x: x0, y: y0 };
+        });
+
+        const sim = d3.forceSimulation(rawData as any)
+          .force("x", d3.forceX((d: any) => d.x0).strength(0.8))
+          .force("y", d3.forceY((d: any) => d.y0).strength(0.8))
+          .force("collide", d3.forceCollide((d: any) => (scaleByYield ? radiusScale(d.yieldMg) : 5.5) + 0.5).iterations(2))
+          .stop();
+        for (let i = 0; i < 120; ++i) sim.tick();
+
+        allSimData = rawData;
+        simCacheRef.current = { key: simCacheKey, data: rawData };
+      }
+
+      // Family/region filter applies to display only, not simulation
+      const snakeData = allSimData.filter(d => {
+        if (filterFamily && d.snake.family !== filterFamily) return false;
+        if (filterRegion && d.snake.continent !== filterRegion) return false;
+        return true;
       });
-
-      // Simple force simulation to de-cluster dots (Beeswarm effect)
-      const simulation = d3.forceSimulation(snakeData as any)
-        .force("x", d3.forceX((d: any) => d.x0).strength(0.8))
-        .force("y", d3.forceY((d: any) => d.y0).strength(0.8))
-        .force("collide", d3.forceCollide((d: any) => (scaleByYield ? radiusScale(d.yieldMg) : 5.5) + 0.5).iterations(2))
-        .stop();
-
-      // Run simulation synchronously for instant results
-      for (let i = 0; i < 120; ++i) simulation.tick();
 
       const dots = mainChartG.selectAll(".all-snake-dot")
         .data(snakeData)
-        .join("circle")
-        .attr("class", "all-snake-dot")
-        .attr("cx", d => d.x0)
-        .attr("cy", d => d.y0)
+        .join("circle").attr("class", "all-snake-dot")
+        .attr("cx", d => d.x0).attr("cy", d => d.y0)
         .attr("r", d => scaleByYield ? radiusScale(d.yieldMg) : 5.5)
         .attr("fill", d => dotColorScale(d.ld50))
-        .attr("fill-opacity", 0.7)
-        .attr("stroke", "white")
-        .attr("stroke-width", 1)
+        .attr("fill-opacity", 0.7).attr("stroke", "white").attr("stroke-width", 1)
         .style("cursor", "pointer")
-        .on("mouseenter", function (event, d) {
+        .on("click", (_e, d) => { window.location.href = `/snakes/${d.snake.id}`; })
+        .on("mouseenter", function (_e, d) {
           const r = scaleByYield ? radiusScale(d.yieldMg) + 2 : 7;
           d3.select(this).attr("r", r).attr("fill-opacity", 1).attr("stroke-width", 1.5);
-          const potencyStr = d.potency >= 1000
-            ? `${(d.potency / 1000).toFixed(1)}k×`
-            : `${Math.round(d.potency)}×`;
-          tooltip
-            .html(`<strong>${d.snake.commonName}</strong><br/>${d.ld50.toFixed(3)} mg/kg · ${potencyStr}${scaleByYield ? `<br/>Yield: ${d.yieldMg} mg` : ""}`)
-            .style("opacity", 1);
+          const potStr = d.potency >= 1000 ? `${(d.potency / 1000).toFixed(1)}k×` : `${Math.round(d.potency)}×`;
+          tooltip.html(
+            `<strong>${d.snake.commonName}</strong><br/>` +
+            `${d.ld50.toFixed(3)} mg/kg · ${potStr}` +
+            (scaleByYield && d.yieldMg > 0 ? `<br/>Yield: ${d.yieldMg} mg` : "")
+          ).style("opacity", 1);
         })
         .on("mousemove", function (event) {
-          const containerRect = containerRef.current!.getBoundingClientRect();
-          const x = event.clientX - containerRect.left + 12;
-          const y = event.clientY - containerRect.top - 10;
-          tooltip.style("left", `${x}px`).style("top", `${y}px`);
+          const rect = containerRef.current!.getBoundingClientRect();
+          tooltip.style("left", `${event.clientX - rect.left + 12}px`).style("top", `${event.clientY - rect.top - 10}px`);
         })
-        .on("mouseleave", function (event, d) {
-          const r = scaleByYield ? radiusScale(d.yieldMg) : 5.5;
-          d3.select(this).attr("r", r).attr("fill-opacity", 0.7).attr("stroke-width", 1);
+        .on("mouseleave", function (_e, d) {
+          d3.select(this).attr("r", scaleByYield ? radiusScale(d.yieldMg) : 5.5).attr("fill-opacity", 0.7).attr("stroke-width", 1);
           tooltip.style("opacity", 0);
         });
 
-      // Interactive Localized Beeswarm: 
-      // Dots stay at x0, y0 unless the mouse is nearby, then they interpolate towards x, y (spread)
       const updateLocalizedSpread = (mx: number | null, my: number | null) => {
-        const spreadRadius = 100; // Trigger distance in pixels
-        dots.attr("cx", (d: any) => {
-          if (mx === null || my === null) return d.x0;
-          const dist = Math.sqrt((d.x0 - mx) ** 2 + (d.y0 - my) ** 2);
-          const weight = Math.max(0, Math.min(1, 1 - dist / spreadRadius));
-          const easedWeight = weight * weight * (3 - 2 * weight); // Smooth step
-          return d.x0 + (d.x - d.x0) * easedWeight;
-        })
-        .attr("cy", (d: any) => {
-          if (mx === null || my === null) return d.y0;
-          const dist = Math.sqrt((d.x0 - mx) ** 2 + (d.y0 - my) ** 2);
-          const weight = Math.max(0, Math.min(1, 1 - dist / spreadRadius));
-          const easedWeight = weight * weight * (3 - 2 * weight);
-          return d.y0 + (d.y - d.y0) * easedWeight;
-        });
+        const R = 100;
+        dots
+          .attr("cx", (d: any) => {
+            if (mx === null || my === null) return d.x0;
+            const dist = Math.sqrt((d.x0 - mx) ** 2 + (d.y0 - my) ** 2);
+            const w = Math.max(0, Math.min(1, 1 - dist / R));
+            return d.x0 + (d.x - d.x0) * w * w * (3 - 2 * w);
+          })
+          .attr("cy", (d: any) => {
+            if (mx === null || my === null) return d.y0;
+            const dist = Math.sqrt((d.x0 - mx) ** 2 + (d.y0 - my) ** 2);
+            const w = Math.max(0, Math.min(1, 1 - dist / R));
+            return d.y0 + (d.y - d.y0) * w * w * (3 - 2 * w);
+          });
       };
 
-      // Listener on the main group for localized interaction
-      // We use mainChartG node to get pointer relative to the chart group
-      svg.on("mousemove", (event) => {
-        const [mx, my] = d3.pointer(event, mainChartG.node());
-        updateLocalizedSpread(mx, my);
-      })
-      .on("mouseleave", () => {
-        updateLocalizedSpread(null, null);
-      });
+      svg.on("mousemove", (e) => updateLocalizedSpread(...d3.pointer(e, mainChartG.node()) as [number, number]))
+         .on("mouseleave", () => updateLocalizedSpread(null, null));
     }
 
-    // 4. Primary data markers (snake, median) - current snake label above curve
-    const points = [
-      { id: "snake", val: currentLD50, label: currentSnake.commonName.toUpperCase(), color: "#2c2c2c", weight: 700, yieldMg: currentYieldMg },
-      { id: "median", val: medianLD50, label: "MEDIAN", color: "#78716c", weight: 600 }
-    ].sort((a, b) => a.val - b.val);
+    // 4. Median — full-height dashed line with label in top margin
+    if (medianLD50 >= 0.01 && medianLD50 <= xMax) {
+      const medX = xScale(medianLD50);
+      svg.append("line")
+        .attr("x1", medX).attr("x2", medX).attr("y1", 0).attr("y2", chartHeight)
+        .attr("stroke", "#78716c").attr("stroke-width", 0.75).attr("stroke-dasharray", "3,3").attr("opacity", 0.35);
+      svg.append("text").attr("x", medX).attr("y", -18)
+        .attr("text-anchor", "middle").attr("fill", "#78716c")
+        .style("font-size", "9px").style("font-weight", "600").style("letter-spacing", "0.05em")
+        .text("MEDIAN");
+      svg.append("text").attr("x", medX).attr("y", -6)
+        .attr("text-anchor", "middle").attr("fill", "#78716c").attr("opacity", 0.7)
+        .style("font-size", "8px").style("font-family", "ui-monospace, monospace")
+        .text(`${medianLD50.toFixed(2)} mg/kg`);
+    }
 
-    // Current snake label: fixed offset above its point so the leader line stays short
-    const LABEL_OFFSET_ABOVE = 32;
+    // 5. Reference anchors
+    const snakeXPx = xScale(currentLD50);
+    const medXPx = medianLD50 >= 0.01 && medianLD50 <= xMax ? xScale(medianLD50) : -999;
+    const drawnRefXs: number[] = [];
 
-    points.forEach((p, i) => {
-      const x = xScale(p.val);
-      const y = getCurveY(p.val);
-      const isSnake = p.id === "snake";
-      const leaderY = isSnake ? y - LABEL_OFFSET_ABOVE : chartHeight + 45 + (i % 2 * 35);
-      const leaderY1 = isSnake ? y - 4 : y + 4;
-      const leaderY2 = isSnake ? leaderY + 12 : leaderY - 12;
+    for (const ref of REFERENCE_ANCHORS) {
+      if (ref.id === currentSnake.id || ref.ld50 < 0.01 || ref.ld50 > xMax) continue;
+      const refXPx = xScale(ref.ld50);
+      if (Math.abs(refXPx - snakeXPx) < 22) continue;
+      if (Math.abs(refXPx - medXPx) < 22) continue;
+      if (drawnRefXs.some(px => Math.abs(px - refXPx) < 32)) continue;
+      drawnRefXs.push(refXPx);
 
-      // Wrap in clipping group if it's the dot, but labels might need to be outside
-      const markerG = isSnake ? mainChartG : svg;
+      svg.append("line")
+        .attr("x1", refXPx).attr("x2", refXPx).attr("y1", 0).attr("y2", chartHeight)
+        .attr("stroke", "#a8a29e").attr("stroke-width", 0.5).attr("stroke-dasharray", "2,4").attr("opacity", 0.5);
+      svg.append("text").attr("x", refXPx).attr("y", chartHeight + 24)
+        .attr("text-anchor", "middle").attr("fill", "#a8a29e")
+        .style("font-size", "8px").style("font-weight", "600").style("letter-spacing", "0.03em")
+        .text(ref.name);
+    }
 
-      markerG.append("line")
-        .attr("class", isSnake ? "current-snake-leader" : "")
-        .attr("x1", x).attr("x2", x)
-        .attr("y1", leaderY1)
-        .attr("y2", leaderY2)
-        .attr("stroke", p.color)
-        .attr("stroke-width", 0.5)
-        .attr("stroke-dasharray", isSnake ? "none" : "2,2")
-        .attr("opacity", isSnake ? 0 : 0.3);
+    // 6. Current snake — always-visible pill label
+    const snakeY = getCurveY(currentLD50);
+    const hasYieldLine = scaleByYield && currentYieldMg > 0;
+    const LABEL_OFFSET = hasYieldLine ? 44 : 32;
+    const labelY = Math.max(-margin.top + 10, snakeY - LABEL_OFFSET);
 
-      const radius = isSnake && scaleByYield 
-        ? radiusScale(p.yieldMg!) 
-        : (isSnake ? 6 : 4.5);
+    mainChartG.append("line")
+      .attr("x1", snakeXPx).attr("x2", snakeXPx)
+      .attr("y1", snakeY - 4).attr("y2", Math.max(labelY + 18, 2))
+      .attr("stroke", "#2c2c2c").attr("stroke-width", 0.5).attr("opacity", 0.2);
 
-      const circle = markerG.append("circle")
-        .attr("class", isSnake ? "current-snake-dot" : "")
-        .attr("cx", x).attr("cy", y)
-        .attr("r", radius)
-        .attr("fill", isSnake ? "#ef4444" : "white")
-        .attr("stroke", p.color)
-        .attr("stroke-width", 1.5);
+    mainChartG.append("circle")
+      .attr("cx", snakeXPx).attr("cy", snakeY)
+      .attr("r", scaleByYield ? radiusScale(currentYieldMg) : 6)
+      .attr("fill", "#ef4444").attr("stroke", "#2c2c2c").attr("stroke-width", 1.5);
 
-      if (isSnake) {
-        circle
-          .style("cursor", "pointer")
-          .on("mouseenter", () => {
-            svg.select(".current-snake-leader").attr("opacity", 0.3);
-            svg.select(".current-snake-label").style("opacity", "1");
+    const labelG = svg.append("g").attr("transform", `translate(${snakeXPx}, ${labelY})`);
+
+    labelG.append("text").attr("x", 0).attr("y", 0)
+      .attr("text-anchor", "middle").attr("fill", "#fff")
+      .style("font-size", "10px").style("font-weight", "600").style("letter-spacing", "0.05em")
+      .text(currentSnake.commonName.toUpperCase());
+
+    labelG.append("text").attr("x", 0).attr("y", 13)
+      .attr("text-anchor", "middle").attr("fill", "#fff").attr("opacity", 0.9)
+      .style("font-size", "9px").style("font-family", "ui-monospace, monospace")
+      .text(`${currentLD50.toFixed(3)} mg/kg`);
+
+    if (hasYieldLine) {
+      labelG.append("text").attr("x", 0).attr("y", 26)
+        .attr("text-anchor", "middle").attr("fill", "#fff").attr("opacity", 0.75)
+        .style("font-size", "9px").style("font-family", "ui-monospace, monospace")
+        .text(`yield: ${currentYieldMg} mg`);
+    }
+
+    const bbox = (labelG.node() as SVGGElement).getBBox();
+    labelG.insert("rect", "text")
+      .attr("x", bbox.x - 8).attr("y", bbox.y - 5)
+      .attr("width", bbox.width + 16).attr("height", bbox.height + 10)
+      .attr("rx", 6).attr("fill", "#ef4444").attr("opacity", 0.92);
+
+    // 7. X-Axis
+    const xTicks = [0.01, 0.1, 1, 10, 100].filter(v => v <= xMax);
+    if (!xTicks.includes(xMax) && xMax > 0.01) xTicks.push(xMax);
+
+    svg.append("g").attr("transform", `translate(0, ${chartHeight})`)
+      .call(
+        d3.axisBottom(xScale).tickValues(xTicks).tickSize(6).tickPadding(12)
+          .tickFormat(d => {
+            const v = Number(d);
+            if (v >= 1) return v.toFixed(0);
+            if (v >= 0.1) return v.toFixed(1);
+            return v.toFixed(2);
           })
-          .on("mouseleave", () => {
-            svg.select(".current-snake-leader").attr("opacity", 0);
-            svg.select(".current-snake-label").style("opacity", "0");
-          });
-      }
-
-      const labelG = svg.append("g")
-        .attr("class", isSnake ? "current-snake-label" : "")
-        .attr("transform", `translate(${x}, ${leaderY})`)
-        .style("opacity", isSnake ? "0" : "1");
-
-      if (isSnake) {
-        // Highlighted pill label (same style as taxonomy chart)
-        const padX = 8;
-        const padY = 5;
-        const rx = 6;
-        const pillColor = "#ef4444";
-        labelG.append("text")
-          .attr("x", 0)
-          .attr("y", 0)
-          .attr("text-anchor", "middle")
-          .attr("fill", "#fff")
-          .style("font-size", "10px")
-          .style("font-weight", "600")
-          .style("letter-spacing", "0.05em")
-          .text(p.label);
-        labelG.append("text")
-          .attr("x", 0)
-          .attr("y", 13)
-          .attr("text-anchor", "middle")
-          .attr("fill", "#fff")
-          .attr("opacity", 0.9)
-          .style("font-size", "9px")
-          .style("font-family", "ui-monospace, monospace")
-          .text(`${p.val.toFixed(3)} mg/kg`);
-        const bbox = (labelG.node() as SVGGElement).getBBox();
-        labelG.insert("rect", "text")
-          .attr("x", bbox.x - padX)
-          .attr("y", bbox.y - padY)
-          .attr("width", bbox.width + padX * 2)
-          .attr("height", bbox.height + padY * 2)
-          .attr("rx", rx)
-          .attr("fill", pillColor)
-          .attr("opacity", 0.92);
-      } else {
-        labelG.append("text")
-          .attr("text-anchor", "middle")
-          .attr("fill", p.color)
-          .style("font-size", "10px")
-          .style("font-weight", p.weight)
-          .style("letter-spacing", "0.05em")
-          .text(p.label);
-        labelG.append("text")
-          .attr("y", 13)
-          .attr("text-anchor", "middle")
-          .attr("fill", p.color)
-          .attr("opacity", 0.6)
-          .style("font-size", "9px")
-          .style("font-family", "ui-monospace, monospace")
-          .text(`${p.val.toFixed(3)} mg/kg`);
-      }
-    });
-
-    // 5. X-Axis
-    const xTicks = [0.01, 0.1, 1, 10, 100, 1000].filter(v => v <= xMax);
-    if (!xTicks.includes(xMax) && xMax > 0.01) {
-      xTicks.push(xMax);
-    }
-
-    const xAxis = d3.axisBottom(xScale)
-      .tickValues(xTicks)
-      .tickSize(6)
-      .tickPadding(12)
-      .tickFormat(d => {
-        const val = Number(d);
-        if (val >= 1) return val.toFixed(0);
-        if (val >= 0.1) return val.toFixed(1);
-        return val.toFixed(2);
-      });
-
-    svg.append("g")
-      .attr("transform", `translate(0, ${chartHeight})`)
-      .call(xAxis)
+      )
       .call(g => g.select(".domain").attr("stroke", "#e7e5e4"))
       .call(g => g.selectAll(".tick line").attr("stroke", "#e7e5e4"))
-      .call(g => g.selectAll(".tick text")
-        .attr("fill", "#78716c")
-        .style("font-size", "10px")
-        .style("font-family", "ui-monospace, monospace")
-      );
+      .call(g => g.selectAll(".tick text").attr("fill", "#78716c").style("font-size", "10px").style("font-family", "ui-monospace, monospace"));
 
-    // 6. Header & axis labels
-    const header = svg.append("g").attr("transform", "translate(0, -25)");
-    header.append("text")
-      .attr("fill", "#2c2c2c")
-      .style("font-size", "12px")
-      .style("font-weight", "700")
-      .style("letter-spacing", "0.04em")
-      .text("LETHALITY GRADIENT");
+    // 8. Axis labels
+    svg.append("text").attr("x", chartWidth).attr("y", chartHeight + 42)
+      .attr("text-anchor", "end").attr("fill", "#78716c")
+      .style("font-size", "9px").style("font-weight", "600").style("letter-spacing", "0.03em")
+      .text("LD₅₀ (mg/kg, log scale) →");
 
-    svg.append("text")
-      .attr("x", chartWidth).attr("y", chartHeight + 45)
-      .attr("text-anchor", "end")
-      .attr("fill", "#78716c")
-      .style("font-size", "9px")
-      .style("font-weight", "600")
-      .style("letter-spacing", "0.03em")
-      .text("LD₅₀ POTENCY (mg/kg) →");
-
-    svg.append("text")
-      .attr("transform", "rotate(-90)")
+    svg.append("text").attr("transform", "rotate(-90)")
       .attr("x", -chartHeight / 2).attr("y", -55)
-      .attr("text-anchor", "middle")
-      .attr("fill", "#78716c")
-      .style("font-size", "9px")
-      .style("font-weight", "600")
-      .style("letter-spacing", "0.03em")
+      .attr("text-anchor", "middle").attr("fill", "#78716c")
+      .style("font-size", "9px").style("font-weight", "600").style("letter-spacing", "0.03em")
       .text("RELATIVE POTENCY");
 
-    // Cleanup tooltip on re-render
     return () => {
       d3.select(containerRef.current).selectAll(".potency-tooltip").remove();
     };
-  }, [currentLD50, currentSnake, medianLD50, yMax, xMax, ladderTicks, getPotency, showAllSnakes, scaleByYield, allVenomousSnakes]);
+  }, [currentLD50, currentSnake, medianLD50, yMax, xMax, ladderTicks, getPotency, showAllSnakes, scaleByYield, allVenomousSnakes, filterFamily, filterRegion]);
 
   if (currentLD50 === null) return null;
 
   return (
     <div className="w-full bg-white rounded-xl p-6 border border-stone-100 shadow-sm mt-6">
+
+      {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-sm font-bold text-[#2c2c2c]">Venom Potency Distribution</h3>
+        <div className="flex items-center gap-1.5">
+          <h3 className="text-sm font-bold text-[#2c2c2c]">Venom Potency Distribution</h3>
+          {/* Info tooltip */}
+          <div className="relative group">
+            <span className="w-4 h-4 rounded-full bg-stone-200 text-stone-500 text-[10px] font-bold flex items-center justify-center cursor-help select-none">
+              ?
+            </span>
+            <div className="absolute left-0 top-5 w-72 bg-stone-800 text-stone-100 text-[11px] rounded-lg p-3 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 z-50 leading-relaxed">
+              LD₅₀ (Median Lethal Dose) measures the amount of venom required to kill 50% of a test population.
+              <strong className="text-white"> Lower values indicate higher potency.</strong> The scale is logarithmic
+              to capture the vast difference between neurotoxic elapids and mildly venomous colubrids.
+            </div>
+          </div>
+        </div>
+
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowAllSnakes(prev => !prev)}
@@ -533,42 +452,92 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
               Scale by Yield
             </button>
           )}
-          <span className="text-xs text-stone-400 font-medium tracking-wide">Comparative Logarithmic Scale</span>
         </div>
       </div>
+
+      {/* Family + Region filter tags */}
+      {showAllSnakes && (
+        <div className="flex flex-col gap-2 mb-4">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[10px] font-semibold text-stone-400 tracking-wide uppercase w-12 shrink-0">Family</span>
+            {uniqueFamilies.map(family => {
+              const isActive = filterFamily === family;
+              const color = familyColor(family);
+              return (
+                <button
+                  key={family}
+                  onClick={() => setFilterFamily(isActive ? null : family)}
+                  className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-all"
+                  style={{
+                    backgroundColor: isActive ? color : withOpacity(color, 0.13),
+                    color: isActive ? "#fff" : color,
+                    borderColor: isActive ? color : "transparent",
+                  }}
+                >
+                  {family}
+                </button>
+              );
+            })}
+            {filterFamily && (
+              <button onClick={() => setFilterFamily(null)} className="text-[10px] text-stone-400 hover:text-stone-600 ml-1 transition-colors">
+                ✕ clear
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[10px] font-semibold text-stone-400 tracking-wide uppercase w-12 shrink-0">Region</span>
+            {uniqueRegions.map(region => {
+              const isActive = filterRegion === region;
+              return (
+                <button
+                  key={region}
+                  onClick={() => setFilterRegion(isActive ? null : region)}
+                  className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-all ${
+                    isActive
+                      ? "bg-stone-700 text-white border-stone-700"
+                      : "bg-stone-100 text-stone-500 border-transparent hover:bg-stone-200 hover:text-stone-700"
+                  }`}
+                >
+                  {region}
+                </button>
+              );
+            })}
+            {filterRegion && (
+              <button onClick={() => setFilterRegion(null)} className="text-[10px] text-stone-400 hover:text-stone-600 ml-1 transition-colors">
+                ✕ clear
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Yield size legend */}
+      {showAllSnakes && scaleByYield && (
+        <div className="flex items-center gap-5 mb-3 px-1">
+          <span className="text-[10px] font-semibold text-stone-400 tracking-wide uppercase">Dot size = venom yield</span>
+          {([{ mg: 50, r: 6.5 }, { mg: 200, r: 9.5 }, { mg: 500, r: 13 }] as const).map(({ mg, r }) => (
+            <span key={mg} className="flex items-center gap-1.5">
+              <svg width={r * 2 + 2} height={r * 2 + 2} style={{ flexShrink: 0 }}>
+                <circle cx={r + 1} cy={r + 1} r={r} fill="#a8a29e" fillOpacity={0.6} stroke="white" strokeWidth={1} />
+              </svg>
+              <span className="text-[10px] font-mono text-stone-400">{mg} mg</span>
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Chart + Y-zoom slider */}
       <div className="flex gap-4 items-stretch mt-1">
         <div ref={containerRef} className="relative overflow-visible flex-1 min-w-0">
           <svg ref={svgRef} className="w-full h-auto overflow-visible" />
-          
-          {/* Horizontal Slider (X-axis stretch) */}
-          <div className="flex flex-col items-center gap-2 mt-4 px-12">
-            <span className="text-[10px] font-semibold text-stone-500 tracking-wide">X-Axis Stretch (LD₅₀ Range)</span>
-            <div className="relative w-full h-6 flex items-center justify-center">
-              <input
-                type="range"
-                min={1}
-                max={500}
-                step={1}
-                value={xMax}
-                onChange={e => setXMax(Number(e.target.value))}
-                className="w-full h-1.5 rounded-full appearance-none bg-stone-200 accent-stone-500 cursor-pointer
-                  [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5
-                  [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-stone-500 [&::-webkit-slider-thumb]:border-2
-                  [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-sm"
-              />
-            </div>
-            <span className="text-[10px] font-mono font-medium text-stone-500">{xMax} mg/kg</span>
-          </div>
         </div>
+
         <div className="flex flex-col items-center gap-2 shrink-0 py-2">
           <span className="text-[10px] font-semibold text-stone-500 tracking-wide">Zoom</span>
           <div className="relative h-64 w-6 flex items-center justify-center">
             <input
-              type="range"
-              min={100}
-              max={5000}
-              step={10}
-              value={yMax}
+              type="range" min={100} max={5000} step={10} value={yMax}
               onChange={e => setYMax(Number(e.target.value))}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-4 -rotate-90 rounded-full appearance-none bg-stone-200 accent-red-400 cursor-pointer
                 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5
@@ -579,11 +548,14 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
           <span className="text-[10px] font-mono font-medium text-stone-500">{formatTick(yMax)}</span>
         </div>
       </div>
-      <p className="text-[11px] text-stone-500 mt-4 leading-relaxed max-w-[600px]">
-        LD₅₀ (Median Lethal Dose) measures the amount of venom required to kill 50% of a test population.
-        <strong> Lower values indicate higher potency.</strong> The scale is logarithmic to capture the vast difference
-        between neurotoxic elapids (highly potent) and mildly venomous colubrids.
-      </p>
+
+      {/* Percentile stat — prominent standalone line */}
+      {potencyPercentile !== null && (
+        <p className="mt-3 text-[12px] text-stone-500 leading-relaxed">
+          <strong className="text-stone-700">{currentSnake.commonName}</strong> is more potent than{" "}
+          <strong className="text-red-500">{potencyPercentile}%</strong> of venomous species in this database.
+        </p>
+      )}
     </div>
   );
 }

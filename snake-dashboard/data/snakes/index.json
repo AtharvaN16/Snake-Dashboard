@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-02-19",
-  "totalSnakes": 125,
+  "lastUpdated": "2026-02-20",
+  "totalSnakes": 126,
   "snakes": [
     {
       "id": "russells-viper",
@@ -9,7 +9,7 @@
       "family": "Viperidae",
       "genus": "Daboia",
       "dangerScore": 70,
-      "dangerRank": "1/125",
+      "dangerRank": "1/126",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 71,
@@ -37,6 +37,22 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "prog": [
+          "Coagulopathy",
+          "Renal failure",
+          "Shock"
+        ],
+        "crit": [
+          "Internal bleeding",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -68,18 +84,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "sand-boa",
-        "african-rock-python"
-      ],
-      "accolades": [
-        "Most Dangerous"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 30,
@@ -88,32 +92,34 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Asia",
+      "subregions": [
+        "South Asia",
+        "Southeast Asia"
+      ],
+      "commonlyMisidentifiedAs": [
+        "common-sand-boa",
+        "indian-rock-python"
+      ],
+      "misidentificationRisk": "high",
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
-          "Swelling"
-        ],
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder",
-          "Shock"
-        ],
-        "muscle": [
-          "Kidney Damage"
+          "Severe pain",
+          "Swelling",
+          "Bleeding"
         ],
         "neurological": [
-          "N/A"
+          "Coagulopathy",
+          "Renal failure",
+          "Shock"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Systemic Bleeding",
-        "Shock",
-        "Kidney Damage"
-      ]
+        "blood": [
+          "Internal bleeding",
+          "Death"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "coastal-taipan",
@@ -122,7 +128,7 @@
       "family": "Elapidae",
       "genus": "Oxyuranus",
       "dangerScore": 70,
-      "dangerRank": "2/125",
+      "dangerRank": "2/126",
       "dangerScoreComponents": {
         "clinicalScore": 94,
         "potencyScore": 85,
@@ -151,6 +157,22 @@
         "Myotoxic"
       ],
       "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "short": [
+          "Headache",
+          "Nausea",
+          "Abdominal pain"
+        ],
+        "prog": [
+          "Paralysis",
+          "Coagulopathy",
+          "Renal damage"
+        ],
+        "crit": [
+          "Respiratory failure",
+          "Death without treatment"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -168,7 +190,11 @@
       "images": {
         "primary": "/images/snakes/coastal-taipan/primary.jpg",
         "thumbnail": "/images/snakes/coastal-taipan/thumbnail.jpg",
-        "gallery": [],
+        "gallery": [
+          "/images/snakes/coastal-taipan/gallery/1.jpg",
+          "/images/snakes/coastal-taipan/gallery/2.jpg",
+          "/images/snakes/coastal-taipan/gallery/3.jpg"
+        ],
         "attribution": {
           "photographer": "John Wombey, CSIRO",
           "source": "Wikimedia Commons",
@@ -176,18 +202,35 @@
           "license": "CC BY 3.0",
           "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
         },
-        "galleryAttributions": []
+        "galleryAttributions": [
+          {
+            "photographer": "Bernard DUPONT from FRANCE",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taipan_(Oxyuranus_scutellatus)_close-up_(10249037565).jpg",
+            "license": "CC BY-SA 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+          },
+          {
+            "photographer": "Bernard DUPONT from FRANCE",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taipan_(Oxyuranus_scutellatus)_(10112734454).jpg",
+            "license": "CC BY-SA 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+          },
+          {
+            "photographer": "Sardaka",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:(1)Taipan.jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          }
+        ]
       },
       "description": "Third most venomous land snake. Aggressive when cornered. Previously caused many deaths before antivenom.",
       "sources": [
         "WHO",
         "Reptile Database",
         "Wikipedia"
-      ],
-      "continent": "Oceania",
-      "subregions": [
-        "Northern Australia",
-        "New Guinea"
       ],
       "clinicalData": {
         "untreatedFatalityRate": {
@@ -197,31 +240,29 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Oceania",
+      "subregions": [
+        "Northern Australia",
+        "New Guinea"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain"
+          "Headache",
+          "Nausea",
+          "Abdominal pain"
         ],
         "neurological": [
           "Paralysis",
-          "Respiratory Failure"
+          "Coagulopathy",
+          "Renal damage"
         ],
         "blood": [
-          "Clotting Disorder"
+          "Respiratory failure",
+          "Death without treatment"
         ],
-        "gastrointestinal": [
-          "Nausea / Vomiting",
-          "Abdominal Pain"
-        ],
-        "muscle": [
-          "Kidney Damage"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis",
-        "Systemic Bleeding",
-        "Kidney Damage"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "philippine-cobra",
@@ -230,7 +271,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 69,
-      "dangerRank": "3/125",
+      "dangerRank": "3/126",
       "dangerScoreComponents": {
         "clinicalScore": 87,
         "potencyScore": 70,
@@ -257,6 +298,20 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "short": [
+          "Blurred vision",
+          "Drowsiness",
+          "Difficulty breathing"
+        ],
+        "prog": [
+          "Paralysis"
+        ],
+        "crit": [
+          "Respiratory failure",
+          "Death within 1 hour"
+        ]
+      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -287,13 +342,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Philippines"
-      ],
-      "commonlyMisidentifiedAs": [
-        "monocled-cobra"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 50,
@@ -302,29 +350,26 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Oceania",
+      "subregions": [
+        "Philippines"
+      ],
       "symptoms": {
-        "neurological": [
-          "Blurred Vision",
-          "Paralysis",
-          "Respiratory Failure"
-        ],
         "localEffects": [
-          "N/A"
+          "Blurred vision",
+          "Drowsiness",
+          "Difficulty breathing"
+        ],
+        "neurological": [
+          "Paralysis"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure",
+          "Death within 1 hour"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "tiger-snake",
@@ -333,7 +378,7 @@
       "family": "Elapidae",
       "genus": "Notechis",
       "dangerScore": 66,
-      "dangerRank": "4/125",
+      "dangerRank": "4/126",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 91,
@@ -362,6 +407,21 @@
         "Myotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Local pain",
+          "Tingling",
+          "Sweating"
+        ],
+        "prog": [
+          "Paralysis",
+          "Coagulopathy"
+        ],
+        "crit": [
+          "Respiratory failure",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -393,14 +453,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Southern Australia",
-        "Tasmania"
-      ],
-      "commonlyMisidentifiedAs": [
-        "eastern-brown-snake"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 40,
@@ -409,30 +461,28 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Oceania",
+      "subregions": [
+        "Southern Australia",
+        "Tasmania"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain"
+          "Local pain",
+          "Tingling",
+          "Sweating"
         ],
         "neurological": [
           "Paralysis",
-          "Respiratory Failure"
+          "Coagulopathy"
         ],
         "blood": [
-          "Clotting Disorder"
+          "Respiratory failure",
+          "Death"
         ],
-        "muscle": [
-          "Kidney Damage"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis",
-        "Systemic Bleeding",
-        "Kidney Damage"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "puff-adder",
@@ -441,7 +491,7 @@
       "family": "Viperidae",
       "genus": "Bitis",
       "dangerScore": 65,
-      "dangerRank": "5/125",
+      "dangerRank": "5/126",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 59,
@@ -469,6 +519,21 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Blisters"
+        ],
+        "prog": [
+          "Necrosis",
+          "Coagulopathy"
+        ],
+        "crit": [
+          "Shock",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -500,15 +565,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Africa",
-        "Arabian Peninsula"
-      ],
-      "commonlyMisidentifiedAs": [
-        "night-adder"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 10,
@@ -517,32 +573,28 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Africa",
+      "subregions": [
+        "Africa",
+        "Arabian Peninsula"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
+          "Severe pain",
           "Swelling",
-          "Blistering",
-          "Tissue Necrosis"
-        ],
-        "blood": [
-          "Clotting Disorder",
-          "Shock"
+          "Blisters"
         ],
         "neurological": [
-          "N/A"
+          "Necrosis",
+          "Coagulopathy"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Shock",
+          "Death"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Shock",
-        "Systemic Bleeding"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "inland-taipan",
@@ -551,7 +603,7 @@
       "family": "Elapidae",
       "genus": "Oxyuranus",
       "dangerScore": 65,
-      "dangerRank": "6/125",
+      "dangerRank": "6/126",
       "dangerScoreComponents": {
         "clinicalScore": 95,
         "potencyScore": 100,
@@ -665,7 +717,7 @@
       "family": "Elapidae",
       "genus": "Dendroaspis",
       "dangerScore": 63,
-      "dangerRank": "7/125",
+      "dangerRank": "7/126",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 61,
@@ -771,13 +823,10 @@
       "id": "indian-cobra",
       "commonName": "Indian Cobra",
       "scientificName": "Naja naja",
-      "otherCommonNames": [
-        "Spectacled Cobra"
-      ],
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 61,
-      "dangerRank": "8/125",
+      "dangerRank": "8/126",
       "dangerScoreComponents": {
         "clinicalScore": 65,
         "potencyScore": 62,
@@ -805,6 +854,20 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Drowsiness"
+        ],
+        "prog": [
+          "Paralysis",
+          "Ptosis"
+        ],
+        "crit": [
+          "Respiratory failure"
+        ]
+      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -835,14 +898,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "asian-rat-snake"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 20,
@@ -851,30 +906,26 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Asia",
+      "subregions": [
+        "South Asia"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
-          "Swelling"
+          "Swelling",
+          "Drowsiness"
         ],
         "neurological": [
-          "Ptosis (Drooping Eyelids)",
           "Paralysis",
-          "Respiratory Failure"
+          "Ptosis"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "monocled-cobra",
@@ -898,7 +949,7 @@
         "habitat": "Agricultural fields, forests, villages"
       },
       "description": "One of Asia's most recognized cobras, common in snakebite regions.",
-      "dangerRank": "9/125",
+      "dangerRank": "9/126",
       "dangerScoreComponents": {
         "clinicalScore": 65,
         "potencyScore": 66,
@@ -979,7 +1030,7 @@
       "family": "Elapidae",
       "genus": "Acanthophis",
       "dangerScore": 60,
-      "dangerRank": "10/125",
+      "dangerRank": "10/126",
       "dangerScoreComponents": {
         "clinicalScore": 84,
         "potencyScore": 70,
@@ -1006,6 +1057,19 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Numbness",
+          "Paralysis onset"
+        ],
+        "prog": [
+          "Progressive paralysis"
+        ],
+        "crit": [
+          "Respiratory failure"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -1036,10 +1100,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Australia"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 50,
@@ -1048,28 +1108,25 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Oceania",
+      "subregions": [
+        "Australia"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain"
+          "Pain",
+          "Numbness",
+          "Paralysis onset"
         ],
         "neurological": [
-          "Paralysis",
-          "Respiratory Failure"
+          "Progressive paralysis"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "cape-cobra",
@@ -1078,7 +1135,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 56,
-      "dangerRank": "11/125",
+      "dangerRank": "11/126",
       "dangerScoreComponents": {
         "clinicalScore": 81,
         "potencyScore": 60,
@@ -1106,6 +1163,20 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Ptosis",
+          "Drowsiness"
+        ],
+        "prog": [
+          "Paralysis"
+        ],
+        "crit": [
+          "Respiratory failure",
+          "Death within 1-10 hours"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -1128,40 +1199,13 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_nivea_IMG_5078_Kappkobra.jpg",
           "license": "CC BY-SA 3.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        },
-        "gallery": [
-          "/images/snakes/cape-cobra/gallery/1.jpg",
-          "/images/snakes/cape-cobra/gallery/2.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "JonRichfield",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_nivea,_Cape_Cobra_IMG_0167s.JPG",
-            "license": "CC BY-SA 3.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-          },
-          {
-            "photographer": "Bernard DUPONT from FRANCE",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cape_Cobra_(Naja_nivea)_(45167579285).jpg",
-            "license": "CC BY-SA 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-          }
-        ]
+        }
       },
       "description": "Highly venomous cobra. Variable in color. Aggressive when threatened.",
       "sources": [
         "WHO",
         "Reptile Database",
         "Wikipedia"
-      ],
-      "continent": "Africa",
-      "subregions": [
-        "Southern Africa"
-      ],
-      "commonlyMisidentifiedAs": [
-        "egyptian-cobra"
       ],
       "clinicalData": {
         "untreatedFatalityRate": {
@@ -1171,29 +1215,26 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Africa",
+      "subregions": [
+        "Southern Africa"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain"
+          "Pain",
+          "Ptosis",
+          "Drowsiness"
         ],
         "neurological": [
-          "Ptosis (Drooping Eyelids)",
-          "Paralysis",
-          "Respiratory Failure"
+          "Paralysis"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure",
+          "Death within 1-10 hours"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "south-american-rattlesnake",
@@ -1217,7 +1258,7 @@
         "habitat": "Savanna and dry open habitats"
       },
       "description": "The best-known rattlesnake in South America.",
-      "dangerRank": "12/125",
+      "dangerRank": "12/126",
       "dangerScoreComponents": {
         "clinicalScore": 89,
         "potencyScore": 72,
@@ -1310,7 +1351,7 @@
         "habitat": "Rural settlements and fields"
       },
       "description": "Iconic nocturnal krait and major medically important species in South Asia.",
-      "dangerRank": "13/125",
+      "dangerRank": "13/126",
       "dangerScoreComponents": {
         "clinicalScore": 91,
         "potencyScore": 73,
@@ -1344,19 +1385,7 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Common_krait_.jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
-        "gallery": [
-          "/images/snakes/common-krait/gallery/1.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Dr. Raju Kasambe",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Common_Krait_Bungarus_caeruleus_by_Dr._Raju_Kasambe_DSCN6488_(3)_01.jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          }
-        ]
+        }
       },
       "sources": [
         "WHO",
@@ -1405,7 +1434,7 @@
       "family": "Elapidae",
       "genus": "Pseudonaja",
       "dangerScore": 54,
-      "dangerRank": "14/125",
+      "dangerRank": "14/126",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 96,
@@ -1513,7 +1542,7 @@
       "family": "Elapidae",
       "genus": "Ophiophagus",
       "dangerScore": 54,
-      "dangerRank": "15/125",
+      "dangerRank": "15/126",
       "dangerScoreComponents": {
         "clinicalScore": 89,
         "potencyScore": 43,
@@ -1620,13 +1649,10 @@
       "id": "fer-de-lance",
       "commonName": "Fer-de-Lance",
       "scientificName": "Bothrops asper",
-      "otherCommonNames": [
-        "Terciopelo"
-      ],
       "family": "Viperidae",
       "genus": "Bothrops",
       "dangerScore": 51,
-      "dangerRank": "16/125",
+      "dangerRank": "16/126",
       "dangerScoreComponents": {
         "clinicalScore": 43,
         "potencyScore": 38,
@@ -1655,6 +1681,21 @@
         "Myotoxic"
       ],
       "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "prog": [
+          "Necrosis",
+          "Coagulopathy"
+        ],
+        "crit": [
+          "Shock",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -1686,15 +1727,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Central America",
-        "Northern South America"
-      ],
-      "commonlyMisidentifiedAs": [
-        "cantil"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 7,
@@ -1703,33 +1735,28 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "North America",
+      "subregions": [
+        "Central America",
+        "Northern South America"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
+          "Severe pain",
           "Swelling",
-          "Tissue Necrosis"
-        ],
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder",
-          "Shock"
-        ],
-        "muscle": [
-          "Kidney Damage"
+          "Bleeding"
         ],
         "neurological": [
-          "N/A"
+          "Necrosis",
+          "Coagulopathy"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Systemic Bleeding",
-        "Shock",
-        "Kidney Damage"
-      ]
+        "blood": [
+          "Shock",
+          "Death"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "carpet-viper",
@@ -1738,7 +1765,7 @@
       "family": "Viperidae",
       "genus": "Echis",
       "dangerScore": 50,
-      "dangerRank": "17/125",
+      "dangerRank": "17/126",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 64,
@@ -1765,6 +1792,20 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "prog": [
+          "Coagulopathy",
+          "Renal damage"
+        ],
+        "crit": [
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -1795,10 +1836,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "West Africa"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 15,
@@ -1807,28 +1844,26 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Africa",
+      "subregions": [
+        "West Africa"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
-          "Swelling"
-        ],
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder"
+          "Swelling",
+          "Bleeding"
         ],
         "neurological": [
-          "N/A"
+          "Coagulopathy",
+          "Renal damage"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Death"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Systemic Bleeding"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "egyptian-cobra",
@@ -1837,7 +1872,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 50,
-      "dangerRank": "18/125",
+      "dangerRank": "18/126",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 67,
@@ -1865,6 +1900,19 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Drowsiness"
+        ],
+        "prog": [
+          "Paralysis"
+        ],
+        "crit": [
+          "Respiratory failure"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -1888,33 +1936,13 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Egyptian_Cobra_Snake.jpg",
           "license": "CC0",
           "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-        },
-        "gallery": [
-          "/images/snakes/egyptian-cobra/gallery/1.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Ricardo Hurtubia",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:N._haje_legionis.jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          }
-        ]
+        }
       },
       "description": "Historically significant. Cleopatra reportedly died from its bite. Large hood display.",
       "sources": [
         "WHO",
         "Reptile Database",
         "Wikipedia"
-      ],
-      "continent": "Africa",
-      "subregions": [
-        "North Africa",
-        "Arabian Peninsula"
-      ],
-      "commonlyMisidentifiedAs": [
-        "cape-cobra"
       ],
       "clinicalData": {
         "untreatedFatalityRate": {
@@ -1924,29 +1952,26 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Africa",
+      "subregions": [
+        "North Africa",
+        "Arabian Peninsula"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
-          "Swelling"
+          "Swelling",
+          "Drowsiness"
         ],
         "neurological": [
-          "Paralysis",
-          "Respiratory Failure"
+          "Paralysis"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "forest-cobra",
@@ -1955,7 +1980,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 50,
-      "dangerRank": "19/125",
+      "dangerRank": "19/126",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 65,
@@ -1983,6 +2008,20 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Numbness"
+        ],
+        "prog": [
+          "Paralysis",
+          "Necrosis"
+        ],
+        "crit": [
+          "Respiratory failure"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -2014,11 +2053,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Central Africa",
-        "West Africa"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 30,
@@ -2027,30 +2061,27 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Africa",
+      "subregions": [
+        "Central Africa",
+        "West Africa"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
           "Swelling",
-          "Tissue Necrosis"
+          "Numbness"
         ],
         "neurological": [
           "Paralysis",
-          "Respiratory Failure"
+          "Necrosis"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "saw-scaled-viper",
@@ -2059,7 +2090,7 @@
       "family": "Viperidae",
       "genus": "Echis",
       "dangerScore": 49,
-      "dangerRank": "20/125",
+      "dangerRank": "20/126",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 64,
@@ -2087,6 +2118,21 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Local pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "prog": [
+          "Coagulopathy",
+          "Renal damage"
+        ],
+        "crit": [
+          "Hemorrhage",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Very High",
       "distribution": {
         "regions": [
@@ -2119,15 +2165,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Middle East",
-        "North Africa",
-        "South Asia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "sand-boa"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 15,
@@ -2136,28 +2173,29 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Africa",
+      "subregions": [
+        "Middle East",
+        "North Africa",
+        "South Asia"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling"
-        ],
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder"
+          "Local pain",
+          "Swelling",
+          "Bleeding"
         ],
         "neurological": [
-          "N/A"
+          "Coagulopathy",
+          "Renal damage"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Hemorrhage",
+          "Death"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Systemic Bleeding"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "western-diamondback",
@@ -2166,7 +2204,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 44,
-      "dangerRank": "21/125",
+      "dangerRank": "21/126",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 41,
@@ -2194,6 +2232,21 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "prog": [
+          "Tissue damage",
+          "Coagulopathy"
+        ],
+        "crit": [
+          "Shock",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -2225,14 +2278,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southwestern United States",
-        "Mexico"
-      ],
-      "commonlyMisidentifiedAs": [
-        "timber-rattlesnake"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 10,
@@ -2241,31 +2286,28 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "North America",
+      "subregions": [
+        "Southwestern United States",
+        "Mexico"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
-          "Swelling"
-        ],
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder",
-          "Shock"
+          "Severe pain",
+          "Swelling",
+          "Bleeding"
         ],
         "neurological": [
-          "N/A"
+          "Tissue damage",
+          "Coagulopathy"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Shock",
+          "Death"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Systemic Bleeding",
-        "Shock"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "eastern-diamondback",
@@ -2274,7 +2316,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 44,
-      "dangerRank": "22/125",
+      "dangerRank": "22/126",
       "dangerScoreComponents": {
         "clinicalScore": 55,
         "potencyScore": 44,
@@ -2302,6 +2344,21 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Bruising"
+        ],
+        "prog": [
+          "Tissue damage",
+          "Coagulopathy"
+        ],
+        "crit": [
+          "Shock",
+          "Organ failure"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -2332,13 +2389,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
-      "commonlyMisidentifiedAs": [
-        "timber-rattlesnake"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 10,
@@ -2347,31 +2397,27 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "North America",
+      "subregions": [
+        "Southeastern United States"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
+          "Severe pain",
           "Swelling",
           "Bruising"
         ],
-        "blood": [
-          "Clotting Disorder",
-          "Shock"
-        ],
         "neurological": [
-          "N/A"
+          "Tissue damage",
+          "Coagulopathy"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Shock",
+          "Organ failure"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Shock",
-        "Systemic Bleeding"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "beaked-sea-snake",
@@ -2395,7 +2441,7 @@
         "habitat": "Coastal marine waters"
       },
       "description": "Iconic highly venomous sea snake known from fisheries bycatch incidents.",
-      "dangerRank": "23/125",
+      "dangerRank": "23/126",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 72,
@@ -2429,27 +2475,7 @@
           "sourceUrl": "https://www.gbif.org/occurrence/6131700310",
           "license": "http://creativecommons.org/licenses/by-nc/4.0/",
           "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
-        },
-        "gallery": [
-          "/images/snakes/beaked-sea-snake/gallery/2.jpg",
-          "/images/snakes/beaked-sea-snake/gallery/3.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "fonci",
-            "source": "GBIF",
-            "sourceUrl": "https://www.gbif.org/occurrence/5076915835",
-            "license": "http://creativecommons.org/licenses/by-nc/4.0/",
-            "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
-          },
-          {
-            "photographer": "Ramesh Shenai Jr.",
-            "source": "GBIF",
-            "sourceUrl": "https://www.gbif.org/occurrence/5088122754",
-            "license": "http://creativecommons.org/licenses/by/4.0/",
-            "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
-          }
-        ]
+        }
       },
       "sources": [
         "WHO",
@@ -2492,7 +2518,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 42,
-      "dangerRank": "24/125",
+      "dangerRank": "24/126",
       "dangerScoreComponents": {
         "clinicalScore": 37,
         "potencyScore": 48,
@@ -2520,6 +2546,19 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Extremely quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe eye pain",
+          "Blindness if sprayed",
+          "Local necrosis"
+        ],
+        "prog": [
+          "Tissue damage"
+        ],
+        "crit": [
+          "Permanent eye damage if not flushed"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -2550,13 +2589,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
-      "commonlyMisidentifiedAs": [
-        "monocled-cobra"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 5,
@@ -2565,27 +2597,25 @@
         "whoCategory": 1,
         "severity": "Severe"
       },
+      "continent": "Africa",
+      "subregions": [
+        "Sub-Saharan Africa"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Tissue Necrosis"
+          "Severe eye pain",
+          "Blindness if sprayed",
+          "Local necrosis"
         ],
         "neurological": [
-          "Paralysis"
+          "Tissue damage"
         ],
         "blood": [
-          "N/A"
+          "Permanent eye damage if not flushed"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "javan-spitting-cobra",
@@ -2607,7 +2637,7 @@
         "habitat": "Lowland forests and cultivated areas"
       },
       "description": "Well-known Southeast Asian spitting cobra.",
-      "dangerRank": "25/125",
+      "dangerRank": "25/126",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 50,
@@ -2688,7 +2718,7 @@
       "family": "Elapidae",
       "genus": "Bungarus",
       "dangerScore": 40,
-      "dangerRank": "26/125",
+      "dangerRank": "26/126",
       "dangerScoreComponents": {
         "clinicalScore": 71,
         "potencyScore": 75,
@@ -2715,6 +2745,20 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Mild pain",
+          "Numbness"
+        ],
+        "prog": [
+          "Progressive paralysis",
+          "Ptosis"
+        ],
+        "crit": [
+          "Respiratory failure",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -2746,15 +2790,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "East Asia",
-        "Southeast Asia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "asian-rat-snake"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 25,
@@ -2763,30 +2798,27 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Asia",
+      "subregions": [
+        "East Asia",
+        "Southeast Asia"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Mild Pain"
+          "Mild pain",
+          "Numbness"
         ],
         "neurological": [
-          "Ptosis (Drooping Eyelids)",
-          "Paralysis",
-          "Respiratory Failure"
+          "Progressive paralysis",
+          "Ptosis"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure",
+          "Death"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "bushmaster",
@@ -2795,7 +2827,7 @@
       "family": "Viperidae",
       "genus": "Lachesis",
       "dangerScore": 40,
-      "dangerRank": "27/125",
+      "dangerRank": "27/126",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 44,
@@ -2823,6 +2855,21 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Vomiting"
+        ],
+        "prog": [
+          "Hypotension",
+          "Bradycardia"
+        ],
+        "crit": [
+          "Shock",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -2853,13 +2900,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "South America",
-      "subregions": [
-        "South America"
-      ],
-      "commonlyMisidentifiedAs": [
-        "fer-de-lance"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 30,
@@ -2868,31 +2908,27 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "South America",
+      "subregions": [
+        "South America"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
-          "Swelling"
-        ],
-        "blood": [
-          "Hypotension (Low Blood Pressure)",
-          "Shock",
-          "Clotting Disorder"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Severe pain",
+          "Swelling",
+          "Vomiting"
         ],
         "neurological": [
-          "N/A"
+          "Hypotension",
+          "Bradycardia"
         ],
-        "muscle": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Shock",
-        "Systemic Bleeding"
-      ]
+        "blood": [
+          "Shock",
+          "Death"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "green-mamba",
@@ -2914,7 +2950,7 @@
         "habitat": "Coastal forests and dense vegetation"
       },
       "description": "Highly recognizable arboreal mamba from East Africa.",
-      "dangerRank": "28/125",
+      "dangerRank": "28/126",
       "dangerScoreComponents": {
         "clinicalScore": 49,
         "potencyScore": 58,
@@ -3007,7 +3043,7 @@
         "habitat": "Savanna woodland and shrubland"
       },
       "description": "Famous rear-fanged species with clinically important venom.",
-      "dangerRank": "29/125",
+      "dangerRank": "29/126",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 77,
@@ -3100,7 +3136,7 @@
         "habitat": "Grasslands, wetlands, forests"
       },
       "description": "Highly recognizable black-yellow banded krait.",
-      "dangerRank": "30/125",
+      "dangerRank": "30/126",
       "dangerScoreComponents": {
         "clinicalScore": 55,
         "potencyScore": 51,
@@ -3197,7 +3233,7 @@
         "habitat": "Arid and semi-arid habitats"
       },
       "description": "Well-known large Australian elapid with significant bite severity.",
-      "dangerRank": "31/125",
+      "dangerRank": "31/126",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 51,
@@ -3277,7 +3313,7 @@
       "family": "Elapidae",
       "genus": "Austrelaps",
       "dangerScore": 36,
-      "dangerRank": "32/125",
+      "dangerRank": "32/126",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 68,
@@ -3304,6 +3340,19 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Nausea"
+        ],
+        "prog": [
+          "Coagulopathy"
+        ],
+        "crit": [
+          "Rare death"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -3335,11 +3384,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Southeastern Australia",
-        "Tasmania"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 5,
@@ -3348,28 +3392,26 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "continent": "Oceania",
+      "subregions": [
+        "Southeastern Australia",
+        "Tasmania"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
-          "Swelling"
-        ],
-        "blood": [
-          "Clotting Disorder"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Swelling",
+          "Nausea"
         ],
         "neurological": [
-          "Paralysis"
+          "Coagulopathy"
         ],
-        "muscle": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Systemic Bleeding"
-      ]
+        "blood": [
+          "Rare death"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "timber-rattlesnake",
@@ -3391,7 +3433,7 @@
         "habitat": "Deciduous forests and rocky hills"
       },
       "description": "One of the best-known rattlesnakes in North America.",
-      "dangerRank": "33/125",
+      "dangerRank": "33/126",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 44,
@@ -3472,7 +3514,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 35,
-      "dangerRank": "34/125",
+      "dangerRank": "34/126",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 65,
@@ -3500,6 +3542,21 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Weakness",
+          "Difficulty breathing"
+        ],
+        "prog": [
+          "Paralysis",
+          "Respiratory depression"
+        ],
+        "crit": [
+          "Respiratory failure",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -3551,14 +3608,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southwestern United States",
-        "Mexico"
-      ],
-      "commonlyMisidentifiedAs": [
-        "western-diamondback"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 5,
@@ -3567,29 +3616,28 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "North America",
+      "subregions": [
+        "Southwestern United States",
+        "Mexico"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain"
+          "Pain",
+          "Weakness",
+          "Difficulty breathing"
         ],
         "neurological": [
           "Paralysis",
-          "Respiratory Failure"
+          "Respiratory depression"
         ],
         "blood": [
-          "Clotting Disorder"
+          "Respiratory failure",
+          "Death"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis",
-        "Systemic Bleeding"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "boomslang",
@@ -3598,7 +3646,7 @@
       "family": "Colubridae",
       "genus": "Dispholidus",
       "dangerScore": 35,
-      "dangerRank": "35/125",
+      "dangerRank": "35/126",
       "dangerScoreComponents": {
         "clinicalScore": 73,
         "potencyScore": 77,
@@ -3625,6 +3673,21 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Headache",
+          "Nausea",
+          "Drowsiness"
+        ],
+        "prog": [
+          "Internal bleeding",
+          "Coagulopathy"
+        ],
+        "crit": [
+          "Death from hemorrhage",
+          "Delayed 24-48 hours"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -3655,13 +3718,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
-      "commonlyMisidentifiedAs": [
-        "boomslang-southern"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 30,
@@ -3670,27 +3726,27 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "continent": "Africa",
+      "subregions": [
+        "Sub-Saharan Africa"
+      ],
       "symptoms": {
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
-        ],
         "localEffects": [
-          "N/A"
+          "Headache",
+          "Nausea",
+          "Drowsiness"
         ],
         "neurological": [
-          "N/A"
+          "Internal bleeding",
+          "Coagulopathy"
         ],
-        "muscle": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Systemic Bleeding"
-      ]
+        "blood": [
+          "Death from hemorrhage",
+          "Delayed 24-48 hours"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "gaboon-viper",
@@ -3699,7 +3755,7 @@
       "family": "Viperidae",
       "genus": "Bitis",
       "dangerScore": 34,
-      "dangerRank": "36/125",
+      "dangerRank": "36/126",
       "dangerScoreComponents": {
         "clinicalScore": 57,
         "potencyScore": 39,
@@ -3812,7 +3868,7 @@
       "family": "Viperidae",
       "genus": "Calloselasma",
       "dangerScore": 32,
-      "dangerRank": "37/125",
+      "dangerRank": "37/126",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 44,
@@ -3840,6 +3896,21 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Blisters"
+        ],
+        "prog": [
+          "Necrosis",
+          "Coagulopathy"
+        ],
+        "crit": [
+          "Gangrene",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -3870,10 +3941,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 5,
@@ -3882,30 +3949,27 @@
         "whoCategory": 1,
         "severity": "Severe"
       },
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
+          "Severe pain",
           "Swelling",
-          "Blistering",
-          "Tissue Necrosis"
-        ],
-        "blood": [
-          "Clotting Disorder"
+          "Blisters"
         ],
         "neurological": [
-          "N/A"
+          "Necrosis",
+          "Coagulopathy"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Gangrene",
+          "Death"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Systemic Bleeding"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "yellow-bellied-sea-snake",
@@ -3929,7 +3993,7 @@
         "habitat": "Open ocean surface waters"
       },
       "description": "Most famous pelagic sea snake, globally distributed in warm oceans.",
-      "dangerRank": "38/125",
+      "dangerRank": "38/126",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 90,
@@ -4022,7 +4086,7 @@
         "habitat": "Coastal scrub and urban fringes"
       },
       "description": "Famous urban-interface venomous snake in Western Australia.",
-      "dangerRank": "39/125",
+      "dangerRank": "39/126",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 65,
@@ -4119,7 +4183,7 @@
         "habitat": "Atlantic forest and agricultural margins"
       },
       "description": "Most recognized pit viper in Brazil and a major medical species.",
-      "dangerRank": "40/125",
+      "dangerRank": "40/126",
       "dangerScoreComponents": {
         "clinicalScore": 33,
         "potencyScore": 47,
@@ -4212,7 +4276,7 @@
         "habitat": "Deserts and dune systems"
       },
       "description": "Iconic horned desert viper seen across documentaries and references.",
-      "dangerRank": "41/125",
+      "dangerRank": "41/126",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 59,
@@ -4304,7 +4368,7 @@
         "habitat": "Prairies, grasslands, scrub"
       },
       "description": "Famous prairie species and frequent human encounter rattlesnake.",
-      "dangerRank": "42/125",
+      "dangerRank": "42/126",
       "dangerScoreComponents": {
         "clinicalScore": 25,
         "potencyScore": 44,
@@ -4399,7 +4463,7 @@
         "habitat": "Wet prairies and marshes"
       },
       "description": "Iconic small rattlesnake of the Great Lakes region.",
-      "dangerRank": "43/125",
+      "dangerRank": "43/126",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 57,
@@ -4429,8 +4493,8 @@
         "thumbnail": "/images/snakes/massasauga/thumbnail.jpg",
         "gallery": [
           "/images/snakes/massasauga/gallery/1.jpg",
-          "/images/snakes/massasauga/gallery/3.jpg",
-          "/images/snakes/massasauga/gallery/4.jpg"
+          "/images/snakes/massasauga/gallery/2.jpg",
+          "/images/snakes/massasauga/gallery/3.jpg"
         ],
         "attribution": {
           "photographer": "Riley Stanton",
@@ -4450,14 +4514,14 @@
           {
             "photographer": "Riley Stanton",
             "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_1.jpg",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_3.jpg",
             "license": "CC BY-SA 4.0",
             "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
           },
           {
             "photographer": "Riley Stanton",
             "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_2.jpg",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_1.jpg",
             "license": "CC BY-SA 4.0",
             "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
           }
@@ -4508,7 +4572,7 @@
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 27,
-      "dangerRank": "44/125",
+      "dangerRank": "44/126",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 37,
@@ -4535,6 +4599,19 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "prog": [
+          "Necrosis"
+        ],
+        "crit": [
+          "Rare death"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -4566,12 +4643,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Mexico",
-        "Central America"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 5,
@@ -4580,30 +4651,26 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "continent": "North America",
+      "subregions": [
+        "Mexico",
+        "Central America"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
+          "Severe pain",
           "Swelling",
-          "Tissue Necrosis"
-        ],
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder"
+          "Bleeding"
         ],
         "neurological": [
-          "N/A"
+          "Necrosis"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Rare death"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Systemic Bleeding"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "japanese-mamushi",
@@ -4612,7 +4679,7 @@
       "family": "Viperidae",
       "genus": "Gloydius",
       "dangerScore": 27,
-      "dangerRank": "45/125",
+      "dangerRank": "45/126",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 62,
@@ -4640,6 +4707,21 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Nausea"
+        ],
+        "prog": [
+          "Coagulopathy",
+          "Renal damage"
+        ],
+        "crit": [
+          "Shock",
+          "Death"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -4671,42 +4753,36 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Japan",
-        "East Asia"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 1,
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
+      "continent": "Asia",
+      "subregions": [
+        "Japan",
+        "East Asia"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
-          "Swelling"
-        ],
-        "blood": [
-          "Clotting Disorder",
-          "Shock"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Swelling",
+          "Nausea"
         ],
         "neurological": [
-          "N/A"
+          "Coagulopathy",
+          "Renal damage"
         ],
-        "muscle": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "blood": [
+          "Shock",
+          "Death"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "red-bellied-black-snake",
@@ -4715,7 +4791,7 @@
       "family": "Elapidae",
       "genus": "Pseudechis",
       "dangerScore": 26,
-      "dangerRank": "46/125",
+      "dangerRank": "46/126",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 51,
@@ -4744,6 +4820,20 @@
         "Myotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Nausea"
+        ],
+        "prog": [
+          "Coagulopathy",
+          "Myolysis"
+        ],
+        "crit": [
+          "Rare death"
+        ]
+      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -4774,13 +4864,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Eastern Australia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "tiger-snake"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 0,
@@ -4790,27 +4873,26 @@
         "severity": "Moderate",
         "fatalitySummary": "Rarely Fatal"
       },
+      "continent": "Oceania",
+      "subregions": [
+        "Eastern Australia"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
-          "Swelling"
-        ],
-        "blood": [
-          "Clotting Disorder"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Swelling",
+          "Nausea"
         ],
         "neurological": [
-          "Paralysis"
+          "Coagulopathy",
+          "Myolysis"
         ],
-        "muscle": [
-          "Kidney Damage"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "blood": [
+          "Rare death"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "stiletto-snake",
@@ -4824,7 +4906,7 @@
       "family": "Atractaspididae",
       "genus": "Atractaspis",
       "dangerScore": 25,
-      "dangerRank": "47/125",
+      "dangerRank": "47/126",
       "dangerScoreComponents": {
         "clinicalScore": 12,
         "potencyScore": 69,
@@ -4888,8 +4970,7 @@
           "low": 0,
           "high": 3
         },
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -4935,7 +5016,7 @@
       "family": "Viperidae",
       "genus": "Trimeresurus",
       "dangerScore": 24,
-      "dangerRank": "48/125",
+      "dangerRank": "48/126",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 41,
@@ -4962,6 +5043,19 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "prog": [
+          "Local necrosis"
+        ],
+        "crit": [
+          "Rare"
+        ]
+      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -4992,42 +5086,33 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 1,
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
           "Swelling",
-          "Tissue Necrosis"
-        ],
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder"
+          "Bleeding"
         ],
         "neurological": [
-          "N/A"
+          "Local necrosis"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Rare"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "nose-horned-viper",
@@ -5051,7 +5136,7 @@
         "habitat": "Rocky grasslands and dry scrub"
       },
       "description": "One of Europe's most recognizable vipers.",
-      "dangerRank": "49/125",
+      "dangerRank": "49/126",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 47,
@@ -5101,8 +5186,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -5146,7 +5230,7 @@
         "habitat": "Heathlands, forests, grasslands"
       },
       "description": "Most famous and widespread venomous snake in Europe.",
-      "dangerRank": "50/125",
+      "dangerRank": "50/126",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 55,
@@ -5226,7 +5310,7 @@
       "family": "Elapidae",
       "genus": "Micrurus",
       "dangerScore": 20,
-      "dangerRank": "51/125",
+      "dangerRank": "51/126",
       "dangerScoreComponents": {
         "clinicalScore": 42,
         "potencyScore": 66,
@@ -5253,6 +5337,20 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Minimal pain",
+          "Numbness"
+        ],
+        "prog": [
+          "Paralysis",
+          "Respiratory depression"
+        ],
+        "crit": [
+          "Respiratory failure",
+          "Death rare due to small yield"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -5283,14 +5381,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "commonlyMisidentifiedAs": [
-        "milk-snake"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 5,
@@ -5299,40 +5389,39 @@
         "whoCategory": 1,
         "severity": "Severe"
       },
+      "continent": "North America",
+      "subregions": [
+        "Southeastern United States"
+      ],
+      "commonlyMisidentifiedAs": [
+        "milk-snake"
+      ],
+      "misidentificationRisk": "high",
       "symptoms": {
         "localEffects": [
-          "Pain"
+          "Minimal pain",
+          "Numbness"
         ],
         "neurological": [
           "Paralysis",
-          "Respiratory Failure"
+          "Respiratory depression"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure",
+          "Death rare due to small yield"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "cottonmouth",
       "commonName": "Cottonmouth",
       "scientificName": "Agkistrodon piscivorus",
-      "otherCommonNames": [
-        "Water Moccasin"
-      ],
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 19,
-      "dangerRank": "52/125",
+      "dangerRank": "52/126",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 34,
@@ -5360,6 +5449,20 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Severe pain",
+          "Swelling",
+          "Tissue damage"
+        ],
+        "prog": [
+          "Necrosis",
+          "Coagulopathy rarely"
+        ],
+        "crit": [
+          "Rare death"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -5382,35 +5485,7 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cottonmouth_(Agkistrodon_piscivorus).jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
-        "gallery": [
-          "/images/snakes/cottonmouth/gallery/1.jpg",
-          "/images/snakes/cottonmouth/gallery/2.jpg",
-          "/images/snakes/cottonmouth/gallery/3.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Peter Paplanus from St. Louis, Missouri",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Cottonmouth_(Agkistrodon_piscivorus_leucostoma)_(16199882414).jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          },
-          {
-            "photographer": "Peter Paplanus from St. Louis, Missouri",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Cottonmouth_(Agkistrodon_piscivorus_leucostoma)_(17186477932).jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          },
-          {
-            "photographer": "Greg Schechter from San Francisco, USA",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baby_Cottonmouth,_Agkistrodon_piscivorus_-_Flickr_-_GregTheBusker.jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          }
-        ]
+        }
       },
       "description": "Semi-aquatic. Displays white mouth when threatened. More venomous than copperhead.",
       "sources": [
@@ -5418,47 +5493,39 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "commonlyMisidentifiedAs": [
-        "copperhead",
-        "water-snake"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 1,
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Severe",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Severe"
       },
+      "continent": "North America",
+      "subregions": [
+        "Southeastern United States"
+      ],
+      "commonlyMisidentifiedAs": [
+        "copperhead",
+        "water-snake"
+      ],
+      "misidentificationRisk": "high",
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
+          "Severe pain",
           "Swelling",
-          "Tissue Necrosis"
-        ],
-        "blood": [
-          "Clotting Disorder"
+          "Tissue damage"
         ],
         "neurological": [
-          "N/A"
+          "Necrosis",
+          "Coagulopathy rarely"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Rare death"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "night-adder",
@@ -5467,7 +5534,7 @@
       "family": "Viperidae",
       "genus": "Causus",
       "dangerScore": 19,
-      "dangerRank": "53/125",
+      "dangerRank": "53/126",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 48,
@@ -5493,6 +5560,19 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Blisters"
+        ],
+        "prog": [
+          "Local necrosis"
+        ],
+        "crit": [
+          "Rare systemic"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -5523,14 +5603,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
-      "commonlyMisidentifiedAs": [
-        "puff-adder"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 0,
@@ -5539,29 +5611,25 @@
         "severity": "Moderate",
         "fatalitySummary": "Rarely Fatal"
       },
+      "continent": "Africa",
+      "subregions": [
+        "Sub-Saharan Africa"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
           "Swelling",
-          "Blistering",
-          "Tissue Necrosis"
+          "Blisters"
         ],
         "neurological": [
-          "N/A"
+          "Local necrosis"
         ],
         "blood": [
-          "N/A"
+          "Rare systemic"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "asp-viper",
@@ -5583,7 +5651,7 @@
         "habitat": "Rocky slopes, vineyards, scrubland"
       },
       "description": "Classic Mediterranean viper known throughout Europe.",
-      "dangerRank": "54/125",
+      "dangerRank": "54/126",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 49,
@@ -5633,8 +5701,7 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
       "symptoms": {
         "localEffects": [
@@ -5664,7 +5731,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 18,
-      "dangerRank": "55/125",
+      "dangerRank": "55/126",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 39,
@@ -5690,6 +5757,18 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling"
+        ],
+        "prog": [
+          "Tissue damage"
+        ],
+        "crit": [
+          "Rare death"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -5749,41 +5828,33 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southwestern United States",
-        "Mexico"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 1,
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Moderate"
       },
+      "continent": "North America",
+      "subregions": [
+        "Southwestern United States",
+        "Mexico"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
           "Swelling"
         ],
-        "blood": [
-          "Clotting Disorder"
-        ],
         "neurological": [
-          "N/A"
+          "Tissue damage"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Rare death"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "texas-coral-snake",
@@ -5792,7 +5863,7 @@
       "family": "Elapidae",
       "genus": "Micrurus",
       "dangerScore": 18,
-      "dangerRank": "56/125",
+      "dangerRank": "56/126",
       "dangerScoreComponents": {
         "clinicalScore": 25,
         "potencyScore": 66,
@@ -5818,6 +5889,18 @@
         "Neurotoxic"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Minimal pain",
+          "Numbness"
+        ],
+        "prog": [
+          "Paralysis"
+        ],
+        "crit": [
+          "Respiratory failure rare"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -5849,11 +5932,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southern United States",
-        "Mexico"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 3,
@@ -5862,28 +5940,25 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "continent": "North America",
+      "subregions": [
+        "Southern United States",
+        "Mexico"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain"
+          "Minimal pain",
+          "Numbness"
         ],
         "neurological": [
-          "Paralysis",
-          "Respiratory Failure"
+          "Paralysis"
         ],
         "blood": [
-          "N/A"
+          "Respiratory failure rare"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "eyelash-viper",
@@ -5892,7 +5967,7 @@
       "family": "Viperidae",
       "genus": "Bothriechis",
       "dangerScore": 17,
-      "dangerRank": "57/125",
+      "dangerRank": "57/126",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 38,
@@ -5919,6 +5994,19 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Blisters"
+        ],
+        "prog": [
+          "Local necrosis"
+        ],
+        "crit": [
+          "Rare systemic"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -5978,10 +6066,113 @@
         "Reptile Database",
         "Wikipedia"
       ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 1,
+          "high": 5
+        },
+        "whoCategory": 2,
+        "severity": "Moderate"
+      },
       "continent": "North America",
       "subregions": [
         "Central America",
         "South America"
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain",
+          "Swelling",
+          "Blisters"
+        ],
+        "neurological": [
+          "Local necrosis"
+        ],
+        "blood": [
+          "Rare systemic"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
+    },
+    {
+      "id": "keelback",
+      "commonName": "Asian Keelback",
+      "scientificName": "Rhabdophis subminiatus",
+      "family": "Colubridae",
+      "genus": "Rhabdophis",
+      "dangerScore": 17,
+      "dangerRank": "58/126",
+      "dangerScoreComponents": {
+        "clinicalScore": 17,
+        "potencyScore": 39,
+        "yieldScore": 42,
+        "lethalityScore": 13,
+        "encounterScore": 40,
+        "speedScore": 55
+      },
+      "venomClassification": "Venomous",
+      "venomPotency": {
+        "ld50": 2.5,
+        "ld50Range": "1.5-4",
+        "unit": "mg/kg",
+        "method": "IV",
+        "ld50Normalized": 7.5,
+        "normalized": true
+      },
+      "venomYield": {
+        "dryWeight": 15,
+        "qualitative": "Low"
+      },
+      "venomTypes": [
+        "Hemotoxic"
+      ],
+      "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Bleeding"
+        ],
+        "prog": [
+          "Coagulopathy",
+          "Defibrinogenation"
+        ],
+        "crit": [
+          "Severe hemorrhage",
+          "Renal failure",
+          "Death rare but documented"
+        ]
+      },
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Southeast Asia"
+        ],
+        "habitat": "Forests, near water",
+        "coordinates": [
+          {
+            "lat": 15,
+            "lng": 105
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/keelback/primary.jpg",
+        "thumbnail": "/images/snakes/keelback/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Rushenb",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rhabdophis_siamensis-Red-necked_keelback.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "Rear-fanged. Medically significant venom: potent procoagulant and defibrinogenating. Severe coagulopathy and fatalities documented. Red neck when threatened.",
+      "sources": [
+        "WHO",
+        "Reptile Database",
+        "Wikipedia"
       ],
       "clinicalData": {
         "untreatedFatalityRate": {
@@ -5989,32 +6180,30 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate",
-        "fatalitySummary": "Rarely Fatal"
+        "severity": "Severe"
       },
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
           "Swelling",
-          "Blistering",
-          "Tissue Necrosis"
-        ],
-        "blood": [
-          "Clotting Disorder"
+          "Bleeding"
         ],
         "neurological": [
-          "N/A"
+          "Coagulopathy",
+          "Defibrinogenation"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Severe hemorrhage",
+          "Renal failure",
+          "Death rare but documented"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "waglers-pit-viper",
@@ -6023,7 +6212,7 @@
       "family": "Viperidae",
       "genus": "Tropidolaemus",
       "dangerScore": 13,
-      "dangerRank": "58/125",
+      "dangerRank": "59/126",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 30,
@@ -6049,6 +6238,18 @@
         "Hemotoxic"
       ],
       "venomSpeed": "Quick",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling"
+        ],
+        "prog": [
+          "Local tissue damage"
+        ],
+        "crit": [
+          "Rare"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -6079,10 +6280,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 0,
@@ -6091,27 +6288,24 @@
         "severity": "Mild",
         "fatalitySummary": "Rarely Fatal"
       },
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
           "Swelling"
         ],
-        "blood": [
-          "Clotting Disorder"
-        ],
         "neurological": [
-          "N/A"
+          "Local tissue damage"
         ],
-        "muscle": [
-          "N/A"
+        "blood": [
+          "Rare"
         ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "copperhead",
@@ -6120,7 +6314,7 @@
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 11,
-      "dangerRank": "59/125",
+      "dangerRank": "60/126",
       "dangerScoreComponents": {
         "clinicalScore": 5,
         "potencyScore": 24,
@@ -6148,6 +6342,21 @@
         "Cytotoxic"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Pain",
+          "Swelling",
+          "Nausea"
+        ],
+        "prog": [
+          "Tissue damage",
+          "Rare systemic effects"
+        ],
+        "crit": [
+          "Rare death",
+          "Antivenom rarely needed"
+        ]
+      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -6170,27 +6379,7 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eastern_copperhead_-_Agkistrodon_contortrix_(42669143530).jpg",
           "license": "CC BY 2.0",
           "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-        },
-        "gallery": [
-          "/images/snakes/copperhead/gallery/1.jpg",
-          "/images/snakes/copperhead/gallery/2.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Alan Rockefeller",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Agkistrodon_contortrix_242284249.jpg",
-            "license": "CC BY 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-          },
-          {
-            "photographer": "Holger Krisp",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Agkistrodon-contortrix-kupferkopf.jpg",
-            "license": "CC BY 3.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-          }
-        ]
+        }
       },
       "description": "Most common venomous snake bite in eastern US. Usually not life-threatening.",
       "sources": [
@@ -6198,43 +6387,43 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "commonlyMisidentifiedAs": [
-        "cottonmouth",
-        "water-snake"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
-      ],
-      "misidentificationRisk": "high",
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 0,
           "high": 0.5
         },
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
+      "continent": "North America",
+      "subregions": [
+        "Eastern United States"
+      ],
+      "commonlyMisidentifiedAs": [
+        "cottonmouth",
+        "water-snake"
+      ],
+      "misidentificationRisk": "high",
+      "otherCommonNames": [
+        "Highland Moccasin"
+      ],
       "symptoms": {
         "localEffects": [
           "Pain",
-          "Swelling"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
-        ],
-        "blood": [
-          "Clotting Disorder"
+          "Swelling",
+          "Nausea"
         ],
         "neurological": [
-          "N/A"
+          "Tissue damage",
+          "Rare systemic effects"
         ],
-        "muscle": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ]
+        "blood": [
+          "Rare death",
+          "Antivenom rarely needed"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "brown-tree-snake",
@@ -6243,7 +6432,7 @@
       "family": "Colubridae",
       "genus": "Boiga",
       "dangerScore": 6,
-      "dangerRank": "60/125",
+      "dangerRank": "61/126",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 25,
@@ -6269,6 +6458,17 @@
         "Mild"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Mild local effects"
+        ],
+        "prog": [
+          "Rare"
+        ],
+        "crit": [
+          "Not dangerous to adults"
+        ]
+      },
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -6301,37 +6501,33 @@
         "Reptile Database",
         "Wikipedia"
       ],
+      "clinicalData": {
+        "untreatedFatalityRate": {
+          "low": 0,
+          "high": 1
+        },
+        "severity": "Mild",
+        "fatalitySummary": "Rarely Fatal"
+      },
       "continent": "Oceania",
       "subregions": [
         "Australia",
         "Papua New Guinea",
         "Guam"
       ],
-      "clinicalData": {
-        "untreatedFatalityRate": {
-          "low": 0,
-          "high": 1
-        },
-        "severity": "Mild"
-      },
       "symptoms": {
         "localEffects": [
-          "N/A"
+          "Mild local effects"
         ],
         "neurological": [
-          "N/A"
+          "Rare"
         ],
         "blood": [
-          "N/A"
+          "Not dangerous to adults"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": []
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "garter-snake",
@@ -6340,7 +6536,7 @@
       "family": "Colubridae",
       "genus": "Thamnophis",
       "dangerScore": 5,
-      "dangerRank": "61/125",
+      "dangerRank": "62/126",
       "venomClassification": "Mildly Venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -6401,7 +6597,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 5,
-      "dangerRank": "62/125",
+      "dangerRank": "63/126",
       "venomClassification": "Mildly Venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -6440,10 +6636,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
-      ],
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 5,
@@ -6451,7 +6643,11 @@
         "lethalityScore": 5,
         "encounterScore": 40,
         "speedScore": 20
-      }
+      },
+      "continent": "North America",
+      "subregions": [
+        "Eastern United States"
+      ]
     },
     {
       "id": "green-vine-snake",
@@ -6460,15 +6656,21 @@
       "family": "Colubridae",
       "genus": "Ahaetulla",
       "dangerScore": 5,
-      "dangerRank": "63/125",
+      "dangerRank": "64/126",
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 5,
+        "yieldScore": 5,
+        "lethalityScore": 5,
+        "encounterScore": 40,
+        "speedScore": 20
+      },
       "venomClassification": "Mildly Venomous",
       "venomPotency": {
         "ld50": 300,
         "ld50Range": "200-400",
         "unit": "mg/kg",
-        "method": "IV",
-        "ld50Normalized": 900,
-        "normalized": true
+        "method": "IV"
       },
       "venomYield": {
         "dryWeight": 2,
@@ -6478,6 +6680,17 @@
         "Mild"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Mild local reaction"
+        ],
+        "prog": [
+          "None"
+        ],
+        "crit": [
+          "Harmless"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -6509,18 +6722,80 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 0,
           "high": 0
         },
-        "severity": "Mild"
+        "severity": "Mild",
+        "fatalitySummary": "Rarely Fatal"
       },
+      "continent": "Asia",
+      "subregions": [
+        "South Asia",
+        "Southeast Asia"
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Mild local reaction"
+        ],
+        "neurological": [
+          "None"
+        ],
+        "blood": [
+          "Harmless"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
+    },
+    {
+      "id": "ringneck-snake",
+      "commonName": "Ring-necked Snake",
+      "scientificName": "Diadophis punctatus",
+      "family": "Colubridae",
+      "genus": "Diadophis",
+      "dangerScore": 5,
+      "dangerRank": "65/126",
+      "venomClassification": "Mildly Venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "North America"
+        ],
+        "habitat": "Forests, woodlands",
+        "coordinates": [
+          {
+            "lat": 40,
+            "lng": -90
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/ringneck-snake/primary.jpg",
+        "thumbnail": "/images/snakes/ringneck-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Connor Long",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coral-belly_Ringneck_Snake_(Diadophis_punctatus_ssp._pulchellus).jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "Small, secretive. Yellow ring around neck. Mild venom harmless to humans.",
+      "maxLength": {
+        "value": 0.5,
+        "unit": "m"
+      },
+      "diet": [
+        "salamanders",
+        "earthworms",
+        "slugs"
+      ],
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 5,
@@ -6529,24 +6804,10 @@
         "encounterScore": 40,
         "speedScore": 20
       },
-      "symptoms": {
-        "localEffects": [
-          "N/A"
-        ],
-        "neurological": [
-          "N/A"
-        ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": []
+      "continent": "North America",
+      "subregions": [
+        "North America"
+      ]
     },
     {
       "id": "southern-hognose",
@@ -6555,7 +6816,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 4,
-      "dangerRank": "64/125",
+      "dangerRank": "66/126",
       "venomClassification": "Mildly Venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -6593,10 +6854,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 5,
@@ -6604,7 +6861,11 @@
         "lethalityScore": 5,
         "encounterScore": 20,
         "speedScore": 20
-      }
+      },
+      "continent": "North America",
+      "subregions": [
+        "Southeastern United States"
+      ]
     },
     {
       "id": "mangrove-snake",
@@ -6613,7 +6874,7 @@
       "family": "Colubridae",
       "genus": "Boiga",
       "dangerScore": 3,
-      "dangerRank": "65/125",
+      "dangerRank": "67/126",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 27,
@@ -6639,6 +6900,19 @@
         "Mild cytotoxic"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Local pain",
+          "Swelling",
+          "Mild necrosis"
+        ],
+        "prog": [
+          "Rare systemic"
+        ],
+        "crit": [
+          "Essentially not life-threatening"
+        ]
+      },
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -6669,37 +6943,33 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 0,
           "high": 0
         },
-        "severity": "Mild"
+        "severity": "Mild",
+        "fatalitySummary": "Rarely Fatal"
       },
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
+          "Local pain",
           "Swelling",
-          "Tissue Necrosis"
+          "Mild necrosis"
         ],
         "neurological": [
-          "N/A"
+          "Rare systemic"
         ],
         "blood": [
-          "N/A"
+          "Essentially not life-threatening"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": []
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "western-hognose",
@@ -6708,7 +6978,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 3,
-      "dangerRank": "66/125",
+      "dangerRank": "68/126",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -6734,6 +7004,19 @@
         "Mild cytotoxic"
       ],
       "venomSpeed": "Slow",
+      "symptomsProgression": {
+        "short": [
+          "Mild swelling",
+          "Itching",
+          "Rare allergic reaction"
+        ],
+        "prog": [
+          "Rare"
+        ],
+        "crit": [
+          "Essentially harmless to humans"
+        ]
+      },
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -6785,36 +7068,34 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Central United States",
-        "Mexico"
-      ],
       "clinicalData": {
         "untreatedFatalityRate": {
           "low": 0,
           "high": 0
         },
-        "severity": "Negligible"
+        "severity": "Negligible",
+        "fatalitySummary": "Rarely Fatal"
       },
+      "continent": "North America",
+      "subregions": [
+        "Central United States",
+        "Mexico"
+      ],
       "symptoms": {
         "localEffects": [
-          "Swelling"
+          "Mild swelling",
+          "Itching",
+          "Rare allergic reaction"
         ],
         "neurological": [
-          "N/A"
+          "Rare"
         ],
         "blood": [
-          "N/A"
+          "Essentially harmless to humans"
         ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
-      },
-      "causesOfDeath": []
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "asian-vine-snake",
@@ -6836,7 +7117,7 @@
         "habitat": "Forest edges, gardens, shrubs"
       },
       "description": "Famous green arboreal snake; mild rear-fanged venom.",
-      "dangerRank": "67/125",
+      "dangerRank": "69/126",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -6880,7 +7161,8 @@
           "low": 0,
           "high": 0
         },
-        "severity": "Negligible"
+        "severity": "Negligible",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -6923,7 +7205,7 @@
         "habitat": "Dry rocky habitats"
       },
       "description": "Mildly venomous rear-fanged species known in Mediterranean regions.",
-      "dangerRank": "68/125",
+      "dangerRank": "70/126",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -6967,7 +7249,8 @@
           "low": 0,
           "high": 0
         },
-        "severity": "Negligible"
+        "severity": "Negligible",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -6997,7 +7280,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "69/125",
+      "dangerRank": "71/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7050,7 +7333,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "70/125",
+      "dangerRank": "72/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7104,7 +7387,7 @@
       "family": "Boidae",
       "genus": "Acrantophis",
       "dangerScore": 0,
-      "dangerRank": "71/125",
+      "dangerRank": "73/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7156,7 +7439,7 @@
       "family": "Boidae",
       "genus": "Eryx",
       "dangerScore": 0,
-      "dangerRank": "72/125",
+      "dangerRank": "74/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7198,61 +7481,6 @@
       "continent": "Africa",
       "subregions": [
         "East Africa"
-      ],
-      "commonlyMisidentifiedAs": [
-        "russells-viper",
-        "saw-scaled-viper"
-      ]
-    },
-    {
-      "id": "keelback",
-      "commonName": "Asian Keelback",
-      "scientificName": "Rhabdophis subminiatus",
-      "family": "Colubridae",
-      "genus": "Rhabdophis",
-      "dangerScore": 0,
-      "dangerRank": "73/125",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Southeast Asia"
-        ],
-        "habitat": "Forests, near water",
-        "coordinates": [
-          {
-            "lat": 15,
-            "lng": 105
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/keelback/primary.jpg",
-        "thumbnail": "/images/snakes/keelback/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Rushenb",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rhabdophis_siamensis-Red-necked_keelback.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "description": "Rear-fanged. Mild venom. Red neck when threatened.",
-      "maxLength": {
-        "value": 1.2,
-        "unit": "m"
-      },
-      "diet": [
-        "frogs",
-        "fish"
-      ],
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
       ]
     },
     {
@@ -7262,7 +7490,7 @@
       "family": "Colubridae",
       "genus": "Ptyas",
       "dangerScore": 0,
-      "dangerRank": "74/125",
+      "dangerRank": "75/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7307,12 +7535,7 @@
       "subregions": [
         "South Asia",
         "Southeast Asia"
-      ],
-      "commonlyMisidentifiedAs": [
-        "indian-cobra",
-        "monocled-cobra"
-      ],
-      "misidentificationRisk": "high"
+      ]
     },
     {
       "id": "blood-python",
@@ -7321,7 +7544,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "75/125",
+      "dangerRank": "76/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7373,7 +7596,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "76/125",
+      "dangerRank": "77/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7393,11 +7616,11 @@
         "primary": "/images/snakes/burmese-python/primary.jpg",
         "thumbnail": "/images/snakes/burmese-python/thumbnail.jpg",
         "attribution": {
-          "photographer": "Cvmontuy",
+          "photographer": "Rushen",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Python_bivittatus_1701.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Python_bivittatus,_Burmese_python_(juvenile)_-_Kaeng_Krachan_National_Park_(26928549504).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
         }
       },
       "description": "One of the five largest snakes. Invasive in Florida Everglades.",
@@ -7427,7 +7650,7 @@
       "family": "Colubridae",
       "genus": "Lampropeltis",
       "dangerScore": 0,
-      "dangerRank": "77/125",
+      "dangerRank": "78/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7467,14 +7690,10 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
+      "continent": "North America",
       "subregions": [
         "Americas"
-      ],
-      "commonlyMisidentifiedAs": [
-        "coral-snake"
-      ],
-      "misidentificationRisk": "high"
+      ]
     },
     {
       "id": "paradise-flying-snake",
@@ -7483,7 +7702,7 @@
       "family": "Colubridae",
       "genus": "Chrysopelea",
       "dangerScore": 0,
-      "dangerRank": "78/125",
+      "dangerRank": "79/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7534,7 +7753,7 @@
       "family": "Pythonidae",
       "genus": "Malayopython",
       "dangerScore": 0,
-      "dangerRank": "79/125",
+      "dangerRank": "80/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7586,7 +7805,7 @@
       "family": "Colubridae",
       "genus": "Zamenis",
       "dangerScore": 0,
-      "dangerRank": "80/125",
+      "dangerRank": "81/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7639,7 +7858,7 @@
       "family": "Colubridae",
       "genus": "Natrix",
       "dangerScore": 0,
-      "dangerRank": "81/125",
+      "dangerRank": "82/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -7692,7 +7911,7 @@
       "family": "Colubridae",
       "genus": "Zamenis",
       "dangerScore": 0,
-      "dangerRank": "82/125",
+      "dangerRank": "83/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7744,7 +7963,7 @@
       "family": "Colubridae",
       "genus": "Elaphe",
       "dangerScore": 0,
-      "dangerRank": "83/125",
+      "dangerRank": "84/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7795,7 +8014,7 @@
       "family": "Colubridae",
       "genus": "Natrix",
       "dangerScore": 0,
-      "dangerRank": "84/125",
+      "dangerRank": "85/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -7848,7 +8067,7 @@
       "family": "Colubridae",
       "genus": "Malpolon",
       "dangerScore": 0,
-      "dangerRank": "85/125",
+      "dangerRank": "86/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7928,7 +8147,7 @@
       "family": "Colubridae",
       "genus": "Coronella",
       "dangerScore": 0,
-      "dangerRank": "86/125",
+      "dangerRank": "87/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -7979,7 +8198,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "87/125",
+      "dangerRank": "88/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -7999,8 +8218,8 @@
         "thumbnail": "/images/snakes/black-rat-snake/thumbnail.jpg",
         "gallery": [
           "/images/snakes/black-rat-snake/gallery/1.jpg",
-          "/images/snakes/black-rat-snake/gallery/3.jpg",
-          "/images/snakes/black-rat-snake/gallery/4.jpg"
+          "/images/snakes/black-rat-snake/gallery/2.jpg",
+          "/images/snakes/black-rat-snake/gallery/3.jpg"
         ],
         "attribution": {
           "photographer": "Chuck Homler, Focus On Wildlife",
@@ -8018,16 +8237,16 @@
             "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
           },
           {
+            "photographer": "Chuck Homler, Focus On Wildlife",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Rat_Snake_(Pantherophis_obsoletus).jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          },
+          {
             "photographer": "Peter Paplanus ",
             "source": "Wikimedia Commons",
             "sourceUrl": "https://commons.wikimedia.org/wiki/File:Erdnatter_(Pantherophis_obsoletus),_Oberseite.jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          },
-          {
-            "photographer": "Judy Gallagher",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Rat_Snake_-_Pantherophis_obsoletus,_Lorton_Workhouse,_Lorton,_Virginia_(42897485540).jpg",
             "license": "CC BY 2.0",
             "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
           }
@@ -8059,7 +8278,7 @@
       "family": "Boidae",
       "genus": "Boa",
       "dangerScore": 0,
-      "dangerRank": "88/125",
+      "dangerRank": "89/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8085,35 +8304,7 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
           "license": "CC BY-SA 2.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        },
-        "gallery": [
-          "/images/snakes/boa-constrictor/gallery/1.jpg",
-          "/images/snakes/boa-constrictor/gallery/2.jpg",
-          "/images/snakes/boa-constrictor/gallery/3.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "I would appreciate being notified if you use my work outside Wikimedia.\nDo not copy this image illegally by ignoring the terms of the license below, as it is not in the public domain. If you would like special permission to use, license, or purchase the image please contact me to negotiate terms.\n\nMore of my work can be found in my personal gallery.",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boa_constrictor,_Va%C5%88kovka,_Brno_(2).jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          },
-          {
-            "photographer": "Kristof Zyskowski",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boa_constrictor_constrictor_258755801.jpg",
-            "license": "CC BY 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-          },
-          {
-            "photographer": "Kristof Zyskowski",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boa_constrictor_constrictor_258755669.jpg",
-            "license": "CC BY 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-          }
-        ]
+        }
       },
       "description": "A large, heavy-bodied constrictor. Kills prey by coiling around it and suffocation. Popular in the pet trade.",
       "maxLength": {
@@ -8167,7 +8358,7 @@
       ],
       "constrictor": true,
       "dangerScore": 0,
-      "dangerRank": "89/125",
+      "dangerRank": "90/126",
       "venomClassification": "Non-venomous",
       "images": {
         "primary": "/images/snakes/boa-imperator/primary.jpg",
@@ -8189,13 +8380,10 @@
       "id": "bullsnake",
       "commonName": "Bullsnake",
       "scientificName": "Pituophis catenifer sayi",
-      "otherCommonNames": [
-        "Gopher Snake"
-      ],
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "90/125",
+      "dangerRank": "91/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8247,7 +8435,7 @@
       "family": "Colubridae",
       "genus": "Lampropeltis",
       "dangerScore": 0,
-      "dangerRank": "91/125",
+      "dangerRank": "92/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8301,7 +8489,7 @@
       "family": "Colubridae",
       "genus": "Leptodeira",
       "dangerScore": 0,
-      "dangerRank": "92/125",
+      "dangerRank": "93/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8373,7 +8561,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "93/125",
+      "dangerRank": "94/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8425,7 +8613,7 @@
       "family": "Colubridae",
       "genus": "Chironius",
       "dangerScore": 0,
-      "dangerRank": "94/125",
+      "dangerRank": "95/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8465,7 +8653,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
+      "continent": "South America",
       "subregions": [
         "Caribbean",
         "South America"
@@ -8478,7 +8666,7 @@
       "family": "Colubridae",
       "genus": "Storeria",
       "dangerScore": 0,
-      "dangerRank": "95/125",
+      "dangerRank": "96/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -8530,7 +8718,7 @@
       "family": "Colubridae",
       "genus": "Drymarchon",
       "dangerScore": 0,
-      "dangerRank": "96/125",
+      "dangerRank": "97/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8583,7 +8771,7 @@
       "family": "Colubridae",
       "genus": "Thamnophis",
       "dangerScore": 0,
-      "dangerRank": "97/125",
+      "dangerRank": "98/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -8634,7 +8822,7 @@
       "family": "Colubridae",
       "genus": "Carphophis",
       "dangerScore": 0,
-      "dangerRank": "98/125",
+      "dangerRank": "99/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8685,7 +8873,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "99/125",
+      "dangerRank": "100/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8764,7 +8952,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "100/125",
+      "dangerRank": "101/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8816,7 +9004,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "101/125",
+      "dangerRank": "102/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8867,7 +9055,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "102/125",
+      "dangerRank": "103/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8918,7 +9106,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "103/125",
+      "dangerRank": "104/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8969,7 +9157,7 @@
       "family": "Colubridae",
       "genus": "Nerodia",
       "dangerScore": 0,
-      "dangerRank": "104/125",
+      "dangerRank": "105/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -9013,8 +9201,7 @@
         "Eastern North America"
       ],
       "commonlyMisidentifiedAs": [
-        "cottonmouth",
-        "copperhead"
+        "cottonmouth"
       ],
       "misidentificationRisk": "high"
     },
@@ -9025,7 +9212,7 @@
       "family": "Colubridae",
       "genus": "Storeria",
       "dangerScore": 0,
-      "dangerRank": "105/125",
+      "dangerRank": "106/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9082,65 +9269,13 @@
       ]
     },
     {
-      "id": "ringneck-snake",
-      "commonName": "Ring-necked Snake",
-      "scientificName": "Diadophis punctatus",
-      "family": "Colubridae",
-      "genus": "Diadophis",
-      "dangerScore": 0,
-      "dangerRank": "106/125",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "North America"
-        ],
-        "habitat": "Forests, woodlands",
-        "coordinates": [
-          {
-            "lat": 40,
-            "lng": -90
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/ringneck-snake/primary.jpg",
-        "thumbnail": "/images/snakes/ringneck-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Connor Long",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Coral-belly_Ringneck_Snake_(Diadophis_punctatus_ssp._pulchellus).jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "description": "Small, secretive. Yellow ring around neck. Mild venom harmless to humans.",
-      "maxLength": {
-        "value": 0.5,
-        "unit": "m"
-      },
-      "diet": [
-        "salamanders",
-        "earthworms",
-        "slugs"
-      ],
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "North America"
-      ]
-    },
-    {
       "id": "rosy-boa",
       "commonName": "Rosy Boa",
       "scientificName": "Lichanura trivirgata",
       "family": "Boidae",
       "genus": "Lichanura",
       "dangerScore": 0,
-      "dangerRank": "107/125",
+      "dangerRank": "107/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9194,7 +9329,7 @@
       "family": "Colubridae",
       "genus": "Opheodrys",
       "dangerScore": 0,
-      "dangerRank": "108/125",
+      "dangerRank": "108/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9245,7 +9380,7 @@
       "family": "Boidae",
       "genus": "Charina",
       "dangerScore": 0,
-      "dangerRank": "109/125",
+      "dangerRank": "109/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9309,7 +9444,7 @@
       "family": "Colubridae",
       "genus": "Opheodrys",
       "dangerScore": 0,
-      "dangerRank": "110/125",
+      "dangerRank": "110/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9360,7 +9495,7 @@
       "family": "Pythonidae",
       "genus": "Simalia",
       "dangerScore": 0,
-      "dangerRank": "111/125",
+      "dangerRank": "111/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9416,7 +9551,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "112/125",
+      "dangerRank": "112/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9470,7 +9605,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "113/125",
+      "dangerRank": "113/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9534,7 +9669,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "114/125",
+      "dangerRank": "114/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9609,7 +9744,7 @@
       ],
       "constrictor": true,
       "dangerScore": 0,
-      "dangerRank": "115/125",
+      "dangerRank": "115/126",
       "venomClassification": "Non-venomous",
       "images": {
         "primary": "/images/snakes/emerald-tree-python/primary.jpg",
@@ -9634,7 +9769,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "116/125",
+      "dangerRank": "116/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9690,7 +9825,7 @@
       "family": "Pythonidae",
       "genus": "Liasis",
       "dangerScore": 0,
-      "dangerRank": "117/125",
+      "dangerRank": "117/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9742,7 +9877,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "118/125",
+      "dangerRank": "118/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9793,7 +9928,7 @@
       "family": "Pythonidae",
       "genus": "Simalia",
       "dangerScore": 0,
-      "dangerRank": "119/125",
+      "dangerRank": "119/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9847,7 +9982,7 @@
       "family": "Pythonidae",
       "genus": "Aspidites",
       "dangerScore": 0,
-      "dangerRank": "120/125",
+      "dangerRank": "120/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9927,7 +10062,7 @@
       "family": "Boidae",
       "genus": "Corallus",
       "dangerScore": 0,
-      "dangerRank": "121/125",
+      "dangerRank": "121/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9999,7 +10134,7 @@
       "family": "Boidae",
       "genus": "Epicrates",
       "dangerScore": 0,
-      "dangerRank": "122/125",
+      "dangerRank": "122/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10051,7 +10186,7 @@
       "family": "Boidae",
       "genus": "Corallus",
       "dangerScore": 0,
-      "dangerRank": "123/125",
+      "dangerRank": "123/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10131,7 +10266,7 @@
       "family": "Boidae",
       "genus": "Eunectes",
       "dangerScore": 0,
-      "dangerRank": "124/125",
+      "dangerRank": "124/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10185,7 +10320,7 @@
       "family": "Boidae",
       "genus": "Eunectes",
       "dangerScore": 0,
-      "dangerRank": "125/125",
+      "dangerRank": "125/126",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10229,6 +10364,56 @@
       "continent": "South America",
       "subregions": [
         "South America"
+      ]
+    },
+    {
+      "id": "brahminy-blind-snake",
+      "commonName": "Brahminy Blind Snake",
+      "scientificName": "Indotyphlops braminus",
+      "otherCommonNames": [
+        "Flowerpot Snake",
+        "Bootlace Snake"
+      ],
+      "family": "Typhlopidae",
+      "genus": "Indotyphlops",
+      "continent": "Asia",
+      "subregions": [
+        "Cosmopolitan (Global)"
+      ],
+      "dangerScore": 0,
+      "dangerRank": "126/126",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "High",
+      "misidentificationRisk": "high",
+      "commonlyMisidentifiedAs": [],
+      "distribution": {
+        "regions": [
+          "Cosmopolitan (Global)"
+        ],
+        "habitat": "Gardens, flowerpots, leaf litter, agricultural land",
+        "rangeGeoJsonPath": "/geojson/ranges/brahminy-blind-snake.json"
+      },
+      "images": {
+        "primary": "/images/snakes/brahminy-blind-snake/primary.jpg",
+        "thumbnail": "/images/snakes/brahminy-blind-snake/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Dr. Raju Kasambe",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brahminy_Blind_Snake_Indotyphlops_braminus_by_Dr._Raju_Kasambe_DSCN4869_(6).jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "The Brahminy Blind Snake is one of the world's smallest snakes and the only known parthenogenic snake species (all individuals are female). Often mistaken for earthworms, they are frequently transported globally in the soil of potted plants.",
+      "behaviorNotes": "Completely harmless to humans. They are fossorial (burrowing) and feed on the eggs and larvae of ants and termites.",
+      "conservationStatus": "Least Concern",
+      "maxLength": {
+        "value": 15,
+        "unit": "cm"
+      },
+      "diet": [
+        "Ant eggs",
+        "Termite larvae"
       ]
     }
   ]

@@ -1,15 +1,39 @@
 {
-  "african-rock-python": {
-    "scientificName": "Python natalensis",
-    "taxonId": 111451,
-    "taxonName": "Python natalensis",
+  "russells-viper": {
+    "scientificName": "Daboia russelii",
+    "taxonId": 30687,
+    "taxonName": "Daboia russelii",
     "status": "matched"
   },
-  "ball-python": {
-    "scientificName": "Python regius",
-    "taxonId": 32158,
-    "taxonName": "Python regius",
+  "coastal-taipan": {
+    "scientificName": "Oxyuranus scutellatus",
+    "taxonId": 35170,
+    "taxonName": "Oxyuranus scutellatus",
     "status": "matched"
+  },
+  "philippine-cobra": {
+    "scientificName": "Naja philippinensis",
+    "taxonId": 73875,
+    "taxonName": "Naja philippinensis",
+    "status": "no-geojson"
+  },
+  "tiger-snake": {
+    "scientificName": "Notechis scutatus",
+    "taxonId": 35178,
+    "taxonName": "Notechis scutatus",
+    "status": "matched"
+  },
+  "puff-adder": {
+    "scientificName": "Bitis arietans",
+    "taxonId": 30851,
+    "taxonName": "Bitis arietans",
+    "status": "matched"
+  },
+  "inland-taipan": {
+    "scientificName": "Oxyuranus microlepidotus",
+    "taxonId": 35172,
+    "taxonName": "Oxyuranus microlepidotus",
+    "status": "no-geojson"
   },
   "black-mamba": {
     "scientificName": "Dendroaspis polylepis",
@@ -17,16 +41,22 @@
     "taxonName": "Dendroaspis polylepis",
     "status": "matched"
   },
-  "black-necked-spitting-cobra": {
-    "scientificName": "Naja nigricollis",
-    "taxonId": 30476,
-    "taxonName": "Naja nigricollis",
+  "indian-cobra": {
+    "scientificName": "Naja naja",
+    "taxonId": 53492,
+    "taxonName": "Naja naja",
     "status": "matched"
   },
-  "boomslang": {
-    "scientificName": "Dispholidus typus",
-    "taxonId": 30358,
-    "taxonName": "Dispholidus typus",
+  "monocled-cobra": {
+    "scientificName": "Naja kaouthia",
+    "taxonId": 106447,
+    "taxonName": "Naja kaouthia",
+    "status": "matched"
+  },
+  "death-adder": {
+    "scientificName": "Acanthophis antarcticus",
+    "taxonId": 35060,
+    "taxonName": "Acanthophis antarcticus",
     "status": "matched"
   },
   "cape-cobra": {
@@ -35,17 +65,41 @@
     "taxonName": "Naja nivea",
     "status": "matched"
   },
-  "dumerils-boa": {
-    "scientificName": "Acrantophis dumerili",
-    "taxonId": 32121,
-    "taxonName": "Acrantophis dumerili",
+  "south-american-rattlesnake": {
+    "scientificName": "Crotalus durissus",
+    "taxonId": 30693,
+    "taxonName": "Crotalus durissus",
     "status": "matched"
   },
-  "green-mamba": {
-    "scientificName": "Dendroaspis angusticeps",
-    "taxonId": 30411,
-    "taxonName": "Dendroaspis angusticeps",
+  "common-krait": {
+    "scientificName": "Bungarus caeruleus",
+    "taxonId": 96224,
+    "taxonName": "Bungarus caeruleus",
     "status": "matched"
+  },
+  "eastern-brown-snake": {
+    "scientificName": "Pseudonaja textilis",
+    "taxonId": 35140,
+    "taxonName": "Pseudonaja textilis",
+    "status": "matched"
+  },
+  "king-cobra": {
+    "scientificName": "Ophiophagus hannah",
+    "taxonId": 30472,
+    "taxonName": "Ophiophagus hannah",
+    "status": "matched"
+  },
+  "fer-de-lance": {
+    "scientificName": "Bothrops asper",
+    "taxonId": 30798,
+    "taxonName": "Bothrops asper",
+    "status": "matched"
+  },
+  "carpet-viper": {
+    "scientificName": "Echis ocellatus",
+    "taxonId": 99689,
+    "taxonName": "Echis ocellatus",
+    "status": "no-geojson"
   },
   "egyptian-cobra": {
     "scientificName": "Naja haje",
@@ -59,10 +113,130 @@
     "taxonName": "Naja melanoleuca",
     "status": "matched"
   },
+  "saw-scaled-viper": {
+    "scientificName": "Echis carinatus",
+    "taxonId": 31079,
+    "taxonName": "Echis carinatus",
+    "status": "matched"
+  },
+  "western-diamondback": {
+    "scientificName": "Crotalus atrox",
+    "taxonId": 30764,
+    "taxonName": "Crotalus atrox",
+    "status": "matched"
+  },
+  "eastern-diamondback": {
+    "scientificName": "Crotalus adamanteus",
+    "taxonId": 53491,
+    "taxonName": "Crotalus adamanteus",
+    "status": "matched"
+  },
+  "beaked-sea-snake": {
+    "scientificName": "Hydrophis schistosus",
+    "taxonId": 318698,
+    "taxonName": "Hydrophis schistosus",
+    "status": "matched"
+  },
+  "black-necked-spitting-cobra": {
+    "scientificName": "Naja nigricollis",
+    "taxonId": 30476,
+    "taxonName": "Naja nigricollis",
+    "status": "matched"
+  },
+  "javan-spitting-cobra": {
+    "scientificName": "Naja sputatrix",
+    "taxonId": 30482,
+    "taxonName": "Naja sputatrix",
+    "status": "matched"
+  },
+  "many-banded-krait": {
+    "scientificName": "Bungarus multicinctus",
+    "taxonId": 30442,
+    "taxonName": "Bungarus multicinctus",
+    "status": "matched"
+  },
+  "bushmaster": {
+    "scientificName": "Lachesis muta",
+    "taxonId": 73840,
+    "taxonName": "Lachesis muta",
+    "status": "matched"
+  },
+  "green-mamba": {
+    "scientificName": "Dendroaspis angusticeps",
+    "taxonId": 30411,
+    "taxonName": "Dendroaspis angusticeps",
+    "status": "matched"
+  },
+  "boomslang-southern": {
+    "scientificName": "Dispholidus typus",
+    "taxonId": 30358,
+    "taxonName": "Dispholidus typus",
+    "status": "matched"
+  },
+  "banded-krait": {
+    "scientificName": "Bungarus fasciatus",
+    "taxonId": 30448,
+    "taxonName": "Bungarus fasciatus",
+    "status": "matched"
+  },
+  "mulga-snake": {
+    "scientificName": "Pseudechis australis",
+    "taxonId": 35161,
+    "taxonName": "Pseudechis australis",
+    "status": "matched"
+  },
+  "lowlands-copperhead": {
+    "scientificName": "Austrelaps superbus",
+    "taxonId": 94946,
+    "taxonName": "Austrelaps superbus",
+    "status": "matched"
+  },
+  "timber-rattlesnake": {
+    "scientificName": "Crotalus horridus",
+    "taxonId": 30746,
+    "taxonName": "Crotalus horridus",
+    "status": "matched"
+  },
+  "mojave-rattlesnake": {
+    "scientificName": "Crotalus scutulatus",
+    "taxonId": 30719,
+    "taxonName": "Crotalus scutulatus",
+    "status": "matched"
+  },
+  "boomslang": {
+    "scientificName": "Dispholidus typus",
+    "taxonId": 30358,
+    "taxonName": "Dispholidus typus",
+    "status": "matched"
+  },
   "gaboon-viper": {
     "scientificName": "Bitis gabonica",
     "taxonId": 30853,
     "taxonName": "Bitis gabonica",
+    "status": "matched"
+  },
+  "malayan-pit-viper": {
+    "scientificName": "Calloselasma rhodostoma",
+    "taxonId": 30825,
+    "taxonName": "Calloselasma rhodostoma",
+    "status": "matched"
+  },
+  "yellow-bellied-sea-snake": {
+    "scientificName": "Hydrophis platurus",
+    "taxonId": 35164,
+    "taxonName": "Hydrophis platurus",
+    "status": "matched"
+  },
+  "dugite": {
+    "scientificName": "Pseudonaja affinis",
+    "taxonId": 35148,
+    "taxonName": "Pseudonaja affinis",
+    "status": "matched"
+  },
+  "jararaca": {
+    "scientificName": "Bothrops jararaca",
+    "taxonId": 539050,
+    "taxonName": "Bothrops jararaca",
     "status": "matched"
   },
   "egyptian-viper": {
@@ -71,10 +245,70 @@
     "taxonName": "Cerastes cerastes",
     "status": "matched"
   },
-  "sand-boa": {
-    "scientificName": "Eryx colubrinus",
-    "taxonId": 32208,
-    "taxonName": "Eryx colubrinus",
+  "prairie-rattlesnake": {
+    "scientificName": "Crotalus viridis",
+    "taxonId": 81526,
+    "taxonName": "Crotalus viridis",
+    "status": "matched"
+  },
+  "massasauga": {
+    "scientificName": "Sistrurus catenatus",
+    "taxonId": 520469,
+    "taxonName": "Sistrurus catenatus",
+    "status": "matched"
+  },
+  "cantil": {
+    "scientificName": "Agkistrodon bilineatus",
+    "taxonId": 534187,
+    "taxonName": "Agkistrodon bilineatus",
+    "status": "matched"
+  },
+  "japanese-mamushi": {
+    "scientificName": "Gloydius blomhoffii",
+    "taxonId": 31071,
+    "taxonName": "Gloydius blomhoffii",
+    "status": "matched"
+  },
+  "red-bellied-black-snake": {
+    "scientificName": "Pseudechis porphyriacus",
+    "taxonId": 35153,
+    "taxonName": "Pseudechis porphyriacus",
+    "status": "matched"
+  },
+  "stiletto-snake": {
+    "scientificName": "Atractaspis bibronii",
+    "taxonId": 116496,
+    "taxonName": "Atractaspis bibronii",
+    "status": "matched"
+  },
+  "white-lipped-viper": {
+    "scientificName": "Trimeresurus albolabris",
+    "taxonId": 146506,
+    "taxonName": "Trimeresurus albolabris",
+    "status": "matched"
+  },
+  "nose-horned-viper": {
+    "scientificName": "Vipera ammodytes",
+    "taxonId": 81522,
+    "taxonName": "Vipera ammodytes",
+    "status": "matched"
+  },
+  "common-adder": {
+    "scientificName": "Vipera berus",
+    "taxonId": 966698,
+    "taxonName": "Vipera berus",
+    "status": "matched"
+  },
+  "coral-snake": {
+    "scientificName": "Micrurus fulvius",
+    "taxonId": 73867,
+    "taxonName": "Micrurus fulvius",
+    "status": "matched"
+  },
+  "cottonmouth": {
+    "scientificName": "Agkistrodon piscivorus",
+    "taxonId": 904170,
+    "taxonName": "Agkistrodon piscivorus",
     "status": "matched"
   },
   "night-adder": {
@@ -83,28 +317,124 @@
     "taxonName": "Causus rhombeatus",
     "status": "matched"
   },
-  "puff-adder": {
-    "scientificName": "Bitis arietans",
-    "taxonId": 30851,
-    "taxonName": "Bitis arietans",
+  "asp-viper": {
+    "scientificName": "Vipera aspis",
+    "taxonId": 30929,
+    "taxonName": "Vipera aspis",
     "status": "matched"
   },
-  "saw-scaled-viper": {
-    "scientificName": "Echis carinatus",
-    "taxonId": 31079,
-    "taxonName": "Echis carinatus",
+  "rock-rattlesnake": {
+    "scientificName": "Crotalus lepidus",
+    "taxonId": 30740,
+    "taxonName": "Crotalus lepidus",
     "status": "matched"
   },
-  "carpet-viper": {
-    "scientificName": "Echis ocellatus",
-    "taxonId": 99689,
-    "taxonName": "Echis ocellatus",
-    "status": "no-geojson"
+  "texas-coral-snake": {
+    "scientificName": "Micrurus tener",
+    "taxonId": 30494,
+    "taxonName": "Micrurus tener",
+    "status": "matched"
   },
-  "boomslang-southern": {
-    "scientificName": "Dispholidus typus",
-    "taxonId": 30358,
-    "taxonName": "Dispholidus typus",
+  "eyelash-viper": {
+    "scientificName": "Bothriechis schlegelii",
+    "taxonId": 30844,
+    "taxonName": "Bothriechis schlegelii",
+    "status": "matched"
+  },
+  "waglers-pit-viper": {
+    "scientificName": "Tropidolaemus wagleri",
+    "taxonId": 30936,
+    "taxonName": "Tropidolaemus wagleri",
+    "status": "matched"
+  },
+  "copperhead": {
+    "scientificName": "Agkistrodon contortrix",
+    "taxonId": 912622,
+    "taxonName": "Agkistrodon contortrix",
+    "status": "matched"
+  },
+  "brown-tree-snake": {
+    "scientificName": "Boiga irregularis",
+    "taxonId": 27686,
+    "taxonName": "Boiga irregularis",
+    "status": "matched"
+  },
+  "garter-snake": {
+    "scientificName": "Thamnophis sirtalis",
+    "taxonId": 28362,
+    "taxonName": "Thamnophis sirtalis",
+    "status": "matched"
+  },
+  "hognose-eastern": {
+    "scientificName": "Heterodon platirhinos",
+    "taxonId": 29925,
+    "taxonName": "Heterodon platirhinos",
+    "status": "matched"
+  },
+  "green-vine-snake": {
+    "scientificName": "Ahaetulla nasuta",
+    "taxonId": 68528,
+    "taxonName": "Ahaetulla nasuta",
+    "status": "matched"
+  },
+  "ringneck-snake": {
+    "scientificName": "Diadophis punctatus",
+    "taxonId": 26575,
+    "taxonName": "Diadophis punctatus",
+    "status": "matched"
+  },
+  "southern-hognose": {
+    "scientificName": "Heterodon simus",
+    "taxonId": 29924,
+    "taxonName": "Heterodon simus",
+    "status": "matched"
+  },
+  "mangrove-snake": {
+    "scientificName": "Boiga dendrophila",
+    "taxonId": 27623,
+    "taxonName": "Boiga dendrophila",
+    "status": "matched"
+  },
+  "western-hognose": {
+    "scientificName": "Heterodon nasicus",
+    "taxonId": 29927,
+    "taxonName": "Heterodon nasicus",
+    "status": "matched"
+  },
+  "asian-vine-snake": {
+    "scientificName": "Ahaetulla prasina",
+    "taxonId": 30187,
+    "taxonName": "Ahaetulla prasina",
+    "status": "matched"
+  },
+  "european-cat-snake": {
+    "scientificName": "Telescopus fallax",
+    "taxonId": 64078,
+    "taxonName": "Telescopus fallax",
+    "status": "matched"
+  },
+  "african-rock-python": {
+    "scientificName": "Python natalensis",
+    "taxonId": 111451,
+    "taxonName": "Python natalensis",
+    "status": "matched"
+  },
+  "ball-python": {
+    "scientificName": "Python regius",
+    "taxonId": 32158,
+    "taxonName": "Python regius",
+    "status": "matched"
+  },
+  "dumerils-boa": {
+    "scientificName": "Acrantophis dumerili",
+    "taxonId": 32121,
+    "taxonName": "Acrantophis dumerili",
+    "status": "matched"
+  },
+  "sand-boa": {
+    "scientificName": "Eryx colubrinus",
+    "taxonId": 32208,
+    "taxonName": "Eryx colubrinus",
     "status": "matched"
   },
   "keelback": {
@@ -119,18 +449,6 @@
     "taxonName": "Ptyas mucosa",
     "status": "matched"
   },
-  "asian-vine-snake": {
-    "scientificName": "Ahaetulla prasina",
-    "taxonId": 30187,
-    "taxonName": "Ahaetulla prasina",
-    "status": "matched"
-  },
-  "banded-krait": {
-    "scientificName": "Bungarus fasciatus",
-    "taxonId": 30448,
-    "taxonName": "Bungarus fasciatus",
-    "status": "matched"
-  },
   "blood-python": {
     "scientificName": "Python brongersmai",
     "taxonId": 32162,
@@ -143,70 +461,10 @@
     "taxonName": "Python bivittatus",
     "status": "matched"
   },
-  "common-krait": {
-    "scientificName": "Bungarus caeruleus",
-    "taxonId": 96224,
-    "taxonName": "Bungarus caeruleus",
-    "status": "matched"
-  },
-  "green-vine-snake": {
-    "scientificName": "Ahaetulla nasuta",
-    "taxonId": 68528,
-    "taxonName": "Ahaetulla nasuta",
-    "status": "matched"
-  },
-  "indian-cobra": {
-    "scientificName": "Naja naja",
-    "taxonId": 53492,
-    "taxonName": "Naja naja",
-    "status": "matched"
-  },
-  "japanese-mamushi": {
-    "scientificName": "Gloydius blomhoffii",
-    "taxonId": 31071,
-    "taxonName": "Gloydius blomhoffii",
-    "status": "matched"
-  },
-  "javan-spitting-cobra": {
-    "scientificName": "Naja sputatrix",
-    "taxonId": 30482,
-    "taxonName": "Naja sputatrix",
-    "status": "matched"
-  },
-  "king-cobra": {
-    "scientificName": "Ophiophagus hannah",
-    "taxonId": 30472,
-    "taxonName": "Ophiophagus hannah",
-    "status": "matched"
-  },
-  "malayan-pit-viper": {
-    "scientificName": "Calloselasma rhodostoma",
-    "taxonId": 30825,
-    "taxonName": "Calloselasma rhodostoma",
-    "status": "matched"
-  },
-  "mangrove-snake": {
-    "scientificName": "Boiga dendrophila",
-    "taxonId": 27623,
-    "taxonName": "Boiga dendrophila",
-    "status": "matched"
-  },
-  "many-banded-krait": {
-    "scientificName": "Bungarus multicinctus",
-    "taxonId": 30442,
-    "taxonName": "Bungarus multicinctus",
-    "status": "matched"
-  },
   "milk-snake": {
     "scientificName": "Lampropeltis triangulum",
     "taxonId": 515419,
     "taxonName": "Lampropeltis triangulum",
-    "status": "matched"
-  },
-  "monocled-cobra": {
-    "scientificName": "Naja kaouthia",
-    "taxonId": 106447,
-    "taxonName": "Naja kaouthia",
     "status": "matched"
   },
   "paradise-flying-snake": {
@@ -215,34 +473,10 @@
     "taxonName": "Chrysopelea paradisi",
     "status": "matched"
   },
-  "philippine-cobra": {
-    "scientificName": "Naja philippinensis",
-    "taxonId": 73875,
-    "taxonName": "Naja philippinensis",
-    "status": "no-geojson"
-  },
   "reticulated-python": {
     "scientificName": "Malayopython reticulatus",
     "taxonId": 491869,
     "taxonName": "Malayopython reticulatus",
-    "status": "matched"
-  },
-  "russells-viper": {
-    "scientificName": "Daboia russelii",
-    "taxonId": 30687,
-    "taxonName": "Daboia russelii",
-    "status": "matched"
-  },
-  "waglers-pit-viper": {
-    "scientificName": "Tropidolaemus wagleri",
-    "taxonId": 30936,
-    "taxonName": "Tropidolaemus wagleri",
-    "status": "matched"
-  },
-  "white-lipped-viper": {
-    "scientificName": "Trimeresurus albolabris",
-    "taxonId": 146506,
-    "taxonName": "Trimeresurus albolabris",
     "status": "matched"
   },
   "aesculapian-snake": {
@@ -251,28 +485,10 @@
     "taxonName": "Zamenis longissimus",
     "status": "matched"
   },
-  "asp-viper": {
-    "scientificName": "Vipera aspis",
-    "taxonId": 30929,
-    "taxonName": "Vipera aspis",
-    "status": "matched"
-  },
-  "common-adder": {
-    "scientificName": "Vipera berus",
-    "taxonId": 966698,
-    "taxonName": "Vipera berus",
-    "status": "matched"
-  },
   "dice-snake": {
     "scientificName": "Natrix tessellata",
     "taxonId": 64346,
     "taxonName": "Natrix tessellata",
-    "status": "matched"
-  },
-  "european-cat-snake": {
-    "scientificName": "Telescopus fallax",
-    "taxonId": 64078,
-    "taxonName": "Telescopus fallax",
     "status": "matched"
   },
   "european-rat-snake": {
@@ -297,12 +513,6 @@
     "scientificName": "Malpolon monspessulanus",
     "taxonId": 29449,
     "taxonName": "Malpolon monspessulanus",
-    "status": "matched"
-  },
-  "nose-horned-viper": {
-    "scientificName": "Vipera ammodytes",
-    "taxonId": 81522,
-    "taxonName": "Vipera ammodytes",
     "status": "matched"
   },
   "smooth-snake": {
@@ -341,40 +551,16 @@
     "taxonName": "Lampropeltis californiae",
     "status": "matched"
   },
-  "cantil": {
-    "scientificName": "Agkistrodon bilineatus",
-    "taxonId": 534187,
-    "taxonName": "Agkistrodon bilineatus",
-    "status": "matched"
-  },
   "cat-eyed-snake": {
     "scientificName": "Leptodeira septentrionalis",
     "taxonId": 29724,
     "taxonName": "Leptodeira septentrionalis",
     "status": "matched"
   },
-  "garter-snake": {
-    "scientificName": "Thamnophis sirtalis",
-    "taxonId": 28362,
-    "taxonName": "Thamnophis sirtalis",
-    "status": "matched"
-  },
-  "copperhead": {
-    "scientificName": "Agkistrodon contortrix",
-    "taxonId": 912622,
-    "taxonName": "Agkistrodon contortrix",
-    "status": "matched"
-  },
   "corn-snake": {
     "scientificName": "Pantherophis guttatus",
     "taxonId": 73887,
     "taxonName": "Pantherophis guttatus",
-    "status": "matched"
-  },
-  "cottonmouth": {
-    "scientificName": "Agkistrodon piscivorus",
-    "taxonId": 904170,
-    "taxonName": "Agkistrodon piscivorus",
     "status": "matched"
   },
   "cuban-tree-snake": {
@@ -389,34 +575,10 @@
     "taxonName": "Storeria dekayi",
     "status": "matched"
   },
-  "coral-snake": {
-    "scientificName": "Micrurus fulvius",
-    "taxonId": 73867,
-    "taxonName": "Micrurus fulvius",
-    "status": "matched"
-  },
-  "eastern-diamondback": {
-    "scientificName": "Crotalus adamanteus",
-    "taxonId": 53491,
-    "taxonName": "Crotalus adamanteus",
-    "status": "matched"
-  },
-  "hognose-eastern": {
-    "scientificName": "Heterodon platirhinos",
-    "taxonId": 29925,
-    "taxonName": "Heterodon platirhinos",
-    "status": "matched"
-  },
   "indigo-snake": {
     "scientificName": "Drymarchon couperi",
     "taxonId": 30334,
     "taxonName": "Drymarchon couperi",
-    "status": "matched"
-  },
-  "massasauga": {
-    "scientificName": "Sistrurus catenatus",
-    "taxonId": 520469,
-    "taxonName": "Sistrurus catenatus",
     "status": "matched"
   },
   "ribbon-snake": {
@@ -429,18 +591,6 @@
     "scientificName": "Carphophis amoenus",
     "taxonId": 27388,
     "taxonName": "Carphophis amoenus",
-    "status": "matched"
-  },
-  "eyelash-viper": {
-    "scientificName": "Bothriechis schlegelii",
-    "taxonId": 30844,
-    "taxonName": "Bothriechis schlegelii",
-    "status": "matched"
-  },
-  "fer-de-lance": {
-    "scientificName": "Bothrops asper",
-    "taxonId": 30798,
-    "taxonName": "Bothrops asper",
     "status": "matched"
   },
   "fox-snake": {
@@ -467,12 +617,6 @@
     "taxonName": "Pantherophis emoryi",
     "status": "matched"
   },
-  "mojave-rattlesnake": {
-    "scientificName": "Crotalus scutulatus",
-    "taxonId": 30719,
-    "taxonName": "Crotalus scutulatus",
-    "status": "matched"
-  },
   "pine-snake": {
     "scientificName": "Pituophis melanoleucus",
     "taxonId": 29034,
@@ -485,28 +629,10 @@
     "taxonName": "Nerodia sipedon",
     "status": "matched"
   },
-  "prairie-rattlesnake": {
-    "scientificName": "Crotalus viridis",
-    "taxonId": 81526,
-    "taxonName": "Crotalus viridis",
-    "status": "matched"
-  },
   "red-bellied-snake": {
     "scientificName": "Storeria occipitomaculata",
     "taxonId": 28557,
     "taxonName": "Storeria occipitomaculata",
-    "status": "matched"
-  },
-  "ringneck-snake": {
-    "scientificName": "Diadophis punctatus",
-    "taxonId": 26575,
-    "taxonName": "Diadophis punctatus",
-    "status": "matched"
-  },
-  "rock-rattlesnake": {
-    "scientificName": "Crotalus lepidus",
-    "taxonId": 30740,
-    "taxonName": "Crotalus lepidus",
     "status": "matched"
   },
   "rosy-boa": {
@@ -533,52 +659,10 @@
     "taxonName": "Opheodrys vernalis",
     "status": "matched"
   },
-  "southern-hognose": {
-    "scientificName": "Heterodon simus",
-    "taxonId": 29924,
-    "taxonName": "Heterodon simus",
-    "status": "matched"
-  },
-  "texas-coral-snake": {
-    "scientificName": "Micrurus tener",
-    "taxonId": 30494,
-    "taxonName": "Micrurus tener",
-    "status": "matched"
-  },
-  "timber-rattlesnake": {
-    "scientificName": "Crotalus horridus",
-    "taxonId": 30746,
-    "taxonName": "Crotalus horridus",
-    "status": "matched"
-  },
-  "western-diamondback": {
-    "scientificName": "Crotalus atrox",
-    "taxonId": 30764,
-    "taxonName": "Crotalus atrox",
-    "status": "matched"
-  },
-  "western-hognose": {
-    "scientificName": "Heterodon nasicus",
-    "taxonId": 29927,
-    "taxonName": "Heterodon nasicus",
-    "status": "matched"
-  },
   "amethystine-python": {
     "scientificName": "Simalia amethistina",
     "taxonId": 540199,
     "taxonName": "Simalia amethistina",
-    "status": "matched"
-  },
-  "beaked-sea-snake": {
-    "scientificName": "Hydrophis schistosus",
-    "taxonId": 318698,
-    "taxonName": "Hydrophis schistosus",
-    "status": "matched"
-  },
-  "brown-tree-snake": {
-    "scientificName": "Boiga irregularis",
-    "taxonId": 27686,
-    "taxonName": "Boiga irregularis",
     "status": "matched"
   },
   "carpet-python": {
@@ -593,34 +677,10 @@
     "taxonName": "Morelia bredli",
     "status": "no-geojson"
   },
-  "coastal-taipan": {
-    "scientificName": "Oxyuranus scutellatus",
-    "taxonId": 35170,
-    "taxonName": "Oxyuranus scutellatus",
-    "status": "matched"
-  },
-  "death-adder": {
-    "scientificName": "Acanthophis antarcticus",
-    "taxonId": 35060,
-    "taxonName": "Acanthophis antarcticus",
-    "status": "matched"
-  },
   "diamond-python": {
     "scientificName": "Morelia spilota spilota",
     "taxonId": 50238,
     "taxonName": "Morelia spilota",
-    "status": "matched"
-  },
-  "dugite": {
-    "scientificName": "Pseudonaja affinis",
-    "taxonId": 35148,
-    "taxonName": "Pseudonaja affinis",
-    "status": "matched"
-  },
-  "eastern-brown-snake": {
-    "scientificName": "Pseudonaja textilis",
-    "taxonId": 35140,
-    "taxonName": "Pseudonaja textilis",
     "status": "matched"
   },
   "emerald-tree-python": {
@@ -635,34 +695,10 @@
     "taxonName": "Morelia viridis",
     "status": "matched"
   },
-  "inland-taipan": {
-    "scientificName": "Oxyuranus microlepidotus",
-    "taxonId": 35172,
-    "taxonName": "Oxyuranus microlepidotus",
-    "status": "no-geojson"
-  },
-  "lowlands-copperhead": {
-    "scientificName": "Austrelaps superbus",
-    "taxonId": 94946,
-    "taxonName": "Austrelaps superbus",
-    "status": "matched"
-  },
-  "mulga-snake": {
-    "scientificName": "Pseudechis australis",
-    "taxonId": 35161,
-    "taxonName": "Pseudechis australis",
-    "status": "matched"
-  },
   "olive-python": {
     "scientificName": "Liasis olivaceus",
     "taxonId": 32194,
     "taxonName": "Liasis olivaceus",
-    "status": "matched"
-  },
-  "red-bellied-black-snake": {
-    "scientificName": "Pseudechis porphyriacus",
-    "taxonId": 35153,
-    "taxonName": "Pseudechis porphyriacus",
     "status": "matched"
   },
   "rough-scaled-python": {
@@ -677,22 +713,10 @@
     "taxonName": "Simalia kinghorni",
     "status": "matched"
   },
-  "tiger-snake": {
-    "scientificName": "Notechis scutatus",
-    "taxonId": 35178,
-    "taxonName": "Notechis scutatus",
-    "status": "matched"
-  },
   "woma-python": {
     "scientificName": "Aspidites ramsayi",
     "taxonId": 32131,
     "taxonName": "Aspidites ramsayi",
-    "status": "matched"
-  },
-  "yellow-bellied-sea-snake": {
-    "scientificName": "Hydrophis platurus",
-    "taxonId": 35164,
-    "taxonName": "Hydrophis platurus",
     "status": "matched"
   },
   "amazon-tree-boa": {
@@ -707,12 +731,6 @@
     "taxonName": "Epicrates cenchria",
     "status": "matched"
   },
-  "bushmaster": {
-    "scientificName": "Lachesis muta",
-    "taxonId": 73840,
-    "taxonName": "Lachesis muta",
-    "status": "matched"
-  },
   "emerald-tree-boa": {
     "scientificName": "Corallus caninus",
     "taxonId": 32087,
@@ -725,22 +743,16 @@
     "taxonName": "Eunectes murinus",
     "status": "matched"
   },
-  "jararaca": {
-    "scientificName": "Bothrops jararaca",
-    "taxonId": 539050,
-    "taxonName": "Bothrops jararaca",
-    "status": "matched"
-  },
-  "south-american-rattlesnake": {
-    "scientificName": "Crotalus durissus",
-    "taxonId": 30693,
-    "taxonName": "Crotalus durissus",
-    "status": "matched"
-  },
   "yellow-anaconda": {
     "scientificName": "Eunectes notaeus",
     "taxonId": 100714,
     "taxonName": "Eunectes notaeus",
+    "status": "matched"
+  },
+  "brahminy-blind-snake": {
+    "scientificName": "Indotyphlops braminus",
+    "taxonId": 539844,
+    "taxonName": "Indotyphlops braminus",
     "status": "matched"
   }
 }

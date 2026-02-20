@@ -6,7 +6,6 @@ import {
   getSnakeById,
   getAllSnakes,
   isVenomous,
-  getMedianPotencyScore,
   getMedianLD50,
 } from "@/lib/snakeData";import { VenomTypeChip } from "@/components/VenomTypeChip";
 import { VenomSpeedChip } from "@/components/VenomSpeedChip";
@@ -14,7 +13,6 @@ import { VenomYieldChip } from "@/components/VenomYieldChip";
 import { SymptomChip } from "@/components/SymptomChip";
 import { DistributionMap } from "@/components/DistributionMap";
 import { DangerScoreWaterfall } from "@/components/DangerScoreWaterfall";
-import { LethalityScatterPlot } from "@/components/LethalityScatterPlot";
 import { VenomPotencyChart } from "@/components/VenomPotencyChart";
 import { hasRangeMapForSnake } from "@/lib/rangeMaps";
 import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
@@ -54,7 +52,6 @@ export default async function SnakeDetailPage({
     notFound();
   }
 
-  const medianPotencyScore = getMedianPotencyScore();
   const medianLD50 = getMedianLD50();
 
   const venomous = isVenomous(snake.venomClassification);
@@ -73,6 +70,20 @@ export default async function SnakeDetailPage({
     Boolean(snake.distribution.geometry) ||
     Boolean(snake.distribution.rangeGeoJsonPath) ||
     hasRangeMapForSnake(snake.id);
+
+  // Use symptoms if present; otherwise derive from symptomsProgression for venomous snakes
+  const sp = (snake as { symptomsProgression?: { short?: string[]; prog?: string[]; crit?: string[] } }).symptomsProgression;
+  const symptomsForDisplay =
+    snake.symptoms ??
+    (venomous && sp
+      ? {
+          localEffects: sp.short ?? [],
+          neurological: sp.prog ?? [],
+          blood: sp.crit ?? [],
+          muscle: [] as string[],
+          gastrointestinal: [] as string[],
+        }
+      : undefined);
 
   // Resolve confused snakes for the misidentification warning banner
   // Keep all IDs even if they don't exist in database (will show as faded pills)
@@ -192,10 +203,10 @@ export default async function SnakeDetailPage({
             ))}
           </div>
 
-          {/* Scientific name: rgba(0,0,0,0.70), Inter, 20px, italic, 600 */}
+          {/* Scientific name: light grey, Inter, 20px, italic, 600 */}
           <p 
             style={{
-              color: "rgba(0, 0, 0, 0.70)",
+              color: "rgba(0, 0, 0, 0.45)",
               fontFamily: "var(--font-inter), Inter, sans-serif",
               fontSize: "20px",
               fontStyle: "italic",
@@ -206,12 +217,12 @@ export default async function SnakeDetailPage({
           >
             {snake.scientificName}
           </p>
-          {/* Common name: #000, Inter, 32px, normal, 800 */}
+          {/* Common name: #000, Inter, 40px, normal, 800 */}
           <h1 
             style={{
               color: "#000",
               fontFamily: "var(--font-inter), Inter, sans-serif",
-              fontSize: "32px",
+              fontSize: "40px",
               fontStyle: "normal",
               fontWeight: 800,
               lineHeight: "normal",
@@ -224,17 +235,17 @@ export default async function SnakeDetailPage({
           {snake.description && (
             <p 
               className="text-stone-600 leading-relaxed max-w-[440px]"
-              style={{ marginBottom: "20px", fontSize: "16px" }}
+              style={{ marginBottom: "40px", fontSize: "16px" }}
             >
               {snake.description}
             </p>
           )}
 
-          {/* Taxonomy - Labels: 18px semi-bold; Values: 18px regular, black 70% */}
+          {/* Taxonomy - Labels: 16px semi-bold; Values: 16px regular, black 70% */}
           <div 
             style={{
               fontFamily: "var(--font-inter), Inter, sans-serif",
-              fontSize: "18px",
+              fontSize: "16px",
             }}
           >
             {snake.otherCommonNames && snake.otherCommonNames.length > 0 && (
@@ -243,7 +254,7 @@ export default async function SnakeDetailPage({
                 <span 
                   style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)", marginLeft: "24px" }}
                 >
-                  {snake.otherCommonNames.join(", ")}
+                  {snake.otherCommonNames[0]}
                 </span>
               </p>
             )}
@@ -271,16 +282,20 @@ export default async function SnakeDetailPage({
                 className="inline-flex flex-wrap items-center"
                 style={{ gap: "16px" }}
               >
-                <Link
-                  href={`/rank?region=${encodeURIComponent(snake.continent)}`}
-                  className="underline hover:text-stone-900 transition-colors"
-                  style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
-                >
-                  {snake.continent}
-                </Link>
-                <span style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.3)" }}>
-                  {snake.subregions.join(", ")}
-                </span>
+                {(snake.continent || snake.distribution?.regions?.length) ? (
+                  <>
+                    <Link
+                      href={`/rank?region=${encodeURIComponent(snake.continent ?? snake.distribution?.regions?.[0] ?? "")}`}
+                      className="underline hover:text-stone-900 transition-colors"
+                      style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
+                    >
+                      {snake.continent ?? snake.distribution?.regions?.[0]}
+                    </Link>
+                    <span style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.3)" }}>
+                      {(Array.isArray(snake.subregions) ? snake.subregions : snake.distribution?.regions)?.join(", ") ?? ""}
+                    </span>
+                  </>
+                ) : null}
               </span>
             </p>
 
@@ -506,10 +521,6 @@ export default async function SnakeDetailPage({
                         components={snake.dangerScoreComponents}
                         venomClassification={snake.venomClassification}
                       />
-                      <LethalityScatterPlot
-                        currentSnakeId={snake.id}
-                        allSnakes={getAllSnakes()}
-                      />
                     </>
                   ) : (
                     <div>
@@ -525,53 +536,6 @@ export default async function SnakeDetailPage({
                     Rank: {snake.dangerRank} · View full rankings →
                   </Link>
                 </div>
-
-                {/* Venom potency (LD₅₀) */}
-                {snake.venomPotency && (
-                  <div className="mb-6">
-                    <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Venom potency (LD₅₀)</h3>
-                    <Link
-                      href={`/rank?view=potency&snakeId=${snake.id}`}
-                      className="block rounded-lg p-2 -m-2 hover:bg-stone-50 transition-colors no-underline overflow-visible"
-                    >
-                      <div className="relative pt-8 max-w-md px-8 overflow-visible">
-                        <div className="h-3 bg-stone-200 rounded-full overflow-visible relative">
-                          <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-red-500 via-orange-400 to-green-500 rounded-full overflow-hidden" />
-                          <div
-                            className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-8 bg-stone-600/70"
-                            style={{ left: `${Math.min(100, Math.max(0, 100 - medianPotencyScore))}%` }}
-                          />
-                          <span
-                            className="absolute left-0 bottom-full -translate-x-1/2 text-[10px] font-medium text-stone-500 whitespace-nowrap mb-4"
-                            style={{ left: `${Math.min(100, Math.max(0, 100 - medianPotencyScore))}%` }}
-                          >
-                            Median
-                          </span>
-                          <div
-                            className="absolute top-full left-0 flex flex-col items-center -translate-x-1/2"
-                            style={{
-                              left: `${Math.min(100, Math.max(0, 100 - (snake.dangerScoreComponents?.potencyScore ?? 0)))}%`,
-                              marginTop: "6px",
-                            }}
-                          >
-                            <div
-                              className="relative inline-flex items-center justify-center font-semibold text-sm px-2.5 py-1 rounded-[6px] text-[#2c2c2c]"
-                              style={{ backgroundColor: "#E5E5E5" }}
-                            >
-                              <div
-                                className="absolute -top-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[7px]"
-                                style={{ borderBottomColor: "#E5E5E5" }}
-                                aria-hidden
-                              />
-                              ~{snake.venomPotency.ld50Range}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-xs text-center text-stone-400 mt-16">View potency ladder →</p>
-                    </Link>
-                  </div>
-                )}
 
                 {/* Venom Type */}
                 {snake.venomTypes && snake.venomTypes.length > 0 && (
@@ -626,69 +590,69 @@ export default async function SnakeDetailPage({
           {/* Right Column - Symptoms (venomous) or Info (non-venomous) */}
           <div className={venomous ? "md:col-span-2" : "md:col-span-3"}>
             <div className="bg-white rounded-xl p-6">
-              {venomous && snake.symptoms ? (
+              {venomous && symptomsForDisplay ? (
                 <>
                   <h3 className="text-lg font-bold text-[#2c2c2c] mb-4">Clinical Symptoms</h3>
                   <div className="space-y-5">
-                    {snake.symptoms.localEffects && snake.symptoms.localEffects.length > 0 && !(snake.symptoms.localEffects.length === 1 && snake.symptoms.localEffects[0] === 'N/A') && (
+                    {symptomsForDisplay.localEffects && symptomsForDisplay.localEffects.length > 0 && !(symptomsForDisplay.localEffects.length === 1 && symptomsForDisplay.localEffects[0] === 'N/A') && (
                       <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
                         <span className="mt-px">🩹</span>
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Local Effects</h4>
                           <div className="flex flex-wrap gap-2">
-                            {snake.symptoms.localEffects.map((symptom) => (
+                            {symptomsForDisplay.localEffects.map((symptom) => (
                               <SymptomChip key={symptom} symptom={symptom} />
                             ))}
                           </div>
                         </div>
                       </div>
                     )}
-                    {snake.symptoms.neurological && snake.symptoms.neurological.length > 0 && !(snake.symptoms.neurological.length === 1 && snake.symptoms.neurological[0] === 'N/A') && (
+                    {symptomsForDisplay.neurological && symptomsForDisplay.neurological.length > 0 && !(symptomsForDisplay.neurological.length === 1 && symptomsForDisplay.neurological[0] === 'N/A') && (
                        <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
                         <span className="mt-px">🧠</span>
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Neurological</h4>
                           <div className="flex flex-wrap gap-2">
-                            {snake.symptoms.neurological.map((symptom) => (
+                            {symptomsForDisplay.neurological.map((symptom) => (
                               <SymptomChip key={symptom} symptom={symptom} />
                             ))}
                           </div>
                         </div>
                       </div>
                     )}
-                     {snake.symptoms.blood && snake.symptoms.blood.length > 0 && !(snake.symptoms.blood.length === 1 && snake.symptoms.blood[0] === 'N/A') && (
+                     {symptomsForDisplay.blood && symptomsForDisplay.blood.length > 0 && !(symptomsForDisplay.blood.length === 1 && symptomsForDisplay.blood[0] === 'N/A') && (
                        <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
                         <span className="mt-px">🩸</span>
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Blood & Circulation</h4>
                           <div className="flex flex-wrap gap-2">
-                            {snake.symptoms.blood.map((symptom) => (
+                            {symptomsForDisplay.blood.map((symptom) => (
                               <SymptomChip key={symptom} symptom={symptom} />
                             ))}
                           </div>
                         </div>
                       </div>
                     )}
-                    {snake.symptoms.muscle && snake.symptoms.muscle.length > 0 && !(snake.symptoms.muscle.length === 1 && snake.symptoms.muscle[0] === 'N/A') && (
+                    {symptomsForDisplay.muscle && symptomsForDisplay.muscle.length > 0 && !(symptomsForDisplay.muscle.length === 1 && symptomsForDisplay.muscle[0] === 'N/A') && (
                        <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
                         <span className="mt-px">💪</span>
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Muscle & Kidney</h4>
                           <div className="flex flex-wrap gap-2">
-                            {snake.symptoms.muscle.map((symptom) => (
+                            {symptomsForDisplay.muscle.map((symptom) => (
                               <SymptomChip key={symptom} symptom={symptom} />
                             ))}
                           </div>
                         </div>
                       </div>
                     )}
-                    {snake.symptoms.gastrointestinal && snake.symptoms.gastrointestinal.length > 0 && !(snake.symptoms.gastrointestinal.length === 1 && snake.symptoms.gastrointestinal[0] === 'N/A') && (
+                    {symptomsForDisplay.gastrointestinal && symptomsForDisplay.gastrointestinal.length > 0 && !(symptomsForDisplay.gastrointestinal.length === 1 && symptomsForDisplay.gastrointestinal[0] === 'N/A') && (
                        <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
                         <span className="mt-px">🤢</span>
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Gastrointestinal</h4>
                           <div className="flex flex-wrap gap-2">
-                            {snake.symptoms.gastrointestinal.map((symptom) => (
+                            {symptomsForDisplay.gastrointestinal.map((symptom) => (
                               <SymptomChip key={symptom} symptom={symptom} />
                             ))}
                           </div>
@@ -743,7 +707,7 @@ export default async function SnakeDetailPage({
               )}
 
               {/* Habitat / regions info */}
-              <div className={venomous && snake.symptoms ? "mt-6 pt-5 border-t border-stone-200" : ""}>
+              <div className={venomous && symptomsForDisplay ? "mt-6 pt-5 border-t border-stone-200" : ""}>
                 <h4 className="text-xs font-bold text-[#2c2c2c] mb-2">Habitat</h4>
                 <p className="text-sm text-stone-600 mb-1">
                   <strong className="font-semibold">Regions:</strong> {snake.distribution.regions.join(", ")}

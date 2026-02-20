@@ -50,12 +50,22 @@ export function buildFullSnakeHierarchy(snakes: Snake[]): HierarchyNode {
     rank: "suborder",
   };
 
-  // Scolecophidia: no families in our DB; keep as small decorative stub
+  // Scolecophidia
   const scolecophidia: HierarchyNode = {
     name: INFRAORDER_SCOLEcOPHIDIA,
     children: [],
     rank: "infraorder",
   };
+  
+  // Families under Scolecophidia
+  const scolecophidiaFamilies = ["Typhlopidae", "Leptotyphlopidae", "Gerrhopilidae", "Xenotyphlopidae", "Anomalepididae"];
+  for (const familyName of scolecophidiaFamilies.sort()) {
+    const familySnakes = snakes.filter((s) => s.family === familyName);
+    if (familySnakes.length > 0) {
+      const familyNode = buildFamilyNode(familyName, familySnakes);
+      scolecophidia.children!.push(familyNode);
+    }
+  }
   root.children!.push(scolecophidia);
 
   // Alethinophidia -> Henophidia + Caenophidia -> families -> genera -> species
