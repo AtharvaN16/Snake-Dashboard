@@ -1,12 +1,13 @@
 import * as d3 from "d3";
-import type { BaseType } from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import { SPECIES_ZOOM_THRESHOLD, GENUS_SPECIES_LABEL_ZOOM } from "./treeConstants";
+import { radialPoint } from "./treeGeometry";
 import { nodeRadius, fontSize } from "./treeNodeStyles";
 
 interface VisibilityContext {
   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   g: d3.Selection<SVGGElement, unknown, null, undefined>;
+  labelsLayer: d3.Selection<SVGGElement, unknown, null, undefined>;
   nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string;
   isSpecies: (d: d3.HierarchyNode<HierarchyNode>) => boolean;
   currentSnakeId?: string;
@@ -15,6 +16,8 @@ interface VisibilityContext {
   getSearchHighlightNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
   getHoverActive: () => boolean;
   getHoveredNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
+  getHighlightedNodes: () => Set<d3.HierarchyNode<HierarchyNode>>;
+  getDimmedOpacity: () => { node: string; link: number };
 }
 
 /** Ext-label font size by rank — family > genus > species. large=true for snake search highlight. */
@@ -32,6 +35,10 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
   return function updateSpeciesVisibility(scale: number) {
     ctx.zoomScaleRef.current = scale;
     const hoverActive = ctx.getHoverActive();
+    const highlightedNodes = ctx.getHighlightedNodes();
+    const dimmedOpacity = ctx.getDimmedOpacity();
+    const labelOpacityFor = (nd: d3.HierarchyNode<HierarchyNode>) =>
+      hoverActive ? (highlightedNodes.has(nd) ? "1" : dimmedOpacity.node) : "1";
 
     // Species visibility is controlled by highlight when hover/click is active
     if (!hoverActive) {
@@ -71,7 +78,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     const useSideLabels = (isClickFocused || isSearchHighlighted) && !hoveredIsSpecies;
     const MIN_READABLE_PX = 8;
 
-    g.selectAll(".ext-label").remove();
+    ctx.labelsLayer.selectAll(".ext-label").remove();
 
     g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".node, .species-node")
       .each(function (nd) {
@@ -90,9 +97,9 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
           // When hovering a species, only show path (species + parent genus) above
           if (hoveredIsSpecies) {
             if (nd === hovered) {
-              addExtLabel(nodeEl, nd, rank, invK, scale, { lightStyle: false });
+              addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: false }, labelOpacityFor(nd));
             } else if (rank === "genus" && hovered!.parent === nd) {
-              addExtLabel(nodeEl, nd, rank, invK, scale, { lightStyle: true });
+              addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true }, labelOpacityFor(nd));
             }
           } else {
             // Snake search highlight: genus in path gets label at top, larger labels
@@ -101,10 +108,10 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
               rank === "genus" && searchNode && searchNode.parent === nd;
             const useTopForGenus = genusInSearchPath;
             const inSearchPath = searchNode && (nd === searchNode || nd === searchNode.parent);
-            addExtLabel(nodeEl, nd, rank, invK, scale, {
+            addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, {
               side: useTopForGenus ? false : useSideLabels,
               large: !!inSearchPath,
-            });
+            }, labelOpacityFor(nd));
           }
           return;
         }
@@ -116,9 +123,23 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
         const isDirectChildOfHenophidia =
           clickFocusNode?.data.name === "Henophidia" && nd.parent === clickFocusNode;
 
+        // Click-focused higher rank (family, clade, infraorder, suborder): always show light label (Pythonidae, Henophidia, etc.)
+        if (nd === clickFocusNode) {
+          inNodeText.attr("opacity", 0);
+          addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true }, labelOpacityFor(nd));
+          return;
+        }
+
+        // Family when zoomed in: add light label for other families (Boidae, Pythonidae, etc.)
+        if (rank === "family" && isScaleZoomed) {
+          inNodeText.attr("opacity", 0);
+          addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true }, labelOpacityFor(nd));
+          return;
+        }
+
         if (isDirectChildOfHenophidia || screenPx < MIN_READABLE_PX) {
           inNodeText.attr("opacity", 0);
-          addExtLabel(nodeEl, nd, rank, invK, scale, { side: !!isDirectChildOfHenophidia });
+          addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { side: !!isDirectChildOfHenophidia }, labelOpacityFor(nd));
         } else {
           inNodeText.attr("opacity", 1);
         }
@@ -130,14 +151,17 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
    * - When side=true: place labels radially outward from node, rotate to align, counter-rotate
    *   when angle >= π so text stays upright. This naturally spaces labels and reduces overlap.
    * - When side=false: place above node (hover path labels).
+   * Labels are appended to labelsLayer so they render on top of all nodes (no dimmed circles showing through).
+   * labelOpacity syncs with node highlight (1 for path, 0 or 0.2 for dimmed).
    */
   function addExtLabel(
-    nodeEl: d3.Selection<SVGGElement, d3.HierarchyPointNode<HierarchyNode>, BaseType, unknown>,
+    labelsLayer: d3.Selection<SVGGElement, unknown, null, undefined>,
     nd: d3.HierarchyPointNode<HierarchyNode>,
     rank: string,
     invK: number,
     _scale: number,
     opts: { lightStyle?: boolean; side?: boolean; large?: boolean } = {},
+    labelOpacity = "1",
   ) {
     const { lightStyle = false, side = false, large = false } = opts;
     const r = nodeRadius(nd);
@@ -148,7 +172,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     const extRx = 4 * invK;
     const angle = (nd as any).x ?? 0;
 
-    let transform: string;
+    let relativeTransform: string;
     let textAnchor: string;
     let textX: number;
 
@@ -157,19 +181,23 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
       // counter-rotate for readability. Use translate(gap,0) since +x points outward after rot1.
       const rot1 = (angle * 180) / Math.PI - 90;
       const rot2 = angle >= Math.PI ? 180 : 0;
-      transform = `rotate(${rot1}) translate(${gap},0) rotate(${rot2})`;
+      relativeTransform = `rotate(${rot1}) translate(${gap},0) rotate(${rot2})`;
       textAnchor = angle < Math.PI ? "start" : "end";
       textX = angle < Math.PI ? extPadX : -extPadX;
     } else {
-      transform = `translate(0,${-gap})`;
+      relativeTransform = `translate(0,${-gap})`;
       textAnchor = "middle";
       textX = 0;
     }
 
-    const extG = nodeEl.append("g")
+    const [px, py] = radialPoint((nd as any).x, (nd as any).y);
+    const fullTransform = `translate(${px},${py}) ${relativeTransform}`;
+
+    const extG = labelsLayer.append("g")
       .attr("class", "ext-label")
-      .attr("transform", transform)
-      .style("pointer-events", "none");
+      .attr("transform", fullTransform)
+      .style("pointer-events", "none")
+      .style("opacity", labelOpacity);
     const extText = extG.append("text")
       .attr("text-anchor", textAnchor)
       .attr("font-size", `${extFs}px`)
@@ -188,6 +216,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
       .attr("height", bb.height + extPadY * 2)
       .attr("rx", extRx)
       .attr("fill", lightStyle ? "#f8fafc" : "#fff")
-      .attr("fill-opacity", lightStyle ? 0.75 : 0.88);
+      .attr("fill-opacity", 1)
+      .attr("opacity", 1);
   }
 }

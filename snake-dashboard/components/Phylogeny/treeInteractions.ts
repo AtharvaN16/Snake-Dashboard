@@ -8,6 +8,7 @@ import { createUpdateSpeciesVisibility } from "./treeVisibility";
 export interface ChartContext {
   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   g: d3.Selection<SVGGElement, unknown, null, undefined>;
+  labelsLayer: d3.Selection<SVGGElement, unknown, null, undefined>;
   nodeSelection: d3.Selection<SVGGElement, d3.HierarchyPointNode<HierarchyNode>, SVGGElement, unknown>;
   linkSelection: d3.Selection<SVGPathElement, d3.HierarchyPointLink<HierarchyNode>, SVGGElement, unknown>;
   allNodes: d3.HierarchyPointNode<HierarchyNode>[];
@@ -31,7 +32,7 @@ export interface ChartContext {
 
 export function setupInteractions(ctx: ChartContext): { cleanup: () => void; updateSpeciesVisibility: (scale: number) => void } {
   const {
-    svg, g, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
+    svg, g, labelsLayer, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
     nodeColor, isSpecies, currentSnakeId, shouldBloom,
     cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
     getColorMode, onSpeciesClick, onTaxonomyNodeClick,
@@ -43,6 +44,9 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   let clickFocusNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
   let hoverLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
   let searchLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
+  let focusLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
+  /** Set of nodes at full opacity during highlight; used to sync label opacity in labelsLayer. */
+  let currentHighlightedNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
 
   // --- Voronoi/Delaunay setup ---
   const delaunay = d3.Delaunay.from(nodePoints);
@@ -52,21 +56,35 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     searchHighlightNode = found ?? null;
   }
 
+  /** Partial fade (0.2/0.1) for click focus or search highlight; for hover-only, full hide at default zoom and partial fade when zoomed in. */
+  function getDimmedOpacity(): { node: string; link: number } {
+    const usePartialFade =
+      !!clickFocusNode ||
+      !!searchHighlightNode ||
+      zoomScaleRef.current > scale0 * 1.001;
+    return {
+      node: usePartialFade ? "0.2" : "0",
+      link: usePartialFade ? 0.1 : 0,
+    };
+  }
+
   // --- Highlight helpers ---
   function highlightSubtree(target: d3.HierarchyPointNode<HierarchyNode>) {
     hoverActive = true;
     const subtreeNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
     target.each((n) => subtreeNodes.add(n));
+    currentHighlightedNodes = subtreeNodes;
+    const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
 
     nodeSelection
       .transition().duration(250)
-      .style("opacity", (d) => (subtreeNodes.has(d) ? "1" : "0.2"));
+      .style("opacity", (d) => (subtreeNodes.has(d) ? "1" : dimmedNode));
     nodeSelection
       .style("pointer-events", (d) => (subtreeNodes.has(d) ? "auto" : "none"));
     linkSelection
       .transition().duration(250)
       .attr("stroke-opacity", (l) =>
-        subtreeNodes.has(l.source) && subtreeNodes.has(l.target) ? 0.9 : 0.1
+        subtreeNodes.has(l.source) && subtreeNodes.has(l.target) ? 0.9 : dimmedLink
       );
   }
 
@@ -75,16 +93,18 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     const ancestors = nodeToAncestors.get(target)!;
     const pathNodes = new Set(ancestors);
     pathNodes.add(target);
+    currentHighlightedNodes = pathNodes;
+    const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
 
     nodeSelection
       .transition().duration(200)
-      .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0.2"));
+      .style("opacity", (d) => (pathNodes.has(d) ? "1" : dimmedNode));
     nodeSelection
       .style("pointer-events", (d) => (pathNodes.has(d) ? "auto" : "none"));
     linkSelection
       .transition().duration(200)
       .attr("stroke-opacity", (d) =>
-        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : 0.1
+        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : dimmedLink
       );
   }
   
@@ -98,25 +118,29 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       pathNodes.add(n);
       if (n === root) break;
     }
+    currentHighlightedNodes = pathNodes;
+    const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
 
     nodeSelection
       .transition().duration(200)
-      .style("opacity", (d) => (pathNodes.has(d) ? "1" : "0.2"));
+      .style("opacity", (d) => (pathNodes.has(d) ? "1" : dimmedNode));
     nodeSelection
       .style("pointer-events", (d) => (pathNodes.has(d) ? "auto" : "none"));
     linkSelection
       .transition().duration(200)
       .attr("stroke-opacity", (d) =>
-        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : 0.1
+        pathNodes.has(d.source) && pathNodes.has(d.target) ? 0.9 : dimmedLink
       );
   }
 
   const updateSpeciesVisibility = createUpdateSpeciesVisibility({
-    svg, g, nodeColor, isSpecies, currentSnakeId, zoomScaleRef,
+    svg, g, labelsLayer, nodeColor, isSpecies, currentSnakeId, zoomScaleRef,
     getClickFocusNode: () => clickFocusNode,
     getSearchHighlightNode: () => searchHighlightNode,
     getHoverActive: () => hoverActive,
     getHoveredNode: () => hoveredNode,
+    getHighlightedNodes: () => currentHighlightedNodes,
+    getDimmedOpacity: () => getDimmedOpacity(),
   });
 
   function clearHighlight() {
@@ -131,6 +155,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       return;
     }
     hoverActive = false;
+    currentHighlightedNodes = new Set();
     const currentZoom = zoomScaleRef.current;
 
     nodeSelection.style("pointer-events", "auto");
@@ -163,37 +188,29 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     labelG.insert("rect", "text")
       .attr("x", bbox.x - padX).attr("y", bbox.y - padY)
       .attr("width", bbox.width + padX * 2).attr("height", bbox.height + padY * 2)
-      .attr("rx", rx).attr("fill", color).attr("opacity", 0.92);
+      .attr("rx", rx).attr("fill", color).attr("opacity", 1);
     return labelG;
   }
 
   // --- Hover effects ---
+  // Node fill highlight always on hover. Floating hover label only at default zoom (to trace lineage);
+  // when zoomed in, ext-labels / in-node text are enough and we avoid duplicates.
 
   function showHoverEffect(el: SVGGElement, d: d3.HierarchyPointNode<HierarchyNode>) {
     const color = nodeColor(d);
     d3.select(el).select<SVGElement>("circle, path").attr("fill", color).attr("fill-opacity", 0.85);
-    const extLabel = d3.select(el).select(".ext-label");
-    if (!extLabel.empty()) {
-      extLabel.select("rect").attr("fill", color).attr("fill-opacity", 0.92);
-      extLabel.select("text").attr("fill", "#fff").attr("font-weight", "600");
-      return;
-    }
     if (searchHighlightNode && d === searchHighlightNode) return;
-    if (clickFocusNode && d === clickFocusNode) return;
+    // Show highlight label only at default zoom; when zoomed in, skip to avoid duplicating ext-labels
+    if (zoomScaleRef.current > scale0 * 1.001) return;
     hoverLabel = createLabel(g, d, "hover-label");
   }
 
   function clearHoverEffect(el: SVGGElement | null, d: d3.HierarchyPointNode<HierarchyNode>) {
     if (!el) return;
-    const color = nodeColor(d);
     const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
     const fill = computeNodeFill(d, nodeColor, getColorMode(), currentSnakeId);
     d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", isCurrent ? 0.85 : 1);
-    const extLabel = d3.select(el).select(".ext-label");
-    if (!extLabel.empty()) {
-      extLabel.select("rect").attr("fill", "#fff").attr("fill-opacity", 0.85);
-      extLabel.select("text").attr("fill", color).attr("font-weight", "500");
-    }
+    // ext-labels are in labelsLayer and are recreated on each visibility update; no per-node reset needed
     if (hoverLabel) { hoverLabel.remove(); hoverLabel = null; }
   }
 
@@ -255,11 +272,13 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     clickFocusNode = null;
     searchHighlightNode = null;
     hoveredNode = null;
+    currentHighlightedNodes = new Set();
     document.body.removeAttribute("data-chart-zoomed");
     hoverActive = false;
 
     if (searchLabel) { searchLabel.remove(); searchLabel = null; }
     if (hoverLabel) { hoverLabel.remove(); hoverLabel = null; }
+    if (focusLabel) { focusLabel.remove(); focusLabel = null; }
 
     // Reset all nodes to base state respecting current color mode
     nodeSelection.each(function (nd) {
@@ -335,9 +354,9 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
   svg.style("cursor", "pointer").on("click", (event) => {
     if (!hoveredNode) {
-      // Clicked on background, clear focus
       if (!clickFocusNode) return;
       clickFocusNode = null;
+      if (focusLabel) { focusLabel.remove(); focusLabel = null; }
       document.body.removeAttribute("data-chart-zoomed");
       if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
       clearHighlight();
@@ -355,6 +374,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
     if (clickFocusNode === d) {
       clickFocusNode = null;
+      if (focusLabel) { focusLabel.remove(); focusLabel = null; }
       document.body.removeAttribute("data-chart-zoomed");
       clearHighlight();
       if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
@@ -364,6 +384,8 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     if (onTaxonomyNodeClick) onTaxonomyNodeClick(d);
     
     clickFocusNode = d;
+    // Clear hover label on click so it doesn’t persist after click-to-zoom (families shouldn’t show highlight label)
+    if (hoverLabel) { hoverLabel.remove(); hoverLabel = null; }
     highlightSubtree(d);
     updateSpeciesVisibility(zoomScaleRef.current);
 
@@ -374,10 +396,19 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     const shouldZoom =
       rank === "family" || rank === "genus" || canZoomCladeOrInfra;
     if (shouldZoom) {
+      if (focusLabel) { focusLabel.remove(); focusLabel = null; }
       document.body.setAttribute("data-chart-zoomed", "true");
       zoomToNode(d);
     } else {
       document.body.removeAttribute("data-chart-zoomed");
+      const isHigherOrder = rank === "clade" || rank === "infraorder" || rank === "suborder";
+      if (isHigherOrder && d.data.name !== "Henophidia") {
+        if (focusLabel) focusLabel.remove();
+        focusLabel = createLabel(g, d, "focus-label", { large: true });
+      } else if (focusLabel) {
+        focusLabel.remove();
+        focusLabel = null;
+      }
     }
   });
 

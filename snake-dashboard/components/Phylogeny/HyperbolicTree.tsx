@@ -34,7 +34,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const hasBloomedRef = useRef(false);
-  const zoomScaleRef = useRef<{ current: number }>({ current: 1 });
+  const zoomScaleRef = useRef<number>(1);
   const colorModeRef = useRef<'family' | 'venom'>('family');
   const isInitialRenderRef = useRef(true);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
@@ -256,6 +256,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     nodeSelection.append("title")
       .text((d) => d.ancestors().map((a) => a.data.name).reverse().join(" → "));
 
+    // Labels layer (after nodes so labels render on top and are never covered by dimmed node circles)
+    const labelsLayer = g.append("g").attr("class", "labels-layer");
+
     g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(".species-link")
       .style("transition", "stroke-opacity 0.2s ease");
 
@@ -303,10 +306,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     // --- Interactions ---
     const interactions = setupInteractions({
-      svg, g, nodeSelection, linkSelection, nodeToAncestors,
+      svg, g, labelsLayer, nodeSelection, linkSelection, nodeToAncestors,
       allNodes, nodePoints,
       nodeColor, isSpecies, currentSnakeId, shouldBloom,
-      cw, ch, cx, cy, scale0, zoomScaleRef: zoomScaleRef.current, zoomBehavior,
+      cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
       getColorMode: () => colorModeRef.current,
       onSpeciesClick: (id) => router.push(`/snakes/${id}`),
       onTaxonomyNodeClick: handleTaxonomyNodeClick,
