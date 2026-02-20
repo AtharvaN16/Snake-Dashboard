@@ -103,6 +103,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const shouldBloom = !hasBloomedRef.current && !currentSnakeId;
 
     // --- Layout (D3 cluster radial) ---
+    // Fragility: layout assumes root has exactly two depth-1 children (Scolecophidia, Alethinophidia),
+    // and depth-2 under Alethinophidia = Henophidia/Caenophidia. New snakes only add leaves; new
+    // families need FAMILY_TO_CLADE in snakeTaxonomy. Names must match (Scolecophidia, Alethinophidia, Henophidia).
     // Sort so Scolecophidia is first, then Alethinophidia; stable order elsewhere
     const hierarchyCopy = hierarchy.copy();
     hierarchyCopy.sort((a, b) => {
@@ -408,7 +411,8 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     const cw = Math.max(container.clientWidth, 400);
     const ch = Math.max(container.clientHeight, 300);
-    const scale0 = Math.min(cw / (x1 - x0), ch / (y1 - y0), 1.2);
+    const extent = Math.max(x1 - x0, y1 - y0, 1); // avoid div by zero / NaN if no nodes
+    const scale0 = Math.min(cw / extent, ch / extent, 1.2);
     const cx = (x0 + x1) / 2;
     const cy = (y0 + y1) / 2;
 
