@@ -84,9 +84,22 @@ Composite score is calculated by `lib/dangerScore.ts` with weights:
 "distribution": {
   "regions": ["Sub-Saharan Africa"],
   "habitat": "Savanna, grassland, sandy soils",
-  "coordinates": [{ "lat": -25, "lng": 28 }]
+  "coordinates": [{ "lat": -25, "lng": 28 }],
+  "rangeGeoJsonPath": "/geojson/ranges/stiletto-snake.json"
 }
 ```
+
+#### Range Maps (GeoJSON)
+
+To show a distribution overlay on the map, provide a GeoJSON file:
+
+1.  **Locate/Generate GeoJSON**: 
+    - Use authoritative sources like IUCN or GARD (see `scripts/README-RANGE-MAPS.md`).
+    - Or fetch from iNaturalist using scientific name matches: `bun run scripts/fetchINatRangeGeojsons.ts`.
+2.  **Save File**: Place the file in `public/geojson/ranges/<snake-id>.json`.
+    - Use the snake's `id` as the filename.
+    - Format must be a GeoJSON `Feature` or `FeatureCollection` containing a `Polygon` or `MultiPolygon`.
+3.  **Reference in JSON**: Add `"rangeGeoJsonPath": "/geojson/ranges/<snake-id>.json"` to the `distribution` object.
 
 ### Images
 

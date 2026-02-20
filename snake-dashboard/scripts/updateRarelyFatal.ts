@@ -17,6 +17,7 @@ const rarelyFatalSnakeIds = [
   'rock-rattlesnake',
   'eyelash-viper',
   'waglers-pit-viper',
+  'stiletto-snake',
 ];
 
 function main() {

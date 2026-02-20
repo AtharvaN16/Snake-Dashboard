@@ -4852,7 +4852,8 @@
             "lat": -1,
             "lng": 37
           }
-        ]
+        ],
+        "rangeGeoJsonPath": "/geojson/ranges/stiletto-snake.json"
       },
       "images": {
         "primary": "/images/snakes/stiletto-snake/primary.jpg",
@@ -4872,7 +4873,8 @@
           "low": 0,
           "high": 3
         },
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -4895,8 +4897,7 @@
         ]
       },
       "causesOfDeath": [
-        "Secondary Infection",
-        "Anaphylaxis"
+        "Rarely Fatal"
       ],
       "firstAidInfo": "No specific antivenom widely available. Treat symptomatically — clean wound, manage pain, monitor for tissue necrosis. Surgical debridement may be required for severe necrosis. Seek medical attention promptly.",
       "sources": [
