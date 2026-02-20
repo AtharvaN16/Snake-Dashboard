@@ -323,6 +323,8 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     return () => {
       clearTimeout(bloomTimer);
+      // Remove zoom/dblclick so they don’t accumulate on rebuild (effect re-run)
+      svg.on(".zoom", null).on("dblclick", null);
       interactions.cleanup();
     };
   }, [hierarchy, currentSnakeId, router]);

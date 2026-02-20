@@ -468,12 +468,14 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   document.addEventListener("keydown", handleKeyDown, { capture: true });
 
   // --- Search highlight initialization ---
+  let searchHighlightTimeoutId: ReturnType<typeof setTimeout> | null = null;
   if (searchHighlightNode) {
     document.body.setAttribute("data-chart-zoomed", "true");
     if (shouldBloom) {
       const maxDepth = Math.max(...allNodes.map(n => n.depth));
       const afterBloom = BLOOM_BASE_DELAY * maxDepth + BLOOM_DURATION;
-      setTimeout(() => {
+      searchHighlightTimeoutId = setTimeout(() => {
+        searchHighlightTimeoutId = null;
         highlightPath(searchHighlightNode!);
         zoomToPath(searchHighlightNode!);
         addSearchLabel(searchHighlightNode!);
@@ -489,7 +491,12 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
 
   return {
     cleanup() {
+      if (searchHighlightTimeoutId != null) {
+        clearTimeout(searchHighlightTimeoutId);
+        searchHighlightTimeoutId = null;
+      }
       document.removeEventListener("keydown", handleKeyDown, { capture: true });
+      svg.on("pointermove", null).on("pointerleave", null).on("click", null);
       clearAllHighlightsAndState();
     },
     updateSpeciesVisibility,
