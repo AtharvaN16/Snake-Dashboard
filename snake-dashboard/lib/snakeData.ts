@@ -123,6 +123,25 @@ export function getMedianPotencyScore(): number {
 }
 
 /**
+ * Get median normalized LD50 across all venomous snakes.
+ */
+export function getMedianLD50(): number {
+  const snakes = getAllSnakes();
+  const values = snakes
+    .filter((s) => isVenomous(s.venomClassification))
+    .map((s) => s.venomPotency?.ld50Normalized || s.venomPotency?.ld50)
+    .filter((v): v is number => typeof v === "number" && v > 0);
+
+  if (values.length === 0) return 2.0; // Default fallback
+
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0
+    ? (sorted[mid - 1]! + sorted[mid]!) / 2
+    : sorted[mid]!;
+}
+
+/**
  * Get unique families from all snakes
  */
 export function getAllFamilies(): string[] {

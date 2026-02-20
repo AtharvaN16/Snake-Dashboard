@@ -1883,12 +1883,24 @@
         "primary": "/images/snakes/egyptian-cobra/primary.jpg",
         "thumbnail": "/images/snakes/egyptian-cobra/thumbnail.jpg",
         "attribution": {
-          "photographer": "Dotun55",
+          "photographer": "safaritravelplus",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Egyptian_cobra.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Egyptian_Cobra_Snake.jpg",
+          "license": "CC0",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+        },
+        "gallery": [
+          "/images/snakes/egyptian-cobra/gallery/1.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "Ricardo Hurtubia",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:N._haje_legionis.jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          }
+        ]
       },
       "description": "Historically significant. Cleopatra reportedly died from its bite. Large hood display.",
       "sources": [
@@ -4417,13 +4429,13 @@
         "thumbnail": "/images/snakes/massasauga/thumbnail.jpg",
         "gallery": [
           "/images/snakes/massasauga/gallery/1.jpg",
-          "/images/snakes/massasauga/gallery/2.jpg",
-          "/images/snakes/massasauga/gallery/3.jpg"
+          "/images/snakes/massasauga/gallery/3.jpg",
+          "/images/snakes/massasauga/gallery/4.jpg"
         ],
         "attribution": {
           "photographer": "Riley Stanton",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_2.jpg",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_3.jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         },
@@ -4438,14 +4450,14 @@
           {
             "photographer": "Riley Stanton",
             "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_3.jpg",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_1.jpg",
             "license": "CC BY-SA 4.0",
             "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
           },
           {
             "photographer": "Riley Stanton",
             "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_1.jpg",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sistrurus_catenatus_Stanton_2.jpg",
             "license": "CC BY-SA 4.0",
             "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
           }
@@ -4465,7 +4477,8 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -4669,7 +4682,8 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -4773,7 +4787,8 @@
           "high": 1
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -4987,7 +5002,8 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -5085,7 +5101,8 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -5178,7 +5195,8 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -5364,7 +5382,35 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cottonmouth_(Agkistrodon_piscivorus).jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
+        },
+        "gallery": [
+          "/images/snakes/cottonmouth/gallery/1.jpg",
+          "/images/snakes/cottonmouth/gallery/2.jpg",
+          "/images/snakes/cottonmouth/gallery/3.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "Peter Paplanus from St. Louis, Missouri",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Cottonmouth_(Agkistrodon_piscivorus_leucostoma)_(16199882414).jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          },
+          {
+            "photographer": "Peter Paplanus from St. Louis, Missouri",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Cottonmouth_(Agkistrodon_piscivorus_leucostoma)_(17186477932).jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          },
+          {
+            "photographer": "Greg Schechter from San Francisco, USA",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baby_Cottonmouth,_Agkistrodon_piscivorus_-_Flickr_-_GregTheBusker.jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          }
+        ]
       },
       "description": "Semi-aquatic. Displays white mouth when threatened. More venomous than copperhead.",
       "sources": [
@@ -5387,7 +5433,8 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Severe"
+        "severity": "Severe",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -5489,7 +5536,8 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -5585,7 +5633,8 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -5711,7 +5760,8 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -5939,7 +5989,8 @@
           "high": 5
         },
         "whoCategory": 2,
-        "severity": "Moderate"
+        "severity": "Moderate",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -6037,7 +6088,8 @@
           "low": 0,
           "high": 1
         },
-        "severity": "Mild"
+        "severity": "Mild",
+        "fatalitySummary": "Rarely Fatal"
       },
       "symptoms": {
         "localEffects": [
@@ -7947,15 +7999,15 @@
         "thumbnail": "/images/snakes/black-rat-snake/thumbnail.jpg",
         "gallery": [
           "/images/snakes/black-rat-snake/gallery/1.jpg",
-          "/images/snakes/black-rat-snake/gallery/2.jpg",
-          "/images/snakes/black-rat-snake/gallery/3.jpg"
+          "/images/snakes/black-rat-snake/gallery/3.jpg",
+          "/images/snakes/black-rat-snake/gallery/4.jpg"
         ],
         "attribution": {
-          "photographer": "Judy Gallagher",
+          "photographer": "Chuck Homler, Focus On Wildlife",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Rat_Snake_-_Pantherophis_obsoletus,_Lorton_Workhouse,_Lorton,_Virginia_(42897485540).jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Rat_Snake_(Pantherophis_obsoletus).jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         },
         "galleryAttributions": [
           {
@@ -7966,16 +8018,16 @@
             "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
           },
           {
-            "photographer": "Chuck Homler, Focus On Wildlife",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Rat_Snake_(Pantherophis_obsoletus).jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          },
-          {
             "photographer": "Peter Paplanus ",
             "source": "Wikimedia Commons",
             "sourceUrl": "https://commons.wikimedia.org/wiki/File:Erdnatter_(Pantherophis_obsoletus),_Oberseite.jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          },
+          {
+            "photographer": "Judy Gallagher",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Rat_Snake_-_Pantherophis_obsoletus,_Lorton_Workhouse,_Lorton,_Virginia_(42897485540).jpg",
             "license": "CC BY 2.0",
             "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
           }
@@ -8028,12 +8080,40 @@
         "primary": "/images/snakes/boa-constrictor/primary.jpg",
         "thumbnail": "/images/snakes/boa-constrictor/thumbnail.jpg",
         "attribution": {
-          "photographer": "Sebastián de Jesús Herrera Buenfil",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/78869378",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
-        }
+          "photographer": "Bernard DUPONT from FRANCE",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+        },
+        "gallery": [
+          "/images/snakes/boa-constrictor/gallery/1.jpg",
+          "/images/snakes/boa-constrictor/gallery/2.jpg",
+          "/images/snakes/boa-constrictor/gallery/3.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "I would appreciate being notified if you use my work outside Wikimedia.\nDo not copy this image illegally by ignoring the terms of the license below, as it is not in the public domain. If you would like special permission to use, license, or purchase the image please contact me to negotiate terms.\n\nMore of my work can be found in my personal gallery.",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boa_constrictor,_Va%C5%88kovka,_Brno_(2).jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          },
+          {
+            "photographer": "Kristof Zyskowski",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boa_constrictor_constrictor_258755801.jpg",
+            "license": "CC BY 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          },
+          {
+            "photographer": "Kristof Zyskowski",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boa_constrictor_constrictor_258755669.jpg",
+            "license": "CC BY 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+          }
+        ]
       },
       "description": "A large, heavy-bodied constrictor. Kills prey by coiling around it and suffocation. Popular in the pet trade.",
       "maxLength": {

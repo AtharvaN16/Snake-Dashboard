@@ -274,7 +274,13 @@ export function DistributionMap({
           }
         </Geographies>
         {showMap && rangeGeoJson && (
-          <>
+          <g
+            className="animate-range-reveal"
+            style={{
+              transformOrigin: "center",
+              transformBox: "fill-box",
+            }}
+          >
             {/* Soft blurred underlay to feather the hard geometry cutoff. */}
             <Geographies geography={rangeGeoJson}>
               {({ geographies }) =>
@@ -314,7 +320,7 @@ export function DistributionMap({
                 ))
               }
             </Geographies>
-          </>
+          </g>
         )}
       </ComposableMap>
     </div>

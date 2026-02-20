@@ -7,6 +7,7 @@ import {
   getAllSnakes,
   isVenomous,
   getMedianPotencyScore,
+  getMedianLD50,
 } from "@/lib/snakeData";import { VenomTypeChip } from "@/components/VenomTypeChip";
 import { VenomSpeedChip } from "@/components/VenomSpeedChip";
 import { VenomYieldChip } from "@/components/VenomYieldChip";
@@ -14,6 +15,7 @@ import { SymptomChip } from "@/components/SymptomChip";
 import { DistributionMap } from "@/components/DistributionMap";
 import { DangerScoreWaterfall } from "@/components/DangerScoreWaterfall";
 import { LethalityScatterPlot } from "@/components/LethalityScatterPlot";
+import { VenomPotencyChart } from "@/components/VenomPotencyChart";
 import { hasRangeMapForSnake } from "@/lib/rangeMaps";
 import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
 
@@ -53,6 +55,7 @@ export default async function SnakeDetailPage({
   }
 
   const medianPotencyScore = getMedianPotencyScore();
+  const medianLD50 = getMedianLD50();
 
   const venomous = isVenomous(snake.venomClassification);
   const classificationLabel = snake.venomClassification;
@@ -147,7 +150,7 @@ export default async function SnakeDetailPage({
             >
               {classificationLabel}
             </span>
-            {snake.clinicalData?.fatalitySummary === "Rarely Fatal" && (
+            {(snake.clinicalData?.fatalitySummary === "Rarely Fatal" || snake.causesOfDeath?.includes("Rarely Fatal")) && (
               <span
                 className="inline-flex font-bold text-base"
                 style={{
@@ -158,6 +161,19 @@ export default async function SnakeDetailPage({
                 }}
               >
                 Rarely Fatal
+              </span>
+            )}
+            {snake.constrictor && (
+              <span
+                className="inline-flex font-bold text-base"
+                style={{
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  backgroundColor: "#A7F3D0", // Emerald-200
+                  color: "#064E3B", // Emerald-900
+                }}
+              >
+                Constrictor
               </span>
             )}
             {snake.accolades && snake.accolades.map(accolade => (
@@ -770,6 +786,13 @@ export default async function SnakeDetailPage({
                 </div>
               )}
             </div>
+
+            {/* Detailed Venom Potency (Logarithmic Distribution) */}
+            {venomous && snake.venomPotency && (
+              <div className="mt-6">
+                <VenomPotencyChart currentSnake={snake} medianLD50={medianLD50} />
+              </div>
+            )}
           </div>
       </div>
 
