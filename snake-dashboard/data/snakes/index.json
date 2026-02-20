@@ -5731,7 +5731,27 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cottonmouth_(Agkistrodon_piscivorus).jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
+        },
+        "gallery": [
+          "/images/snakes/cottonmouth/gallery/4.jpg",
+          "/images/snakes/cottonmouth/gallery/5.jpg"
+        ],
+        "galleryAttributions": [
+          {
+            "photographer": "Peter Paplanus from St. Louis, Missouri",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Cottonmouth_(Agkistrodon_piscivorus_leucostoma)_(16199882414).jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          },
+          {
+            "photographer": "Peter Paplanus from St. Louis, Missouri",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Cottonmouth_(Agkistrodon_piscivorus_leucostoma)_(17186477932).jpg",
+            "license": "CC BY 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          }
+        ]
       },
       "description": "Semi-aquatic. Displays white mouth when threatened. More venomous than copperhead.",
       "sources": [
