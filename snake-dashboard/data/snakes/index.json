@@ -10567,15 +10567,14 @@
         "primary": "/images/snakes/amazon-tree-boa/primary.jpg",
         "thumbnail": "/images/snakes/amazon-tree-boa/thumbnail.jpg",
         "gallery": [
-          "/images/snakes/amazon-tree-boa/gallery/1.jpg",
-          "/images/snakes/amazon-tree-boa/gallery/2.jpg"
+          "/images/snakes/amazon-tree-boa/gallery/3.jpg"
         ],
         "attribution": {
-          "photographer": "Vincent A. Vos",
-          "source": "GBIF",
-          "sourceUrl": "https://www.gbif.org/occurrence/6133105279",
-          "license": "http://creativecommons.org/licenses/by/4.0/",
-          "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+          "photographer": "MauMirror",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Corallus_hortulanus.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         },
         "galleryAttributions": [
           {
@@ -10584,13 +10583,6 @@
             "sourceUrl": "https://www.gbif.org/occurrence/6133105279",
             "license": "http://creativecommons.org/licenses/by/4.0/",
             "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
-          },
-          {
-            "photographer": "MauMirror",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Corallus_hortulanus.jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
           }
         ]
       },
@@ -10883,11 +10875,11 @@
         "primary": "/images/snakes/brahminy-blind-snake/primary.jpg",
         "thumbnail": "/images/snakes/brahminy-blind-snake/thumbnail.jpg",
         "attribution": {
-          "photographer": "Dr. Raju Kasambe",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brahminy_Blind_Snake_Indotyphlops_braminus_by_Dr._Raju_Kasambe_DSCN4869_(6).jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          "photographer": "mmous",
+          "source": "GBIF",
+          "sourceUrl": "https://www.gbif.org/occurrence/6129895290",
+          "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+          "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
         }
       },
       "description": "The Brahminy Blind Snake is one of the world's smallest snakes and the only known parthenogenic snake species (all individuals are female). Often mistaken for earthworms, they are frequently transported globally in the soil of potted plants.",
