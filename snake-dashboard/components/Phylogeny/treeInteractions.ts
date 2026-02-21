@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
+import type { Snake } from "@/lib/types";
 import { BLOOM_BASE_DELAY, BLOOM_DURATION } from "./treeConstants";
 import { radialPoint } from "./treeGeometry";
 import { nodeRadius, computeNodeFill, getNodeHoverStyle } from "./treeNodeStyles";
@@ -31,14 +32,21 @@ export interface ChartContext {
   onSpeciesClick?: (snakeId: string) => void;
   onTaxonomyNodeClick?: (node: d3.HierarchyPointNode<HierarchyNode> | null) => void;
   onResetView?: () => void;
+  selectedRegion: Snake["continent"] | null;
+  getContinentForSpeciesId: (id: string) => Snake["continent"] | undefined;
 }
 
-export function setupInteractions(ctx: ChartContext): { cleanup: () => void; updateSpeciesVisibility: (scale: number) => void } {
+export function setupInteractions(ctx: ChartContext): {
+  cleanup: () => void;
+  updateSpeciesVisibility: (scale: number) => void;
+  applyRegionFilter: (region: Snake["continent"] | null) => void;
+} {
   const {
     svg, g, labelsLayer, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
     nodeColor, getNodeColor, isSpecies, currentSnakeId, shouldBloom,
     cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
     getColorMode, onSpeciesClick, onTaxonomyNodeClick, onResetView,
+    selectedRegion, getContinentForSpeciesId,
   } = ctx;
 
   const currentNodeColor = () => (getNodeColor?.() ?? nodeColor);
@@ -54,6 +62,8 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
   let currentHighlightedNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
   /** When hovering a species at default zoom: family branch stays at 0.2; used for label opacity. */
   let currentFamilyBranchNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
+  /** When region filter is active, paths to all species in that region; otherwise null. */
+  let regionHighlightPathNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
 
   // --- Voronoi/Delaunay setup ---
   const delaunay = d3.Delaunay.from(nodePoints);
@@ -63,16 +73,23 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     searchHighlightNode = found ?? null;
   }
 
-  /** Partial fade (0.2/0.1) for click focus or search highlight; for hover-only, full hide at default zoom and partial fade when zoomed in. */
+  /** Partial fade (0.2/0.1) for click focus, search highlight, or region filter; for hover-only, full hide at default zoom and partial fade when zoomed in. */
   function getDimmedOpacity(): { node: string; link: number } {
     const usePartialFade =
       !!clickFocusNode ||
       !!searchHighlightNode ||
+      (regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0) ||
       zoomScaleRef.current > scale0 * 1.001;
     return {
       node: usePartialFade ? "0.2" : "0",
       link: usePartialFade ? 0.1 : 0,
     };
+  }
+
+  function getEffectiveHighlightedNodes(): Set<d3.HierarchyNode<HierarchyNode>> {
+    if (regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0)
+      return regionHighlightPathNodes;
+    return currentHighlightedNodes;
   }
 
   // --- Highlight helpers ---
@@ -168,7 +185,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     getSearchHighlightNode: () => searchHighlightNode,
     getHoverActive: () => hoverActive,
     getHoveredNode: () => hoveredNode,
-    getHighlightedNodes: () => currentHighlightedNodes,
+    getHighlightedNodes: () => getEffectiveHighlightedNodes(),
     getFamilyBranchNodes: () => currentFamilyBranchNodes,
     getDimmedOpacity: () => getDimmedOpacity(),
   });
@@ -193,6 +210,49 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     nodeSelection.transition().duration(300).style("opacity", "1");
     linkSelection.transition().duration(300).attr("stroke-opacity", 0.7);
     updateSpeciesVisibility(currentZoom);
+  }
+
+  function highlightPathsForRegion(region: Snake["continent"] | null) {
+    if (region == null) {
+      regionHighlightPathNodes = null;
+      if (searchHighlightNode) {
+        highlightPath(searchHighlightNode);
+      } else if (clickFocusNode) {
+        highlightSubtree(clickFocusNode);
+      } else {
+        hoverActive = false;
+        currentHighlightedNodes = new Set();
+        currentFamilyBranchNodes = null;
+        nodeSelection.style("pointer-events", "auto");
+        nodeSelection.transition().duration(200).style("opacity", "1");
+        linkSelection.transition().duration(200).attr("stroke-opacity", 0.7);
+      }
+      updateSpeciesVisibility(zoomScaleRef.current);
+      return;
+    }
+    const pathUnion = new Set<d3.HierarchyNode<HierarchyNode>>();
+    for (const n of allNodes) {
+      if (!isSpecies(n) || !n.data.id) continue;
+      if (getContinentForSpeciesId(n.data.id) !== region) continue;
+      const ancestors = nodeToAncestors.get(n);
+      if (ancestors) ancestors.forEach((a) => pathUnion.add(a));
+      pathUnion.add(n);
+    }
+    regionHighlightPathNodes = pathUnion;
+    currentFamilyBranchNodes = null;
+    hoverActive = true;
+    const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
+    nodeSelection
+      .transition().duration(200)
+      .style("opacity", (d) => (pathUnion.has(d) ? "1" : dimmedNode));
+    nodeSelection
+      .style("pointer-events", (d) => (pathUnion.has(d) ? "auto" : "none"));
+    linkSelection
+      .transition().duration(200)
+      .attr("stroke-opacity", (l) =>
+        pathUnion.has(l.source) && pathUnion.has(l.target) ? 0.9 : dimmedLink
+      );
+    updateSpeciesVisibility(zoomScaleRef.current);
   }
 
   // --- Floating label helper ---
@@ -303,6 +363,7 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
     clickFocusNode = null;
     searchHighlightNode = null;
     hoveredNode = null;
+    regionHighlightPathNodes = null;
     currentHighlightedNodes = new Set();
     currentFamilyBranchNodes = null;
     document.body.removeAttribute("data-chart-zoomed");
@@ -518,5 +579,6 @@ export function setupInteractions(ctx: ChartContext): { cleanup: () => void; upd
       clearAllHighlightsAndState();
     },
     updateSpeciesVisibility,
+    applyRegionFilter: (region: Snake["continent"] | null) => highlightPathsForRegion(region),
   };
 }
