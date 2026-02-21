@@ -1,0 +1,242 @@
+[
+  {
+    "id": "box-jellyfish",
+    "commonName": "Box Jellyfish",
+    "scientificName": "Chironex fleckeri",
+    "family": "Chirodropidae",
+    "category": "Marine",
+    "emoji": "🪼",
+    "venomPotency": {
+      "ld50Normalized": 0.000025
+    },
+    "description": "Most lethal venom in the world. Cardiotoxic, neurotoxic, and dermonecrotic.",
+    "continent": "Oceania",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Chironex_fleckeri.jpg/300px-Chironex_fleckeri.jpg"
+    }
+  },
+  {
+    "id": "stonefish",
+    "commonName": "Stonefish",
+    "scientificName": "Synanceia horrida",
+    "family": "Synanceiidae",
+    "category": "Marine",
+    "emoji": "🐡",
+    "venomPotency": {
+      "ld50Normalized": 0.0004
+    },
+    "description": "Masters of camouflage, their dorsal spines inject highly potent venom.",
+    "continent": "Oceania",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Synanceia_verrucosa_2.jpg/300px-Synanceia_verrucosa_2.jpg"
+    }
+  },
+  {
+    "id": "blue-ringed-octopus",
+    "commonName": "Blue-ringed Octopus",
+    "scientificName": "Hapalochlaena spp.",
+    "family": "Octopodidae",
+    "category": "Marine",
+    "emoji": "🐙",
+    "venomPotency": {
+      "ld50Normalized": 0.0125
+    },
+    "description": "Contains tetrodotoxin, 1,200x more toxic than cyanide.",
+    "continent": "Oceania",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Hapalochlaena_maculosa.jpg/300px-Hapalochlaena_maculosa.jpg"
+    }
+  },
+  {
+    "id": "cone-snail",
+    "commonName": "Geography Cone Snail",
+    "scientificName": "Conus geographus",
+    "family": "Conidae",
+    "category": "Marine",
+    "emoji": "🐚",
+    "venomPotency": {
+      "ld50Normalized": 0.02
+    },
+    "description": "A slow-moving snail with a lightning-fast 'harpoon' sting.",
+    "continent": "Oceania",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Conus_geographus_01.jpg/300px-Conus_geographus_01.jpg"
+    }
+  },
+  {
+    "id": "brazilian-wandering-spider",
+    "commonName": "Brazilian Wandering Spider",
+    "scientificName": "Phoneutria nigriventer",
+    "family": "Ctenidae",
+    "category": "Spider",
+    "emoji": "🕷️",
+    "venomPotency": {
+      "ld50Normalized": 0.001
+    },
+    "description": "Highly aggressive and frequently found in human dwellings.",
+    "continent": "South America",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Phoneutria_nigriventer_1.jpg/300px-Phoneutria_nigriventer_1.jpg"
+    }
+  },
+  {
+    "id": "black-widow",
+    "commonName": "Black Widow",
+    "scientificName": "Latrodectus mactans",
+    "family": "Theridiidae",
+    "category": "Spider",
+    "emoji": "🕷️",
+    "venomPotency": {
+      "ld50Normalized": 0.16
+    },
+    "description": "Iconic for its hourglass marking and potent neurotoxic venom.",
+    "continent": "North America",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Latrodectus_mactans_f_cropped.jpg/300px-Latrodectus_mactans_f_cropped.jpg"
+    }
+  },
+  {
+    "id": "sydney-funnel-web",
+    "commonName": "Sydney Funnel-web Spider",
+    "scientificName": "Atrax robustus",
+    "family": "Atracidae",
+    "category": "Spider",
+    "emoji": "🕷️",
+    "venomPotency": {
+      "ld50Normalized": 0.2
+    },
+    "description": "Renowned for its large fangs and aggressive defensive posture.",
+    "continent": "Oceania",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Atrax_robustus_m.jpg/300px-Atrax_robustus_m.jpg"
+    }
+  },
+  {
+    "id": "deathstalker-scorpion",
+    "commonName": "Deathstalker Scorpion",
+    "scientificName": "Leiurus quinquestriatus",
+    "family": "Buthidae",
+    "category": "Scorpion",
+    "emoji": "🦂",
+    "venomPotency": {
+      "ld50Normalized": 0.16
+    },
+    "description": "One of the most dangerous scorpions; its sting is excruciatingly painful.",
+    "continent": "Africa",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Leiurus_quinquestriatus_p.jpg/300px-Leiurus_quinquestriatus_p.jpg"
+    }
+  },
+  {
+    "id": "giant-silkworm-moth-caterpillar",
+    "commonName": "Giant Silkworm Moth Caterpillar",
+    "scientificName": "Lonomia obliqua",
+    "family": "Saturniidae",
+    "category": "Caterpillar",
+    "emoji": "🐛",
+    "venomPotency": {
+      "ld50Normalized": 0.19
+    },
+    "description": "Responsible for multiple fatalities due to internal bleeding.",
+    "continent": "South America",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Lonomia_obliqua_-_Larva_crop.jpg/300px-Lonomia_obliqua_-_Larva_crop.jpg"
+    }
+  },
+  {
+    "id": "indian-red-scorpion",
+    "commonName": "Indian Red Scorpion",
+    "scientificName": "Hottentotta tamulus",
+    "family": "Buthidae",
+    "category": "Scorpion",
+    "emoji": "🦂",
+    "venomPotency": {
+      "ld50Normalized": 1.3
+    },
+    "description": "Most lethal scorpion in India, often causing pulmonary edema.",
+    "continent": "Asia",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Hottentotta_tamulus_by_Shantanu_Kuveskar.jpg/300px-Hottentotta_tamulus_by_Shantanu_Kuveskar.jpg"
+    }
+  },
+  {
+    "id": "vietnamese-centipede",
+    "commonName": "Vietnamese Centipede",
+    "scientificName": "Scolopendra subspinipes",
+    "family": "Scolopendridae",
+    "category": "Centipede",
+    "emoji": "🐛",
+    "venomPotency": {
+      "ld50Normalized": 2.0
+    },
+    "description": "Fast, aggressive, and can reach 20cm in length.",
+    "continent": "Asia",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Scolopendra_subspinipes_subspinipes.jpg/300px-Scolopendra_subspinipes_subspinipes.jpg"
+    }
+  },
+  {
+    "id": "honey-bee",
+    "commonName": "Honey Bee",
+    "scientificName": "Apis mellifera",
+    "family": "Apidae",
+    "category": "Insect",
+    "emoji": "🐝",
+    "venomPotency": {
+      "ld50Normalized": 2.8
+    },
+    "description": "The global baseline for venom potency. Fatal only in allergic cases.",
+    "continent": "Europe",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Apis_mellifera_Western_honey_bee.jpg/300px-Apis_mellifera_Western_honey_bee.jpg"
+    }
+  },
+  {
+    "id": "asian-giant-hornet",
+    "commonName": "Asian Giant Hornet",
+    "scientificName": "Vespa mandarinia",
+    "family": "Vespidae",
+    "category": "Insect",
+    "emoji": "🐝",
+    "venomPotency": {
+      "ld50Normalized": 4.0
+    },
+    "description": "World's largest hornet. Its venom can dissolve human tissue.",
+    "continent": "Asia",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Vespa_mandarinia_female_magnification_2.jpg/300px-Vespa_mandarinia_female_magnification_2.jpg"
+    }
+  },
+  {
+    "id": "brown-recluse",
+    "commonName": "Brown Recluse",
+    "scientificName": "Loxosceles reclusa",
+    "family": "Sicariidae",
+    "category": "Spider",
+    "emoji": "🕷️",
+    "venomPotency": {
+      "ld50Normalized": 5.0
+    },
+    "description": "Possesses a necrotic venom that can lead to large open wounds.",
+    "continent": "North America",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Loxosceles_reclusa_-_Brown_recluse_spider.jpg/300px-Loxosceles_reclusa_-_Brown_recluse_spider.jpg"
+    }
+  },
+  {
+    "id": "bullet-ant",
+    "commonName": "Bullet Ant",
+    "scientificName": "Paraponera clavata",
+    "family": "Formicidae",
+    "category": "Insect",
+    "emoji": "🐜",
+    "venomPotency": {
+      "ld50Normalized": 8.0
+    },
+    "description": "Sting is described as 'pure, intense, brilliant pain'.",
+    "continent": "South America",
+    "images": {
+      "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Paraponera_clavata_profile.jpg/300px-Paraponera_clavata_profile.jpg"
+    }
+  }
+]
