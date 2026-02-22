@@ -18,7 +18,7 @@ function isNonSnake(item: Rankable): item is NonSnake {
   return "category" in item;
 }
 
-const COLS = "grid-cols-[48px_140px_1fr_164px]";
+const COLS = "grid-cols-[48px_140px_minmax(220px,1fr)_110px_90px_164px] gap-x-3 w-full";
 
 function getRankDisplay(rank: number): { numeral: string; color: string } {
   const numeral = rank < 10 ? `0${rank}` : `${rank}`;
@@ -59,16 +59,16 @@ function RankTableRow({
   const scoreColor = snake ? dangerBarColor(snake.dangerScore) : "#C4B8B0";
 
   const RowContent = (
-    <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] hover:bg-stone-50/80`}>
+    <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[88px] hover:bg-stone-50/80`}>
       {/* Rank */}
-      <div className="flex items-center justify-center py-4">
+      <div className="flex items-center justify-center py-4 min-h-[88px]">
         <span className="font-mono text-[13px] font-bold" style={{ color: rankColor }}>
           {numeral}
         </span>
       </div>
 
       {/* Photo */}
-      <div className="relative self-stretch overflow-hidden bg-stone-100 min-h-[72px]">
+      <div className="relative self-stretch overflow-hidden bg-stone-100 min-h-[88px]">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -112,35 +112,26 @@ function RankTableRow({
         </div>
       </div>
 
+      {/* Family */}
+      <div className="pl-2 pr-1 py-3 flex flex-col justify-center min-w-0">
+        <span className="text-sm text-stone-400 truncate">{item.family}</span>
+      </div>
+
+      {/* Region */}
+      <div className="pl-2 pr-1 py-3 flex flex-col justify-center min-w-0">
+        <span className="text-sm text-stone-400 truncate">{item.continent}</span>
+      </div>
+
       {/* Score */}
-      <div className="px-4 py-3 flex flex-col justify-center gap-1.5">
+      <div className="px-4 py-3 flex flex-col justify-center min-h-[88px]">
         {viewMode === "danger" && snake ? (
-          <>
-            <div className="flex items-baseline justify-between">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">Danger</span>
-              <span className="text-sm font-bold tabular-nums" style={{ color: scoreColor }}>{snake.dangerScore}</span>
-            </div>
-            <div className="h-[3px] bg-stone-100 rounded-full overflow-hidden">
-              <div className="h-full rounded-full" style={{ width: `${snake.dangerScore}%`, backgroundColor: scoreColor }} />
-            </div>
-            {snake.dangerScoreComponents && (
-              <div className="hidden sm:flex border-t border-stone-100 pt-1.5">
-                {[
-                  { k: "Leth", v: Math.round(snake.dangerScoreComponents.lethalityScore) },
-                  { k: "Clin", v: Math.round(snake.dangerScoreComponents.clinicalScore) },
-                  { k: "Spd",  v: Math.round(snake.dangerScoreComponents.speedScore) },
-                  { k: "Enc",  v: Math.round(snake.dangerScoreComponents.encounterScore) },
-                ].map(({ k, v }) => (
-                  <div key={k} className="flex-1 text-center">
-                    <div className="text-[9px] text-stone-400 leading-tight">{k}</div>
-                    <div className="text-[10px] font-semibold text-stone-600">{v}</div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
+          <div className="flex items-center justify-center w-full flex-1 min-h-0">
+            <span className="text-lg font-bold font-mono tabular-nums" style={{ color: scoreColor }}>
+              {snake.dangerScore}
+            </span>
+          </div>
         ) : (
-          <div className="flex items-center justify-center w-full min-h-[44px]">
+          <div className="flex items-center justify-center w-full flex-1 min-h-0">
             <span className="text-lg font-bold font-mono text-sky-700">
               {formatLD50(item.venomPotency?.ld50Normalized)}
             </span>
@@ -255,7 +246,7 @@ function RankPageInner() {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8 px-4 sm:px-6 md:px-10 lg:px-[68px]">
+    <div className="min-h-screen bg-background py-8 px-4 sm:px-6 md:px-10 lg:px-[68px] pb-14">
       {/* Keyboard shortcut hint (snake info page style) */}
       <div className="mb-8 flex items-center gap-4 flex-wrap text-sm text-stone-600">
         <span className="flex items-center gap-2">
@@ -289,8 +280,7 @@ function RankPageInner() {
                 }`}
               >
                 <Kbd
-                  triggerKey={mode === "danger" ? "d" : "p"}
-                  className="!text-[10px] font-semibold !rounded-sm min-w-[20px] h-5 inline-flex items-center justify-center !border-0 !bg-stone-600 !text-white hover:!bg-stone-700 !shadow-none"
+                  className="!text-[10px] font-semibold !rounded-sm min-w-[20px] h-5 inline-flex items-center justify-center !border-0 !bg-stone-600 !text-white !shadow-none"
                 >
                   {mode === "danger" ? "D" : "P"}
                 </Kbd>
@@ -318,12 +308,14 @@ function RankPageInner() {
       </div>
 
       {/* Table */}
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-md border border-stone-200 overflow-hidden">
-          <div className={`grid ${COLS} border-b-2 border-stone-200 bg-stone-50/90 sticky top-0 z-10 backdrop-blur`}>
-            <div className="py-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">#</div>
-            <div className="py-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">Photo</div>
-            <div className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">Species</div>
-            <div className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">
+      <div className="max-w-4xl mx-auto w-full bg-white rounded-2xl shadow-md border border-stone-200 overflow-hidden">
+          <div className={`grid ${COLS} border-b-2 border-stone-200/60 sticky top-4 z-10 rounded-t-2xl bg-white mb-3`}>
+            <div className="pt-1 pb-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">#</div>
+            <div className="pt-1 pb-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">Photo</div>
+            <div className="pt-1 pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">Species</div>
+            <div className="pt-1 pb-3 pl-2 pr-1 text-[10px] font-bold uppercase tracking-wider text-stone-400">Family</div>
+            <div className="pt-1 pb-3 pl-2 pr-1 text-[10px] font-bold uppercase tracking-wider text-stone-400">Region</div>
+            <div className="pt-1 pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">
               {viewMode === "danger" ? "Danger Score" : "LD₅₀ (mg/kg)"}
             </div>
           </div>
@@ -338,14 +330,6 @@ function RankPageInner() {
             />
           ))}
         </div>
-
-      {/* Footer */}
-      <div className="max-w-4xl mx-auto text-center mt-8 text-xs text-stone-400">
-        Researched by{" "}
-        <a href="https://github.com" className="hover:text-stone-600 transition-colors">
-          Atharva Nayak
-        </a>
-      </div>
 
       {/* Other venomous species toggle - bottom right (potency view only) */}
       {viewMode === "potency" && (
