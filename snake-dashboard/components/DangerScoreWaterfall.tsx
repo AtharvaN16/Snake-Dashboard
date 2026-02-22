@@ -3,7 +3,7 @@
 import { useEffect, useRef, useMemo, useState } from "react";
 import * as d3 from "d3";
 import { getIntrinsicWeights, getEncounterModifier, getSpeedModifier, getDeliveryModifier } from "@/lib/dangerScore";
-import type { DangerScoreComponents } from "@/lib/types";
+import type { DangerScoreComponents, Snake } from "@/lib/types";
 
 interface WaterfallStep {
   key: string;
@@ -32,6 +32,8 @@ const COLORS = {
   clinicalHover: "#fbbf24",
   speed: "#eab308",
   speedHover: "#facc15",
+  delivery: "#8b5cf6",
+  deliveryHover: "#a78bfa",
   encounter: "#e11d48",
   encounterHover: "#f43f5e",
   final: "#44403c",
@@ -276,7 +278,8 @@ export function DangerScoreWaterfall({
         if (step) {
           const hoverMap: Record<string, string> = {
             lethality: COLORS.lethalityHover, clinical: COLORS.clinicalHover,
-            speed: COLORS.speedHover, encounter: COLORS.encounterHover, final: COLORS.finalHover,
+            speed: COLORS.speedHover, delivery: COLORS.deliveryHover,
+            encounter: COLORS.encounterHover, final: COLORS.finalHover,
           };
           el.attr("fill", hoverMap[key] ?? step.color);
         }

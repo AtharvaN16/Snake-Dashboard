@@ -78,7 +78,7 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
     setSelections(new Map());
 
     try {
-      const data = await callAction("search");
+      const data = await callAction("search") as { candidates: CandidateEntry[] };
       setCandidates(data.candidates);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Network error");
@@ -95,15 +95,15 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
     try {
       const res = await fetch(`/api/snakes/${snakeId}/refresh-image`);
       const raw = await res.text();
-      let data: Record<string, unknown> = {};
+      let data: { images?: SnakeImages | null } = {};
       try {
-        data = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
+        data = raw ? JSON.parse(raw) : {};
       } catch {
         throw new Error(
           `Server returned non-JSON response (${res.status}). Check server logs and retry.`
         );
       }
-      setCurrentImages((data.images as SnakeImages | null) ?? null);
+      setCurrentImages(data.images ?? null);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load current images");
     }

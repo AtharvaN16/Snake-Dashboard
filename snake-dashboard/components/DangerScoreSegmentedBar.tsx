@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { getIntrinsicWeights, getEncounterModifier } from "@/lib/dangerScore";
+import { getIntrinsicWeights, getEncounterModifier, getSpeedModifier } from "@/lib/dangerScore";
 import type { DangerScoreComponents } from "@/lib/types";
 
 interface Segment {
@@ -32,16 +32,40 @@ export function DangerScoreSegmentedBar({
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
 
   const weights = getIntrinsicWeights();
+  const speedModifier = getSpeedModifier(components.speedScore);
   const encounterModifier = getEncounterModifier(components.encounterScore);
 
   const segmentData = useMemo(() => {
+    const lethalityWeight = weights.lethalityScore;
+    const clinicalWeight = weights.clinicalScore;
+    
+    const lethalityContribution = components.lethalityScore * lethalityWeight;
+    const clinicalContribution = components.clinicalScore * clinicalWeight;
+    const baseIntrinsic = lethalityContribution + clinicalContribution;
+    
+    // Speed is a multiplicative modifier; we show its relative impact as a segment
+    const speedEffect = baseIntrinsic * (speedModifier - 1);
+
     return SEGMENTS.map((seg) => {
+      let weight = 0;
+      let contribution = 0;
       const rawScore = components[seg.key];
-      const weight = weights[seg.key];
-      const contribution = rawScore * weight;
+
+      if (seg.key === "lethalityScore") {
+        weight = lethalityWeight;
+        contribution = lethalityContribution;
+      } else if (seg.key === "clinicalScore") {
+        weight = clinicalWeight;
+        contribution = clinicalContribution;
+      } else if (seg.key === "speedScore") {
+        // For speed, 'weight' is effectively its relative contribution to the intrinsic base
+        weight = (speedModifier - 1); 
+        contribution = speedEffect;
+      }
+
       return { ...seg, rawScore, weight, contribution };
     });
-  }, [components, weights]);
+  }, [components, weights, speedModifier]);
 
   // Total intrinsic score (before encounter modifier)
   const intrinsicTotal = segmentData.reduce((sum, s) => sum + s.contribution, 0);

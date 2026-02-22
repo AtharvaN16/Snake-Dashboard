@@ -490,7 +490,12 @@ async function syncGalleryMetadataFromIndex(snakeId: string): Promise<void> {
   }
 
   const galleryAttributions = snake?.images?.galleryAttributions ?? [];
-  const fallback = snake?.images?.attribution ?? { source: "Unknown", license: "Unknown" };
+  const fallback = snake?.images?.attribution ?? { 
+    source: "Unknown", 
+    license: "Unknown",
+    sourceUrl: "",
+    licenseUrl: "" 
+  };
   const alignedAttributions = gallery.map(
     (_img, idx) => galleryAttributions[idx] ?? fallback
   );
@@ -588,7 +593,7 @@ export async function commitSelections(
           snake.images = {
             primary: "", 
             thumbnail: "",
-            attribution: { source: "", license: "" },
+            attribution: { source: "", license: "", sourceUrl: "", licenseUrl: "" },
             gallery: [],
             galleryAttributions: [],
           };
