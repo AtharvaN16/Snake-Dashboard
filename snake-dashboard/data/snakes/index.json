@@ -3705,11 +3705,11 @@
         "primary": "/images/snakes/boomslang/primary.jpg",
         "thumbnail": "/images/snakes/boomslang/thumbnail.jpg",
         "attribution": {
-          "photographer": "William Warby from London, England",
+          "photographer": "Miguel da Fonseca",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dispholidus_typus.jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dispholidus_typus_333317716.jpg",
+          "license": "CC0",
+          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
         }
       },
       "description": "Rear-fanged. Highly potent hemotoxic venom but very low yield. Bites rare.",
@@ -3802,11 +3802,11 @@
         "primary": "/images/snakes/gaboon-viper/primary.jpg",
         "thumbnail": "/images/snakes/gaboon-viper/thumbnail.jpg",
         "attribution": {
-          "photographer": "H. Zell",
+          "photographer": "Isiwal",
           "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bitis_gabonica_01.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gabunviper_Bitis_gabonica-7848.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         }
       },
       "description": "Has the longest fangs of any venomous snake (up to 2 inches) and the highest venom yield. Fortunately, it's docile and rarely encountered.",
@@ -6941,7 +6941,7 @@
         "qualitative": "Low"
       },
       "venomTypes": [
-        "Mild"
+        "Neurotoxic"
       ],
       "venomSpeed": "Slow",
       "symptomsProgression": {
@@ -7024,6 +7024,9 @@
       "dangerScore": 5,
       "dangerRank": "66/130",
       "venomClassification": "Mildly Venomous",
+      "venomTypes": [
+        "Myotoxic"
+      ],
       "humanEncounterChance": "High",
       "distribution": {
         "regions": [
@@ -7085,6 +7088,9 @@
       "dangerScore": 5,
       "dangerRank": "67/130",
       "venomClassification": "Mildly Venomous",
+      "venomTypes": [
+        "Neurotoxic"
+      ],
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -7163,7 +7169,7 @@
         "qualitative": "Very Low"
       },
       "venomTypes": [
-        "Mild"
+        "Hemotoxic"
       ],
       "venomSpeed": "Slow",
       "symptomsProgression": {
@@ -7244,6 +7250,9 @@
       "dangerScore": 5,
       "dangerRank": "69/130",
       "venomClassification": "Mildly Venomous",
+      "venomTypes": [
+        "Cytotoxic"
+      ],
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -7304,6 +7313,9 @@
       "dangerScore": 4,
       "dangerRank": "70/130",
       "venomClassification": "Mildly Venomous",
+      "venomTypes": [
+        "Neurotoxic"
+      ],
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -7383,7 +7395,7 @@
         "qualitative": "Low"
       },
       "venomTypes": [
-        "Mild cytotoxic"
+        "Neurotoxic"
       ],
       "venomSpeed": "Slow",
       "symptomsProgression": {
@@ -7487,7 +7499,7 @@
         "qualitative": "Very Low"
       },
       "venomTypes": [
-        "Mild cytotoxic"
+        "Cytotoxic"
       ],
       "venomSpeed": "Slow",
       "symptomsProgression": {
@@ -7622,7 +7634,7 @@
         "qualitative": "Very Low"
       },
       "venomTypes": [
-        "Neurotoxic"
+        "Hemotoxic"
       ],
       "venomSpeed": "Quick",
       "images": {

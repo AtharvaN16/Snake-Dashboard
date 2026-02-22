@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getAllSnakes, filterByContinent } from "@/lib/snakeData";
 import { getNonSnakes, NonSnake } from "@/lib/nonSnakeData";
+import { VENOM_TYPE_CHIP } from "@/components/VenomTypeChip";
 import type { Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
@@ -37,13 +38,6 @@ function ld50BarWidth(ld50: number): number {
   const log = Math.log10(Math.max(0.01, ld50));
   return Math.max(3, Math.min(97, Math.round((1 - (log + 2) / 4.7) * 100)));
 }
-
-const VENOM_CHIP: Record<string, { bg: string; text: string }> = {
-  Hemotoxic:  { bg: "#FEE2E2", text: "#991B1B" },
-  Neurotoxic: { bg: "#EDE9FE", text: "#5B21B6" },
-  Cytotoxic:  { bg: "#FEF3C7", text: "#92400E" },
-  Myotoxic:   { bg: "#D1FAE5", text: "#065F46" },
-};
 
 function formatLD50(val: number | undefined): string {
   if (val == null) return "N/A";
@@ -105,21 +99,18 @@ function RankTableRow({
           <p className="text-[11px] text-stone-400 italic truncate">{item.scientificName}</p>
         </div>
         <div className="flex items-center gap-1 flex-wrap">
-          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded border border-stone-200 bg-white text-stone-500">
-            {item.family}
-          </span>
-          <span className="text-[10px] font-medium px-1.5 py-0.5 rounded border border-stone-200 bg-white text-stone-500">
-            {item.continent}
-          </span>
-          {(isNS ? nonSnake?.venomTypes : snake?.venomTypes)?.slice(0, 2).map((type) => {
-            const s = VENOM_CHIP[type] ?? { bg: "#F3F4F6", text: "#374151" };
-            return (
-              <span key={type} className="text-[10px] font-medium px-1.5 py-0.5 rounded"
-                style={{ backgroundColor: s.bg, color: s.text }}>
-                {type}
-              </span>
-            );
-          })}
+          {(isNS ? nonSnake?.venomTypes : snake?.venomTypes)
+            ?.filter((type) => type in VENOM_TYPE_CHIP)
+            ?.slice(0, 2)
+            .map((type) => {
+              const s = VENOM_TYPE_CHIP[type];
+              return (
+                <span key={type} className="text-[10px] font-medium px-1.5 py-0.5 rounded"
+                  style={{ backgroundColor: s.bg, color: s.text }}>
+                  {type}
+                </span>
+              );
+            })}
         </div>
       </div>
 
@@ -189,10 +180,15 @@ function RankPageInner() {
   const focusSnakeId = searchParams.get("snakeId");
   const regionParam = searchParams.get("region");
   const [viewMode, setViewMode] = useState<ViewMode>(viewParam === "potency" ? "potency" : "danger");
-  const [showOnlySnakes, setShowOnlySnakes] = useState(false);
+  const [showOnlySnakes, setShowOnlySnakes] = useState(true);
+  const [regionPillsOpen, setRegionPillsOpen] = useState(false);
 
   const allSnakes = getAllSnakes();
   const [allNonSnakes, setAllNonSnakes] = useState<NonSnake[]>(() => getNonSnakes());
+  const uniqueContinents = useMemo(
+    () => Array.from(new Set(allSnakes.map((s) => s.continent))).sort(),
+    [allSnakes]
+  );
 
   useEffect(() => {
     fetch("/api/non-snakes")
@@ -238,8 +234,21 @@ function RankPageInner() {
   function switchView(mode: ViewMode) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("view", mode);
-    router.push(`/rank?${params.toString()}`);
+    const query = params.toString();
+    router.push(query ? `/rank?${query}` : "/rank");
     setViewMode(mode);
+  }
+
+  function setRegion(region: Snake["continent"] | null) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (region) {
+      params.set("region", region);
+    } else {
+      params.delete("region");
+    }
+    const query = params.toString();
+    router.push(query ? `/rank?${query}` : "/rank");
+    setRegionPillsOpen(false);
   }
 
   return (
@@ -260,6 +269,59 @@ function RankPageInner() {
             <h1 className="text-[2.5rem] font-serif font-normal text-[#2c2c2c] leading-none">
               {viewMode === "danger" ? "Danger Rankings" : "Venom Potency"}
             </h1>
+            <div className="mt-3 flex flex-col items-start gap-1.5">
+              <button
+                onClick={() => setRegionPillsOpen((o) => !o)}
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
+                  regionParam
+                    ? "bg-stone-800 text-white shadow-sm"
+                    : "bg-white/80 text-stone-600 hover:text-stone-800 border border-stone-200/50 backdrop-blur-sm"
+                }`}
+                aria-expanded={regionPillsOpen}
+              >
+                Region
+              </button>
+              <div
+                className={`flex flex-wrap gap-1.5 overflow-hidden transition-all duration-200 ease-out ${
+                  regionPillsOpen ? "max-h-28 opacity-100" : "max-h-0 opacity-0"
+                }`}
+              >
+                {regionParam && (
+                  <button
+                    onClick={() => setRegion(null)}
+                    className="px-3 py-1.5 text-xs font-medium rounded-full bg-stone-200 text-stone-700 hover:bg-stone-300 border border-stone-300 backdrop-blur-sm whitespace-nowrap transition-colors"
+                    style={{
+                      transform: regionPillsOpen ? "translateX(0px)" : "translateX(-10px)",
+                      transition: "transform 220ms ease-out, opacity 220ms ease-out",
+                    }}
+                  >
+                    All
+                  </button>
+                )}
+                {uniqueContinents.map((continent, index) => {
+                  const isActive = regionParam === continent;
+                  return (
+                    <button
+                      key={continent}
+                      onClick={() => setRegion(isActive ? null : continent)}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors whitespace-nowrap ${
+                        isActive
+                          ? "bg-stone-800 text-white shadow-sm"
+                          : "bg-white/80 text-stone-600 hover:text-stone-800 border border-stone-200/50 backdrop-blur-sm"
+                      }`}
+                      style={{
+                        transform: regionPillsOpen ? "translateX(0px)" : "translateX(-10px)",
+                        opacity: regionPillsOpen ? 1 : 0,
+                        transition: "transform 220ms ease-out, opacity 220ms ease-out",
+                        transitionDelay: regionPillsOpen ? `${index * 35}ms` : "0ms",
+                      }}
+                    >
+                      {continent}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
             <p className="text-stone-500 text-sm mt-2 flex items-center gap-2 flex-wrap">
               <span>{rankedItems.length} species</span>
               <span className="text-stone-300">·</span>
@@ -275,22 +337,23 @@ function RankPageInner() {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Show Only Snakes Toggle */}
+            {/* Include other venomous species (e.g. spiders) in potency ranking */}
             {viewMode === "potency" && (
               <label className="flex items-center gap-2 cursor-pointer group">
                 <div className="relative inline-flex items-center">
-                  <input 
-                    type="checkbox" 
-                    className="sr-only" 
-                    checked={showOnlySnakes} 
+                  <input
+                    type="checkbox"
+                    className="sr-only"
+                    checked={!showOnlySnakes}
                     onChange={() => setShowOnlySnakes(!showOnlySnakes)}
                   />
-                  <div className={`w-8 h-4 rounded-full transition-colors duration-200 ${showOnlySnakes ? "bg-stone-800" : "bg-stone-200"}`}>
-                    <div className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ${showOnlySnakes ? "translate-x-4" : ""}`} />
+                  <div className={`w-8 h-4 rounded-full transition-colors duration-200 ${!showOnlySnakes ? "bg-stone-800" : "bg-stone-200"}`}>
+                    <div className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ${!showOnlySnakes ? "translate-x-4" : ""}`} />
                   </div>
                 </div>
+                <Image src="/icons/spider.svg" alt="" width={20} height={20} className="opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden />
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 group-hover:text-stone-800 transition-colors">
-                  Only Snakes
+                  Other venomous species
                 </span>
               </label>
             )}
@@ -320,7 +383,7 @@ function RankPageInner() {
           <div className={`grid ${COLS} border-b-2 border-stone-200 bg-stone-50/90 sticky top-0 z-10 backdrop-blur`}>
             <div className="py-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">#</div>
             <div className="py-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">Photo</div>
-            <div className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">Species · Family · Region</div>
+            <div className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">Species</div>
             <div className="py-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">
               {viewMode === "danger" ? "Danger Score" : "LD₅₀ (mg/kg)"}
             </div>

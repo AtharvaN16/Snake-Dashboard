@@ -696,7 +696,7 @@ const newSnakes = [
     "29/100",
     { ld50: 200, range: "150-300", method: "IV" },
     { dry: 5, qual: "Very Low" },
-    ["Mild cytotoxic"],
+    ["Cytotoxic"],
     "Slow",
     {
       short: ["Mild swelling", "Itching", "Rare allergic reaction"],
@@ -744,7 +744,7 @@ const newSnakes = [
     "31/100",
     { ld50: 8.0, range: "5-12", method: "IV" },
     { dry: 15, qual: "Low" },
-    ["Mild cytotoxic"],
+    ["Neurotoxic"],
     "Slow",
     {
       short: ["Local pain", "Swelling", "Mild necrosis"],
@@ -768,7 +768,7 @@ const newSnakes = [
     "32/100",
     { ld50: 300, range: "200-400", method: "IV" },
     { dry: 2, qual: "Very Low" },
-    ["Mild"],
+    ["Hemotoxic"],
     "Slow",
     {
       short: ["Mild local reaction"],
@@ -792,7 +792,7 @@ const newSnakes = [
     "33/100",
     { ld50: 10.0, range: "5-15", method: "IV" },
     { dry: 10, qual: "Low" },
-    ["Mild"],
+    ["Neurotoxic"],
     "Slow",
     {
       short: ["Mild local effects"],

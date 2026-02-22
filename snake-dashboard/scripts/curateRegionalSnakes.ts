@@ -45,6 +45,7 @@ function baseVenomous(
     subregions: string[];
     venomClassification: "Highly Venomous" | "Moderately Venomous" | "Mildly Venomous";
     dangerScore: number;
+    venomTypes?: string[];
   }
 ): SnakeRecord {
   return {
@@ -60,7 +61,7 @@ function baseVenomous(
     },
     venomPotency: { ld50: 1, ld50Range: "Varies", unit: "mg/kg", method: "IV" },
     venomYield: { qualitative: "Moderate" },
-    venomTypes: ["Neurotoxic"],
+    venomTypes: snake.venomTypes ?? ["Neurotoxic"],
     venomSpeed: "Quick",
     symptomsProgression: {
       shortTerm: ["Localized pain", "Nausea"],
@@ -105,7 +106,7 @@ const curatedAdditions: SnakeRecord[] = [
   baseVenomous({ id: "monocled-cobra", commonName: "Monocled Cobra", scientificName: "Naja kaouthia", family: "Elapidae", genus: "Naja", continent: "Asia", subregions: ["South Asia", "Southeast Asia"], dangerScore: 82, venomClassification: "Highly Venomous", humanEncounterChance: "High", distribution: { regions: ["South Asia", "Southeast Asia"], habitat: "Agricultural fields, forests, villages" }, description: "One of Asia's most recognized cobras, common in snakebite regions." }),
   baseVenomous({ id: "common-krait", commonName: "Common Krait", scientificName: "Bungarus caeruleus", family: "Elapidae", genus: "Bungarus", continent: "Asia", subregions: ["Indian Subcontinent"], dangerScore: 86, venomClassification: "Highly Venomous", humanEncounterChance: "High", distribution: { regions: ["India", "Pakistan", "Bangladesh", "Sri Lanka"], habitat: "Rural settlements and fields" }, description: "Iconic nocturnal krait and major medically important species in South Asia." }),
   baseVenomous({ id: "banded-krait", commonName: "Banded Krait", scientificName: "Bungarus fasciatus", family: "Elapidae", genus: "Bungarus", continent: "Asia", subregions: ["Southeast Asia"], dangerScore: 72, venomClassification: "Moderately Venomous", humanEncounterChance: "Moderate", distribution: { regions: ["Southeast Asia"], habitat: "Grasslands, wetlands, forests" }, description: "Highly recognizable black-yellow banded krait." }),
-  baseVenomous({ id: "asian-vine-snake", commonName: "Asian Vine Snake", scientificName: "Ahaetulla prasina", family: "Colubridae", genus: "Ahaetulla", continent: "Asia", subregions: ["Southeast Asia"], dangerScore: 25, venomClassification: "Mildly Venomous", humanEncounterChance: "Moderate", distribution: { regions: ["Southeast Asia"], habitat: "Forest edges, gardens, shrubs" }, description: "Famous green arboreal snake; mild rear-fanged venom." }),
+  baseVenomous({ id: "asian-vine-snake", commonName: "Asian Vine Snake", scientificName: "Ahaetulla prasina", family: "Colubridae", genus: "Ahaetulla", continent: "Asia", subregions: ["Southeast Asia"], dangerScore: 25, venomClassification: "Mildly Venomous", venomTypes: ["Hemotoxic"], humanEncounterChance: "Moderate", distribution: { regions: ["Southeast Asia"], habitat: "Forest edges, gardens, shrubs" }, description: "Famous green arboreal snake; mild rear-fanged venom." }),
   baseVenomous({ id: "javan-spitting-cobra", commonName: "Javan Spitting Cobra", scientificName: "Naja sputatrix", family: "Elapidae", genus: "Naja", continent: "Asia", subregions: ["Indonesia"], dangerScore: 74, venomClassification: "Moderately Venomous", humanEncounterChance: "Moderate", distribution: { regions: ["Indonesia"], habitat: "Lowland forests and cultivated areas" }, description: "Well-known Southeast Asian spitting cobra." }),
 
   // Africa

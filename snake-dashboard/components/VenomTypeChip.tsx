@@ -1,17 +1,18 @@
 import { cn } from "@/lib/utils";
 import type { VenomType } from "@/lib/types";
 
+/** Same color mapping as rankings page venom type pills */
+export const VENOM_TYPE_CHIP: Record<string, { bg: string; text: string }> = {
+  Hemotoxic: { bg: "#FEE2E2", text: "#991B1B" },
+  Neurotoxic: { bg: "#EDE9FE", text: "#5B21B6" },
+  Cytotoxic: { bg: "#FEF3C7", text: "#92400E" },
+  Myotoxic: { bg: "#D1FAE5", text: "#065F46" },
+};
+
 interface VenomTypeChipProps {
   type: VenomType;
   className?: string;
 }
-
-const venomTypeIcons: Record<VenomType, string> = {
-  Hemotoxic: "🩸",
-  Neurotoxic: "🧠",
-  Cytotoxic: "💥",
-  Myotoxic: "💪",
-};
 
 const venomTypeTooltips: Record<VenomType, string> = {
   Hemotoxic: "Targets blood and circulatory system; disrupts clotting and can cause bleeding disorders.",
@@ -20,27 +21,23 @@ const venomTypeTooltips: Record<VenomType, string> = {
   Myotoxic: "Damages muscle tissue, causing myonecrosis (muscle death) and contributing to long-term morbidity.",
 };
 
-const pillStyle = {
-  padding: "4px 8px",
-  display: "inline-flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "4px",
-  borderRadius: "4px",
-  backgroundColor: "#E5E5E5",
-  color: "#000",
-};
-
+/** Matches Venom yield / Venom Speed pill style: 4px radius, 4px 8px padding, text-sm, no shadow */
 export function VenomTypeChip({ type, className }: VenomTypeChipProps) {
+  const colors = VENOM_TYPE_CHIP[type] ?? { bg: "#F3F4F6", text: "#374151" };
+
   return (
     <span
       className={cn(
-        "group/chip relative inline-flex font-medium text-sm",
+        "group/chip relative inline-flex font-semibold text-sm justify-center items-center",
         className
       )}
-      style={pillStyle}
+      style={{
+        padding: "4px 8px",
+        borderRadius: "4px",
+        backgroundColor: colors.bg,
+        color: colors.text,
+      }}
     >
-      <span className="shrink-0">{venomTypeIcons[type]}</span>
       <span>{type}</span>
       <span
         className="pointer-events-none invisible absolute bottom-full left-1/2 z-50 mb-2 w-fit -translate-x-1/2 translate-y-1 rounded border border-stone-200 bg-white px-3 py-2 text-xs font-normal leading-snug text-stone-800 opacity-0 shadow-lg transition-all duration-200 group-hover/chip:visible group-hover/chip:translate-y-0 group-hover/chip:opacity-100"
