@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HyperbolicTreeWrapper } from "@/components/Phylogeny/HyperbolicTreeWrapper";
+import { Kbd } from "@/components/ui/kbd";
 import { getAllSnakes } from "@/lib/snakeData";
 import { buildFullSnakeHierarchy } from "@/lib/snakeTaxonomy";
 
@@ -27,12 +28,10 @@ export default async function GlobalPhylogenyPage({
         body[data-chart-zoomed] [data-hint='back'] { display: none; }
       `}} />
 
-      {/* Back + keyboard shortcut hints */}
+      {/* Back + keyboard shortcut hints (snake info page style) */}
       <div className="absolute top-0 left-0 z-20 py-4 px-[68px] flex items-center gap-4 flex-wrap text-sm text-stone-600">
         <span data-hint="back" className="flex items-center gap-2">
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
-            Esc
-          </kbd>
+          <Kbd triggerKey="Escape">Esc</Kbd>
           <Link
             href="/"
             className="hover:text-stone-800 transition-colors"
@@ -40,16 +39,12 @@ export default async function GlobalPhylogenyPage({
             Back
           </Link>
         </span>
-        <span data-hint="zoom-out" className="items-center gap-2">
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
-            Delete
-          </kbd>
+        <span data-hint="zoom-out" className="flex items-center gap-2">
+          <Kbd triggerKey="Delete">Delete</Kbd>
           <span>Zoom out</span>
         </span>
         <span className="flex items-center gap-2">
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
-            Space
-          </kbd>
+          <Kbd triggerKey=" ">Space</Kbd>
           <span>Search to highlight snake on graph</span>
         </span>
       </div>

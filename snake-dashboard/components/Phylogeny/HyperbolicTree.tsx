@@ -18,6 +18,7 @@ import { TreeLegend } from "./TreeLegend";
 import { setupInteractions } from "./treeInteractions";
 import taxonomyDescriptions from "@/data/taxonomy_descriptions.json";
 import { TaxonomyInfoBox } from "./TaxonomyInfoBox";
+import { RegionPills } from "@/components/RegionPills";
 import { getAllSnakes } from "@/lib/snakeData";
 import type { Snake } from "@/lib/types";
 
@@ -41,7 +42,6 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [colorMode, setColorMode] = useState<'family' | 'venom'>('family');
   const [selectedRegion, setSelectedRegion] = useState<Snake["continent"] | null>(null);
-  const [regionPillsOpen, setRegionPillsOpen] = useState(false);
   const applyRegionFilterRef = useRef<((region: Snake["continent"] | null) => void) | null>(null);
   colorModeRef.current = colorMode;
 
@@ -555,51 +555,12 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         >
           Venom
         </button>
-        <div className="flex flex-col gap-1.5 items-end">
-          <button
-            onClick={() => setRegionPillsOpen((o) => !o)}
-            className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-              selectedRegion
-                ? 'bg-stone-800 text-white shadow-sm'
-                : 'bg-white/80 text-stone-600 hover:text-stone-800 border border-stone-200/50 backdrop-blur-sm'
-            }`}
-          >
-            Region
-          </button>
-          <div
-            className={`grid grid-cols-1 gap-1 overflow-hidden transition-all duration-200 ease-out ${
-              regionPillsOpen ? "max-h-[320px] opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            {selectedRegion && (
-              <button
-                onClick={() => setSelectedRegion(null)}
-                className="px-3 py-1.5 text-xs font-medium rounded-full bg-stone-200 text-stone-700 hover:bg-stone-300 border border-stone-300 backdrop-blur-sm whitespace-nowrap"
-              >
-                All
-              </button>
-            )}
-            {uniqueContinents.map((continent) => {
-              const isActive = selectedRegion === continent;
-              return (
-                <button
-                  key={continent}
-                  onClick={() => {
-                    setSelectedRegion(isActive ? null : continent);
-                    setRegionPillsOpen(false);
-                  }}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors whitespace-nowrap ${
-                    isActive
-                      ? "bg-stone-800 text-white shadow-sm"
-                      : "bg-white/80 text-stone-600 hover:text-stone-800 border border-stone-200/50 backdrop-blur-sm"
-                  }`}
-                >
-                  {continent}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <RegionPills
+          selectedRegion={selectedRegion}
+          onChange={setSelectedRegion}
+          continents={uniqueContinents}
+          singleColumn
+        />
       </div>
       <p className="absolute bottom-2 left-2 text-xs text-stone-400 pointer-events-none">
         Drag to pan · Scroll to zoom · Click node to focus · R to reset view ·

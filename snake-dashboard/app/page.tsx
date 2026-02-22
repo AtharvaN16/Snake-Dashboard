@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { HomeSearchCard } from "@/components/HomeSearchCard";
+import { Kbd } from "@/components/ui/kbd";
 
 export default function Home() {
   return (
@@ -9,9 +10,7 @@ export default function Home() {
       {/* Top right: keyboard shortcut labels */}
       <nav className="absolute top-8 right-[68px] flex items-center gap-4 flex-wrap text-sm text-stone-600 shrink-0">
         <span className="flex items-center gap-2">
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
-            R
-          </kbd>
+          <Kbd triggerKey="R">R</Kbd>
           <Link
             href="/rank"
             className="hover:text-stone-800 transition-colors no-underline"
@@ -20,9 +19,7 @@ export default function Home() {
           </Link>
         </span>
         <span className="flex items-center gap-2">
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
-            T
-          </kbd>
+          <Kbd triggerKey="T">T</Kbd>
           <Link
             href="/phylogeny"
             className="hover:text-stone-800 transition-colors no-underline"

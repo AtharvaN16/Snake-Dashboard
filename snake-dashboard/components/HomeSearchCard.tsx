@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { getAllSnakes, isVenomous } from "@/lib/snakeData";
 import { searchSnakes, sortSnakes, type SortOption } from "@/lib/searchUtils";
 import { SearchBar } from "@/components/SearchBar";
+import { Kbd } from "@/components/ui/kbd";
 import type { Snake } from "@/lib/types";
 
 /** Light background + dark text for small tags (search & rankings only) */
@@ -356,12 +357,12 @@ export function HomeSearchCard({
       >
         <p className="text-xs text-stone-500 flex items-center justify-center gap-2 flex-wrap relative">
           <span>Press</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 font-mono text-[11px]">Space</kbd>
+          <Kbd triggerKey=" ">Space</Kbd>
           <span>to search,</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 font-mono text-[11px]">↑</kbd>
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 font-mono text-[11px]">↓</kbd>
+          <Kbd triggerKey="ArrowUp">↑</Kbd>
+          <Kbd triggerKey="ArrowDown">↓</Kbd>
           <span>to navigate,</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 font-mono text-[11px]">Enter</kbd>
+          <Kbd triggerKey="Enter">Enter</Kbd>
           <span>to open</span>
         </p>
       </div>

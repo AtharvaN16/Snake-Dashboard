@@ -1,6 +1,7 @@
 "use client";
 
-import { Undo2 } from 'lucide-react';
+import { Undo2 } from "lucide-react";
+import { Kbd } from "@/components/ui/kbd";
 
 interface TaxonomyInfoBoxProps {
   name: string;
@@ -18,9 +19,9 @@ export function TaxonomyInfoBox({ name, description, onClose }: TaxonomyInfoBoxP
           className="group flex items-center gap-1.5 text-sm text-stone-500 hover:text-stone-800 transition-colors flex-shrink-0 ml-4"
           aria-label="Close"
         >
-          <kbd className="group-hover:bg-stone-300 group-hover:text-stone-900 transition-colors px-1.5 py-1 rounded bg-stone-200 text-stone-800 font-mono shadow-sm flex items-center justify-center">
+          <Kbd className="group-hover:bg-stone-300 group-hover:text-stone-900 transition-colors py-1 flex items-center justify-center">
             <Undo2 size={14} />
-          </kbd>
+          </Kbd>
           <span>Back</span>
         </button>
       </div>

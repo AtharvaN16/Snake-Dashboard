@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useMemo, useEffect, Suspense } from "react";
+import { useState, useMemo, useEffect, useCallback, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getAllSnakes, filterByContinent } from "@/lib/snakeData";
 import { getNonSnakes, NonSnake } from "@/lib/nonSnakeData";
 import { VENOM_TYPE_CHIP } from "@/components/VenomTypeChip";
+import { RegionPills } from "@/components/RegionPills";
+import { Kbd } from "@/components/ui/kbd";
 import type { Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
@@ -34,11 +36,6 @@ function dangerBarColor(score: number): string {
   return "#16a34a";
 }
 
-function ld50BarWidth(ld50: number): number {
-  const log = Math.log10(Math.max(0.01, ld50));
-  return Math.max(3, Math.min(97, Math.round((1 - (log + 2) / 4.7) * 100)));
-}
-
 function formatLD50(val: number | undefined): string {
   if (val == null) return "N/A";
   if (val < 0.001) {
@@ -62,9 +59,7 @@ function RankTableRow({
   const scoreColor = snake ? dangerBarColor(snake.dangerScore) : "#C4B8B0";
 
   const RowContent = (
-    <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] ${
-      isNS ? "bg-[#EAEAEA] hover:bg-[#E0E0E0]" : "hover:bg-stone-50/80"
-    }`}>
+    <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] hover:bg-stone-50/80`}>
       {/* Rank */}
       <div className="flex items-center justify-center py-4">
         <span className="font-mono text-[13px] font-bold" style={{ color: rankColor }}>
@@ -93,10 +88,13 @@ function RankTableRow({
       {/* Identity + Taxonomy */}
       <div className="px-4 py-3 flex flex-col justify-center gap-1.5 min-w-0">
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold text-[#2c2c2c] leading-tight truncate">
-            {item.commonName}
-          </h3>
           <p className="text-[11px] text-stone-400 italic truncate">{item.scientificName}</p>
+          <h3 className="text-sm font-semibold text-[#2c2c2c] leading-tight truncate flex items-center gap-1.5">
+            <span className="truncate">{item.commonName}</span>
+            {isNS && (
+              <Image src="/icons/spider.svg" alt="" width={16} height={16} className="shrink-0 opacity-70" aria-hidden />
+            )}
+          </h3>
         </div>
         <div className="flex items-center gap-1 flex-wrap">
           {(isNS ? nonSnake?.venomTypes : snake?.venomTypes)
@@ -142,21 +140,11 @@ function RankTableRow({
             )}
           </>
         ) : (
-          <>
-            <div className="flex items-baseline justify-between gap-1">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">LD₅₀</span>
-              <span className="text-xs font-bold font-mono text-sky-700">
-                {formatLD50(item.venomPotency?.ld50Normalized)}
-              </span>
-            </div>
-            {item.venomPotency?.ld50Normalized != null && (
-              <div className="h-[3px] bg-stone-100 rounded-full overflow-hidden">
-                <div className="h-full rounded-full bg-sky-500"
-                  style={{ width: `${ld50BarWidth(item.venomPotency.ld50Normalized)}%` }} />
-              </div>
-            )}
-            <div className="text-[9px] text-stone-400">mg/kg · lower = more toxic</div>
-          </>
+          <div className="flex items-center justify-center w-full min-h-[44px]">
+            <span className="text-lg font-bold font-mono text-sky-700">
+              {formatLD50(item.venomPotency?.ld50Normalized)}
+            </span>
+          </div>
         )}
       </div>
     </div>
@@ -181,7 +169,6 @@ function RankPageInner() {
   const regionParam = searchParams.get("region");
   const [viewMode, setViewMode] = useState<ViewMode>(viewParam === "potency" ? "potency" : "danger");
   const [showOnlySnakes, setShowOnlySnakes] = useState(true);
-  const [regionPillsOpen, setRegionPillsOpen] = useState(false);
 
   const allSnakes = getAllSnakes();
   const [allNonSnakes, setAllNonSnakes] = useState<NonSnake[]>(() => getNonSnakes());
@@ -231,13 +218,30 @@ function RankPageInner() {
     return () => clearTimeout(t);
   }, [focusSnakeId, rankedItems]);
 
-  function switchView(mode: ViewMode) {
+  const switchView = useCallback((mode: ViewMode) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("view", mode);
     const query = params.toString();
     router.push(query ? `/rank?${query}` : "/rank");
     setViewMode(mode);
-  }
+  }, [searchParams, router]);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      const target = e.target as HTMLElement;
+      if (target.closest("input, textarea, select") || target.isContentEditable) return;
+      const key = e.key.toLowerCase();
+      if (key === "d") {
+        e.preventDefault();
+        switchView("danger");
+      } else if (key === "p") {
+        e.preventDefault();
+        switchView("potency");
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [switchView]);
 
   function setRegion(region: Snake["continent"] | null) {
     const params = new URLSearchParams(searchParams.toString());
@@ -248,121 +252,69 @@ function RankPageInner() {
     }
     const query = params.toString();
     router.push(query ? `/rank?${query}` : "/rank");
-    setRegionPillsOpen(false);
   }
 
   return (
     <div className="min-h-screen bg-background py-8 px-4 sm:px-6 md:px-10 lg:px-[68px]">
-      {/* Back nav */}
-      <div className="mb-8 flex items-center gap-2 text-sm text-stone-500">
-        <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-700 font-mono shadow-sm text-[11px]">Esc</kbd>
-        <Link href="/" className="flex items-center gap-1.5 hover:text-stone-800 transition-colors">
-          ← Back
-        </Link>
+      {/* Keyboard shortcut hint (snake info page style) */}
+      <div className="mb-8 flex items-center gap-4 flex-wrap text-sm text-stone-600">
+        <span className="flex items-center gap-2">
+          <Kbd triggerKey="Escape">Esc</Kbd>
+          <Link href="/" className="hover:text-stone-800 transition-colors">
+            Back
+          </Link>
+        </span>
       </div>
 
       {/* Page Header */}
       <div className="max-w-4xl mx-auto mb-8">
-        <div className="flex items-end justify-between flex-wrap gap-4">
-          <div>
-            <h1 className="text-[2.5rem] font-extrabold text-[#2c2c2c] leading-none">
-              {viewMode === "danger" ? "Danger Rankings" : "Venom Potency"}
-            </h1>
-            <div className="mt-3 flex flex-col items-start gap-1.5">
+        {/* Danger / Potency toggle above title */}
+        <div className="mb-4">
+          <div className="relative inline-flex p-0.5 bg-stone-200/70 rounded-full shrink-0">
+            {/* Sliding pill */}
+            <div
+              className="absolute top-0.5 bottom-0.5 w-[calc(50%-4px)] rounded-full bg-white shadow-sm transition-[transform] duration-200 ease-out left-0.5"
+              style={{
+                transform: viewMode === "danger" ? "translateX(0)" : "translateX(calc(100% + 4px))",
+              }}
+              aria-hidden
+            />
+            {(["danger", "potency"] as const).map((mode) => (
               <button
-                onClick={() => setRegionPillsOpen((o) => !o)}
-                className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-                  regionParam
-                    ? "bg-stone-800 text-white shadow-sm"
-                    : "bg-white/80 text-stone-600 hover:text-stone-800 border border-stone-200/50 backdrop-blur-sm"
-                }`}
-                aria-expanded={regionPillsOpen}
-              >
-                Region
-              </button>
-              <div
-                className={`flex flex-wrap gap-1.5 overflow-hidden transition-all duration-200 ease-out ${
-                  regionPillsOpen ? "max-h-28 opacity-100" : "max-h-0 opacity-0"
+                key={mode}
+                type="button"
+                onClick={() => switchView(mode)}
+                className={`relative z-10 flex-1 min-w-[100px] px-5 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-2 ${
+                  viewMode === mode ? "text-[#2c2c2c]" : "text-stone-500 hover:text-stone-700"
                 }`}
               >
-                {regionParam && (
-                  <button
-                    onClick={() => setRegion(null)}
-                    className="px-3 py-1.5 text-xs font-medium rounded-full bg-stone-200 text-stone-700 hover:bg-stone-300 border border-stone-300 backdrop-blur-sm whitespace-nowrap transition-colors"
-                    style={{
-                      transform: regionPillsOpen ? "translateX(0px)" : "translateX(-10px)",
-                      transition: "transform 220ms ease-out, opacity 220ms ease-out",
-                    }}
-                  >
-                    All
-                  </button>
-                )}
-                {uniqueContinents.map((continent, index) => {
-                  const isActive = regionParam === continent;
-                  return (
-                    <button
-                      key={continent}
-                      onClick={() => setRegion(isActive ? null : continent)}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-full transition-colors whitespace-nowrap ${
-                        isActive
-                          ? "bg-stone-800 text-white shadow-sm"
-                          : "bg-white/80 text-stone-600 hover:text-stone-800 border border-stone-200/50 backdrop-blur-sm"
-                      }`}
-                      style={{
-                        transform: regionPillsOpen ? "translateX(0px)" : "translateX(-10px)",
-                        opacity: regionPillsOpen ? 1 : 0,
-                        transition: "transform 220ms ease-out, opacity 220ms ease-out",
-                        transitionDelay: regionPillsOpen ? `${index * 35}ms` : "0ms",
-                      }}
-                    >
-                      {continent}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {/* Include other venomous species (e.g. spiders) in potency ranking */}
-            {viewMode === "potency" && (
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <div className="relative inline-flex items-center">
-                  <input
-                    type="checkbox"
-                    className="sr-only"
-                    checked={!showOnlySnakes}
-                    onChange={() => setShowOnlySnakes(!showOnlySnakes)}
-                  />
-                  <div className={`w-8 h-4 rounded-full transition-colors duration-200 ${!showOnlySnakes ? "bg-stone-800" : "bg-stone-200"}`}>
-                    <div className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ${!showOnlySnakes ? "translate-x-4" : ""}`} />
-                  </div>
-                </div>
-                <Image src="/icons/spider.svg" alt="" width={20} height={20} className="opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden />
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 group-hover:text-stone-800 transition-colors">
-                  Other venomous species
-                </span>
-              </label>
-            )}
-
-            {/* Segmented toggle */}
-            <div className="inline-flex p-0.5 bg-stone-200/70 rounded-full shrink-0">
-              {(["danger", "potency"] as const).map((mode) => (
-                <button
-                  key={mode}
-                  onClick={() => switchView(mode)}
-                  className={`px-5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                    viewMode === mode
-                      ? "bg-white text-[#2c2c2c] shadow-sm"
-                      : "text-stone-500 hover:text-stone-700"
-                  }`}
+                <Kbd
+                  triggerKey={mode === "danger" ? "d" : "p"}
+                  className="!text-[10px] font-semibold !rounded-sm min-w-[20px] h-5 inline-flex items-center justify-center !border-0 !bg-stone-600 !text-white hover:!bg-stone-700 !shadow-none"
                 >
-                  {mode === "danger" ? "Danger" : "Potency"}
-                </button>
-              ))}
-            </div>
+                  {mode === "danger" ? "D" : "P"}
+                </Kbd>
+                {mode === "danger" ? "Danger" : "Potency"}
+              </button>
+            ))}
           </div>
         </div>
+
+        <div>
+          <h1 className="text-[2.5rem] font-extrabold text-[#2c2c2c] leading-none">
+            {viewMode === "danger" ? "Danger Rankings" : "Venom Potency"}
+          </h1>
+        </div>
+      </div>
+
+      {/* Region pills - top right, dropdown animates downward like taxonomy page */}
+      <div className="fixed top-6 right-4 z-20 flex flex-col items-end lg:right-6">
+        <RegionPills
+          selectedRegion={regionParam as Snake["continent"] | null}
+          onChange={setRegion}
+          continents={uniqueContinents}
+          singleColumn
+        />
       </div>
 
       {/* Table */}
@@ -394,6 +346,29 @@ function RankPageInner() {
           Atharva Nayak
         </a>
       </div>
+
+      {/* Other venomous species toggle - bottom right (potency view only) */}
+      {viewMode === "potency" && (
+        <div className="fixed bottom-6 right-4 z-20 lg:right-6">
+          <label className="flex items-center gap-2 cursor-pointer group">
+            <div className="relative inline-flex items-center">
+              <input
+                type="checkbox"
+                className="sr-only"
+                checked={!showOnlySnakes}
+                onChange={() => setShowOnlySnakes(!showOnlySnakes)}
+              />
+              <div className={`w-8 h-4 rounded-full transition-colors duration-200 ${!showOnlySnakes ? "bg-stone-800" : "bg-stone-200"}`}>
+                <div className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ${!showOnlySnakes ? "translate-x-4" : ""}`} />
+              </div>
+            </div>
+            <Image src="/icons/spider.svg" alt="" width={20} height={20} className="opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 group-hover:text-stone-800 transition-colors">
+              Other venomous species
+            </span>
+          </label>
+        </div>
+      )}
     </div>
   );
 }

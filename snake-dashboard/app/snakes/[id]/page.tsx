@@ -16,6 +16,7 @@ import { DangerScoreWaterfall } from "@/components/DangerScoreWaterfall";
 import { VenomPotencyChart } from "@/components/VenomPotencyChart";
 import { hasRangeMapForSnake } from "@/lib/rangeMaps";
 import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
+import { Kbd } from "@/components/ui/kbd";
 
 export async function generateStaticParams() {
   const snakes = getAllSnakes();
@@ -125,9 +126,7 @@ export default async function SnakeDetailPage({
       {/* Back + keyboard shortcut hints */}
       <div className="relative z-20 mb-6 flex items-center gap-4 flex-wrap text-sm text-stone-600">
         <span className="flex items-center gap-2">
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
-            Esc
-          </kbd>
+          <Kbd triggerKey="Escape">Esc</Kbd>
           <Link
             href="/"
             className="hover:text-stone-800 transition-colors"
@@ -136,9 +135,7 @@ export default async function SnakeDetailPage({
           </Link>
         </span>
         <span className="flex items-center gap-2">
-          <kbd className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm">
-            Space
-          </kbd>
+          <Kbd triggerKey=" ">Space</Kbd>
           <span>Search another snake</span>
         </span>
       </div>
