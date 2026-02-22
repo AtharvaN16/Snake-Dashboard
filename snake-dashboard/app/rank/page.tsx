@@ -16,7 +16,7 @@ function isNonSnake(item: Rankable): item is NonSnake {
   return "category" in item;
 }
 
-const COLS = "grid-cols-[48px_100px_1fr_164px]";
+const COLS = "grid-cols-[48px_140px_1fr_164px]";
 
 function getRankDisplay(rank: number): { numeral: string; color: string } {
   const numeral = rank < 10 ? `0${rank}` : `${rank}`;
@@ -63,7 +63,7 @@ function RankTableRow({
 
   const RowContent = (
     <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] ${
-      isNS ? "bg-stone-50 hover:bg-stone-100" : "hover:bg-stone-50/80"
+      isNS ? "bg-[#EAEAEA] hover:bg-[#E0E0E0]" : "hover:bg-stone-50/80"
     }`}>
       {/* Rank */}
       <div className="flex items-center justify-center py-4">
@@ -81,11 +81,11 @@ function RankTableRow({
             fill
             priority={priority}
             className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.06]"
-            sizes="100px"
+            sizes="140px"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-stone-50">
-            <span className="font-serif text-2xl text-stone-200">{item.commonName[0]}</span>
+            <span className="text-2xl text-stone-200">{item.commonName[0]}</span>
           </div>
         )}
       </div>
@@ -263,10 +263,9 @@ function RankPageInner() {
 
       {/* Page Header */}
       <div className="max-w-4xl mx-auto mb-8">
-        <p className="text-[11px] font-semibold tracking-[0.14em] uppercase text-stone-400 mb-2">Rankings</p>
         <div className="flex items-end justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-[2.5rem] font-serif font-normal text-[#2c2c2c] leading-none">
+            <h1 className="text-[2.5rem] font-extrabold text-[#2c2c2c] leading-none">
               {viewMode === "danger" ? "Danger Rankings" : "Venom Potency"}
             </h1>
             <div className="mt-3 flex flex-col items-start gap-1.5">
@@ -322,18 +321,6 @@ function RankPageInner() {
                 })}
               </div>
             </div>
-            <p className="text-stone-500 text-sm mt-2 flex items-center gap-2 flex-wrap">
-              <span>{rankedItems.length} species</span>
-              <span className="text-stone-300">·</span>
-              <span>{viewMode === "danger" ? "composite danger score" : "LD₅₀, lowest = most toxic"}</span>
-              {regionParam && (
-                <>
-                  <span className="text-stone-300">·</span>
-                  <span className="font-semibold text-stone-700">{regionParam}</span>
-                  <Link href="/rank" className="text-stone-400 hover:text-stone-600 transition-colors text-xs">✕ clear</Link>
-                </>
-              )}
-            </p>
           </div>
 
           <div className="flex items-center gap-4">
