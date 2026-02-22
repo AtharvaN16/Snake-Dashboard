@@ -44,8 +44,12 @@ export default async function GlobalPhylogenyPage({
           <span>Zoom out</span>
         </span>
         <span className="flex items-center gap-2">
+          <Kbd triggerKey="z">Z</Kbd>
+          <span>Reset view</span>
+        </span>
+        <span className="flex items-center gap-2">
           <Kbd triggerKey=" ">Space</Kbd>
-          <span>Search to highlight snake on graph</span>
+          <span>Search snake</span>
         </span>
       </div>
 

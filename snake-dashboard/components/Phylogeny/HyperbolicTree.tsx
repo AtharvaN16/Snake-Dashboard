@@ -563,7 +563,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         />
       </div>
       <p className="absolute bottom-2 left-2 text-xs text-stone-400 pointer-events-none">
-        Drag to pan · Scroll to zoom · Click node to focus · R to reset view ·
+        Drag to pan · Scroll to zoom · Click node to focus ·
         Hover to trace lineage
       </p>
       <TreeLegend />

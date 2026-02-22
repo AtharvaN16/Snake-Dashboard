@@ -46,10 +46,6 @@ export function KeyboardShortcuts() {
       }
 
       if (e.key === "r" || e.key === "R") {
-        // Don't trigger rankings navigation when on phylogeny page (chart uses 'r' for reset)
-        if (pathname === "/phylogeny") {
-          return;
-        }
         e.preventDefault();
         router.push("/rank");
         return;

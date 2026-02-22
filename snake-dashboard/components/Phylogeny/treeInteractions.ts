@@ -529,12 +529,12 @@ export function setupInteractions(ctx: ChartContext): {
     if (onTaxonomyNodeClick) onTaxonomyNodeClick(null);
   }
 
-  // --- Keyboard: R = reset position; Backspace/Delete = zoom out (reset) ---
+  // --- Keyboard: Z = reset position; Backspace/Delete = zoom out (reset) ---
   function handleKeyDown(e: KeyboardEvent) {
     const tag = (e.target as HTMLElement)?.tagName;
     if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement)?.isContentEditable) return;
 
-    if (e.key === "r" || e.key === "R") {
+    if (e.key === "z" || e.key === "Z") {
       e.preventDefault();
       resetToDefault();
       return;
