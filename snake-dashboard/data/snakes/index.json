@@ -92,6 +92,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Asia",
       "subregions": [
         "South Asia",
@@ -240,6 +241,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Oceania",
       "subregions": [
         "Northern Australia",
@@ -350,6 +352,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Oceania",
       "subregions": [
         "Philippines"
@@ -461,6 +464,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Oceania",
       "subregions": [
         "Southern Australia",
@@ -573,6 +577,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Africa",
       "subregions": [
         "Africa",
@@ -708,7 +713,8 @@
         "Cardiovascular Collapse",
         "Kidney Damage",
         "Systemic Bleeding"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "black-mamba",
@@ -817,7 +823,8 @@
         },
         "whoCategory": 1,
         "severity": "Life-threatening"
-      }
+      },
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "indian-cobra",
@@ -906,6 +913,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Asia",
       "subregions": [
         "South Asia"
@@ -1021,7 +1029,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "death-adder",
@@ -1108,6 +1117,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Oceania",
       "subregions": [
         "Australia"
@@ -1215,6 +1225,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Africa",
       "subregions": [
         "Southern Africa"
@@ -1326,7 +1337,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "common-krait",
@@ -1425,7 +1437,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "eastern-brown-snake",
@@ -1533,7 +1546,8 @@
         "Cardiovascular Collapse",
         "Kidney Damage",
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "king-cobra",
@@ -1643,7 +1657,8 @@
         "Respiratory Failure",
         "Paralysis",
         "Cardiovascular Collapse"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "fer-de-lance",
@@ -1735,6 +1750,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Central America",
@@ -1844,6 +1860,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Africa",
       "subregions": [
         "West Africa"
@@ -1952,6 +1969,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Africa",
       "subregions": [
         "North Africa",
@@ -2061,6 +2079,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Africa",
       "subregions": [
         "Central Africa",
@@ -2173,6 +2192,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Africa",
       "subregions": [
         "Middle East",
@@ -2286,6 +2306,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Southwestern United States",
@@ -2397,6 +2418,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Southeastern United States"
@@ -2509,7 +2531,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "black-necked-spitting-cobra",
@@ -2597,6 +2620,7 @@
         "whoCategory": 1,
         "severity": "Severe"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Africa",
       "subregions": [
         "Sub-Saharan Africa"
@@ -2709,7 +2733,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "many-banded-krait",
@@ -2798,6 +2823,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Asia",
       "subregions": [
         "East Asia",
@@ -2908,6 +2934,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "South America",
       "subregions": [
         "South America"
@@ -3021,7 +3048,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "boomslang-southern",
@@ -3114,7 +3142,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Rear fangs"
     },
     {
       "id": "banded-krait",
@@ -3208,7 +3237,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "mulga-snake",
@@ -3304,7 +3334,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "lowlands-copperhead",
@@ -3392,6 +3423,7 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Oceania",
       "subregions": [
         "Southeastern Australia",
@@ -3505,7 +3537,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "mojave-rattlesnake",
@@ -3616,6 +3649,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Southwestern United States",
@@ -3726,6 +3760,7 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
+      "fangType": "Rear fangs",
       "continent": "Africa",
       "subregions": [
         "Sub-Saharan Africa"
@@ -3859,7 +3894,8 @@
         "Systemic Bleeding",
         "Shock",
         "Kidney Damage"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "malayan-pit-viper",
@@ -3949,6 +3985,7 @@
         "whoCategory": 1,
         "severity": "Severe"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Asia",
       "subregions": [
         "Southeast Asia"
@@ -4064,7 +4101,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "dugite",
@@ -4157,7 +4195,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Fixed front fangs"
     },
     {
       "id": "jararaca",
@@ -4254,7 +4293,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "egyptian-viper",
@@ -4344,7 +4384,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "prairie-rattlesnake",
@@ -4439,7 +4480,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "massasauga",
@@ -4563,7 +4605,8 @@
       },
       "causesOfDeath": [
         "Rarely Fatal"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "cantil",
@@ -4651,6 +4694,7 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Mexico",
@@ -4761,6 +4805,7 @@
         "whoCategory": 2,
         "severity": "Moderate"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Asia",
       "subregions": [
         "Japan",
@@ -4873,6 +4918,7 @@
         "severity": "Moderate",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Oceania",
       "subregions": [
         "Eastern Australia"
@@ -5007,7 +5053,8 @@
         "Southern Africa",
         "East Africa"
       ],
-      "dataQuality": "measured"
+      "dataQuality": "measured",
+      "fangType": "Movable front fangs"
     },
     {
       "id": "white-lipped-viper",
@@ -5094,6 +5141,7 @@
         "whoCategory": 2,
         "severity": "Moderate"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Asia",
       "subregions": [
         "Southeast Asia"
@@ -5200,6 +5248,7 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Asia",
       "subregions": [
         "Southeast Asia"
@@ -5307,6 +5356,7 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "fangType": "Rear fangs",
       "continent": "Africa",
       "subregions": [
         "Sub-Saharan Africa"
@@ -5421,7 +5471,8 @@
       },
       "causesOfDeath": [
         "Rarely Fatal"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "common-adder",
@@ -5515,7 +5566,8 @@
       },
       "causesOfDeath": [
         "Rarely Fatal"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "coral-snake",
@@ -5603,6 +5655,7 @@
         "whoCategory": 1,
         "severity": "Severe"
       },
+      "fangType": "Fixed front fangs",
       "continent": "North America",
       "subregions": [
         "Southeastern United States"
@@ -5716,6 +5769,7 @@
         "severity": "Severe",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Southeastern United States"
@@ -5829,6 +5883,7 @@
         "severity": "Moderate",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Africa",
       "subregions": [
         "Sub-Saharan Africa"
@@ -5940,7 +5995,8 @@
       },
       "causesOfDeath": [
         "Rarely Fatal"
-      ]
+      ],
+      "fangType": "Hinged front fangs"
     },
     {
       "id": "rock-rattlesnake",
@@ -6054,6 +6110,7 @@
         "whoCategory": 2,
         "severity": "Moderate"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Southwestern United States",
@@ -6158,6 +6215,7 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "fangType": "Fixed front fangs",
       "continent": "North America",
       "subregions": [
         "Southern United States",
@@ -6292,6 +6350,7 @@
         "whoCategory": 2,
         "severity": "Moderate"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Central America",
@@ -6400,6 +6459,7 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "fangType": "Rear fangs",
       "continent": "Asia",
       "subregions": [
         "Southeast Asia"
@@ -6506,6 +6566,7 @@
         "severity": "Mild",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Hinged front fangs",
       "continent": "Asia",
       "subregions": [
         "Southeast Asia"
@@ -6608,6 +6669,7 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Asia",
       "subregions": [
         "South Asia"
@@ -6710,6 +6772,7 @@
         "whoCategory": 2,
         "severity": "Severe"
       },
+      "fangType": "Fixed front fangs",
       "continent": "Asia",
       "subregions": [
         "Southeast Asia"
@@ -6817,6 +6880,7 @@
         "severity": "Moderate",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Hinged front fangs",
       "continent": "North America",
       "subregions": [
         "Eastern United States"
@@ -6931,6 +6995,7 @@
         "severity": "Mild",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Rear fangs",
       "continent": "Oceania",
       "subregions": [
         "Australia",
@@ -7013,7 +7078,8 @@
         "lethalityScore": 5,
         "encounterScore": 65,
         "speedScore": 20
-      }
+      },
+      "fangType": "Rear fangs"
     },
     {
       "id": "hognose-eastern",
@@ -7155,6 +7221,7 @@
         "severity": "Mild",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Rear fangs",
       "continent": "Asia",
       "subregions": [
         "South Asia",
@@ -7376,6 +7443,7 @@
         "severity": "Mild",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Rear fangs",
       "continent": "Asia",
       "subregions": [
         "Southeast Asia"
@@ -7501,6 +7569,7 @@
         "severity": "Negligible",
         "fatalitySummary": "Rarely Fatal"
       },
+      "fangType": "Rear fangs",
       "continent": "North America",
       "subregions": [
         "Central United States",
@@ -7608,7 +7677,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Rear fangs"
     },
     {
       "id": "european-cat-snake",
@@ -7696,7 +7766,8 @@
       },
       "causesOfDeath": [
         "Respiratory Failure"
-      ]
+      ],
+      "fangType": "Rear fangs"
     },
     {
       "id": "african-rock-python",
