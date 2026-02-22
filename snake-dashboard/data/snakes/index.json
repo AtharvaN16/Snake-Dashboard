@@ -5981,9 +5981,7 @@
         "gallery": [
           "/images/snakes/cottonmouth/gallery/1.jpg",
           "/images/snakes/cottonmouth/gallery/2.jpg",
-          "/images/snakes/cottonmouth/gallery/3.jpg",
-          "/images/snakes/cottonmouth/gallery/4.jpg",
-          "/images/snakes/cottonmouth/gallery/5.jpg"
+          "/images/snakes/cottonmouth/gallery/3.jpg"
         ],
         "attribution": {
           "photographer": "MH Herpetology",
@@ -5993,20 +5991,6 @@
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         },
         "galleryAttributions": [
-          {
-            "photographer": "MH Herpetology",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cottonmouth_(Agkistrodon_piscivorus).jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          },
-          {
-            "photographer": "MH Herpetology",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cottonmouth_(Agkistrodon_piscivorus).jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          },
           {
             "photographer": "MH Herpetology",
             "source": "Wikimedia Commons",
