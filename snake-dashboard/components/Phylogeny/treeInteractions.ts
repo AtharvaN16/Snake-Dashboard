@@ -32,7 +32,8 @@ export interface ChartContext {
   onSpeciesClick?: (snakeId: string) => void;
   onTaxonomyNodeClick?: (node: d3.HierarchyPointNode<HierarchyNode> | null) => void;
   onResetView?: () => void;
-  selectedRegion: Snake["continent"] | null;
+  /** Current selected region (getter so clearHighlight always uses latest value, not stale closure). */
+  getSelectedRegion: () => Snake["continent"] | null;
   getContinentForSpeciesId: (id: string) => Snake["continent"] | undefined;
 }
 
@@ -46,7 +47,7 @@ export function setupInteractions(ctx: ChartContext): {
     nodeColor, getNodeColor, isSpecies, currentSnakeId, shouldBloom,
     cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
     getColorMode, onSpeciesClick, onTaxonomyNodeClick, onResetView,
-    selectedRegion, getContinentForSpeciesId,
+    getSelectedRegion, getContinentForSpeciesId,
   } = ctx;
 
   const currentNodeColor = () => (getNodeColor?.() ?? nodeColor);
@@ -73,13 +74,16 @@ export function setupInteractions(ctx: ChartContext): {
     searchHighlightNode = found ?? null;
   }
 
-  /** Partial fade (0.2/0.1) for click focus, search highlight, or region filter; for hover-only, full hide at default zoom and partial fade when zoomed in. */
+  /** Partial fade (0.2/0.1) for click focus, search highlight, or region when not hovering; when hovering in region view always full dim (0) so only the path is visible. */
   function getDimmedOpacity(): { node: string; link: number } {
-    const usePartialFade =
-      !!clickFocusNode ||
-      !!searchHighlightNode ||
-      (regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0) ||
-      zoomScaleRef.current > scale0 * 1.001;
+    const regionActive = regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0;
+    const hoveringInRegion = regionActive && !!hoveredNode;
+    const usePartialFade = hoveringInRegion
+      ? false
+      : !!clickFocusNode ||
+        !!searchHighlightNode ||
+        regionActive ||
+        zoomScaleRef.current > scale0 * 1.001;
     return {
       node: usePartialFade ? "0.2" : "0",
       link: usePartialFade ? 0.1 : 0,
@@ -121,8 +125,9 @@ export function setupInteractions(ctx: ChartContext): {
     currentHighlightedNodes = pathNodes;
     const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
 
+    const regionActive = regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0;
     const isSpeciesAtDefaultZoom =
-      isSpecies(target) && dimmedNode === "0";
+      isSpecies(target) && dimmedNode === "0" && !regionActive;
     let familyBranch: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
     if (isSpeciesAtDefaultZoom && target.parent?.parent) {
       const family = target.parent.parent;
@@ -144,6 +149,7 @@ export function setupInteractions(ctx: ChartContext): {
       .style("pointer-events", (d) =>
         pathNodes.has(d) || (familyBranch != null && familyBranch.has(d)) ? "auto" : "none"
       );
+    linkSelection.attr("stroke-dashoffset", 0);
     linkSelection
       .transition().duration(200)
       .attr("stroke-opacity", (l) => {
@@ -188,6 +194,7 @@ export function setupInteractions(ctx: ChartContext): {
     getHighlightedNodes: () => getEffectiveHighlightedNodes(),
     getFamilyBranchNodes: () => currentFamilyBranchNodes,
     getDimmedOpacity: () => getDimmedOpacity(),
+    getRegionFilterActive: () => regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0,
   });
 
   function clearHighlight() {
@@ -201,6 +208,12 @@ export function setupInteractions(ctx: ChartContext): {
       updateSpeciesVisibility(zoomScaleRef.current);
       return;
     }
+    const currentRegion = getSelectedRegion();
+    if (currentRegion != null && regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0) {
+      highlightPathsForRegion(currentRegion);
+      updateSpeciesVisibility(zoomScaleRef.current);
+      return;
+    }
     hoverActive = false;
     currentHighlightedNodes = new Set();
     currentFamilyBranchNodes = null;
@@ -208,6 +221,7 @@ export function setupInteractions(ctx: ChartContext): {
 
     nodeSelection.style("pointer-events", "auto");
     nodeSelection.transition().duration(300).style("opacity", "1");
+    linkSelection.attr("stroke-dashoffset", 0);
     linkSelection.transition().duration(300).attr("stroke-opacity", 0.7);
     updateSpeciesVisibility(currentZoom);
   }
@@ -225,6 +239,7 @@ export function setupInteractions(ctx: ChartContext): {
         currentFamilyBranchNodes = null;
         nodeSelection.style("pointer-events", "auto");
         nodeSelection.transition().duration(200).style("opacity", "1");
+        linkSelection.attr("stroke-dashoffset", 0);
         linkSelection.transition().duration(200).attr("stroke-opacity", 0.7);
       }
       updateSpeciesVisibility(zoomScaleRef.current);
@@ -247,6 +262,7 @@ export function setupInteractions(ctx: ChartContext): {
       .style("opacity", (d) => (pathUnion.has(d) ? "1" : dimmedNode));
     nodeSelection
       .style("pointer-events", (d) => (pathUnion.has(d) ? "auto" : "none"));
+    linkSelection.attr("stroke-dashoffset", 0);
     linkSelection
       .transition().duration(200)
       .attr("stroke-opacity", (l) =>
@@ -382,6 +398,7 @@ export function setupInteractions(ctx: ChartContext): {
     
     nodeSelection.style("pointer-events", "auto");
     nodeSelection.interrupt().transition().duration(200).style("opacity", "1");
+    linkSelection.attr("stroke-dashoffset", 0);
     linkSelection.interrupt().transition().duration(200).attr("stroke-opacity", 0.7);
   }
 

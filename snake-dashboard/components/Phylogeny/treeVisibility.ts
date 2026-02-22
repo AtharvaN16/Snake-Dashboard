@@ -19,6 +19,7 @@ interface VisibilityContext {
   getHighlightedNodes: () => Set<d3.HierarchyNode<HierarchyNode>>;
   getFamilyBranchNodes: () => Set<d3.HierarchyNode<HierarchyNode>> | null;
   getDimmedOpacity: () => { node: string; link: number };
+  getRegionFilterActive: () => boolean;
 }
 
 /** Ext-label font size by rank — family > genus > species. large=true for snake search highlight. */
@@ -80,7 +81,8 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     const showGenusSpeciesLabels =
       showLabelsOnFocus ||
       (isScaleZoomed && !isClickFocused && !isSearchHighlighted) ||
-      (hoverActive && !!hoveredIsSpecies);
+      (hoverActive && !!hoveredIsSpecies) ||
+      ctx.getRegionFilterActive();
     const useSideLabels = (isClickFocused || isSearchHighlighted) && !hoveredIsSpecies;
     const MIN_READABLE_PX = 8;
 
@@ -100,11 +102,18 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
         // Genus/species: no in-node labels; show ext-labels
         if (isGenusOrSpecies) {
           if (!showGenusSpeciesLabels) return;
+          // Never add ext-label for the hovered node; it already has the hover label from treeInteractions
+          if (nd === hovered) return;
+          // Region filter: show labels only for species (snakes) in the highlighted paths
+          if (ctx.getRegionFilterActive()) {
+            if (rank === "species" && highlightedNodes.has(nd)) {
+              addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { side: true }, labelOpacityFor(nd));
+            }
+            return;
+          }
           // When hovering a species, only show path (species + parent genus) above
           if (hoveredIsSpecies) {
-            if (nd === hovered) {
-              addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: false }, labelOpacityFor(nd));
-            } else if (rank === "genus" && hovered!.parent === nd) {
+            if (rank === "genus" && hovered!.parent === nd) {
               addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true }, labelOpacityFor(nd));
             }
           } else {

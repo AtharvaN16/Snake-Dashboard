@@ -22,12 +22,13 @@ import { RegionPills } from "@/components/RegionPills";
 import { getAllSnakes } from "@/lib/snakeData";
 import type { Snake } from "@/lib/types";
 
+// Accessibility: colors darkened/saturated for contrast on light background while preserving intent
 const venomClassificationColors: Record<Snake['venomClassification'], string> = {
-  "Highly Venomous": "#FF7373",
-  "Venomous": "#FFAB73",
-  "Moderately Venomous": "#FEF08A",
-  "Mildly Venomous": "#B9E948",
-  "Non-venomous": "#CCCCCC",
+  "Highly Venomous": "#D94A4A",
+  "Venomous": "#E8925A",
+  "Moderately Venomous": "#D4C43D",
+  "Mildly Venomous": "#8FB830",
+  "Non-venomous": "#E5E5E5", // Super faded so non-venomous nodes recede visually
 };
 
 export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
@@ -35,6 +36,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const hasBloomedRef = useRef(false);
+  const hasInitializedRegionFilterRef = useRef(false);
   const zoomScaleRef = useRef<number>(1);
   const colorModeRef = useRef<'family' | 'venom'>('family');
   const nodeColorRef = useRef<(n: d3.HierarchyNode<HierarchyNode>) => string>(() => "#94a3b8");
@@ -42,6 +44,8 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [colorMode, setColorMode] = useState<'family' | 'venom'>('family');
   const [selectedRegion, setSelectedRegion] = useState<Snake["continent"] | null>(null);
+  const selectedRegionRef = useRef<Snake["continent"] | null>(null);
+  selectedRegionRef.current = selectedRegion;
   const applyRegionFilterRef = useRef<((region: Snake["continent"] | null) => void) | null>(null);
   colorModeRef.current = colorMode;
 
@@ -318,11 +322,47 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       .attr("stroke-linecap", "round")
       .attr("stroke-opacity", shouldBloom ? 0 : 0.7);
 
+    const maxDepth = Math.max(...allNodes.map(n => n.depth));
+    const bloomTotalDelay = BLOOM_BASE_DELAY * maxDepth + BLOOM_DURATION;
+
+    let bloomRafId = 0;
+    let bloomFinalizeTimer: ReturnType<typeof setTimeout> | null = null;
     if (shouldBloom) {
-      linkSelection.transition()
-        .delay((d) => BLOOM_BASE_DELAY * d.source.depth)
-        .duration(BLOOM_DURATION).ease(d3.easeCubicOut)
-        .attr("stroke-opacity", 0.7);
+      bloomRafId = requestAnimationFrame(() => {
+        bloomRafId = 0;
+        linkSelection.each(function () {
+          const pathEl = this as SVGPathElement;
+          const len = pathEl.getTotalLength();
+          const sel = d3.select(this);
+          if (len > 0) {
+            sel
+              .attr("stroke-dasharray", len)
+              .attr("stroke-dashoffset", len)
+              .attr("stroke-opacity", 0.7);
+          } else {
+            sel.attr("stroke-opacity", 0.7);
+          }
+        });
+        linkSelection
+          .transition("bloom")
+          .delay((d) => BLOOM_BASE_DELAY * d.source.depth)
+          .duration(BLOOM_DURATION)
+          .ease(d3.easeCubicOut)
+          .attrTween("stroke-dashoffset", function () {
+            const len = (this as SVGPathElement).getTotalLength();
+            return (t) => String(len * (1 - t));
+          });
+      });
+
+      // Defensive finalization: if any transition interrupts bloom, force links back
+      // to fully drawn default state after the bloom window.
+      bloomFinalizeTimer = setTimeout(() => {
+        linkSelection
+          .interrupt("bloom")
+          .attr("stroke-dashoffset", 0)
+          .attr("stroke-dasharray", null)
+          .attr("stroke-opacity", 0.7);
+      }, bloomTotalDelay + 40);
     }
 
     // --- Nodes ---
@@ -464,19 +504,19 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         setSelectedRegion(null);
         router.replace("/phylogeny");
       },
-      selectedRegion,
+      getSelectedRegion: () => selectedRegionRef.current,
       getContinentForSpeciesId: (id) => snakeMap.get(id)?.continent,
     });
     updateSpeciesVisibility = interactions.updateSpeciesVisibility;
     applyRegionFilterRef.current = interactions.applyRegionFilter;
     interactions.updateSpeciesVisibility(scale0);
-    interactions.applyRegionFilter(selectedRegion);
 
-    const maxDepth = Math.max(...allNodes.map(n => n.depth));
-    const bloomDelay = shouldBloom ? BLOOM_BASE_DELAY * maxDepth + BLOOM_DURATION : 0;
+    const bloomDelay = shouldBloom ? bloomTotalDelay : 0;
     const bloomTimer = setTimeout(() => { hasBloomedRef.current = true; }, bloomDelay);
 
     return () => {
+      if (bloomRafId) cancelAnimationFrame(bloomRafId);
+      if (bloomFinalizeTimer) clearTimeout(bloomFinalizeTimer);
       clearTimeout(bloomTimer);
       // Remove zoom/dblclick so they don’t accumulate on rebuild (effect re-run)
       svg.on(".zoom", null).on("dblclick", null);
@@ -485,6 +525,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   }, [hierarchy, currentSnakeId, router]);
 
   useEffect(() => {
+    if (!hasInitializedRegionFilterRef.current) {
+      hasInitializedRegionFilterRef.current = true;
+      return;
+    }
     applyRegionFilterRef.current?.(selectedRegion);
   }, [selectedRegion]);
 
