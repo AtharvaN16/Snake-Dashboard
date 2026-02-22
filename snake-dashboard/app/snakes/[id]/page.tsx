@@ -10,6 +10,7 @@ import {
 } from "@/lib/snakeData";import { VenomTypeChip } from "@/components/VenomTypeChip";
 import { VenomSpeedChip } from "@/components/VenomSpeedChip";
 import { VenomYieldChip } from "@/components/VenomYieldChip";
+import { FangTypeChip } from "@/components/FangTypeChip";
 import { SymptomChip } from "@/components/SymptomChip";
 import { DistributionMap } from "@/components/DistributionMap";
 import { DangerScoreWaterfall } from "@/components/DangerScoreWaterfall";
@@ -559,6 +560,14 @@ export default async function SnakeDetailPage({
                   <div className="mb-6">
                     <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Venom Speed</h3>
                     <VenomSpeedChip speed={snake.venomSpeed} />
+                  </div>
+                )}
+
+                {/* Fang Type */}
+                {snake.fangType && (
+                  <div className="mb-6">
+                    <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Fang Type</h3>
+                    <FangTypeChip fangType={snake.fangType} />
                   </div>
                 )}
 

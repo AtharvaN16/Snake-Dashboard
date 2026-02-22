@@ -202,6 +202,25 @@ export function getEncounterModifier(encounterScore: number): number {
 }
 
 /**
+ * Returns rounded contribution values for danger score display (e.g. tooltips).
+ * Matches the waterfall chart: lethality + clinical + speed, then encounter reduction.
+ * encounter is the reduction amount (positive); show as "-X" in UI.
+ */
+export function getDangerScoreBreakdown(
+  components: DangerScoreComponents,
+  _dangerScore: number
+): { lethality: number; clinical: number; speed: number; encounter: number } {
+  const weights = getIntrinsicWeights();
+  const encounterMod = getEncounterModifier(components.encounterScore);
+  const lethality = Math.round(components.lethalityScore * weights.lethalityScore);
+  const clinical = Math.round(components.clinicalScore * weights.clinicalScore);
+  const speed = Math.round(components.speedScore * weights.speedScore);
+  const intrinsic = lethality + clinical + speed;
+  const encounter = Math.round(intrinsic * (1 - encounterMod));
+  return { lethality, clinical, speed, encounter };
+}
+
+/**
  * Derive venom classification from potency and yield scores.
  * Potency is weighted more than yield so that very potent, low-yield
  * snakes (e.g. Eastern Coral Snake) can be Highly Venomous.

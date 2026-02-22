@@ -83,6 +83,12 @@ export type VenomType =
 
 export type VenomSpeed = "Extremely quick" | "Quick" | "Slow";
 
+export type FangType =
+  | "Fixed front fangs"
+  | "Hinged front fangs"
+  | "Rear fangs"
+  | "Movable front fangs";
+
 export interface Snake {
   id: string;
   commonName: string;
@@ -116,7 +122,8 @@ export interface Snake {
   venomYield?: VenomYield;
   venomTypes?: VenomType[];
   venomSpeed?: VenomSpeed;
-  
+  fangType?: FangType;
+
   // Clinical outcome data (venomous only)
   clinicalData?: ClinicalData;
 

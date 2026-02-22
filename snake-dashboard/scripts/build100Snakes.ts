@@ -10,6 +10,7 @@ import { computeDangerScoreForSnake, rankSnakes } from "../lib/dangerScore";
 import type { Snake } from "../lib/types";
 import { dataFixes } from "./build/dataFixes";
 import { clinicalFixes } from "./build/clinicalFixes";
+import { fangTypes } from "./build/fangTypes";
 
 // Helper to load attribution from file system
 const loadAttributionFromFile = (id: string) => {
@@ -1273,11 +1274,18 @@ const corrected = unique.map((s: any) => {
   return result;
 });
 
+// Fang type from researched map only (no inference). Venomous snakes get fangType only if in fangTypes.
+const withFangTypes = corrected.map((s: any) => {
+  const isVenomous = s.venomClassification && s.venomClassification !== "Non-venomous";
+  const fangType = isVenomous && fangTypes[s.id] ? fangTypes[s.id] : undefined;
+  return { ...s, ...(fangType && { fangType }) };
+});
+
 // Normalize images for every snake: use new path structure and load attribution from file when present.
 // Preserve existing gallery / galleryAttributions from the snake so user-added images (e.g. from
 // "search for images") are not lost on rebuild. File-based data (attribution.json, gallery-metadata.json)
 // is used as fallback when the snake has no gallery data.
-const snakesWithNormalizedImages = corrected.map((s: any) => {
+const snakesWithNormalizedImages = withFangTypes.map((s: any) => {
   const baseImages = img(s.id);
   const hasExistingGallery = Array.isArray(s.images?.gallery) && s.images.gallery.length > 0;
   const hasExistingAttributions = Array.isArray(s.images?.galleryAttributions) && s.images.galleryAttributions.length > 0;
@@ -1378,7 +1386,7 @@ const enriched = ranked.map((s: any) => {
 // then add the field name here so rebuilds preserve it.
 const PRESERVED_FIELDS_FROM_EXISTING = [
   "firstAidInfo", "behaviorNotes", "conservationStatus", "accolades", "causesOfDeath",
-  "dataQuality", "maxLength", "diet", "constrictor",
+  "dataQuality", "maxLength", "diet", "constrictor", "fangType",
 ] as const;
 function pickPreserved(prev: Record<string, unknown> | undefined): Record<string, unknown> {
   if (!prev) return {};

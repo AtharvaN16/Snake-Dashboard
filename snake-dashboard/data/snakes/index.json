@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-20",
+  "lastUpdated": "2026-02-22",
   "totalSnakes": 130,
   "snakes": [
     {
@@ -5184,27 +5184,7 @@
           "sourceUrl": "https://www.gbif.org/occurrence/5037244763",
           "license": "http://creativecommons.org/licenses/by-nc/4.0/",
           "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
-        },
-        "gallery": [
-          "/images/snakes/blue-malayan-coral-snake/gallery/1.jpg",
-          "/images/snakes/blue-malayan-coral-snake/gallery/2.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Kevin Chen",
-            "source": "GBIF",
-            "sourceUrl": "https://www.gbif.org/occurrence/6130077847",
-            "license": "http://creativecommons.org/licenses/by-nc/4.0/",
-            "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
-          },
-          {
-            "photographer": "AlexJulius",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Blue_Malayan_Coral_Snake_-_02-11-2023.jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          }
-        ]
+        }
       },
       "description": "Long, slender. Red head and tail, blue-black dorsum. Potent neurotoxin; bites rare.",
       "sources": [
@@ -5311,19 +5291,7 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Southern_vine_snake_(Thelotornis_capensis_capensis).jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
-        "gallery": [
-          "/images/snakes/twig-snake/gallery/2.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Evert Post",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Thelotornis_capensis00.jpg",
-            "license": "CC BY-SA 4.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-          }
-        ]
+        }
       },
       "description": "Rear-fanged. Hemotoxic venom similar to boomslang; slow-acting. Bites rare.",
       "sources": [
@@ -5731,27 +5699,7 @@
           "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cottonmouth_(Agkistrodon_piscivorus).jpg",
           "license": "CC BY-SA 4.0",
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
-        "gallery": [
-          "/images/snakes/cottonmouth/gallery/4.jpg",
-          "/images/snakes/cottonmouth/gallery/5.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Peter Paplanus from St. Louis, Missouri",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Cottonmouth_(Agkistrodon_piscivorus_leucostoma)_(16199882414).jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          },
-          {
-            "photographer": "Peter Paplanus from St. Louis, Missouri",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Western_Cottonmouth_(Agkistrodon_piscivorus_leucostoma)_(17186477932).jpg",
-            "license": "CC BY 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-          }
-        ]
+        }
       },
       "description": "Semi-aquatic. Displays white mouth when threatened. More venomous than copperhead.",
       "sources": [
@@ -6746,19 +6694,7 @@
           "sourceUrl": "https://www.gbif.org/occurrence/6131078721",
           "license": "http://creativecommons.org/licenses/by-nc/4.0/",
           "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
-        },
-        "gallery": [
-          "/images/snakes/banded-malayan-coral-snake/gallery/1.jpg"
-        ],
-        "galleryAttributions": [
-          {
-            "photographer": "Wibowo Djatmiko (Wie146)",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Callio_intest_070725-0336_stgd.JPG",
-            "license": "CC BY-SA 3.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-          }
-        ]
+        }
       },
       "description": "Small coral snake. Red vertebral stripe, red tail. Potent neurotoxin; low yield.",
       "sources": [
@@ -7088,9 +7024,6 @@
       "dangerScore": 5,
       "dangerRank": "67/130",
       "venomClassification": "Mildly Venomous",
-      "venomTypes": [
-        "Neurotoxic"
-      ],
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -7250,9 +7183,6 @@
       "dangerScore": 5,
       "dangerRank": "69/130",
       "venomClassification": "Mildly Venomous",
-      "venomTypes": [
-        "Cytotoxic"
-      ],
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -7313,9 +7243,6 @@
       "dangerScore": 4,
       "dangerRank": "70/130",
       "venomClassification": "Mildly Venomous",
-      "venomTypes": [
-        "Neurotoxic"
-      ],
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -10579,7 +10506,8 @@
         "primary": "/images/snakes/amazon-tree-boa/primary.jpg",
         "thumbnail": "/images/snakes/amazon-tree-boa/thumbnail.jpg",
         "gallery": [
-          "/images/snakes/amazon-tree-boa/gallery/3.jpg"
+          "/images/snakes/amazon-tree-boa/gallery/1.jpg",
+          "/images/snakes/amazon-tree-boa/gallery/2.jpg"
         ],
         "attribution": {
           "photographer": "MauMirror",
@@ -10595,6 +10523,13 @@
             "sourceUrl": "https://www.gbif.org/occurrence/6133105279",
             "license": "http://creativecommons.org/licenses/by/4.0/",
             "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+          },
+          {
+            "photographer": "MauMirror",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Corallus_hortulanus.jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
           }
         ]
       },
