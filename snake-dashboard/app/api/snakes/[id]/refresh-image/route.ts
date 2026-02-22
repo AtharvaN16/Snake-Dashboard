@@ -1,18 +1,8 @@
 import { NextResponse } from "next/server";
-import {
-  getCandidates,
-  searchAndDownloadCandidates,
-  setPrimaryImage,
-  addToGallery,
-  deleteCandidate,
-  commitSelections,
-  deleteGalleryImage,
-  promoteGalleryToPrimary,
-  type Selection,
-} from "@/lib/imageRefresh";
 import { getSnakeById } from "@/lib/snakeData";
 
 type Action = "search" | "set-primary" | "add-to-gallery" | "delete" | "commit" | "delete-gallery" | "promote-to-primary";
+type Selection = { role: "primary" | "gallery"; candidateIndex: number };
 
 /**
  * POST — Unified action endpoint.
@@ -27,6 +17,15 @@ export async function POST(
   }
 
   const { id } = await params;
+  const {
+    searchAndDownloadCandidates,
+    setPrimaryImage,
+    addToGallery,
+    deleteCandidate,
+    commitSelections,
+    deleteGalleryImage,
+    promoteGalleryToPrimary,
+  } = await import("@/lib/imageRefresh");
 
   let body: { action?: Action; candidateIndex?: number; selections?: Selection[]; imagePath?: string };
   try {
@@ -118,6 +117,7 @@ export async function GET(
     }
 
     const { id } = await params;
+    const { getCandidates } = await import("@/lib/imageRefresh");
     const candidates = await getCandidates(id);
     const snake = getSnakeById(id);
 

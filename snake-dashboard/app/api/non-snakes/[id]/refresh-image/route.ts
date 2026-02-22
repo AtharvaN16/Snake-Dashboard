@@ -1,10 +1,4 @@
 import { NextResponse } from "next/server";
-import {
-  refreshNonSnakeImage,
-  getNonSnakeCandidates,
-  searchAndDownloadNonSnakeCandidates,
-  setNonSnakeThumbnail,
-} from "@/lib/nonSnakeImageRefresh";
 
 type Action = "search" | "set-primary";
 
@@ -18,6 +12,7 @@ export async function GET(
   if (process.env.NODE_ENV === "production") {
     return NextResponse.json({ error: "Not available in production" }, { status: 403 });
   }
+  const { getNonSnakeCandidates } = await import("@/lib/nonSnakeImageRefresh");
   const { id } = await params;
   try {
     const candidates = await getNonSnakeCandidates(id);
@@ -45,6 +40,11 @@ export async function POST(
   }
 
   const { id } = await params;
+  const {
+    refreshNonSnakeImage,
+    searchAndDownloadNonSnakeCandidates,
+    setNonSnakeThumbnail,
+  } = await import("@/lib/nonSnakeImageRefresh");
   let body: { action?: Action; candidateIndex?: number };
   try {
     body = await request.json();
