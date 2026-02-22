@@ -1,18 +1,5 @@
 [
   {
-    "index": 0,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-0.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "Brian Gratwicke",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_asper_(Panama)_coiled.jpg",
-      "license": "CC BY 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-    }
-  },
-  {
     "index": 1,
     "src": "/images/snakes/fer-de-lance/candidates/thumb-1.jpg",
     "source": "Wikimedia Commons",
@@ -49,110 +36,6 @@
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_asper,_Colombia.JPG",
       "license": "CC BY-SA 3.0",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-    }
-  },
-  {
-    "index": 4,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-4.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "Bernard DUPONT from FRANCE",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Young_Terciopelo_(Bothrops_asper)_(6781398241).jpg",
-      "license": "CC BY-SA 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-    }
-  },
-  {
-    "index": 5,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-5.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "Bernard DUPONT from FRANCE",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Young_Terciopelo_(Bothrops_asper)_(6781404421).jpg",
-      "license": "CC BY-SA 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-    }
-  },
-  {
-    "index": 6,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-6.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "Bernard DUPONT from FRANCE",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Young_Terciopelo_(Bothrops_asper)_found_on_the_coach_at_the_hotel_(6781403567).jpg",
-      "license": "CC BY-SA 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-    }
-  },
-  {
-    "index": 7,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-7.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "Bernard DUPONT from FRANCE",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Terciopelo_(Bothrops_asper)_(9564708520).jpg",
-      "license": "CC BY-SA 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-    }
-  },
-  {
-    "index": 8,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-8.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "thibaudaronson",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_asper_170971120.jpg",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-    }
-  },
-  {
-    "index": 9,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-9.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "Don Loarie",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_asper_32796662.jpg",
-      "license": "CC BY 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-    }
-  },
-  {
-    "index": 10,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-10.jpg",
-    "source": "Wikimedia Commons",
-    "score": 82,
-    "attribution": {
-      "photographer": "Bernard DUPONT from FRANCE",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Terciopelo_(Bothrops_asper)_(7090354193).jpg",
-      "license": "CC BY-SA 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-    }
-  },
-  {
-    "index": 11,
-    "src": "/images/snakes/fer-de-lance/candidates/thumb-11.jpg",
-    "source": "Wikimedia Commons",
-    "score": 79,
-    "attribution": {
-      "photographer": "caspar s",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_asper_-_Tortuguero1.jpg",
-      "license": "CC BY 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
     }
   }
 ]

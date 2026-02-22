@@ -13,16 +13,29 @@
     }
   },
   {
-    "index": 1,
-    "src": "/images/snakes/black-mamba/candidates/thumb-1.jpg",
+    "index": 2,
+    "src": "/images/snakes/black-mamba/candidates/thumb-2.jpg",
     "source": "Wikimedia Commons",
     "score": 90,
     "attribution": {
       "photographer": "Bernard DUPONT from FRANCE",
       "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_(6002570670).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_(6002570110).jpg",
       "license": "CC BY-SA 2.0",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "index": 5,
+    "src": "/images/snakes/black-mamba/candidates/thumb-5.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Missvain",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dendroaspis_polylepis_at_the_Indianapolis_Zoo_-_June_2022_-_Sarah_Stierch.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
     }
   },
   {
@@ -70,9 +83,9 @@
     "source": "GBIF",
     "score": 70,
     "attribution": {
-      "photographer": "Benoit Knox",
+      "photographer": "alisamba",
       "source": "GBIF",
-      "sourceUrl": "https://www.gbif.org/occurrence/5008170458",
+      "sourceUrl": "https://www.gbif.org/occurrence/6159527798",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/",
       "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
     }
