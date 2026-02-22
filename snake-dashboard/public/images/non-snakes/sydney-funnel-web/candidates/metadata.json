@@ -1,0 +1,119 @@
+[
+  {
+    "index": 0,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-0.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Thomas Mesaglio",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atrax_robustus_54337827.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  },
+  {
+    "index": 1,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-1.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "thebeachcomber",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atrax_robustus_male_frontal.jpeg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  },
+  {
+    "index": 2,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-2.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "2024-05-14",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atrax_robustus_dead_male_measure.jpeg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  },
+  {
+    "index": 3,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-3.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "dreworme",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atrax_robustus_male_lateral.jpeg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  },
+  {
+    "index": 4,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-4.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "hntro",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atrax_robustus_female_frontal.jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "index": 5,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-5.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "hntro",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atrax_robustus_female_lateral.jpeg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "index": 7,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-7.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Laura",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6130274696",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 8,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-8.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Lataya Oweis",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6130580387",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 9,
+    "src": "/images/non-snakes/sydney-funnel-web/candidates/thumb-9.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Josh Magro",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6130776862",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  }
+]

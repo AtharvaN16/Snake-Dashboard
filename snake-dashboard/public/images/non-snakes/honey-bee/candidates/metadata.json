@@ -1,0 +1,80 @@
+[
+  {
+    "index": 0,
+    "src": "/images/non-snakes/honey-bee/candidates/thumb-0.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": " Richard Bartz, Munich Makro Freak &amp; Beemaster Hubert Seibring, Munich which gave me advice and a protection suite ;) My dog caught 6 bee-stings on the nose, i caught 4.",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apis_mellifera_carnica_worker_hive_entrance_3.jpg",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
+    }
+  },
+  {
+    "index": 1,
+    "src": "/images/non-snakes/honey-bee/candidates/thumb-1.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Andrey Butko",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Thomisus_onustus_with_Apis_mellifera.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "index": 2,
+    "src": "/images/non-snakes/honey-bee/candidates/thumb-2.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Ivar Leidus",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Apis_mellifera_-_Brassica_napus_-_Valingu.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "index": 7,
+    "src": "/images/non-snakes/honey-bee/candidates/thumb-7.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Hope Abercrombie",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5938027989",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 8,
+    "src": "/images/non-snakes/honey-bee/candidates/thumb-8.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Linda Arandas",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5938028393",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 9,
+    "src": "/images/non-snakes/honey-bee/candidates/thumb-9.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Carole BERNARD",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5938029592",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  }
+]

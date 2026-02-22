@@ -1,4 +1,5 @@
 import nonSnakesData from "@/data/non-snakes.json";
+import type { VenomType } from "./types";
 
 export interface NonSnake {
   id: string;
@@ -10,6 +11,7 @@ export interface NonSnake {
   venomPotency: {
     ld50Normalized: number;
   };
+  venomTypes?: VenomType[];
   description: string;
   continent: string;
   images?: {

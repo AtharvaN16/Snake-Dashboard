@@ -1,0 +1,132 @@
+[
+  {
+    "index": 0,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-0.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Thomas Cowart",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Latrodectus_mactans_6.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "index": 1,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-1.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Leif902",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Latrodectus_mactans_leif902_001.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "index": 2,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-2.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Tanthalas39",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Latrodectus_mactans_-_male_black_widow.JPG",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+    }
+  },
+  {
+    "index": 3,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-3.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Maximilian Paradiz from Amsterdam, Netherlands",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Latrodectus_mactans_(3856973611).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "index": 4,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-4.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Maximilian Paradiz from Amsterdam, Netherlands",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Latrodectus_mactans_(3857769800).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "index": 5,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-5.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Francisco Farriols Sarabia",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Latrodectus_mactans_male.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  },
+  {
+    "index": 6,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-6.jpg",
+    "source": "Wikimedia Commons",
+    "score": 72,
+    "attribution": {
+      "photographer": "Konrad Summers from Santa Clarita (Valencia) , California, USA",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Widow_(Latrodectus_mactans)_The_Western_Widow_(2800388371).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "index": 7,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-7.jpg",
+    "source": "Wikimedia Commons",
+    "score": 70,
+    "attribution": {
+      "photographer": "Ben Swihart",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Latrodectus_mactans_4.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "index": 8,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-8.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Natalie Hinkle",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5938331800",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 9,
+    "src": "/images/non-snakes/black-widow/candidates/thumb-9.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "zstanfield",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6129870935",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  }
+]

@@ -14,6 +14,7 @@
     "images:retry-failed": "bun run scripts/processAllSnakes.ts --failed-only",
     "images:validate": "bun run scripts/validateImages.ts",
     "images:replace": "bun run scripts/replaceSnakeImage.ts",
+    "images:process-nonsnakes": "bun run scripts/processNonSnakeImages.ts",
     "data:build": "bun run scripts/build100Snakes.ts"
   },
   "dependencies": {
