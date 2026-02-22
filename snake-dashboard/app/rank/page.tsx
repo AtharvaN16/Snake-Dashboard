@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback, Suspense } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
-import { RefreshCw, Check, CheckCircle } from "lucide-react";
 import { getAllSnakes, filterByContinent } from "@/lib/snakeData";
 import { getNonSnakes, NonSnake } from "@/lib/nonSnakeData";
 import type { Snake } from "@/lib/types";
@@ -15,15 +14,6 @@ type Rankable = Snake | NonSnake;
 function isNonSnake(item: Rankable): item is NonSnake {
   return "category" in item;
 }
-
-const NON_SNAKE_STYLES: Record<string, { bg: string; border: string; text: string }> = {
-  Marine: { bg: "bg-stone-50/80", border: "border-stone-200", text: "text-stone-600" },
-  Spider: { bg: "bg-stone-50/80", border: "border-stone-200", text: "text-stone-600" },
-  Scorpion: { bg: "bg-stone-50/80", border: "border-stone-200", text: "text-stone-600" },
-  Insect: { bg: "bg-stone-50/80", border: "border-stone-200", text: "text-stone-600" },
-  Centipede: { bg: "bg-stone-50/80", border: "border-stone-200", text: "text-stone-600" },
-  Caterpillar: { bg: "bg-stone-50/80", border: "border-stone-200", text: "text-stone-600" },
-};
 
 const COLS = "grid-cols-[48px_100px_1fr_164px]";
 
@@ -65,31 +55,22 @@ function formatLD50(val: number | undefined): string {
 }
 
 function RankTableRow({
-  item, rank, viewMode, priority, nonSnakeThumbnailOverride, onNonSnakeRefresh,
-  activeNonSnakeId, onSelectAndSearch,
+  item, rank, viewMode, priority,
 }: {
   item: Rankable; rank: number; viewMode: ViewMode; priority?: boolean;
-  nonSnakeThumbnailOverride?: string | null;
-  onNonSnakeRefresh?: (id: string, thumbnail: string) => void;
-  activeNonSnakeId?: string | null;
-  onSelectAndSearch?: (id: string, commonName: string) => void;
 }) {
   const { numeral, color: rankColor } = getRankDisplay(rank);
   const isNS = isNonSnake(item);
   const snake = !isNS ? (item as Snake) : null;
   const nonSnake = isNS ? (item as NonSnake) : null;
 
-  const baseThumb = isNS ? nonSnake?.images?.thumbnail : snake?.images?.thumbnail;
-  const imageUrl = isNS && nonSnakeThumbnailOverride !== undefined
-    ? (nonSnakeThumbnailOverride ?? baseThumb)
-    : baseThumb;
+  const imageUrl = isNS ? nonSnake?.images?.thumbnail : snake?.images?.thumbnail;
   const scoreColor = snake ? dangerBarColor(snake.dangerScore) : "#C4B8B0";
-  const isActive = isNS && nonSnake && activeNonSnakeId === nonSnake.id;
 
   const RowContent = (
     <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] ${
       isNS ? "bg-stone-50 hover:bg-stone-100" : "hover:bg-stone-50/80"
-    } ${isActive ? "ring-2 ring-emerald-400 ring-inset" : ""}`}>
+    }`}>
       {/* Rank */}
       <div className="flex items-center justify-center py-4">
         <span className="font-mono text-[13px] font-bold" style={{ color: rankColor }}>
@@ -97,52 +78,23 @@ function RankTableRow({
         </span>
       </div>
 
-      {/* Photo — snakes: single image; non-snakes: main thumb + Search images button */}
-      {!isNS ? (
-        <div className="relative self-stretch overflow-hidden bg-stone-100 min-h-[72px]">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={item.commonName}
-              fill
-              priority={priority}
-              className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.06]"
-              sizes="100px"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-stone-50">
-              <span className="font-serif text-2xl text-stone-200">{item.commonName[0]}</span>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="relative self-stretch overflow-hidden bg-stone-100 min-h-[72px]">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={item.commonName}
-              fill
-              className="object-cover object-top"
-              sizes="100px"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-stone-50">
-              <span className="font-serif text-2xl text-stone-200">{item.commonName[0]}</span>
-            </div>
-          )}
-          {onSelectAndSearch && nonSnake && (
-            <button
-              type="button"
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onSelectAndSearch(nonSnake.id, item.commonName); }}
-              className="absolute bottom-1 right-1 px-1.5 py-1 rounded text-[10px] font-medium bg-black/60 hover:bg-black/80 text-white flex items-center gap-1"
-              title="Search for new image options"
-            >
-              <RefreshCw className="w-3 h-3" />
-              Search images
-            </button>
-          )}
-        </div>
-      )}
+      {/* Photo */}
+      <div className="relative self-stretch overflow-hidden bg-stone-100 min-h-[72px]">
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={item.commonName}
+            fill
+            priority={priority}
+            className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.06]"
+            sizes="100px"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-stone-50">
+            <span className="font-serif text-2xl text-stone-200">{item.commonName[0]}</span>
+          </div>
+        )}
+      </div>
 
       {/* Identity + Taxonomy */}
       <div className="px-4 py-3 flex flex-col justify-center gap-1.5 min-w-0">
@@ -230,8 +182,6 @@ function RankTableRow({
   );
 }
 
-type Candidate = { index: number; src: string; source: string; score: number };
-
 function RankPageInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -240,110 +190,6 @@ function RankPageInner() {
   const regionParam = searchParams.get("region");
   const [viewMode, setViewMode] = useState<ViewMode>(viewParam === "potency" ? "potency" : "danger");
   const [showOnlySnakes, setShowOnlySnakes] = useState(false);
-  const [refreshedThumbnails, setRefreshedThumbnails] = useState<Record<string, string>>({});
-
-  const [activeNonSnakeId, setActiveNonSnakeId] = useState<string | null>(null);
-  const [activeNonSnakeName, setActiveNonSnakeName] = useState<string>("");
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const [searching, setSearching] = useState(false);
-  const [applying, setApplying] = useState(false);
-
-  const handleNonSnakeRefresh = useCallback((id: string, thumbnail: string) => {
-    setRefreshedThumbnails((prev) => ({ ...prev, [id]: thumbnail }));
-  }, []);
-
-  const handleSelectAndSearch = useCallback((id: string, commonName: string) => {
-    setActiveNonSnakeId(id);
-    setActiveNonSnakeName(commonName);
-    setMessage(null);
-    setSelectedIndex(null);
-    setSearching(true);
-    setCandidates([]);
-    fetch(`/api/non-snakes/${id}/refresh-image`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "search" }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && Array.isArray(data.candidates) && data.candidates.length > 0) {
-          setCandidates(data.candidates);
-          setMessage(data.message ? { type: "success", text: data.message } : null);
-        } else if (data.success && (!data.candidates || data.candidates.length === 0)) {
-          setMessage({ type: "error", text: "No new images found." });
-        } else {
-          const err = data.error || "Search failed";
-          setMessage({
-            type: "error",
-            text: /no (image )?candidates? found|failed to download any/i.test(err) ? "No new images found." : err,
-          });
-        }
-      })
-      .catch(() => setMessage({ type: "error", text: "Network error." }))
-      .finally(() => setSearching(false));
-  }, []);
-
-  const handleSidebarSearch = useCallback(() => {
-    if (!activeNonSnakeId) return;
-    setMessage(null);
-    setSelectedIndex(null);
-    setSearching(true);
-    fetch(`/api/non-snakes/${activeNonSnakeId}/refresh-image`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "search" }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && Array.isArray(data.candidates) && data.candidates.length > 0) {
-          setCandidates(data.candidates);
-          setMessage(data.message ? { type: "success", text: data.message } : null);
-        } else if (data.success && (!data.candidates || data.candidates.length === 0)) {
-          setMessage({ type: "error", text: "No new images found." });
-        } else {
-          const err = data.error || "Search failed";
-          setMessage({
-            type: "error",
-            text: /no (image )?candidates? found|failed to download any/i.test(err) ? "No new images found." : err,
-          });
-        }
-      })
-      .catch(() => setMessage({ type: "error", text: "Network error." }))
-      .finally(() => setSearching(false));
-  }, []);
-
-  const handleDone = useCallback(() => {
-    if (!activeNonSnakeId || selectedIndex === null || !handleNonSnakeRefresh) return;
-    setApplying(true);
-    setMessage(null);
-    fetch(`/api/non-snakes/${activeNonSnakeId}/refresh-image`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "set-primary", candidateIndex: selectedIndex }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.thumbnail) {
-          handleNonSnakeRefresh(activeNonSnakeId, data.thumbnail);
-          setAllNonSnakes((prev) =>
-            prev.map((ns) =>
-              ns.id === activeNonSnakeId
-                ? { ...ns, images: { thumbnail: data.thumbnail.split("?")[0] } }
-                : ns
-            )
-          );
-          setMessage({ type: "success", text: data.message || "Image updated." });
-          setCandidates([]);
-          setSelectedIndex(null);
-        } else {
-          setMessage({ type: "error", text: data.error || "Update failed." });
-        }
-      })
-      .catch(() => setMessage({ type: "error", text: "Network error." }))
-      .finally(() => setApplying(false));
-  }, [activeNonSnakeId, selectedIndex, handleNonSnakeRefresh]);
 
   const allSnakes = getAllSnakes();
   const [allNonSnakes, setAllNonSnakes] = useState<NonSnake[]>(() => getNonSnakes());
@@ -469,97 +315,8 @@ function RankPageInner() {
         </div>
       </div>
 
-      {/* Layout: left sidebar (image options) + table */}
-      <div className="max-w-5xl mx-auto flex gap-6">
-        {/* Left sidebar — 10 candidate images (only in potency view when non-snakes shown) */}
-        {viewMode === "potency" && !showOnlySnakes && (
-          <div className="w-[200px] shrink-0">
-            <div className="rounded-xl border border-stone-200 bg-stone-50/80 p-3 sticky top-4">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-500 mb-2">
-                Image options
-              </p>
-              {!activeNonSnakeId ? (
-                <p className="text-xs text-stone-400">
-                  Click &quot;Search images&quot; on a non-snake row to load options.
-                </p>
-              ) : (
-                <>
-                  <p className="text-xs font-medium text-stone-700 truncate mb-2" title={activeNonSnakeName}>
-                    {activeNonSnakeName}
-                  </p>
-                  <div className="grid grid-cols-2 gap-1.5 max-h-[320px] overflow-y-auto">
-                    {Array.from({ length: 10 }, (_, i) => i).map((i) => {
-                      const c = candidates[i];
-                      const selected = selectedIndex === i;
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => c && setSelectedIndex(selected ? null : i)}
-                          disabled={!c || applying}
-                          className={`relative aspect-[4/3] w-full rounded-lg overflow-hidden border-2 transition-colors ${
-                            selected ? "border-emerald-500 ring-1 ring-emerald-400" : "border-stone-200 hover:border-stone-300"
-                          } ${!c ? "bg-stone-200" : ""}`}
-                        >
-                          {c ? (
-                            <>
-                              <Image
-                                src={c.src}
-                                alt={`Option ${i + 1}`}
-                                fill
-                                className="object-cover"
-                                sizes="120px"
-                              />
-                              {selected && (
-                                <span className="absolute inset-0 flex items-center justify-center bg-black/30">
-                                  <Check className="w-5 h-5 text-white" strokeWidth={3} />
-                                </span>
-                              )}
-                            </>
-                          ) : (
-                            <span className="text-stone-400 text-xs">—</span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <div className="mt-3 flex flex-col gap-1.5">
-                    <button
-                      type="button"
-                      onClick={handleSidebarSearch}
-                      disabled={searching || applying}
-                      className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md bg-stone-200 hover:bg-stone-300 text-stone-700 text-xs font-medium disabled:opacity-50"
-                    >
-                      <RefreshCw className={`w-3.5 h-3.5 ${searching ? "animate-spin" : ""}`} />
-                      New options
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleDone}
-                      disabled={selectedIndex === null || applying}
-                      className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
-                      <CheckCircle className="w-3.5 h-3.5" />
-                      Done
-                    </button>
-                  </div>
-                  {message && (
-                    <p
-                      className={`mt-2 text-[10px] px-2 py-1 rounded ${
-                        message.type === "success" ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {message.text}
-                    </p>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Table */}
-        <div className="flex-1 min-w-0 bg-white rounded-2xl shadow-md border border-stone-200 overflow-hidden">
+      {/* Table */}
+      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-md border border-stone-200 overflow-hidden">
           <div className={`grid ${COLS} border-b-2 border-stone-200 bg-stone-50/90 sticky top-0 z-10 backdrop-blur`}>
             <div className="py-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">#</div>
             <div className="py-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">Photo</div>
@@ -576,17 +333,12 @@ function RankPageInner() {
               rank={index + 1}
               viewMode={viewMode}
               priority={index < 8}
-              nonSnakeThumbnailOverride={isNonSnake(item) ? refreshedThumbnails[item.id] : undefined}
-              onNonSnakeRefresh={handleNonSnakeRefresh}
-              activeNonSnakeId={activeNonSnakeId}
-              onSelectAndSearch={viewMode === "potency" && !showOnlySnakes ? handleSelectAndSearch : undefined}
             />
           ))}
         </div>
-      </div>
 
       {/* Footer */}
-      <div className="max-w-5xl mx-auto text-center mt-8 text-xs text-stone-400">
+      <div className="max-w-4xl mx-auto text-center mt-8 text-xs text-stone-400">
         Researched by{" "}
         <a href="https://github.com" className="hover:text-stone-600 transition-colors">
           Atharva Nayak
