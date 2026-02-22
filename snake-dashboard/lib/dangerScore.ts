@@ -123,9 +123,10 @@ export function calculateSpeedScore(
  * Uses the midpoint of the CFR range on a square-root scale (compresses
  * the top end so 20% CFR still scores meaningfully vs 100%).
  *
- * Morbidity Floors:
- * Some snakes are rarely fatal but cause severe permanent disability (necrosis, amputation).
- * We set a floor based on the qualitative severity label to ensure these aren't underscored.
+ * Morbidity Bonuses:
+ * Replaced floors with additive bonuses to prevent score compression.
+ * High-fatality snakes (Mambas) remain at the top, while high-disability
+ * snakes (Puff Adders) get a significant boost without hiding the fatality gap.
  *
  * WHO Bonuses:
  * Category 1 adds a 10-point bonus (highest medical importance).
@@ -135,20 +136,18 @@ export function calculateClinicalScore(clinical: ClinicalData): number {
   const midCfr = (clinical.untreatedFatalityRate.low + clinical.untreatedFatalityRate.high) / 2;
   const base = Math.sqrt(midCfr / 100) * 100;
   
-  // Apply morbidity floors to recognize non-fatal danger
-  let floor = 0;
-  if (clinical.severity === "Life-threatening") floor = 60;
-  else if (clinical.severity === "Severe") floor = 35;
-  else if (clinical.severity === "Moderate") floor = 15;
+  // Additive morbidity bonuses to recognize non-fatal danger
+  let morbidityBonus = 0;
+  if (clinical.severity === "Life-threatening") morbidityBonus = 20;
+  else if (clinical.severity === "Severe") morbidityBonus = 10;
+  else if (clinical.severity === "Moderate") morbidityBonus = 5;
 
-  const scoreWithFloor = Math.max(base, floor);
-  
   // Apply WHO importance bonuses
   let whoBonus = 0;
   if (clinical.whoCategory === 1) whoBonus = 10;
   else if (clinical.whoCategory === 2) whoBonus = 5;
 
-  return Math.round(Math.max(0, Math.min(100, scoreWithFloor + whoBonus)));
+  return Math.round(Math.max(0, Math.min(100, base + morbidityBonus + whoBonus)));
 }
 
 /**
@@ -170,20 +169,20 @@ export const INTRINSIC_WEIGHTS = {
 /**
  * Speed base floor for the multiplicative model.
  * A snake with "Slow" venom retains this fraction of its intrinsic score.
- * At 0.8, speed can swing the final score by up to ±20%.
+ * At 0.9, speed swings the final score by about ±10%.
  * This ensures that speed acts as a "risk multiplier": fast venom makes
  * a deadly snake more dangerous, but it doesn't make a harmless snake dangerous.
  */
-export const SPEED_BASE = 0.8;
+export const SPEED_BASE = 0.9;
 
 /**
  * Encounter base floor for the multiplicative model.
- * A snake that is never encountered retains this fraction of its
- * intrinsic score. At 0.6, encounter can swing the final score by
- * up to ±40% — enough to matter for rankings but not enough to
- * let a harmless, high-encounter snake outrank a deadly, rare one.
+ * A snake that is rarely encountered retains this fraction of its
+ * intrinsic score. At 0.70, encounter acts as a significant "shy" penalty,
+ * while high encounter rates provide up to a 10% boost.
  */
-export const ENCOUNTER_BASE = 0.6;
+export const ENCOUNTER_BASE = 0.70;
+export const ENCOUNTER_SPAN = 0.40;
 
 /**
  * Multiplicative composite danger score.
@@ -192,8 +191,8 @@ export const ENCOUNTER_BASE = 0.6;
  *
  * Where:
  *   intrinsic = 0.55×lethality + 0.45×clinical
- *   speedModifier = SPEED_BASE + (0.4 × (speedScore / 100))
- *   encounterModifier = ENCOUNTER_BASE + (1 - ENCOUNTER_BASE) × (encounterScore / 100)
+ *   speedModifier = 0.90 + (0.2 × (speedScore / 100)) [±10%]
+ *   encounterModifier = 0.70 + (0.40 × (encounterScore / 100)) [0.7x to 1.1x]
  *   deliveryModifier = 0.5 if rear-fanged AND not highly venomous; 1.0 otherwise.
  *
  * All three act as scaling modifiers: they can amplify or diminish danger that
@@ -223,21 +222,21 @@ export function getIntrinsicWeights(): typeof INTRINSIC_WEIGHTS {
 
 /**
  * Computes the speed modifier for a given speed score.
- * Returns a value in [SPEED_BASE, SPEED_BASE + 0.4].
- * 100 -> 1.2 (+20% bonus for extremely fast)
- * 50 -> 1.0 (no change)
- * 0 -> 0.8 (-20% penalty for slow)
+ * Returns a value in [SPEED_BASE, SPEED_BASE + 0.2].
+ * 100 -> 1.1 (+10% bonus for extremely fast)
+ * 50 -> 1.0 (neutral)
+ * 0 -> 0.9 (-10% penalty for slow)
  */
 export function getSpeedModifier(speedScore: number): number {
-  return SPEED_BASE + (0.4 * speedScore) / 100;
+  return SPEED_BASE + (0.2 * speedScore) / 100;
 }
 
 /**
  * Computes the encounter modifier for a given encounter score.
- * Returns a value in [ENCOUNTER_BASE, 1.0].
+ * Returns a value in [ENCOUNTER_BASE, ENCOUNTER_BASE + ENCOUNTER_SPAN].
  */
 export function getEncounterModifier(encounterScore: number): number {
-  return ENCOUNTER_BASE + (1 - ENCOUNTER_BASE) * (encounterScore / 100);
+  return ENCOUNTER_BASE + ENCOUNTER_SPAN * (encounterScore / 100);
 }
 
 /**

@@ -1,6 +1,6 @@
 "use client";
 
-import { Beaker, Activity, Zap, Users, ShieldAlert, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { Kbd } from "@/components/ui/kbd";
 
 interface DangerScoreInfoBoxProps {
@@ -8,122 +8,137 @@ interface DangerScoreInfoBoxProps {
 }
 
 export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
+  const [isMac, setIsMac] = useState(true);
+
+  useEffect(() => {
+    const platform = navigator.platform || "";
+    const ua = navigator.userAgent || "";
+    setIsMac(/Mac|iPhone|iPad|iPod/i.test(platform) || /Mac/i.test(ua));
+  }, []);
+
+  const closeKeyLabel = useMemo(() => (isMac ? "Del" : "Bksp"), [isMac]);
+  const closeKeys = useMemo(() => (isMac ? ["Backspace", "Delete"] : ["Backspace"]), [isMac]);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select") || target?.isContentEditable) return;
+      if (closeKeys.includes(e.key)) {
+        e.preventDefault();
+        onClose();
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [onClose, closeKeys]);
+
   return (
-    <div className="fixed bottom-4 right-4 left-4 sm:left-auto z-30 w-auto sm:w-[460px] max-h-[78vh] overflow-y-auto bg-white/95 backdrop-blur-sm border border-stone-200 rounded-2xl shadow-2xl p-5 sm:p-6 animate-in slide-in-from-bottom-8 duration-300">
-      <div className="flex justify-between items-start mb-5">
-        <div>
-          <h3 className="text-xl font-black text-[#2c2c2c] tracking-tight">How the Danger Score Works</h3>
-          <p className="text-xs text-stone-500 font-medium uppercase tracking-wider mt-1">v5 model, 0-100 scale</p>
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto z-30 w-auto sm:w-[620px]">
+      <button
+        onClick={onClose}
+        className="absolute right-0 -top-2 -translate-y-full text-stone-500 hover:text-stone-800 transition-colors"
+        aria-label="Close"
+      >
+        <Kbd className="py-1 px-2 text-center">{closeKeyLabel}</Kbd>
+      </button>
+
+      <div className="max-h-[84vh] overflow-y-auto bg-white/95 backdrop-blur-sm border border-stone-300 rounded-2xl shadow-2xl p-5 sm:p-6 animate-in slide-in-from-bottom-8 duration-300">
+        <div className="mb-5 pb-4 border-b border-stone-200">
+          <h3 className="text-xl font-black text-[#2c2c2c] tracking-tight">How the Danger Score Is Calculated</h3>
         </div>
-        <button
-          onClick={onClose}
-          className="group flex items-center gap-1.5 text-sm text-stone-500 hover:text-stone-800 transition-colors flex-shrink-0"
-          aria-label="Close"
-        >
-          <Kbd className="group-hover:bg-stone-300 group-hover:text-stone-900 transition-colors py-1 flex items-center justify-center min-w-[24px]">
-            <X size={14} />
-          </Kbd>
-          <span className="font-semibold">Close</span>
-        </button>
-      </div>
 
-      <div className="space-y-5">
-        <section className="rounded-xl border border-stone-200 bg-stone-50/70 p-3.5">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-stone-500 mb-2">Formula (at a glance)</p>
-          <div className="text-[13px] leading-relaxed text-stone-700 space-y-1">
+        <div className="space-y-5 text-sm text-stone-700 leading-relaxed">
+          <section className="rounded-lg border border-stone-200 bg-stone-50 px-3.5 py-3">
+            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-1.5">Formula</h4>
+            <p className="mt-1 font-mono text-[13px] text-stone-800">intrinsic = 0.55 x lethality + 0.45 x clinical</p>
+            <p className="font-mono text-[13px] text-stone-800">dangerScore = intrinsic x speedMod x deliveryMod x encounterMod</p>
+          </section>
+
+          <section>
+            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">1. Lethality (55%)</h4>
             <p>
-              <span className="font-semibold text-stone-900">Intrinsic =</span> 55% Lethality + 45% Clinical
+              Lethality is based on <strong className="text-stone-900">lethal doses per bite</strong>, not potency alone. Potency-only scoring can over-rank snakes with very toxic venom but tiny delivered volume. Yield-only scoring can over-rank snakes that inject a lot of venom that is comparatively weak.
             </p>
+            <p className="mt-2">
+              <strong className="text-stone-900">LD50 basics:</strong> LD50 is the dose that kills 50% of test animals under controlled conditions, typically in mg/kg. Lower LD50 indicates higher venom potency.
+            </p>
+            <p className="mt-2">
+              <strong className="text-stone-900">Why we normalize LD50:</strong> published LD50 values use different administration routes (IV, IP, SC, IM). Route changes apparent potency because absorption and distribution differ. We convert to SC-equivalent values so all species are compared on one route baseline.
+            </p>
+            <p className="mt-2">
+              <strong className="text-stone-900">Composite lethality quantity:</strong>
+            </p>
+            <p className="mt-1 font-mono text-[13px] text-stone-800">lethalDoses = yield_mg / (LD50_SC_mg_per_kg x 70)</p>
+            <p className="mt-1">
+              This estimates how many human-lethal doses one bite can deliver for a 70kg human reference mass. We then log-scale and clamp to a bounded 0-100 lethality score to stabilize large cross-species ranges.
+            </p>
+          </section>
+
+          <section className="pt-4 border-t border-stone-200">
+            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">2. Clinical severity (45%)</h4>
             <p>
-              <span className="font-semibold text-stone-900">Final Score =</span> Intrinsic x Speed x Delivery x Encounter
+              Clinical severity is the human-outcome branch of the model. It starts from untreated case-fatality-rate (CFR) range data and then applies medically motivated adjustments.
             </p>
-          </div>
-        </section>
-
-        <section className="space-y-3">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-stone-500">1) Core danger sources</p>
-          <div className="rounded-xl border border-stone-100 p-3">
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-2 text-rose-600">
-                <Beaker size={16} strokeWidth={2.5} />
-                <h4 className="font-bold text-xs uppercase tracking-wide">Lethality</h4>
-              </div>
-              <span className="text-xs font-semibold text-rose-700">55%</span>
-            </div>
-            <p className="text-xs text-stone-600 leading-relaxed">
-              Lethal doses per bite for a 70kg human. This combines LD50 potency + venom yield into one biologically correct signal.
+            <p className="mt-2">
+              <strong className="text-stone-900">Step A: CFR midpoint.</strong> We use the midpoint of the untreated fatality range:
             </p>
-          </div>
-
-          <div className="rounded-xl border border-stone-100 p-3">
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-2 text-amber-600">
-                <Activity size={16} strokeWidth={2.5} />
-                <h4 className="font-bold text-xs uppercase tracking-wide">Clinical Severity</h4>
-              </div>
-              <span className="text-xs font-semibold text-amber-700">45%</span>
-            </div>
-            <p className="text-xs text-stone-600 leading-relaxed">
-              Untreated fatality ranges + WHO medical importance, with morbidity floors so severe non-fatal outcomes still score meaningfully.
+            <p className="mt-1 font-mono text-[13px] text-stone-800">midCfr = (low + high) / 2</p>
+            <p className="mt-2">
+              <strong className="text-stone-900">Step B: square-root transform.</strong> CFR is transformed with a square root before scaling to 0-100:
             </p>
-          </div>
-        </section>
-
-        <section className="space-y-3">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-stone-500">2) Real-world multipliers</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="rounded-xl border border-stone-100 p-3">
-              <div className="flex items-center gap-2 mb-1.5 text-yellow-600">
-                <Zap size={15} strokeWidth={2.5} />
-                <h4 className="font-bold text-[11px] uppercase">Speed</h4>
-              </div>
-              <p className="text-[11px] text-stone-600 leading-snug mb-2">How fast symptoms escalate.</p>
-              <div className="h-1.5 bg-stone-100 rounded-full overflow-hidden">
-                <div className="h-full w-[67%] bg-gradient-to-r from-yellow-300 to-yellow-600" />
-              </div>
-              <p className="mt-1.5 text-[10px] font-medium text-stone-500">Range: 0.8x to 1.2x</p>
-            </div>
-
-            <div className="rounded-xl border border-stone-100 p-3">
-              <div className="flex items-center gap-2 mb-1.5 text-violet-600">
-                <ShieldAlert size={15} strokeWidth={2.5} />
-                <h4 className="font-bold text-[11px] uppercase">Delivery</h4>
-              </div>
-              <p className="text-[11px] text-stone-600 leading-snug mb-2">Rear-fanged inefficiency penalty.</p>
-              <div className="h-1.5 bg-stone-100 rounded-full overflow-hidden">
-                <div className="h-full w-1/2 bg-gradient-to-r from-violet-300 to-violet-600" />
-              </div>
-              <p className="mt-1.5 text-[10px] font-medium text-stone-500">0.5x penalty for selected rear-fanged snakes</p>
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-stone-100 p-3">
-            <div className="flex items-center gap-2 mb-1.5 text-sky-700">
-              <Users size={16} strokeWidth={2.5} />
-              <h4 className="font-bold text-xs uppercase tracking-wide">Encounter Frequency</h4>
-            </div>
-            <p className="text-xs text-stone-600 leading-relaxed mb-2">
-              Final public-risk filter. Common snakes in human environments rank higher than equally toxic but rarely encountered species.
+            <p className="mt-1 font-mono text-[13px] text-stone-800">base = sqrt(midCfr / 100) x 100</p>
+            <p className="mt-1 text-stone-600">
+              This compresses the extreme upper tail so high-CFR species remain distinct without letting noisy top-end estimates dominate rankings.
             </p>
-            <div className="h-1.5 bg-stone-100 rounded-full overflow-hidden">
-              <div className="h-full w-[70%] bg-gradient-to-r from-sky-300 to-sky-700" />
-            </div>
-            <p className="mt-1.5 text-[10px] font-medium text-stone-500">Range: 0.6x to 1.0x</p>
-          </div>
-        </section>
+            <p className="mt-2">
+              <strong className="text-stone-900">Step C: morbidity floors.</strong> We enforce a minimum score by clinical severity label so severe non-fatal outcomes are represented.
+            </p>
+            <p className="mt-1 font-mono text-[13px] text-stone-800">Life-threatening: 60, Severe: 35, Moderate: 15, otherwise: 0</p>
+            <p className="mt-2">
+              <strong className="text-stone-900">Step D: WHO medical-importance bonus.</strong> WHO Category 1 gets +5; Category 2 gets +2.
+            </p>
+            <p className="mt-2">
+              <strong className="text-stone-900">Step E: bound and round.</strong> Final clinical score is clamped to [0,100] and rounded.
+            </p>
+          </section>
 
-        <section className="rounded-xl border border-stone-200 bg-stone-50 p-3.5">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-stone-500 mb-2">Why this structure?</p>
-          <p className="text-xs text-stone-600 leading-relaxed">
-            The model treats lethality and clinical outcomes as true danger sources. Speed, delivery, and encounter are multipliers, so they amplify existing danger but cannot create danger on their own.
-          </p>
-        </section>
-      </div>
+          <section className="pt-4 border-t border-stone-200">
+            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">3. Modifiers (multipliers)</h4>
+            <p>
+              The model treats speed, delivery efficiency, and encounter frequency as multipliers instead of additive point sources. These factors affect realized risk, but they should not create danger where intrinsic toxicity is low.
+            </p>
+            <p className="mt-2">
+              <strong className="text-stone-900">Speed score input:</strong> Extremely quick -&gt; 90, Quick -&gt; 55, Slow -&gt; 20.
+            </p>
+            <p className="mt-1 font-mono text-[13px] text-stone-800">speedMod = 0.9 + 0.2 x (speedScore / 100)</p>
+            <p className="mt-2">
+              <strong className="text-stone-900">Delivery modifier:</strong> 0.5 if rear-fanged and not classified as highly venomous; otherwise 1.0.
+            </p>
+            <p className="mt-2">
+              <strong className="text-stone-900">Encounter score input:</strong> Low -&gt; 20, Moderate -&gt; 40, High -&gt; 65, Very High -&gt; 85.
+            </p>
+            <p className="mt-1 font-mono text-[13px] text-stone-800">encounterMod = 0.85 + 0.3 x (encounterScore / 100)</p>
+            <p className="mt-2 text-stone-600">
+              Using multipliers ensures these terms can amplify or attenuate intrinsic danger but cannot manufacture it.
+            </p>
+          </section>
 
-      <div className="mt-5 pt-3 border-t border-stone-100">
-        <p className="text-[10px] text-stone-500 leading-relaxed text-center">
-          Summary: dangerous biology first, then real-world exposure modifiers.
-        </p>
+          <section className="pt-4 border-t border-stone-200">
+            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">Sources</h4>
+            <ul className="list-disc pl-5 space-y-1 text-stone-700">
+              <li>WHO Snakebite Information Platform (medical importance categories and clinical context)</li>
+              <li>Snake Venom Database (SVDB) (venom profiles and LD50 references)</li>
+              <li>snakeDB.org (toxicity and morphology cross-reference)</li>
+              <li>The Reptile Database (taxonomy verification)</li>
+              <li>Wikipedia (secondary cross-reference for species-level context)</li>
+              <li>Broad et al. 1979 conversion factors for LD50 route normalization (IV to SC; IP to SC handling)</li>
+            </ul>
+            <p className="mt-2 text-stone-600">
+              Species-specific citations are stored with records in <span className="font-mono text-[12px]">data/snakes/index.json</span> under the <span className="font-mono text-[12px]">sources</span> field.
+            </p>
+          </section>
+        </div>
       </div>
     </div>
   );

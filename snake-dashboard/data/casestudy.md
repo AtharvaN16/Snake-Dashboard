@@ -157,7 +157,7 @@ encounterModifier = 0.6 + 0.4 × (encounterScore / 100)
 dangerScore = (baseIntrinsic × speedModifier) × encounterModifier
 ```
 
-## Version 5: The Biological ground Truth (Current)
+## Version 5: The Biological Ground Truth
 
 The final refinement addressed two edge cases:
 1. **The Mortality Bias:** Some snakes rarely kill but cause permanent disability (amputation, necrosis). 
@@ -173,8 +173,8 @@ We added a biological modifier based on `fangType`. Since rear-fanged snakes oft
 - **Rule:** If a snake is **Rear-fanged** AND not already classified as Highly Venomous, apply a **0.5x multiplier**.
 - This correctly pushes mildly venomous rear-fanged snakes down while leaving deadly exceptions (like the Boomslang) at the top.
 
-### WHO Category 2 Bonus
-Recognizing the WHO's assessment of medical importance, we added a +5 bonus for Category 2 snakes (Category 1 remains +10).
+### WHO Category Bonus
+Recognizing the WHO's assessment of medical importance, we added category bonuses to the clinical score.
 
 ### Final Composite Formula
 
@@ -195,32 +195,65 @@ dangerScore = ((baseIntrinsic × speedMod) × deliveryMod) × encounterMod
 - **Delivery as a 0.5x Penalty**: Corrects for mechanical inefficiency in non-specialized fangs.
 - **Encounter as a 60–100% Modifier**: The final "Real World" frequency filter.
 
+## Version 6: The Epidemiological Risk Model (Current)
+
+After implementing biological ground truths, we addressed final structural issues identified during risk-audit:
+1. **Clinical Compression:** Using "Floors" made high-fatality and high-disability snakes look identical.
+2. **One-Way Encounter Scaling:** The [0.6 - 1.0] scaling only punished shy snakes but didn't reward the "Public Health Burden" of common ones.
+3. **Speed Over-Sensitivity:** Qualitative speed buckets were swinging ranks too wildly at ±20%.
+
+### Parameter Calibrations
+
+- **Fatality vs Morbidity:** Replaced Floors with **Additive Bonuses**. Clinical score now explicitly separates mid-CFR ground truth from permanent disability risk (Morbidity Bonus) and WHO medical importance.
+- **Bidirectional Encounter:** Re-centered encounter scaling to **[0.70 to 1.10]**. Rare snakes are penalized (-30%), while very common ones receive a +10% boost to reflect their high epidemiological impact.
+- **Narrow Speed Impact:** Reduced speed sensitivity to **±10%** (0.9x to 1.1x).
+
+### Calibrated Composite Formula
+
+```
+baseIntrinsic = 0.55 × lethality + 0.45 × (sqrt-CFR + morbidity + WHO bonus)
+speedMod      = 0.90 + 0.20 × (speedScore / 100)
+deliveryMod   = 0.50 if (rear-fanged AND not highly venomous); else 1.0
+encounterMod  = 0.70 + 0.40 × (encounterScore / 100)
+
+dangerScore = round(((baseIntrinsic × speedMod) × deliveryMod) × encounterMod)
+```
+
+### Why These Weights
+
+- **Lethality at 55%**: Preserved as the primary scientific predictor.
+- **Clinical at 45%**: Refined to prevent compression. A 100% CFR snake now correctly outranks a 10% CFR snake even if both cause "Severe" tissue damage.
+- **Encounter [0.7x - 1.1x]**: Restores the balance between "How lethal is it?" and "Will it actually bite a human?" Low-encounter snakes like the Inland Taipan are correctly moderated.
+
 ## Final Results
 
-Top rankings with the Version 5 model:
+Top rankings with the Version 6 model:
 
 | Rank | Snake | Score | Key Factor |
 |---|---|---|---|
-| 1 | Coastal Taipan | 74 | Extreme lethality + extreme speed multiplier |
-| 2 | Russell's Viper | 71 | High lethality + WHO Cat 1 + very high encounter |
-| 3 | Black Mamba | 68 | 100% CFR + extreme speed multiplier |
-| 4 | Philippine Cobra | 68 | High clinical + fast venom multiplier |
-| 5 | Tiger Snake | 66 | Strong core + quick speed |
-| 6 | Inland Taipan | 64 | Highest lethality, penalized by Low encounter |
-| 10 | Puff Adder | 58 | High morbidity (necrotic) rescued by severity floor |
+| 1 | Russell's Viper | 92 | Highest epidemiological burden + WHO Cat 1 + Very High encounter |
+| 2 | Coastal Taipan | 89 | Extreme lethality + extreme speed + proven delivery |
+| 3 | Tiger Snake | 88 | Strong core stats across all factors + High encounter |
+| 4 | Philippine Cobra | 87 | High clinical ground truth + High encounter |
+| 5 | Inland Taipan | 83 | Most lethal venom on Earth, moderated by low encounter (-30%) |
+| 6 | Indian Cobra | 81 | Major cause of bites in South Asia + Very High encounter |
+| 7 | Puff Adder | 81 | High morbidity (necrotic) + Very High encounter |
+| 8 | Monocled Cobra | 80 | High clinical ground truth + High encounter |
+| 9 | Common Death Adder | 77 | High lethality + "Extremely Quick" strike/venom |
+| 10 | Black Mamba | 75 | 100% CFR + speed multiplier, moderated by Moderate encounter |
 
-Key improvements in Version 5:
-- **Necrotizing Vipers** (Puff Adder, Jararaca) correctly reflect their danger through morbidity floors.
-- **Mild Rear-fanged snakes** (Garter, Vine) are now appropriately ranked near-zero due to the "Chew Factor" penalty.
-- **Boomslang** remains highly dangerous because its "Highly Venomous" status bypasses the delivery penalty.
+Key improvements in Version 6:
+- **Epidemiological Realism:** Russell's Viper and Puff Adder move to the top, reflecting their status as the snakes responsible for the most human suffering.
+- **Inland Taipan Moderation:** Moved from #1 down to #5, reflecting that while ultra-lethal, its remote habitat lowers its immediate public risk.
+- **Fatality Gap Preservation:** Separating fatality and morbidity ensures a 100% CFR snake (Mamba) correctly outranks lower-fatality necrotic snakes in the clinical sub-score.
 
 ## What We Learned
 
 1. **Risk Multipliers vs. Danger Sources.** Factors that amplify existing danger (speed, encounter, delivery) should be multipliers. 
 
-2. **Score Disability, not just Death.** Clinical danger is a spectrum. Morbidity floors ensure that "losing an arm" is scored as a significant danger even if you survive.
+2. **Score Disability, not just Death.** Clinical danger is a spectrum. Morbidity bonuses ensure that disability is recognized without erasing the fatality gap.
 
-3. **Biology dictates efficiency.** Fang type is a physical constraint on venom delivery. A "hypodermic" viper is inherently more efficient than a "chewing" colubrid.
+3. **Bidirectional scaling is more natural.** Encounter shouldn't just be a penalty; it's a risk dimension that can amplify danger when frequency is high.
 
 4. **Self-correcting logic is best.** By tying the delivery penalty to venom classification, the model autonomously handles "deadly" rear-fanged snakes without manual overrides.
 
@@ -231,17 +264,17 @@ Key improvements in Version 5:
 lethalityScore = log-scaled lethal doses per bite for 70kg human
                  = log-scaled(yield_mg / (LD50_SC × 70))
                  bounds: [0.01, 30] → [0, 100]
-clinicalScore  = sqrt-scaled midpoint CFR + floors + WHO bonus
-                 floors: Life-threatening (60), Severe (35), Moderate (15)
-                 bonus: WHO Cat 1 (+10), WHO Cat 2 (+5)
+clinicalScore  = sqrt-scaled midpoint CFR + morbidity + WHO bonus
+                 bonuses: Life-threatening (+20), Severe (+10), Moderate (+5)
+                 WHO: Cat 1 (+10), Cat 2 (+5)
 speedScore     = qualitative mapping (Extremely quick → 90, Quick → 55, Slow → 20)
 encounterScore = qualitative mapping (Low → 20, Moderate → 40, High → 65, Very High → 85)
 
 // Composite score
 baseIntrinsic = 0.55 × lethalityScore + 0.45 × clinicalScore
-speedMod      = 0.80 + 0.40 × (speedScore / 100)
+speedMod      = 0.90 + 0.20 × (speedScore / 100)
 deliveryMod   = 0.50 if (rear-fanged AND not highly venomous); else 1.0
-encounterMod  = 0.60 + 0.40 × (encounterScore / 100)
+encounterMod  = 0.70 + 0.40 × (encounterScore / 100)
 
-dangerScore = round(((baseIntrinsic × speedMod) × deliveryMod) × encounterMod) 
+dangerScore = round(((baseIntrinsic × speedMod) × deliveryMod) × encounterMod)
 ```
