@@ -17,6 +17,9 @@
     "images:process-nonsnakes": "bun run scripts/processNonSnakeImages.ts",
     "data:build": "bun run scripts/build100Snakes.ts"
   },
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
     "d3": "^7.9.0",

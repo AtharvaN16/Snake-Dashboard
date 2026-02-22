@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverExternalPackages: ["sharp"],
+  outputFileTracingExcludes: {
+    '*': [
+      'public/images/**/*',
+      'snake-dashboard/public/images/**/*',
+      '**/public/images/**/*'
+    ]
+  },
   images: {
     remotePatterns: [
       {
