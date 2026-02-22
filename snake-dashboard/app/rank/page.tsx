@@ -9,6 +9,7 @@ import { getNonSnakes, NonSnake } from "@/lib/nonSnakeData";
 import { VENOM_TYPE_CHIP } from "@/components/VenomTypeChip";
 import { RegionPills } from "@/components/RegionPills";
 import { Kbd } from "@/components/ui/kbd";
+import { DangerScoreInfoBox } from "@/components/DangerScoreInfoBox";
 import type { Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
@@ -160,6 +161,7 @@ function RankPageInner() {
   const regionParam = searchParams.get("region");
   const [viewMode, setViewMode] = useState<ViewMode>(viewParam === "potency" ? "potency" : "danger");
   const [showOnlySnakes, setShowOnlySnakes] = useState(true);
+  const [showInfo, setShowInfo] = useState(false);
 
   const allSnakes = getAllSnakes();
   const [allNonSnakes, setAllNonSnakes] = useState<NonSnake[]>(() => getNonSnakes());
@@ -353,6 +355,25 @@ function RankPageInner() {
           </label>
         </div>
       )}
+
+      {/* Info link - same position but for danger view */}
+      {viewMode === "danger" && (
+        <div className="fixed bottom-6 right-4 z-20 lg:right-6">
+          <button
+            onClick={() => setShowInfo(true)}
+            className="flex items-center gap-2 cursor-pointer group"
+          >
+            <div className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center group-hover:bg-stone-200 transition-colors">
+              <span className="text-stone-500 font-bold text-sm">?</span>
+            </div>
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 group-hover:text-stone-800 transition-colors">
+              How danger score is calculated
+            </span>
+          </button>
+        </div>
+      )}
+
+      {showInfo && <DangerScoreInfoBox onClose={() => setShowInfo(false)} />}
     </div>
   );
 }

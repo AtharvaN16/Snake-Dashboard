@@ -124,7 +124,7 @@ Consider these two snakes:
 
 The Eastern Brown delivers nearly 2 lethal doses per bite. The Fer-de-Lance can't reliably deliver even one. Yet in v2, the Fer-de-Lance's massive yield score (250mg) pushed it above the Eastern Brown in rankings. Scoring the factors independently meant a snake could score high on yield alone even when the combination of potency and yield means it can't kill you.
 
-## Version 3: The Lethality Model (Current)
+## Version 3: The Lethality Model
 
 We replaced the separate potency and yield weights with a single **lethality score** — lethal doses per bite, log-scaled:
 
@@ -133,7 +133,7 @@ lethalityScore = log-scaled(yield_mg / (LD50_SC × 70kg))
                  bounds: [0.01, 30] lethal doses → [0, 100] score
 ```
 
-This reduces the intrinsic model from four components to three:
+This reduced the intrinsic model from four components to three:
 
 ```
 intrinsic = 0.45 × lethality + 0.35 × clinical + 0.20 × speed
@@ -141,54 +141,88 @@ encounterModifier = 0.6 + 0.4 × (encounterScore / 100)
 dangerScore = intrinsic × encounterModifier
 ```
 
+This worked well but still had one logical flaw: **Venom speed was acting as a primary danger source.** In an additive model, a harmless snake with "extremely quick" venom could still get 18–20 points added to its score, even if its lethality was zero.
+
+## Version 4: The Risk Multiplier Model
+
+We realized that **Venom Speed is a risk multiplier, not a danger source.** Fast-acting venom makes a deadly snake much more dangerous by narrowing the treatment window, but it doesn't make a harmless snake dangerous.
+
+We moved Speed out of the additive intrinsic core and made it the second multiplicative modifier:
+
+```
+baseIntrinsic = 0.55 × lethality + 0.45 × clinical
+speedModifier = 0.8 + 0.4 × (speedScore / 100)
+encounterModifier = 0.6 + 0.4 × (encounterScore / 100)
+
+dangerScore = (baseIntrinsic × speedModifier) × encounterModifier
+```
+
+## Version 5: The Biological ground Truth (Current)
+
+The final refinement addressed two edge cases:
+1. **The Mortality Bias:** Some snakes rarely kill but cause permanent disability (amputation, necrosis). 
+2. **The Delivery Efficiency:** Rear-fanged snakes are mechanically inefficient compared to vipers and cobras.
+
+### The Morbidity Floor
+We introduced a floor for the `clinicalScore` based on qualitative severity to ensure snakes that cause severe disability aren't underscored just because modern medicine prevents death:
+- **Severe** (e.g. necrosis risk) → Floor of 35
+- **Moderate** → Floor of 15
+
+### The "Chew Factor" (Delivery Modifier)
+We added a biological modifier based on `fangType`. Since rear-fanged snakes often require "chewing" to envenomate, they are less efficient.
+- **Rule:** If a snake is **Rear-fanged** AND not already classified as Highly Venomous, apply a **0.5x multiplier**.
+- This correctly pushes mildly venomous rear-fanged snakes down while leaving deadly exceptions (like the Boomslang) at the top.
+
+### WHO Category 2 Bonus
+Recognizing the WHO's assessment of medical importance, we added a +5 bonus for Category 2 snakes (Category 1 remains +10).
+
+### Final Composite Formula
+
+```
+baseIntrinsic = 0.55 × lethality + 0.45 × (clinical + floors + WHO bonus)
+speedMod      = 0.80 + 0.40 × (speedScore / 100)
+deliveryMod   = 0.50 if (rear-fanged AND not highly venomous); else 1.0
+encounterMod  = 0.60 + 0.40 × (encounterScore / 100)
+
+dangerScore = ((baseIntrinsic × speedMod) × deliveryMod) × encounterMod
+```
+
 ### Why These Weights
 
-- **Lethality at 45%**: This replaces what was 55% combined (potency 30% + yield 25%) but better captures the interaction. It answers the fundamental question: "can one bite kill you?"
-- **Clinical at 35%**: Elevated from 30%. CFR is the ground truth — it validates whether the lethality score's theoretical danger translates to real-world deaths. Clinical and lethality together (80%) dominate the score, as they should.
-- **Speed at 20%**: Elevated from 15%. With fewer components, each needs more weight to be meaningful. Speed determines whether you have time to reach a hospital.
-
-### The Clinical Gate
-
-We also fixed a classification problem. The venom classification label ("Highly Venomous", etc.) was derived from potency and yield only. This led to misleading labels — the Common European Adder was classified "Highly Venomous" despite a 0–1% CFR.
-
-The fix: a **clinical gate** that caps classification at "Venomous" if the untreated CFR midpoint is below 5%. The venom may be biochemically potent, but if the snake almost never kills, "Highly Venomous" is misleading to users.
+- **Lethality at 55%**: The primary scientific predictor: "Can one bite kill you?"
+- **Clinical at 45%**: The real-world ground truth, now bolstered by **morbidity floors** to account for non-fatal danger.
+- **Speed as a ±20% Modifier**: Scales the urgency of treatment.
+- **Delivery as a 0.5x Penalty**: Corrects for mechanical inefficiency in non-specialized fangs.
+- **Encounter as a 60–100% Modifier**: The final "Real World" frequency filter.
 
 ## Final Results
 
-Top 15 rankings with the lethality model:
+Top rankings with the Version 5 model:
 
-| Rank | Snake | Score | Lethal Doses | CFR | Key Factor |
-|---|---|---|---|---|---|
-| 1 | Russell's Viper | 70 | 4.8 | 30–70% | High lethality + very high encounter + WHO Cat 1 |
-| 2 | Coastal Taipan | 70 | 7.1 | 60–80% | Extreme lethality + extremely fast venom |
-| 3 | Philippine Cobra | 69 | 3.1 | 50–70% | High clinical + fast venom + high encounter |
-| 4 | Tiger Snake | 66 | 3.3 | 40–60% | Strong across all factors |
-| 5 | Puff Adder | 65 | 4.2 | 10–20% | Massive yield + very high encounter + fast venom |
-| 6 | Inland Taipan | 65 | **25.1** | 80–100% | Most lethal venom on Earth, limited by low encounter |
-| 7 | Black Mamba | 63 | 1.8 | **90–100%** | Highest CFR, boosted by clinical weight |
-| 8 | Indian Cobra | 61 | 2.8 | 20–40% | Very high encounter in densely populated regions |
+| Rank | Snake | Score | Key Factor |
+|---|---|---|---|
+| 1 | Coastal Taipan | 74 | Extreme lethality + extreme speed multiplier |
+| 2 | Russell's Viper | 71 | High lethality + WHO Cat 1 + very high encounter |
+| 3 | Black Mamba | 68 | 100% CFR + extreme speed multiplier |
+| 4 | Philippine Cobra | 68 | High clinical + fast venom multiplier |
+| 5 | Tiger Snake | 66 | Strong core + quick speed |
+| 6 | Inland Taipan | 64 | Highest lethality, penalized by Low encounter |
+| 10 | Puff Adder | 58 | High morbidity (necrotic) rescued by severity floor |
 
-Key improvements over v2:
-- **Inland Taipan** rose from #9 to #6 — its 25 lethal doses per bite are now properly captured
-- **Eastern Brown** (#14) now above **Fer-de-Lance** (#16) — 1.9 lethal doses > 0.43
-- **Brown Tree Snake** (DS=6) far below **Eastern Coral Snake** (DS=20) — original problem fully solved
-- **Common European Adder** reclassified from "Highly Venomous" to "Venomous" — clinical gate prevents misleading labels
+Key improvements in Version 5:
+- **Necrotizing Vipers** (Puff Adder, Jararaca) correctly reflect their danger through morbidity floors.
+- **Mild Rear-fanged snakes** (Garter, Vine) are now appropriately ranked near-zero due to the "Chew Factor" penalty.
+- **Boomslang** remains highly dangerous because its "Highly Venomous" status bypasses the delivery penalty.
 
 ## What We Learned
 
-1. **Additive models with variable weights create feedback loops.** If the weights depend on the inputs (or derived quantities), the function is self-referential. Fixed weights with multiplicative modifiers are cleaner.
+1. **Risk Multipliers vs. Danger Sources.** Factors that amplify existing danger (speed, encounter, delivery) should be multipliers. 
 
-2. **Step functions in scoring systems create ranking instability.** Continuous functions handle edge cases gracefully. If you need categorical behavior, use a sigmoid — not if/else thresholds.
+2. **Score Disability, not just Death.** Clinical danger is a spectrum. Morbidity floors ensure that "losing an arm" is scored as a significant danger even if you survive.
 
-3. **Score interacting factors together, not independently.** Potency and yield are not independent predictors of danger — they interact multiplicatively (lethal doses = yield / lethal dose). Scoring them separately allows one to compensate for the other, producing misleading results.
+3. **Biology dictates efficiency.** Fang type is a physical constraint on venom delivery. A "hypodermic" viper is inherently more efficient than a "chewing" colubrid.
 
-4. **Weight the outcome, not the predictor.** Clinical severity (CFR) is the actual measure of danger. Lab measurements (LD₅₀) are predictors. The original model weighted predictors more than outcomes.
-
-5. **Precision ≠ importance.** LD₅₀ is more precise than CFR ranges, but precision doesn't determine how much weight a factor deserves. The lethality metric (which uses LD₅₀) gets the highest weight (45%) partly because it's more precise and partly because it answers the most important question directly.
-
-6. **Labels should match user expectations.** "Highly Venomous" means "this will kill you" to most people, not "this venom is biochemically potent." A clinical gate ensures the label reflects real-world danger, not just lab toxicology.
-
-7. **Multiplicative models are naturally self-correcting.** Multiplication by zero (or near-zero intrinsic score) eliminates the influence of the modifier. No special cases needed for mildly venomous or non-venomous species.
+4. **Self-correcting logic is best.** By tying the delivery penalty to venom classification, the model autonomously handles "deadly" rear-fanged snakes without manual overrides.
 
 ## Formula Reference
 
@@ -197,17 +231,17 @@ Key improvements over v2:
 lethalityScore = log-scaled lethal doses per bite for 70kg human
                  = log-scaled(yield_mg / (LD50_SC × 70))
                  bounds: [0.01, 30] → [0, 100]
-clinicalScore  = sqrt-scaled midpoint CFR + WHO Category 1 bonus (+10)
+clinicalScore  = sqrt-scaled midpoint CFR + floors + WHO bonus
+                 floors: Life-threatening (60), Severe (35), Moderate (15)
+                 bonus: WHO Cat 1 (+10), WHO Cat 2 (+5)
 speedScore     = qualitative mapping (Extremely quick → 90, Quick → 55, Slow → 20)
 encounterScore = qualitative mapping (Low → 20, Moderate → 40, High → 65, Very High → 85)
 
 // Composite score
-intrinsic = 0.45 × lethalityScore + 0.35 × clinicalScore + 0.20 × speedScore
-modifier  = 0.60 + 0.40 × (encounterScore / 100)
-dangerScore = round(intrinsic × modifier)    // clamped to [0, 100]
+baseIntrinsic = 0.55 × lethalityScore + 0.45 × clinicalScore
+speedMod      = 0.80 + 0.40 × (speedScore / 100)
+deliveryMod   = 0.50 if (rear-fanged AND not highly venomous); else 1.0
+encounterMod  = 0.60 + 0.40 × (encounterScore / 100)
 
-// Venom classification (for display labels)
-venomScore = 0.70 × potencyScore + 0.30 × yieldScore
-classification = threshold-based (≥50 Highly Venomous, ≥35 Venomous, ≥12 Moderately, ≥5 Mildly)
-clinicalGate: if "Highly Venomous" but CFR midpoint < 5%, downgrade to "Venomous"
+dangerScore = round(((baseIntrinsic × speedMod) × deliveryMod) × encounterMod) 
 ```

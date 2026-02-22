@@ -122,32 +122,59 @@ export function calculateSpeedScore(
  * Clinical severity score from untreated fatality rate and WHO category.
  * Uses the midpoint of the CFR range on a square-root scale (compresses
  * the top end so 20% CFR still scores meaningfully vs 100%).
- * WHO Category 1 adds a 10-point bonus (capped at 100).
+ *
+ * Morbidity Floors:
+ * Some snakes are rarely fatal but cause severe permanent disability (necrosis, amputation).
+ * We set a floor based on the qualitative severity label to ensure these aren't underscored.
+ *
+ * WHO Bonuses:
+ * Category 1 adds a 10-point bonus (highest medical importance).
+ * Category 2 adds a 5-point bonus (secondary medical importance).
  */
 export function calculateClinicalScore(clinical: ClinicalData): number {
   const midCfr = (clinical.untreatedFatalityRate.low + clinical.untreatedFatalityRate.high) / 2;
   const base = Math.sqrt(midCfr / 100) * 100;
-  const whoBonus = clinical.whoCategory === 1 ? 10 : 0;
-  return Math.round(Math.max(0, Math.min(100, base + whoBonus)));
+  
+  // Apply morbidity floors to recognize non-fatal danger
+  let floor = 0;
+  if (clinical.severity === "Life-threatening") floor = 60;
+  else if (clinical.severity === "Severe") floor = 35;
+  else if (clinical.severity === "Moderate") floor = 15;
+
+  const scoreWithFloor = Math.max(base, floor);
+  
+  // Apply WHO importance bonuses
+  let whoBonus = 0;
+  if (clinical.whoCategory === 1) whoBonus = 10;
+  else if (clinical.whoCategory === 2) whoBonus = 5;
+
+  return Math.round(Math.max(0, Math.min(100, scoreWithFloor + whoBonus)));
 }
 
 /**
  * Intrinsic weights for the multiplicative danger score model.
  *
- * The danger score uses three intrinsic factors:
- * - Lethality (45%): lethal doses per bite — combines potency and yield
+ * The danger score uses two primary intrinsic factors:
+ * - Lethality (55%): lethal doses per bite — combines potency and yield
  *   into the toxicologically correct metric of "can this snake kill you?"
- * - Clinical (35%): real-world outcome data (CFR + WHO importance).
+ * - Clinical (45%): real-world outcome data (CFR + WHO importance).
  *   The ground truth, but imprecise due to broad estimate ranges.
- * - Speed (20%): treatment window — faster venom = less time to get help.
  *
- * Encounter is a multiplicative modifier, not an additive component.
+ * Speed and Encounter are multiplicative modifiers, not additive components.
  */
 export const INTRINSIC_WEIGHTS = {
-  lethalityScore: 0.45,
-  clinicalScore: 0.35,
-  speedScore: 0.20,
+  lethalityScore: 0.55,
+  clinicalScore: 0.45,
 } as const;
+
+/**
+ * Speed base floor for the multiplicative model.
+ * A snake with "Slow" venom retains this fraction of its intrinsic score.
+ * At 0.8, speed can swing the final score by up to ±20%.
+ * This ensures that speed acts as a "risk multiplier": fast venom makes
+ * a deadly snake more dangerous, but it doesn't make a harmless snake dangerous.
+ */
+export const SPEED_BASE = 0.8;
 
 /**
  * Encounter base floor for the multiplicative model.
@@ -161,36 +188,48 @@ export const ENCOUNTER_BASE = 0.6;
 /**
  * Multiplicative composite danger score.
  *
- * Model: dangerScore = intrinsic × encounterModifier
+ * Model: dangerScore = (intrinsic × speedModifier) × encounterModifier × deliveryModifier
  *
  * Where:
- *   intrinsic = 0.45×lethality + 0.35×clinical + 0.20×speed
+ *   intrinsic = 0.55×lethality + 0.45×clinical
+ *   speedModifier = SPEED_BASE + (0.4 × (speedScore / 100))
  *   encounterModifier = ENCOUNTER_BASE + (1 - ENCOUNTER_BASE) × (encounterScore / 100)
+ *   deliveryModifier = 0.5 if rear-fanged AND not highly venomous; 1.0 otherwise.
  *
- * Encounter acts as a scaling modifier: it can amplify danger that
+ * All three act as scaling modifiers: they can amplify or diminish danger that
  * already exists but cannot create it.
  */
 export function calculateDangerScore(
   components: DangerScoreComponents,
+  deliveryModifier: number = 1.0
 ): number {
-  const intrinsic =
+  const baseIntrinsic =
     components.lethalityScore * INTRINSIC_WEIGHTS.lethalityScore +
-    components.clinicalScore * INTRINSIC_WEIGHTS.clinicalScore +
-    components.speedScore * INTRINSIC_WEIGHTS.speedScore;
+    components.clinicalScore * INTRINSIC_WEIGHTS.clinicalScore;
 
-  const encounterModifier =
-    ENCOUNTER_BASE + (1 - ENCOUNTER_BASE) * (components.encounterScore / 100);
+  const speedModifier = getSpeedModifier(components.speedScore);
+  const encounterModifier = getEncounterModifier(components.encounterScore);
 
-  const score = intrinsic * encounterModifier;
+  const score = baseIntrinsic * speedModifier * encounterModifier * deliveryModifier;
   return Math.round(Math.max(0, Math.min(100, score)));
 }
 
 /**
  * Returns the intrinsic weights used for the danger score.
- * Encounter is not included here — it's a multiplicative modifier.
  */
 export function getIntrinsicWeights(): typeof INTRINSIC_WEIGHTS {
   return INTRINSIC_WEIGHTS;
+}
+
+/**
+ * Computes the speed modifier for a given speed score.
+ * Returns a value in [SPEED_BASE, SPEED_BASE + 0.4].
+ * 100 -> 1.2 (+20% bonus for extremely fast)
+ * 50 -> 1.0 (no change)
+ * 0 -> 0.8 (-20% penalty for slow)
+ */
+export function getSpeedModifier(speedScore: number): number {
+  return SPEED_BASE + (0.4 * speedScore) / 100;
 }
 
 /**
@@ -203,21 +242,37 @@ export function getEncounterModifier(encounterScore: number): number {
 
 /**
  * Returns rounded contribution values for danger score display (e.g. tooltips).
- * Matches the waterfall chart: lethality + clinical + speed, then encounter reduction.
- * encounter is the reduction amount (positive); show as "-X" in UI.
+ * Matches the waterfall chart: lethality + clinical, then speed, delivery, and encounter adjustments.
+ * encounter/speed/delivery are the adjustment amounts; negative shows as reduction in UI.
  */
 export function getDangerScoreBreakdown(
   components: DangerScoreComponents,
-  _dangerScore: number
-): { lethality: number; clinical: number; speed: number; encounter: number } {
+  _dangerScore: number,
+  deliveryModifier: number = 1.0
+): { lethality: number; clinical: number; speed: number; delivery: number; encounter: number } {
   const weights = getIntrinsicWeights();
-  const encounterMod = getEncounterModifier(components.encounterScore);
   const lethality = Math.round(components.lethalityScore * weights.lethalityScore);
   const clinical = Math.round(components.clinicalScore * weights.clinicalScore);
-  const speed = Math.round(components.speedScore * weights.speedScore);
-  const intrinsic = lethality + clinical + speed;
-  const encounter = Math.round(intrinsic * (1 - encounterMod));
-  return { lethality, clinical, speed, encounter };
+  
+  const base = lethality + clinical;
+  const speedMod = getSpeedModifier(components.speedScore);
+  const encounterMod = getEncounterModifier(components.encounterScore);
+  
+  const speedEffect = Math.round(base * (speedMod - 1));
+  const afterSpeed = base + speedEffect;
+  
+  const deliveryEffect = Math.round(afterSpeed * (deliveryModifier - 1));
+  const afterDelivery = afterSpeed + deliveryEffect;
+  
+  const encounterEffect = Math.round(afterDelivery * (encounterMod - 1));
+  
+  return { 
+    lethality, 
+    clinical, 
+    speed: speedEffect, 
+    delivery: deliveryEffect,
+    encounter: encounterEffect 
+  };
 }
 
 /**
@@ -261,56 +316,39 @@ export function deriveVenomClassification(
 }
 
 /**
+ * Computes the delivery efficiency modifier (The "Chew Factor").
+ *
+ * Rear-fanged snakes (Colubrids) are less efficient at envenomating.
+ * If their venom is already "Moderately Venomous" or lower, their
+ * inefficiency further reduces their clinical danger by 50%.
+ *
+ * Exception: Highly Venomous rear-fanged snakes (e.g. Boomslang)
+ * are efficient enough that their lab lethality translates
+ * directly to clinical harm.
+ */
+export function getDeliveryModifier(
+  fangType: Snake["fangType"] | undefined,
+  classification: Snake["venomClassification"]
+): number {
+  if (fangType !== "Rear fangs") return 1.0;
+  
+  // If highly venomous, don't punish delivery - its lethality is proven
+  if (classification === "Highly Venomous" || classification === "Venomous") {
+    return 1.0;
+  }
+  
+  // Moderate / Mild / Non-venomous rear-fanged snakes are inefficient
+  return 0.5;
+}
+
+/**
  * Compute danger score and components for a single snake.
  * Returns updated snake with dangerScore, dangerScoreComponents,
  * venomPotency.ld50Normalized, and derived venomClassification.
  */
-/** Rear-fanged / mild salivary toxins: treat as Mildly Venomous with low danger score */
-const mildlyVenomousIds = new Set([
-  "garter-snake",
-  "green-vine-snake",
-  "hognose-eastern",
-  "ringneck-snake",
-  "southern-hognose",
-]);
-
 export function computeDangerScoreForSnake(snake: Snake): Snake {
-  const insufficientIds = new Set(["european-cat-snake", "asian-vine-snake"]);
-  if (snake.dataQuality === "insufficient" || insufficientIds.has(snake.id)) {
-    const components: DangerScoreComponents = {
-      clinicalScore: 0, potencyScore: 0, yieldScore: 0,
-      lethalityScore: 0, encounterScore: 20, speedScore: 0,
-    };
-    return {
-      ...snake,
-      dangerScore: calculateDangerScore(components),
-      dangerRank: snake.dangerRank,
-      dangerScoreComponents: components,
-      venomClassification: "Mildly Venomous",
-      dataQuality: "insufficient",
-    };
-  }
-
-  if (mildlyVenomousIds.has(snake.id)) {
-    const encounterScore = calculateEncounterScore(snake.humanEncounterChance);
-    const components: DangerScoreComponents = {
-      clinicalScore: 0,
-      potencyScore: 5,
-      yieldScore: 5,
-      lethalityScore: 5,
-      encounterScore,
-      speedScore: 20,
-    };
-    return {
-      ...snake,
-      dangerScore: calculateDangerScore(components),
-      dangerRank: snake.dangerRank,
-      dangerScoreComponents: components,
-      venomClassification: "Mildly Venomous",
-    };
-  }
-
-  if (snake.venomClassification === "Non-venomous") {
+  // 1. Base check for non-venomous
+  if (snake.venomClassification === "Non-venomous" && !snake.clinicalData) {
     return {
       ...snake,
       dangerScore: 0,
@@ -319,9 +357,26 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     };
   }
 
+  // 2. Data Quality / Insufficient handling
+  if (snake.dataQuality === "insufficient") {
+    const components: DangerScoreComponents = {
+      clinicalScore: 0, potencyScore: 0, yieldScore: 0,
+      lethalityScore: 0, encounterScore: 20, speedScore: 0,
+    };
+    return {
+      ...snake,
+      dangerScore: calculateDangerScore(components),
+      dangerScoreComponents: components,
+      venomClassification: "Mildly Venomous",
+      dataQuality: "insufficient",
+    };
+  }
+
+  // 3. Components
   const encounterScore = calculateEncounterScore(snake.humanEncounterChance);
   const speedScore = calculateSpeedScore(snake.venomSpeed);
 
+  // 3a. Potency (Normalize to SC equivalent)
   let potencyScore = 0;
   let ld50Sc = MAX_LD50;
   let potency: VenomPotency | undefined = snake.venomPotency;
@@ -341,6 +396,7 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     };
   }
 
+  // 3b. Yield (Impute if missing)
   let yieldScore = 0;
   const vYield = snake.venomYield;
   const dryMg =
@@ -351,8 +407,10 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     yieldScore = calculateYieldScore(yieldMg);
   }
 
+  // 3c. Lethality (Interaction of Potency & Yield)
   const lethalityScore = calculateLethalityScore(ld50Sc, yieldMg);
 
+  // 3d. Clinical (Ground truth outcome)
   let clinicalScore = 0;
   if (snake.clinicalData) {
     clinicalScore = calculateClinicalScore(snake.clinicalData);
@@ -366,8 +424,13 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     encounterScore,
     speedScore,
   };
+
+  // 4. Derive Labels & Modifiers
   const venomClassification = deriveVenomClassification(components, snake.clinicalData);
-  const dangerScore = calculateDangerScore(components);
+  const deliveryModifier = getDeliveryModifier(snake.fangType, venomClassification);
+
+  // 5. Compute Final Score
+  const dangerScore = calculateDangerScore(components, deliveryModifier);
 
   return {
     ...snake,

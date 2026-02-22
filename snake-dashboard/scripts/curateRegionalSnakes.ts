@@ -111,7 +111,6 @@ const curatedAdditions: SnakeRecord[] = [
 
   // Africa
   baseVenomous({ id: "green-mamba", commonName: "Eastern Green Mamba", scientificName: "Dendroaspis angusticeps", family: "Elapidae", genus: "Dendroaspis", continent: "Africa", subregions: ["East Africa"], dangerScore: 79, venomClassification: "Highly Venomous", humanEncounterChance: "Moderate", distribution: { regions: ["East Africa"], habitat: "Coastal forests and dense vegetation" }, description: "Highly recognizable arboreal mamba from East Africa." }),
-  baseVenomous({ id: "boomslang-southern", commonName: "Southern Boomslang", scientificName: "Dispholidus typus", family: "Colubridae", genus: "Dispholidus", continent: "Africa", subregions: ["Sub-Saharan Africa"], dangerScore: 68, venomClassification: "Moderately Venomous", humanEncounterChance: "Low", distribution: { regions: ["Sub-Saharan Africa"], habitat: "Savanna woodland and shrubland" }, description: "Famous rear-fanged species with clinically important venom." }),
   baseVenomous({ id: "egyptian-viper", commonName: "Horned Desert Viper", scientificName: "Cerastes cerastes", family: "Viperidae", genus: "Cerastes", continent: "Africa", subregions: ["North Africa"], dangerScore: 63, venomClassification: "Moderately Venomous", humanEncounterChance: "Moderate", distribution: { regions: ["North Africa"], habitat: "Deserts and dune systems" }, description: "Iconic horned desert viper seen across documentaries and references." }),
 
   // Europe

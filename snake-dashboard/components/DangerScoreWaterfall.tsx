@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useMemo, useState } from "react";
 import * as d3 from "d3";
-import { getIntrinsicWeights, getEncounterModifier } from "@/lib/dangerScore";
+import { getIntrinsicWeights, getEncounterModifier, getSpeedModifier, getDeliveryModifier } from "@/lib/dangerScore";
 import type { DangerScoreComponents } from "@/lib/types";
 
 interface WaterfallStep {
@@ -12,7 +12,7 @@ interface WaterfallStep {
   value: number;
   cumStart: number;
   cumEnd: number;
-  kind: "additive" | "subtractive" | "total";
+  kind: "additive" | "subtractive" | "total" | "modifier";
   color: string;
   rawScore?: number;
   weight?: number;
@@ -21,7 +21,8 @@ interface WaterfallStep {
 interface DangerScoreWaterfallProps {
   dangerScore: number;
   components: DangerScoreComponents;
-  venomClassification?: string;
+  venomClassification: Snake["venomClassification"];
+  fangType?: Snake["fangType"];
 }
 
 const COLORS = {
@@ -43,15 +44,28 @@ const CHART_HEIGHT = 160;
 const INNER_W = CHART_WIDTH - MARGIN.left - MARGIN.right;
 const INNER_H = CHART_HEIGHT - MARGIN.top - MARGIN.bottom;
 
-function buildSteps(components: DangerScoreComponents, dangerScore: number): WaterfallStep[] {
+function buildSteps(
+  components: DangerScoreComponents, 
+  dangerScore: number,
+  venomClassification: Snake["venomClassification"],
+  fangType?: Snake["fangType"]
+): WaterfallStep[] {
   const weights = getIntrinsicWeights();
+  const speedMod = getSpeedModifier(components.speedScore);
   const encounterMod = getEncounterModifier(components.encounterScore);
+  const deliveryMod = getDeliveryModifier(fangType, venomClassification);
 
   const leth = components.lethalityScore * weights.lethalityScore;
   const clin = components.clinicalScore * weights.clinicalScore;
-  const spd = components.speedScore * weights.speedScore;
-  const intrinsic = leth + clin + spd;
-  const reduction = intrinsic * (1 - encounterMod);
+  const baseIntrinsic = leth + clin;
+  
+  const speedAdjustment = baseIntrinsic * (speedMod - 1);
+  const afterSpeed = baseIntrinsic + speedAdjustment;
+  
+  const deliveryAdjustment = afterSpeed * (deliveryMod - 1);
+  const afterDelivery = afterSpeed + deliveryAdjustment;
+  
+  const encounterReduction = afterDelivery * (1 - encounterMod);
 
   let cum = 0;
   const steps: WaterfallStep[] = [];
@@ -71,14 +85,24 @@ function buildSteps(components: DangerScoreComponents, dangerScore: number): Wat
   cum += clin;
 
   steps.push({
-    key: "speed", label: "Venom Speed", shortLabel: "Speed",
-    value: spd, cumStart: cum, cumEnd: cum + spd, kind: "additive",
-    color: COLORS.speed, rawScore: components.speedScore, weight: weights.speedScore,
+    key: "speed", label: "Speed Modifier", shortLabel: "Speed",
+    value: speedAdjustment, cumStart: baseIntrinsic, cumEnd: afterSpeed, 
+    kind: speedAdjustment >= 0 ? "additive" : "subtractive",
+    color: COLORS.speed, rawScore: components.speedScore,
   });
+
+  if (Math.abs(deliveryAdjustment) >= 0.5) {
+    steps.push({
+      key: "delivery", label: "Delivery Efficiency", shortLabel: "Dlv.",
+      value: deliveryAdjustment, cumStart: afterSpeed, cumEnd: afterDelivery,
+      kind: "subtractive",
+      color: COLORS.delivery,
+    });
+  }
 
   steps.push({
     key: "encounter", label: "Encounter Modifier", shortLabel: "Enc.",
-    value: reduction, cumStart: intrinsic - reduction, cumEnd: intrinsic, kind: "subtractive",
+    value: encounterReduction, cumStart: afterDelivery - encounterReduction, cumEnd: afterDelivery, kind: "subtractive",
     color: COLORS.encounter,
   });
 
@@ -94,12 +118,19 @@ function buildSteps(components: DangerScoreComponents, dangerScore: number): Wat
 export function DangerScoreWaterfall({
   dangerScore,
   components,
+  venomClassification,
+  fangType,
 }: DangerScoreWaterfallProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
 
-  const steps = useMemo(() => buildSteps(components, dangerScore), [components, dangerScore]);
+  const steps = useMemo(() => 
+    buildSteps(components, dangerScore, venomClassification, fangType), 
+    [components, dangerScore, venomClassification, fangType]
+  );
+  const speedMod = getSpeedModifier(components.speedScore);
   const encounterMod = getEncounterModifier(components.encounterScore);
+  const deliveryMod = getDeliveryModifier(fangType, venomClassification);
 
   const hoveredStep = hoveredKey ? steps.find((s) => s.key === hoveredKey) : null;
 
@@ -136,11 +167,10 @@ export function DangerScoreWaterfall({
       .call((g) => g.select(".domain").remove())
       .call((g) => g.selectAll("text").attr("fill", "#a8a29e").style("font-size", "9px"));
 
-    // Connector lines between additive bars
-    const additive = steps.filter((s) => s.kind === "additive");
-    for (let i = 0; i < additive.length - 1; i++) {
-      const from = additive[i];
-      const to = additive[i + 1];
+    // Connector lines
+    for (let i = 0; i < steps.length - 2; i++) {
+      const from = steps[i];
+      const to = steps[i + 1];
       g.append("line")
         .attr("x1", (x(from.key) ?? 0) + x.bandwidth())
         .attr("x2", x(to.key) ?? 0)
@@ -149,17 +179,8 @@ export function DangerScoreWaterfall({
         .attr("stroke", "#d6d3d1").attr("stroke-dasharray", "3,2").attr("stroke-width", 1);
     }
 
-    // Connector from speed top to encounter top
-    const speedStep = steps.find((s) => s.key === "speed")!;
-    const encStep = steps.find((s) => s.key === "encounter")!;
-    g.append("line")
-      .attr("x1", (x("speed") ?? 0) + x.bandwidth())
-      .attr("x2", x("encounter") ?? 0)
-      .attr("y1", y(speedStep.cumEnd))
-      .attr("y2", y(encStep.cumEnd))
-      .attr("stroke", "#d6d3d1").attr("stroke-dasharray", "3,2").attr("stroke-width", 1);
-
     // Connector from encounter bottom to final top
+    const encStep = steps.find((s) => s.key === "encounter")!;
     g.append("line")
       .attr("x1", (x("encounter") ?? 0) + x.bandwidth())
       .attr("x2", x("final") ?? 0)
@@ -167,10 +188,10 @@ export function DangerScoreWaterfall({
       .attr("y2", y(dangerScore))
       .attr("stroke", "#d6d3d1").attr("stroke-dasharray", "3,2").attr("stroke-width", 1);
 
-    // Diagonal stripe pattern for encounter bar
+    // Diagonal stripe pattern for modifiers
     const defs = svg.append("defs");
     defs.append("pattern")
-      .attr("id", "stripe-encounter")
+      .attr("id", "stripe-modifier")
       .attr("patternUnits", "userSpaceOnUse")
       .attr("width", 4).attr("height", 4)
       .append("path")
@@ -193,29 +214,34 @@ export function DangerScoreWaterfall({
         .attr("cursor", "pointer")
         .attr("data-key", step.key);
 
-      // Encounter bar gets stripe overlay
-      if (step.kind === "subtractive") {
+      // Modifier bars get stripe overlay
+      if (step.key === "encounter" || (step.key === "speed" && step.value < 0) || step.key === "delivery") {
         g.append("rect")
           .attr("x", bx).attr("y", by)
           .attr("width", x.bandwidth()).attr("height", barH)
-          .attr("fill", "url(#stripe-encounter)")
+          .attr("fill", "url(#stripe-modifier)")
           .attr("rx", 2).attr("pointer-events", "none");
       }
 
-      // Value label above bar
-      const labelValue = step.kind === "subtractive"
-        ? `-${step.value.toFixed(0)}`
+      // Value label above/below bar
+      const labelValue = step.key === "encounter" || (step.key === "speed" && step.value < 0) || step.key === "delivery"
+        ? `-${Math.abs(step.value).toFixed(0)}`
         : step.kind === "total"
           ? `${dangerScore}`
           : `+${step.value.toFixed(0)}`;
+      
+      const labelY = (step.key === "speed" && step.value < 0) || step.key === "encounter" || step.key === "delivery"
+        ? by + barH + 9
+        : by - 3;
+
       g.append("text")
         .attr("x", bx + x.bandwidth() / 2)
-        .attr("y", by - 3)
+        .attr("y", labelY)
         .attr("text-anchor", "middle")
         .attr("fill", "#78716c")
         .style("font-size", "9px")
         .style("font-weight", "600")
-        .text(step.value >= 0.5 || step.kind === "total" ? labelValue : "");
+        .text(Math.abs(step.value) >= 0.5 || step.kind === "total" ? labelValue : "");
 
       // Hover events
       rect
@@ -312,7 +338,7 @@ export function DangerScoreWaterfall({
             </div>
           </div>
         )}
-        {hoveredStep && hoveredStep.kind === "additive" && hoveredStep.key !== "lethality" && (
+        {hoveredStep && hoveredStep.key === "clinical" && (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: hoveredStep.color }} />
@@ -328,7 +354,39 @@ export function DangerScoreWaterfall({
             </div>
           </div>
         )}
-        {hoveredStep && hoveredStep.kind === "subtractive" && (
+        {hoveredStep && hoveredStep.key === "speed" && (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: hoveredStep.color }} />
+              <span className="text-sm font-medium text-stone-700">Speed Modifier</span>
+            </div>
+            <div className="text-right">
+              <span className="text-sm font-bold tabular-nums text-stone-800">
+                ×{speedMod.toFixed(2)}
+              </span>
+              <span className={`text-xs ml-2 ${hoveredStep.value >= 0 ? "text-stone-400" : "text-amber-600"}`}>
+                ({hoveredStep.value >= 0 ? "+" : ""}{hoveredStep.value.toFixed(1)} pts)
+              </span>
+            </div>
+          </div>
+        )}
+        {hoveredStep && hoveredStep.key === "delivery" && (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: hoveredStep.color }} />
+              <span className="text-sm font-medium text-stone-700">Delivery Efficiency</span>
+            </div>
+            <div className="text-right">
+              <span className="text-sm font-bold tabular-nums text-stone-800">
+                ×{deliveryMod.toFixed(2)}
+              </span>
+              <span className="text-xs text-violet-600 ml-2">
+                ({hoveredStep.value.toFixed(1)} pts)
+              </span>
+            </div>
+          </div>
+        )}
+        {hoveredStep && hoveredStep.key === "encounter" && (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: hoveredStep.color }} />
@@ -344,7 +402,7 @@ export function DangerScoreWaterfall({
             </div>
           </div>
         )}
-        {hoveredStep && hoveredStep.kind === "total" && (
+        {hoveredStep && hoveredStep.key === "final" && (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: hoveredStep.color }} />

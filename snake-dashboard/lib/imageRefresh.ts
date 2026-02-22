@@ -32,6 +32,10 @@ function snakeDir(snakeId: string) {
   return join(ROOT, "public/images/snakes", snakeId);
 }
 
+function galleryMetadataPath(snakeId: string) {
+  return join(snakeDir(snakeId), "gallery-metadata.json");
+}
+
 /** Atomic file write: write to temp then rename */
 async function atomicWrite(targetPath: string, data: Buffer | string) {
   const dir = dirname(targetPath);
@@ -260,6 +264,7 @@ export async function addToGallery(
       }
       return data;
     });
+    await syncGalleryMetadataFromIndex(snakeId);
   }
 
   console.log(`[add-to-gallery] ${snakeId}: added candidate ${candidateIndex} as gallery/${nextNum}.jpg`);
@@ -407,6 +412,7 @@ export async function promoteGalleryToPrimary(
     await fs.unlink(newPrimarySourcePath);
   } catch { /* already moved or gone */ }
 
+  await syncGalleryMetadataFromIndex(snakeId);
   console.log(`[promote-gallery] ${snakeId}: swapped gallery ${imagePath} with primary`);
 }
 
@@ -441,6 +447,8 @@ export async function deleteGalleryImage(
   } catch (err) {
     console.warn(`[delete-gallery] ${snakeId}: could not delete file ${fullPath} (might already be gone)`);
   }
+
+  await syncGalleryMetadataFromIndex(snakeId);
 }
 
 // ---------------------------------------------------------------------------
@@ -462,6 +470,36 @@ async function cleanupCandidates(snakeId: string): Promise<void> {
     await fs.rm(dir, { recursive: true, force: true });
     console.log(`[cleanup] ${snakeId}: removed candidates directory`);
   } catch { /* already gone */ }
+}
+
+async function syncGalleryMetadataFromIndex(snakeId: string): Promise<void> {
+  const raw = await fs.readFile(DATA_PATH, "utf-8");
+  const data = JSON.parse(raw) as SnakeData;
+  const snake = data.snakes.find((s) => s.id === snakeId);
+  const outPath = galleryMetadataPath(snakeId);
+
+  const gallery = snake?.images?.gallery ?? [];
+  if (gallery.length === 0) {
+    try {
+      await fs.unlink(outPath);
+      console.log(`[gallery-meta] ${snakeId}: removed empty gallery-metadata.json`);
+    } catch {
+      // no-op
+    }
+    return;
+  }
+
+  const galleryAttributions = snake?.images?.galleryAttributions ?? [];
+  const fallback = snake?.images?.attribution ?? { source: "Unknown", license: "Unknown" };
+  const alignedAttributions = gallery.map(
+    (_img, idx) => galleryAttributions[idx] ?? fallback
+  );
+
+  const payload = {
+    images: gallery,
+    attributions: alignedAttributions,
+  };
+  await atomicWrite(outPath, JSON.stringify(payload, null, 2));
 }
 
 // ---------------------------------------------------------------------------
@@ -578,8 +616,9 @@ export async function commitSelections(
     return data;
   });
 
+  await syncGalleryMetadataFromIndex(snakeId);
+
   // 4. Clean up entire candidates directory
   await cleanupCandidates(snakeId);
   console.log(`[commit] ${snakeId}: committed ${selections.length} selections, candidates cleaned up`);
 }
-

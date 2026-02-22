@@ -112,16 +112,22 @@ export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Not available in production" }, { status: 403 });
-  }
+  try {
+    if (process.env.NODE_ENV === "production") {
+      return NextResponse.json({ error: "Not available in production" }, { status: 403 });
+    }
 
-  const { id } = await params;
-  const candidates = await getCandidates(id);
-  const snake = getSnakeById(id);
-  
-  return NextResponse.json({ 
-    candidates,
-    images: snake?.images || null
-  });
+    const { id } = await params;
+    const candidates = await getCandidates(id);
+    const snake = getSnakeById(id);
+
+    return NextResponse.json({
+      candidates,
+      images: snake?.images || null,
+    });
+  } catch (error) {
+    console.error(`[refresh-image] GET failed:`, error);
+    const msg = error instanceof Error ? error.message : "Internal server error";
+    return NextResponse.json({ error: msg }, { status: 500 });
+  }
 }

@@ -4,7 +4,7 @@
  * Output: data/snakes/index.json
  */
 
-import { writeFileSync, readFileSync, existsSync } from "fs";
+import { writeFileSync, readFileSync, existsSync, readdirSync } from "fs";
 import { join } from "path";
 import { computeDangerScoreForSnake, rankSnakes } from "../lib/dangerScore";
 import type { Snake } from "../lib/types";
@@ -32,7 +32,22 @@ const loadGalleryMetadata = (id: string) => {
   try {
     if (existsSync(galleryMetaPath)) {
       const content = readFileSync(galleryMetaPath, "utf-8");
-      return JSON.parse(content);
+      const parsed = JSON.parse(content) as { images?: string[]; attributions?: unknown[] };
+      const images = Array.isArray(parsed.images) ? parsed.images : [];
+      const attributions = Array.isArray(parsed.attributions) ? parsed.attributions : [];
+
+      // Drop stale metadata entries that point to missing files.
+      const valid: Array<{ image: string; attribution: unknown }> = images
+        .map((image, idx) => ({ image, attribution: attributions[idx] }))
+        .filter(({ image }) =>
+          existsSync(join(__dirname, "../public", String(image).replace(/^\//, "")))
+        );
+
+      if (valid.length === 0) return null;
+      return {
+        images: valid.map((v) => v.image),
+        attributions: valid.map((v) => v.attribution),
+      };
     }
   } catch (error) {
     // If file doesn't exist, return null
@@ -40,17 +55,41 @@ const loadGalleryMetadata = (id: string) => {
   return null;
 };
 
+// Fallback: infer gallery images directly from public/images/snakes/<id>/gallery when metadata is missing.
+const loadGalleryFromFiles = (id: string): string[] | null => {
+  const galleryDir = join(__dirname, "../public/images/snakes", id, "gallery");
+  try {
+    if (!existsSync(galleryDir)) return null;
+    const files = readdirSync(galleryDir)
+      .filter((f) => /^\d+\.(jpg|jpeg|png)$/i.test(f))
+      .sort((a, b) => {
+        const ai = Number((a.match(/^(\d+)/) ?? [])[1] ?? Number.MAX_SAFE_INTEGER);
+        const bi = Number((b.match(/^(\d+)/) ?? [])[1] ?? Number.MAX_SAFE_INTEGER);
+        return ai - bi;
+      });
+    if (files.length === 0) return null;
+    return files.map((f) => `/images/snakes/${id}/gallery/${f}`);
+  } catch {
+    return null;
+  }
+};
+
 // Template helpers
 const img = (id: string) => {
   const baseAttribution = loadAttributionFromFile(id);
   const galleryMeta = loadGalleryMetadata(id);
+  const fileGallery = loadGalleryFromFiles(id);
+  const gallery = galleryMeta?.images ?? fileGallery ?? undefined;
+  const galleryAttributions =
+    galleryMeta?.attributions ??
+    (fileGallery ? fileGallery.map(() => baseAttribution) : undefined);
   
   return {
     primary: `/images/snakes/${id}/primary.jpg`,
     thumbnail: `/images/snakes/${id}/thumbnail.jpg`,
-    gallery: galleryMeta?.images,
+    gallery,
     attribution: baseAttribution,
-    galleryAttributions: galleryMeta?.attributions,
+    galleryAttributions,
   };
 };
 
@@ -1227,6 +1266,223 @@ const moreSnakes = [
   nonvenomous("montpellier-snake", "Montpellier Snake", "Malpolon monspessulanus", "Colubridae", "Malpolon", "Low", ["Mediterranean"], "Dry scrub, farmland", [40, 3], "Rear-fanged. Mild venom. Fast-moving.", { maxLength: [2, "m"], diet: ["lizards", "birds", "small mammals"] }),
   nonvenomous("cat-eyed-snake", "Cat-eyed Snake", "Leptodeira septentrionalis", "Colubridae", "Leptodeira", "Moderate", ["Central America", "South America"], "Forests, near water", [10, -85], "Nocturnal. Eats frogs. Mild venom harmless to humans.", { maxLength: [1, "m"], diet: ["amphibians"] }),
   nonvenomous("cuban-tree-snake", "Cuban Tree Snake", "Chironius carinatus", "Colubridae", "Chironius", "Low", ["Caribbean", "South America"], "Forests", [20, -75], "Arboreal. Fast. Harmless.", { maxLength: [2.5, "m"], diet: ["frogs", "lizards"] }),
+  venomous(
+    "rinkhals",
+    "Rinkhals",
+    "Hemachatus haemachatus",
+    "Elapidae",
+    "Hemachatus",
+    76,
+    "24/100",
+    { ld50: 1.5, range: "1.1-2.0", method: "SC" },
+    { dry: 80, qual: "Moderate" },
+    ["Neurotoxic", "Cytotoxic"],
+    "Quick",
+    {
+      short: ["Local pain", "Swelling", "Ocular irritation from spit"],
+      prog: ["Neurotoxicity", "Tissue damage", "Vomiting"],
+      crit: ["Respiratory compromise", "Severe tissue necrosis"],
+    },
+    "Moderate",
+    ["Southern Africa"],
+    "Grasslands, scrub, agricultural edges",
+    [-29, 24],
+    "A distinctive spitting cobra relative that often feigns death. Bites can cause neurotoxic and cytotoxic envenoming.",
+    "Highly Venomous"
+  ),
+  venomous(
+    "mozambique-spitting-cobra",
+    "Mozambique Spitting Cobra",
+    "Naja mossambica",
+    "Elapidae",
+    "Naja",
+    82,
+    "18/100",
+    { ld50: 0.8, range: "0.6-1.2", method: "SC" },
+    { dry: 120, qual: "High" },
+    ["Neurotoxic", "Cytotoxic"],
+    "Quick",
+    {
+      short: ["Severe pain", "Swelling", "Ocular pain from spit"],
+      prog: ["Progressive tissue injury", "Ptosis", "Nausea"],
+      crit: ["Compartment syndrome", "Respiratory failure in severe cases"],
+    },
+    "High",
+    ["Southern Africa", "East Africa"],
+    "Savanna, villages, peri-urban habitats",
+    [-18, 35],
+    "One of Africa's most medically important spitting cobras. Frequently encountered near people.",
+    "Highly Venomous"
+  ),
+  venomous(
+    "blue-krait",
+    "Blue Krait",
+    "Bungarus candidus",
+    "Elapidae",
+    "Bungarus",
+    88,
+    "12/100",
+    { ld50: 0.07, range: "0.05-0.1", method: "IV" },
+    { dry: 8, qual: "Very Low" },
+    ["Neurotoxic"],
+    "Quick",
+    {
+      short: ["Minimal pain", "Abdominal cramps", "Ptosis"],
+      prog: ["Descending paralysis"],
+      crit: ["Respiratory failure", "Death without ventilation"],
+    },
+    "Moderate",
+    ["Southeast Asia"],
+    "Lowland forests, rice fields, rural settlements",
+    [13, 101],
+    "A highly neurotoxic krait responsible for severe nocturnal envenomings in Southeast Asia.",
+    "Highly Venomous"
+  ),
+  venomous(
+    "banded-sea-krait",
+    "Banded Sea Krait",
+    "Laticauda colubrina",
+    "Elapidae",
+    "Laticauda",
+    74,
+    "27/100",
+    { ld50: 0.12, range: "0.08-0.2", method: "IV" },
+    { dry: 10, qual: "Very Low" },
+    ["Neurotoxic", "Myotoxic"],
+    "Quick",
+    {
+      short: ["Mild pain", "Weakness", "Muscle aches"],
+      prog: ["Generalized paralysis", "Myotoxic injury"],
+      crit: ["Respiratory failure", "Rhabdomyolysis complications"],
+    },
+    "Low",
+    ["Indo-Pacific", "Southeast Asia", "Oceania"],
+    "Coral reefs, coastal islands, rocky shores",
+    [-8, 123],
+    "Amphibious sea krait with potent venom; usually docile but medically significant when handled.",
+    "Venomous"
+  ),
+  venomous(
+    "sidewinder",
+    "Sidewinder",
+    "Crotalus cerastes",
+    "Viperidae",
+    "Crotalus",
+    60,
+    "40/100",
+    { ld50: 0.9, range: "0.7-1.3", method: "SC" },
+    { dry: 18, qual: "Low" },
+    ["Hemotoxic"],
+    "Quick",
+    {
+      short: ["Pain", "Swelling"],
+      prog: ["Ecchymosis", "Coagulopathy in moderate cases"],
+      crit: ["Severe systemic envenoming is uncommon"],
+    },
+    "Moderate",
+    ["Southwestern United States", "Northwestern Mexico"],
+    "Sandy deserts, dunes, arid scrub",
+    [34, -114],
+    "Desert rattlesnake known for sidewinding locomotion; bites are painful but often less severe than larger rattlesnakes.",
+    "Moderately Venomous"
+  ),
+  venomous(
+    "rhinoceros-viper",
+    "Rhinoceros Viper",
+    "Bitis nasicornis",
+    "Viperidae",
+    "Bitis",
+    79,
+    "22/100",
+    { ld50: 1.2, range: "0.9-1.6", method: "SC" },
+    { dry: 150, qual: "High" },
+    ["Hemotoxic", "Cytotoxic"],
+    "Quick",
+    {
+      short: ["Severe pain", "Rapid swelling", "Blistering"],
+      prog: ["Coagulopathy", "Tissue necrosis", "Hypotension"],
+      crit: ["Hemorrhage", "Shock"],
+    },
+    "Low",
+    ["Central Africa", "West Africa"],
+    "Lowland rainforests, swamp forests",
+    [1, 21],
+    "Large forest viper with ornate colors and nasal scales. Delivers large venom yields and can cause severe envenoming.",
+    "Highly Venomous"
+  ),
+  venomous(
+    "belchers-sea-snake",
+    "Belcher's Sea Snake",
+    "Hydrophis belcheri",
+    "Elapidae",
+    "Hydrophis",
+    78,
+    "23/100",
+    { ld50: 0.24, range: "0.18-0.4", method: "IV" },
+    { dry: 6, qual: "Very Low" },
+    ["Neurotoxic", "Myotoxic"],
+    "Quick",
+    {
+      short: ["Often painless bite", "Mild weakness"],
+      prog: ["Myalgia", "Paralysis", "Dark urine"],
+      crit: ["Respiratory failure", "Rhabdomyolysis with renal injury"],
+    },
+    "Low",
+    ["Indian Ocean", "Southeast Asia"],
+    "Warm shallow coastal waters, offshore reefs",
+    [8, 95],
+    "Marine elapid with highly potent venom, though human bites are uncommon due to limited contact.",
+    "Highly Venomous"
+  ),
+  nonvenomous("indian-python", "Indian Python", "Python molurus", "Pythonidae", "Python", "Moderate", ["South Asia"], "Grasslands, forests, wetlands, agricultural edges", [22, 78], "Large constrictor native to the Indian subcontinent. Frequently recognized in zoos and documentaries.", { maxLength: [4.5, "m"], diet: ["mammals", "birds", "reptiles"], constrictor: true }),
+  venomous(
+    "false-water-cobra",
+    "False Water Cobra",
+    "Hydrodynastes gigas",
+    "Colubridae",
+    "Hydrodynastes",
+    38,
+    "58/100",
+    { ld50: 4.2, range: "3.0-6.0", method: "SC" },
+    { dry: 18, qual: "Low" },
+    ["Cytotoxic"],
+    "Slow",
+    {
+      short: ["Pain", "Swelling", "Local bleeding"],
+      prog: ["Extended edema", "Regional tissue irritation"],
+      crit: ["Systemic severe effects are rare"],
+    },
+    "Moderate",
+    ["South America"],
+    "Wetlands, floodplains, riversides",
+    [-17, -57],
+    "Rear-fanged colubrid that hood-displays like a cobra. Bites are usually localized but can be medically significant.",
+    "Mildly Venomous"
+  ),
+  venomous(
+    "mangshan-pit-viper",
+    "Mangshan Pit Viper",
+    "Protobothrops mangshanensis",
+    "Viperidae",
+    "Protobothrops",
+    73,
+    "29/100",
+    { ld50: 1.1, range: "0.8-1.5", method: "SC" },
+    { dry: 120, qual: "High" },
+    ["Hemotoxic", "Cytotoxic"],
+    "Quick",
+    {
+      short: ["Severe pain", "Swelling", "Bleeding"],
+      prog: ["Coagulopathy", "Progressive tissue injury"],
+      crit: ["Hemorrhage", "Shock in severe untreated bites"],
+    },
+    "Low",
+    ["Southern China"],
+    "Montane evergreen forests",
+    [25, 113],
+    "Rare, large pit viper endemic to China and well known among herpetologists for its striking camouflage.",
+    "Venomous"
+  ),
 ];
 
 // Load existing snakes (used for merge + preserving optional fields)
@@ -1240,7 +1496,12 @@ const existingById = new Map<string, Record<string, unknown>>(
 const allNew = fixedSnakes;
 
 // Remove duplicate/erroneous entries; later entries override earlier (so updated definitions in allNew/moreSnakes win)
-const combined = [...existing.snakes, ...allNew, ...moreSnakes];
+const removedSnakeIds = new Set<string>([
+  "boomslang-southern",
+]);
+const combined = [...existing.snakes, ...allNew, ...moreSnakes].filter(
+  (s: any) => !removedSnakeIds.has(s.id)
+);
 const byId = new Map<string, unknown>();
 combined.forEach((s: any) => byId.set(s.id, s));
 const unique = Array.from(byId.values()) as typeof combined;
@@ -1286,15 +1547,34 @@ const withFangTypes = corrected.map((s: any) => {
 // "search for images") are not lost on rebuild. File-based data (attribution.json, gallery-metadata.json)
 // is used as fallback when the snake has no gallery data.
 const snakesWithNormalizedImages = withFangTypes.map((s: any) => {
+  const prev = existingById.get(s.id) as Record<string, unknown> | undefined;
+  const prevImages = (prev?.images as Record<string, unknown> | undefined) ?? undefined;
   const baseImages = img(s.id);
-  const hasExistingGallery = Array.isArray(s.images?.gallery) && s.images.gallery.length > 0;
-  const hasExistingAttributions = Array.isArray(s.images?.galleryAttributions) && s.images.galleryAttributions.length > 0;
+  const currentGallery = Array.isArray(s.images?.gallery) && s.images.gallery.length > 0 ? s.images.gallery : undefined;
+  const currentGalleryAttributions =
+    Array.isArray(s.images?.galleryAttributions) && s.images.galleryAttributions.length > 0
+      ? s.images.galleryAttributions
+      : undefined;
+  const prevGallery =
+    Array.isArray(prevImages?.gallery) && (prevImages.gallery as unknown[]).length > 0
+      ? (prevImages.gallery as unknown[])
+      : undefined;
+  const prevGalleryAttributions =
+    Array.isArray(prevImages?.galleryAttributions) && (prevImages.galleryAttributions as unknown[]).length > 0
+      ? (prevImages.galleryAttributions as unknown[])
+      : undefined;
+  const prevAttribution = prevImages?.attribution as Record<string, unknown> | undefined;
+  const shouldUsePrevAttribution =
+    baseImages?.attribution?.source === "Placeholder" && prevAttribution;
   return {
     ...s,
     images: {
       ...baseImages,
-      ...(hasExistingGallery && { gallery: s.images.gallery }),
-      ...(hasExistingAttributions && { galleryAttributions: s.images.galleryAttributions }),
+      ...(shouldUsePrevAttribution ? { attribution: prevAttribution } : {}),
+      ...(currentGallery ? { gallery: currentGallery } : {}),
+      ...(currentGalleryAttributions ? { galleryAttributions: currentGalleryAttributions } : {}),
+      ...(!currentGallery && prevGallery ? { gallery: prevGallery } : {}),
+      ...(!currentGalleryAttributions && prevGalleryAttributions ? { galleryAttributions: prevGalleryAttributions } : {}),
     },
   };
 });

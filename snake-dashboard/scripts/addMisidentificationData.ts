@@ -73,9 +73,6 @@ const MISIDENTIFICATION_MAP: Record<string, string[]> = {
   "nose-horned-viper": ["asp-viper"], // European vipers
   "asp-viper": ["nose-horned-viper"],
   "common-adder": ["asp-viper"], // European adders
-  "boomslang": ["boomslang-southern"], // Same genus
-  "boomslang-southern": ["boomslang"],
-  
   // Non-venomous that mimic venomous
   "sand-boa": ["russells-viper", "saw-scaled-viper"], // Mimics vipers
   "asian-rat-snake": ["indian-cobra", "monocled-cobra"], // Mimics cobras

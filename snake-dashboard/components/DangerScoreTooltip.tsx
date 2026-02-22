@@ -9,15 +9,17 @@ const TOOLTIP_CONTENT = (
   <div className="text-left">
     <p className="font-semibold text-stone-800 mb-1.5">How danger score is calculated</p>
     <p className="text-xs text-stone-600 leading-relaxed">
-      An intrinsic danger score is computed from three factors, then scaled by encounter frequency:
+      A base danger score is computed from two factors, then scaled by modifiers:
     </p>
     <ul className="mt-1.5 text-xs text-stone-600 space-y-0.5 list-none">
-      <li><strong>Lethality (45%)</strong> — lethal doses per bite for a 70kg human (potency × yield)</li>
-      <li><strong>Clinical severity (35%)</strong> — untreated fatality rate and WHO medical importance</li>
-      <li><strong>Venom speed (20%)</strong> — how quickly symptoms progress after a bite</li>
+      <li><strong>Lethality (55%)</strong> — lethal doses per bite for a 70kg human (potency × yield)</li>
+      <li><strong>Clinical Severity (45%)</strong> — untreated fatality rate, morbidity floor, and WHO medical importance</li>
     </ul>
     <p className="mt-1.5 text-xs text-stone-600 leading-relaxed">
-      <strong>Encounter modifier</strong> — scales the intrinsic score by how often people encounter the species (×0.6 to ×1.0)
+      <strong>Speed & Delivery Modifiers</strong> — scales danger by how quickly symptoms progress and fang efficiency (e.g. rear-fanged snakes requiring "chewing")
+    </p>
+    <p className="mt-1.5 text-xs text-stone-600 leading-relaxed">
+      <strong>Encounter Modifier</strong> — scales final score by frequency of human encounters (×0.6 to ×1.0)
     </p>
   </div>
 );

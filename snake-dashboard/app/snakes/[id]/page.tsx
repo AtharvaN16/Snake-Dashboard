@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { existsSync } from "fs";
+import { join } from "path";
 import { ChevronLeft } from "lucide-react";
 import {
   getSnakeById,
@@ -72,6 +74,18 @@ export default async function SnakeDetailPage({
     Boolean(snake.distribution.geometry) ||
     Boolean(snake.distribution.rangeGeoJsonPath) ||
     hasRangeMapForSnake(snake.id);
+
+  const galleryWithAttribution = (snake.images?.gallery ?? [])
+    .map((imgSrc, idx) => ({
+      imgSrc,
+      idx,
+      attr: snake.images?.galleryAttributions?.[idx],
+    }))
+    .filter(({ imgSrc }) => existsSync(join(process.cwd(), "public", imgSrc.replace(/^\//, ""))));
+  const galleryImages = galleryWithAttribution.map((item) => item.imgSrc);
+  const galleryAttributions = galleryWithAttribution
+    .map((item) => item.attr)
+    .filter((attr): attr is NonNullable<typeof attr> => Boolean(attr));
 
   // Use symptoms if present; otherwise derive from symptomsProgression for venomous snakes
   const sp = (snake as { symptomsProgression?: { short?: string[]; prog?: string[]; crit?: string[] } }).symptomsProgression;
@@ -460,11 +474,11 @@ export default async function SnakeDetailPage({
       )}
 
       {/* Gallery Section */}
-      {snake.images?.gallery && snake.images.gallery.length > 0 && (
+      {galleryImages.length > 0 && (
         <div className="relative z-20 rounded-xl bg-white p-6 mb-6 max-w-[760px]">
           <h3 className="text-sm font-bold text-[#2c2c2c] mb-4">Additional Images</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {snake.images.gallery.map((imgSrc, idx) => (
+            {galleryImages.map((imgSrc, idx) => (
               <div key={idx} className="relative aspect-[4/3] rounded-lg overflow-hidden bg-stone-100">
                 <Image
                   src={imgSrc}
@@ -478,10 +492,10 @@ export default async function SnakeDetailPage({
           </div>
           
           {/* Attribution for gallery images if different from primary */}
-          {snake.images.galleryAttributions && snake.images.galleryAttributions.length > 0 && (
+          {galleryAttributions.length > 0 && (
             <div className="mt-4 pt-4 border-t border-stone-200 text-xs text-stone-500">
               <p className="font-medium mb-2">Gallery image credits:</p>
-              {snake.images.galleryAttributions.map((attr, idx) => (
+              {galleryAttributions.map((attr, idx) => (
                 <p key={idx} className="mb-1">
                   Image {idx + 1}: {attr.photographer || "Unknown"} ({attr.source})
                   {attr.licenseUrl && (
@@ -518,6 +532,7 @@ export default async function SnakeDetailPage({
                         dangerScore={snake.dangerScore}
                         components={snake.dangerScoreComponents}
                         venomClassification={snake.venomClassification}
+                        fangType={snake.fangType}
                       />
                     </>
                   ) : (

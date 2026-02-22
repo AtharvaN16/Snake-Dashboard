@@ -39,8 +39,17 @@ function useRefreshAction(snakeId: string) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action, ...extra }),
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || `${action} failed`);
+    const raw = await res.text();
+    let data: Record<string, unknown> = {};
+    try {
+      data = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
+    } catch {
+      throw new Error(
+        `Server returned non-JSON response (${res.status}). Check server logs and retry.`
+      );
+    }
+    const errorMessage = typeof data.error === "string" ? data.error : `${action} failed`;
+    if (!res.ok) throw new Error(errorMessage);
     return data;
   };
 }
@@ -85,10 +94,18 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
     
     try {
       const res = await fetch(`/api/snakes/${snakeId}/refresh-image`);
-      const data = await res.json();
-      setCurrentImages(data.images);
+      const raw = await res.text();
+      let data: Record<string, unknown> = {};
+      try {
+        data = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
+      } catch {
+        throw new Error(
+          `Server returned non-JSON response (${res.status}). Check server logs and retry.`
+        );
+      }
+      setCurrentImages((data.images as SnakeImages | null) ?? null);
     } catch (e) {
-      setError("Failed to load current images");
+      setError(e instanceof Error ? e.message : "Failed to load current images");
     }
   };
 
