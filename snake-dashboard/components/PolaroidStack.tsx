@@ -69,8 +69,7 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
                 style={{
                   transformOrigin: PIN_ORIGIN,
                   transform: `translate(${10 + layer * 9}px, ${18 + layer * 11}px) rotate(${BASE_ROTATION - 1.25 + layer * 0.7}deg) scale(${0.98 + layer * 0.01})`,
-                  opacity: 0.4 + layer * 0.15,
-                  boxShadow: "0 10px 20px rgba(0, 0, 0, 0.12)",
+                  boxShadow: `0 ${4 + layer * 4}px ${12 + layer * 6}px rgba(0, 0, 0, ${0.08 + layer * 0.04}), 0 2px 4px rgba(0, 0, 0, 0.06)`,
                   zIndex: 1 + layer,
                 }}
               >

@@ -165,28 +165,53 @@ export default async function SnakeDetailPage({
                 {/* Classification tags */}
                 <div style={{ marginBottom: "20px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                   <span
-                    className="inline-flex font-bold text-base"
+                    className="inline-flex"
                     style={{
-                      padding: "4px 8px",
+                      padding: "3px 8px 2px",
                       borderRadius: "4px",
                       backgroundColor: classificationColor,
                       color: "#000000B2",
+                      fontFamily: "var(--font-pangram-compressed), system-ui, sans-serif",
+                      fontWeight: 800,
+                      fontSize: "15px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.03em",
                     }}
                   >
                     {classificationLabel}
                   </span>
                   {(snake.clinicalData?.fatalitySummary === "Rarely Fatal" || snake.causesOfDeath?.includes("Rarely Fatal")) && (
                     <span
-                      className="inline-flex font-bold text-base"
-                      style={{ padding: "4px 8px", borderRadius: "4px", backgroundColor: "#E0E7FF", color: "#3730A3" }}
+                      className="inline-flex"
+                      style={{
+                        padding: "3px 8px 2px",
+                        borderRadius: "4px",
+                        backgroundColor: "#E0E7FF",
+                        color: "#3730A3",
+                        fontFamily: "var(--font-pangram-compressed), system-ui, sans-serif",
+                        fontWeight: 800,
+                        fontSize: "15px",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.03em",
+                      }}
                     >
                       Rarely Fatal
                     </span>
                   )}
                   {snake.constrictor && (
                     <span
-                      className="inline-flex font-bold text-base"
-                      style={{ padding: "4px 8px", borderRadius: "4px", backgroundColor: "#A7F3D0", color: "#064E3B" }}
+                      className="inline-flex"
+                      style={{
+                        padding: "3px 8px 2px",
+                        borderRadius: "4px",
+                        backgroundColor: "#A7F3D0",
+                        color: "#064E3B",
+                        fontFamily: "var(--font-pangram-compressed), system-ui, sans-serif",
+                        fontWeight: 800,
+                        fontSize: "15px",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.03em",
+                      }}
                     >
                       Constrictor
                     </span>
@@ -194,8 +219,18 @@ export default async function SnakeDetailPage({
                   {snake.accolades && snake.accolades.map(accolade => (
                     <span
                       key={accolade}
-                      className="inline-flex font-bold text-base"
-                      style={{ padding: "4px 8px", borderRadius: "4px", backgroundColor: "#FDE68A", color: "#78350F" }}
+                      className="inline-flex"
+                      style={{
+                        padding: "3px 8px 2px",
+                        borderRadius: "4px",
+                        backgroundColor: "#FDE68A",
+                        color: "#78350F",
+                        fontFamily: "var(--font-pangram-compressed), system-ui, sans-serif",
+                        fontWeight: 800,
+                        fontSize: "15px",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.03em",
+                      }}
                     >
                       {accolade}
                     </span>
@@ -206,7 +241,7 @@ export default async function SnakeDetailPage({
                 <p
                   style={{
                     color: "rgba(0, 0, 0, 0.45)",
-                    fontFamily: "var(--font-inter), Inter, sans-serif",
+                    fontFamily: "var(--font-pangram-slim), system-ui, sans-serif",
                     fontSize: "20px",
                     fontStyle: "italic",
                     fontWeight: 600,
@@ -220,8 +255,8 @@ export default async function SnakeDetailPage({
                 <h1
                   style={{
                     color: "#000",
-                    fontFamily: "var(--font-inter), Inter, sans-serif",
-                    fontSize: "40px",
+                    fontFamily: "var(--font-pangram-compressed), system-ui, sans-serif",
+                    fontSize: "52px",
                     fontStyle: "normal",
                     fontWeight: 800,
                     lineHeight: "normal",
@@ -243,7 +278,7 @@ export default async function SnakeDetailPage({
                 {/* Taxonomy */}
                 <div
                   style={{
-                    fontFamily: "var(--font-inter), Inter, sans-serif",
+                    fontFamily: "var(--font-pangram-sans), system-ui, sans-serif",
                     fontSize: "16px",
                   }}
                 >

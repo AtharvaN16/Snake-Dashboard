@@ -1,14 +1,31 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { KeyboardShortcuts } from "@/components/KeyboardShortcuts";
 import { PaperAppBackground } from "@/components/PaperAppBackground";
 import { SearchModal } from "@/components/SearchModal";
 import { SearchModalProvider } from "@/contexts/SearchModalContext";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+const pangramSans = localFont({
+  src: [
+    { path: "../fonts/pangram-sans/PPPangramSans-Thin.otf", weight: "100", style: "normal" },
+    { path: "../fonts/pangram-sans/PPPangramSans-Light.otf", weight: "300", style: "normal" },
+    { path: "../fonts/pangram-sans/PPPangramSans-Medium.otf", weight: "500", style: "normal" },
+    { path: "../fonts/pangram-sans/PPPangramSans-Semibold.otf", weight: "600", style: "normal" },
+    { path: "../fonts/pangram-sans/PPPangramSans-Bold.otf", weight: "700", style: "normal" },
+    { path: "../fonts/pangram-sans/PPPangramSans-ExtraboldItalic.otf", weight: "800", style: "italic" },
+  ],
+  variable: "--font-pangram-sans",
+});
+
+const pangramCompressed = localFont({
+  src: [{ path: "../fonts/pangram-sans/PPPangramSans-CompressedExtrabold.otf", weight: "800", style: "normal" }],
+  variable: "--font-pangram-compressed",
+});
+
+const pangramSlim = localFont({
+  src: [{ path: "../fonts/pangram-sans/PPPangramSans-SlimSemiboldItalic.otf", weight: "600", style: "italic" }],
+  variable: "--font-pangram-slim",
 });
 
 export const metadata: Metadata = {
@@ -23,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} relative font-sans antialiased`}>
+      <body className={`${pangramSans.variable} ${pangramCompressed.variable} ${pangramSlim.variable} relative font-sans antialiased`}>
         <PaperAppBackground />
         <SearchModalProvider>
           <div className="relative z-10">

@@ -112,7 +112,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     const svg = d3.select(svgEl);
     svg.selectAll("*").remove();
-    svg.style("font", "11px Inter, system-ui, sans-serif");
+    svg.style("font", "11px var(--font-pangram-sans), system-ui, sans-serif");
 
     const shouldBloom = !hasBloomedRef.current && !currentSnakeId;
 
