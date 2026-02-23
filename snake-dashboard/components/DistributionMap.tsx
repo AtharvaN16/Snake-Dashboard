@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import type { Distribution } from "@/lib/types";
@@ -87,105 +87,109 @@ export function DistributionMap({ distribution, snakeId, className = "", width =
   );
   const [loading, setLoading] = useState(!distribution.geometry);
 
-  // --- Animation State ---
-  // Using React state for the values that react-simple-maps consumes
-  const [projection, setProjection] = useState({ center: [0, 20] as [number, number], scale: 140 });
-
-  // Using Motion Values for the "fly-to" physics
+  // --- Snappy Animation State ---
   const mvLng = useMotionValue(0);
   const mvLat = useMotionValue(20);
   const mvScale = useMotionValue(140);
 
-  // Using Spring for smooth geographic transitions
-  const springConfig = { stiffness: 45, damping: 20, mass: 1, restDelta: 0.01 };
+  // Increased stiffness and reduced damping for a much snappier feel
+  const springConfig = { stiffness: 90, damping: 18, mass: 0.8, restDelta: 0.001 };
   const sLng = useSpring(mvLng, springConfig);
   const sLat = useSpring(mvLat, springConfig);
   const sScale = useSpring(mvScale, springConfig);
+
+  const [projection, setProjection] = useState({ 
+    center: [0, 20] as [number, number], 
+    scale: 140 
+  });
 
   const urlToFetch = useMemo(() => {
     if (distribution.geometry) return null;
     return distribution.rangeGeoJsonPath || `/geojson/ranges/${snakeId}.json`;
   }, [distribution.geometry, distribution.rangeGeoJsonPath, snakeId]);
 
+  // Handle immediate flight based on region if GeoJSON isn't ready
+  // This makes the map feel snappy by starting the move BEFORE data arrives
   useEffect(() => {
-    let cancelled = false;
-    if (!urlToFetch) {
-      setLoading(false);
-      return;
+    if (distribution.coordinates && distribution.coordinates.length > 0) {
+      const { lat, lng } = distribution.coordinates[0];
+      mvLng.set(lng);
+      mvLat.set(lat);
+      mvScale.set(240); // Standard zoom level while loading
     }
-    setLoading(true);
-    fetch(urlToFetch)
-      .then(res => res.ok ? res.json() : Promise.reject())
-      .then(data => {
-        if (cancelled) return;
-        const fc = data.type === "FeatureCollection" ? data : { type: "FeatureCollection", features: [data] };
-        setRangeGeoJson(normalizeFeatureCollectionWinding(fc));
-      })
-      .catch(() => {})
-      .finally(() => { if (!cancelled) setLoading(false); });
-    return () => { cancelled = true; };
-  }, [urlToFetch]);
+  }, [snakeId, distribution.coordinates, mvLng, mvLat, mvScale]);
 
-  // Update Motion Values when target changes
-  const targetConfig = useMemo(() => {
-    if (rangeGeoJson) {
-      const bbox = getBboxFromFeatureCollection(rangeGeoJson);
+  // Sync rangeGeoJson if geometry prop is provided directly (without fetch)
+  useEffect(() => {
+    if (distribution.geometry) {
+      const fc = normalizeFeatureCollectionWinding(geometryToFeatureCollection(distribution.geometry));
+      setRangeGeoJson(fc);
+      setLoading(false);
+      
+      // Immediate flight to direct geometry
+      const bbox = getBboxFromFeatureCollection(fc);
       if (bbox) {
         const [minLng, minLat, maxLng, maxLat] = bbox;
         const centerLng = (minLng + maxLng) / 2;
         const centerLat = (minLat + maxLat) / 2;
         const span = Math.max(maxLng - minLng, (maxLat - minLat) * (width / height), 6);
         const scale = Math.min(550, (360 / (span * 2.8)) * 100);
-        return { center: [centerLng, centerLat] as [number, number], scale };
+        mvLng.set(centerLng);
+        mvLat.set(centerLat);
+        mvScale.set(scale);
       }
     }
-    return { center: [0, 20] as [number, number], scale: 140 };
-  }, [rangeGeoJson, width, height]);
+  }, [distribution.geometry, mvLng, mvLat, mvScale, width, height]);
 
   useEffect(() => {
-    mvLng.set(targetConfig.center[0]);
-    mvLat.set(targetConfig.center[1]);
-    mvScale.set(targetConfig.scale);
-  }, [targetConfig, mvLng, mvLat, mvScale]);
+    let cancelled = false;
+    if (!urlToFetch) return;
 
-  // Sync springs back to React state to trigger re-renders of the Map
+    setLoading(true);
+    fetch(urlToFetch)
+      .then(res => res.ok ? res.json() : Promise.reject())
+      .then(data => {
+        if (cancelled) return;
+        const fc = data.type === "FeatureCollection" ? data : { type: "FeatureCollection", features: [data] };
+        const normalized = normalizeFeatureCollectionWinding(fc);
+        setRangeGeoJson(normalized);
+        
+        // Refined flight once detailed bbox is known
+        const bbox = getBboxFromFeatureCollection(normalized);
+        if (bbox) {
+          const [minLng, minLat, maxLng, maxLat] = bbox;
+          const centerLng = (minLng + maxLng) / 2;
+          const centerLat = (minLat + maxLat) / 2;
+          const span = Math.max(maxLng - minLng, (maxLat - minLat) * (width / height), 6);
+          const isGlobal = (maxLng - minLng) > 180 || (maxLat - minLat) > 90;
+          const scale = isGlobal ? 140 : Math.min(550, (360 / (span * 2.8)) * 100);
+          
+          mvLng.set(centerLng);
+          mvLat.set(centerLat);
+          mvScale.set(scale);
+        }
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [urlToFetch, snakeId, mvLng, mvLat, mvScale, width, height]);
+
+  // Sync springs to projection state
   useEffect(() => {
     const unsubLng = sLng.on("change", (v) => setProjection(p => ({ ...p, center: [v, p.center[1]] })));
     const unsubLat = sLat.on("change", (v) => setProjection(p => ({ ...p, center: [p.center[0], v] })));
     const unsubScale = sScale.on("change", (v) => setProjection(p => ({ ...p, scale: v })));
-    return () => {
-      unsubLng();
-      unsubLat();
-      unsubScale();
-    };
+    return () => { unsubLng(); unsubLat(); unsubScale(); };
   }, [sLng, sLat, sScale]);
 
   const blurFilterId = useMemo(() => `range-blur-${snakeId.replace(/[^a-zA-Z0-9_-]/g, "-")}`, [snakeId]);
 
   return (
     <div className={`relative ${className}`} style={{ width, height }}>
-      <AnimatePresence>
-        {loading && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center bg-background/5 backdrop-blur-[1px] z-10 pointer-events-none"
-          >
-            <div className="text-[10px] uppercase tracking-widest text-stone-400 font-bold">
-              Searching...
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <div className="w-full h-full overflow-hidden">
         <ComposableMap
           projection="geoMercator"
-          projectionConfig={{
-            scale: projection.scale,
-            center: projection.center,
-          }}
+          projectionConfig={projection}
           width={width}
           height={height}
           style={{ width: "100%", height: "100%" }}
@@ -196,7 +200,6 @@ export function DistributionMap({ distribution, snakeId, className = "", width =
             </filter>
           </defs>
 
-          {/* Base World Map */}
           <Geographies geography={WORLD_TOPOLOGY_URL}>
             {({ geographies }) =>
               geographies.map((geo) => (
@@ -206,28 +209,22 @@ export function DistributionMap({ distribution, snakeId, className = "", width =
                   fill={BASE_FILL}
                   stroke={BASE_STROKE}
                   strokeWidth={0.5}
-                  style={{
-                    default: { outline: "none" },
-                    hover: { outline: "none" },
-                    pressed: { outline: "none" },
-                  }}
+                  style={{ default: { outline: "none" } }}
                 />
               ))
             }
           </Geographies>
 
-          {/* Species Range Layer */}
           <AnimatePresence mode="wait">
-            {rangeGeoJson && (
+            {rangeGeoJson && !loading && (
               <motion.g
                 key={snakeId}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.1 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 style={{ transformOrigin: "center", transformBox: "fill-box" }}
               >
-                {/* Pulsing Underlay */}
                 <motion.g
                   animate={{ opacity: [0.35, 0.65, 0.35] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -248,7 +245,6 @@ export function DistributionMap({ distribution, snakeId, className = "", width =
                   </Geographies>
                 </motion.g>
 
-                {/* Main Range */}
                 <Geographies geography={rangeGeoJson}>
                   {({ geographies }) =>
                     geographies.map((geo) => (
