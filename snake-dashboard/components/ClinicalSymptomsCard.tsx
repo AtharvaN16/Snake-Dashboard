@@ -48,14 +48,14 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
 
   return (
     <div
-      className="fixed bottom-[-40px] left-[68px] z-40 w-[45%] max-w-[520px] min-w-[300px] hover:z-[60] transition-[z-index] delay-300 duration-0"
+      className="fixed bottom-[-40px] left-[68px] z-40 w-[45%] max-w-[520px] min-w-[300px] hover:z-[60] transition-[z-index] delay-300 duration-0 pointer-events-none"
     >
       <motion.div
         onClick={() => setIsExpanded(!isExpanded)}
         initial={{ y: 800 }}
         animate={{ y: isExpanded ? 100 : 680 }}
         transition={{ ease: EASE, duration: 0.6 }}
-        className="relative flex flex-col cursor-pointer select-none will-change-transform"
+        className="relative flex flex-col cursor-pointer select-none will-change-transform pointer-events-auto"
         style={{ height: CARD_H }}
       >
         {/* Receipt paper background */}
@@ -77,7 +77,7 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
 
         {/* Content */}
         <div
-          className="relative z-10 flex-1 px-10 pt-10 pb-32 overflow-hidden"
+          className="relative z-10 flex-1 px-10 pt-10 pb-32"
         >
           {/* Title */}
           <h2

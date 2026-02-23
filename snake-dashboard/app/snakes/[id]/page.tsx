@@ -81,7 +81,7 @@ export default async function SnakeDetailPage({
   const polaroidImages = [snake.images.primary, ...galleryImages];
   const polaroidAttributions = [
     snake.images.attribution,
-    ...galleryWithAttribution.map((item) => item.attr ?? snake.images.attribution),
+    ...galleryWithAttribution.map((item) => item.attr || snake.images.attribution),
   ];
 
   const tapeImage = Math.random() < 0.5 ? '/paper/scotch-tape-09.webp' : '/paper/scotch-tape-12.webp';
@@ -473,7 +473,7 @@ export default async function SnakeDetailPage({
             )}
           </div>
 
-          {/* Clinical & Habitat Column */}
+            {/* Clinical & Habitat Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Non-venomous info */}
             {(!venomous || !symptomsForDisplay) && (
@@ -494,24 +494,6 @@ export default async function SnakeDetailPage({
                 )}
               </div>
             )}
-
-            {/* Habitat */}
-            <div className="bg-white rounded-xl p-8 shadow-sm">
-              <h4 className="text-[10px] font-black text-stone-400 mb-3 uppercase tracking-[0.2em]">Habitat & Ecology</h4>
-              <div className="bg-stone-50 rounded-lg p-4">
-                <p className="text-sm text-stone-600 mb-2 leading-relaxed">
-                  <strong className="font-bold text-stone-800">Distribution:</strong> {snake.distribution.regions.join(", ")}
-                </p>
-                <p className="text-xs text-stone-500 italic leading-relaxed">{snake.distribution.habitat}</p>
-              </div>
-              {snake.sources && snake.sources.length > 0 && (
-                <div className="mt-6 pt-4 border-t border-stone-50">
-                  <p className="text-[9px] text-stone-300 font-bold uppercase tracking-widest">
-                    Verified Sources: {snake.sources.join(", ")}
-                  </p>
-                </div>
-              )}
-            </div>
           </div>
       </div>
 

@@ -23,23 +23,32 @@ const PIN_ORIGIN = "50% 6%";
 
 export function PolaroidStack({ images, caption, attributions }: PolaroidStackProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [isShuffling, setIsShuffling] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
-    // End the "developing" state faster (0.8s)
-    const timer = setTimeout(() => setIsFirstLoad(false), 800);
+    // Trigger shuffle effect on load - significantly slower than normal shuffle
+    setIsShuffling(true);
+    const timer = setTimeout(() => {
+      setIsShuffling(false);
+      // Wait slightly longer after animation ends to mark load as complete
+      setTimeout(() => setIsInitialLoad(false), 500);
+    }, 2000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [images]);
 
   if (images.length === 0) return null;
 
   const handleShuffle = () => {
-    if (images.length <= 1 || isShuffling) return;
+    if (images.length <= 1) return;
+    
     setIsShuffling(true);
-    setActiveIndex((prev) => (prev + 1) % images.length);
-    // Short reset for shuffle state to allow consecutive clicks
-    setTimeout(() => setIsShuffling(false), 300);
+    const nextIndex = (activeIndex + 1) % images.length;
+    setActiveIndex(nextIndex);
+    
+    setTimeout(() => {
+      setIsShuffling(false);
+    }, 300);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -92,7 +101,10 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
           }}
           whileHover={{ rotate: BASE_ROTATION - 2 }}
           whileTap={{ scale: 0.98 }}
-          transition={{ duration: 0.3 }}
+          transition={{ 
+            duration: isInitialLoad ? 2.0 : 0.3,
+            ease: "easeInOut"
+          }}
           className="group absolute h-[90%] w-[92%] cursor-pointer select-none bg-white outline-none"
           style={{
             transformOrigin: PIN_ORIGIN,
@@ -121,25 +133,9 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
                   className="object-cover"
                   sizes="(max-width: 1024px) 90vw, 420px"
                   priority
-                  style={{
-                    filter: isFirstLoad 
-                      ? "grayscale(60%) brightness(0.3) contrast(0.7) blur(1.5px)" 
-                      : "grayscale(0%) brightness(1) contrast(1) blur(0px)",
-                    transition: "filter 0.8s cubic-bezier(0.4, 0, 0.2, 1)"
-                  }}
                 />
               </motion.div>
             </AnimatePresence>
-
-            {/* Polaroid "Development" Overlay (The milky finish) */}
-            {isFirstLoad && (
-              <motion.div 
-                initial={{ opacity: 0.6 }}
-                animate={{ opacity: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="absolute inset-0 bg-[#e0dcd0]/20 mix-blend-overlay pointer-events-none"
-              />
-            )}
 
             {/* Attribution Overlay */}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-black/55 via-black/20 to-transparent opacity-0 transition-opacity duration-250 group-hover:opacity-100 group-focus-within:opacity-100" />

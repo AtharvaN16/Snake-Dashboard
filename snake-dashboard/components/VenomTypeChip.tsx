@@ -52,12 +52,12 @@ export function VenomTypeChip({ type, className }: VenomTypeChipProps) {
       </Highlighter>
       
       <span
-        className="pointer-events-none invisible absolute bottom-full left-1/2 z-50 mb-2 w-fit -translate-x-1/2 translate-y-1 rounded border border-stone-200 bg-white px-3 py-2 text-xs font-normal leading-snug text-stone-800 opacity-0 shadow-lg transition-all duration-200 group-hover/chip:visible group-hover/chip:translate-y-0 group-hover/chip:opacity-100"
+        className="pointer-events-none invisible absolute bottom-full left-1/2 z-[100] mb-2 w-fit -translate-x-1/2 translate-y-1 rounded border border-stone-200 bg-white px-3 py-2 text-xs font-normal leading-snug text-stone-800 opacity-0 shadow-lg transition-all duration-200 group-hover/chip:visible group-hover/chip:translate-y-0 group-hover/chip:opacity-100"
         style={{ minWidth: "240px", maxWidth: "280px", textTransform: "none", letterSpacing: "normal" }}
       >
         {venomTypeTooltips[type]}
         <span
-          className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-white drop-shadow-[0_1px_0_rgba(0,0,0,0.06)]"
+          className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-white"
           aria-hidden
         />
       </span>

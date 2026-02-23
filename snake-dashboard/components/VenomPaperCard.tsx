@@ -31,7 +31,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
   return (
     // Anchor: fixed, ~40% wide, centered in viewport
     <div 
-      className="fixed bottom-[-40px] left-1/2 z-50 w-[48%] max-w-[560px] min-w-[320px] hover:z-[60] transition-[z-index] delay-300 duration-0" 
+      className="fixed bottom-[-40px] left-1/2 z-50 w-[48%] max-w-[560px] min-w-[320px] hover:z-[60] transition-[z-index] delay-300 duration-0 pointer-events-none" 
       style={{ transform: "translateX(-50%)" }}
     >
       <motion.div
@@ -39,7 +39,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
         initial={{ y: 800 }}
         animate={{ y: isExpanded ? 20 : 540 }}
         transition={{ ease: EASE, duration: 0.6 }}
-        className="relative flex flex-col cursor-pointer select-none will-change-transform"
+        className="relative flex flex-col cursor-pointer select-none will-change-transform pointer-events-auto"
         style={{ height: CARD_H }}
       >
         {/* Paper background */}
@@ -61,7 +61,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
 
         {/* Content */}
         <div
-          className="relative z-10 flex-1 px-10 pt-10 pb-32 overflow-hidden"
+          className="relative z-10 flex-1 px-10 pt-10 pb-32"
         >
           {/* Title */}
           <h2
@@ -131,7 +131,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
               )}
             </div>
 
-            {/* Right: Delivery & Risk */}
+            {/* Right: Delivery */}
             <div className="space-y-8">
               {snake.venomSpeed && (
                 <div className="flex flex-col gap-1">
@@ -165,41 +165,42 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                       color: "#2c2c2c",
                     }}
                   >
-                    Delivery
+                    Delivery Method
                   </span>
-                  <div className="pt-1">
-                    <FangTypeChip fangType={snake.fangType} />
+                  <div className="pt-1 flex items-center gap-4 relative">
+                    <FangTypeChip 
+                      fangType={snake.fangType} 
+                      venomousClassification={snake.venomClassification}
+                      className="relative z-10"
+                    />
+                    {/* Fang sticker image - positioned relatively to sit after the chip */}
+                    <motion.img
+                      whileHover={{ scale: 1.1, rotate: 10 }}
+                      src={`/images/anatomy/${
+                        snake.fangType === "Hinged front fangs" || snake.fangType === "Movable front fangs"
+                          ? "hinged front fangs.png"
+                          : snake.fangType === "Fixed front fangs"
+                          ? "fixed front fangs.png"
+                          : "rear fanged.png"
+                      }`}
+                      alt=""
+                      aria-hidden
+                      className="h-16 w-auto flex-none z-20"
+                      style={{ 
+                        filter: `
+                          drop-shadow(2px 0 0 #fff) 
+                          drop-shadow(-2px 0 0 #fff) 
+                          drop-shadow(0 2px 0 #fff) 
+                          drop-shadow(0 -2px 0 #fff)
+                          drop-shadow(1px 1px 0 #fff)
+                          drop-shadow(-1px -1px 0 #fff)
+                          drop-shadow(1px -1px 0 #fff)
+                          drop-shadow(-1px 1px 0 #fff)
+                        `,
+                        transform: "rotate(8deg) translateX(10px)",
+                      }}
+                    />
                   </div>
-                </div>
-              )}
-
-              {snake.humanEncounterChance && (
-                <div className="flex flex-col gap-1">
-                  <span
-                    style={{
-                      fontFamily: COMPRESSED,
-                      fontWeight: 800,
-                      fontSize: "20px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      color: "#2c2c2c",
-                    }}
-                  >
-                    Encounter Risk
-                  </span>
-                  <p
-                    className="pt-1"
-                    style={{
-                      fontFamily: COMPACT,
-                      fontWeight: 400,
-                      fontSize: "14px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                      color: "#555",
-                    }}
-                  >
-                    {snake.humanEncounterChance}
-                  </p>
                 </div>
               )}
             </div>
