@@ -179,7 +179,7 @@ export default async function FamilyPage({
   const totalGenera = groupedSnakes.size;
 
   return (
-    <div className="min-h-screen bg-background py-8 px-[68px]">
+    <div className="min-h-screen py-8 px-[68px]">
       {/* Back navigation */}
       <div className="mb-6 flex items-center gap-4 flex-wrap text-sm text-stone-600">
         <Link

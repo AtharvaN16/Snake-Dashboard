@@ -8,11 +8,11 @@ import type { FeatureCollection, Geometry } from "geojson";
 
 const WORLD_TOPOLOGY_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
-const BASE_FILL = "#E5E5E5";
-const BASE_STROKE = "#CCCCCC";
-const RANGE_FILL = "rgba(220, 38, 38, 0.28)";
-const RANGE_STROKE = "rgba(185, 28, 28, 0.85)";
-const RANGE_BLUR_FILL = "rgba(220, 38, 38, 0.3)";
+const BASE_FILL = "#D8D1C4";
+const BASE_STROKE = "#A89D8A";
+const RANGE_FILL = "rgba(180, 62, 38, 0.4)";
+const RANGE_STROKE = "rgba(132, 39, 20, 0.95)";
+const RANGE_BLUR_FILL = "rgba(180, 62, 38, 0.36)";
 
 export interface DistributionMapProps {
   distribution: Distribution;

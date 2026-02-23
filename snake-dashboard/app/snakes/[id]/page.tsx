@@ -107,7 +107,7 @@ export default async function SnakeDetailPage({
       : [];
 
   return (
-    <div className="min-h-screen bg-background py-8 px-[68px]">
+    <div className="min-h-screen py-8 px-[68px]">
 
       {/* Back + keyboard shortcut hints */}
       <div className="relative z-20 mb-6 flex items-center gap-4 flex-wrap text-sm text-stone-600">

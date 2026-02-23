@@ -248,7 +248,7 @@ function RankPageInner() {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8 px-4 sm:px-6 md:px-10 lg:px-[68px] pb-14">
+    <div className="min-h-screen py-8 px-4 sm:px-6 md:px-10 lg:px-[68px] pb-14">
       {/* Keyboard shortcut hint (snake info page style) */}
       <div className="mb-8 flex items-center gap-4 flex-wrap text-sm text-stone-600">
         <span className="flex items-center gap-2">

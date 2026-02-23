@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { KeyboardShortcuts } from "@/components/KeyboardShortcuts";
+import { PaperAppBackground } from "@/components/PaperAppBackground";
 import { SearchModal } from "@/components/SearchModal";
 import { SearchModalProvider } from "@/contexts/SearchModalContext";
 import "./globals.css";
@@ -22,11 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} relative font-sans antialiased`}>
+        <PaperAppBackground />
         <SearchModalProvider>
-          <KeyboardShortcuts />
-          <SearchModal />
-          {children}
+          <div className="relative z-10">
+            <KeyboardShortcuts />
+            <SearchModal />
+            {children}
+          </div>
         </SearchModalProvider>
       </body>
     </html>
