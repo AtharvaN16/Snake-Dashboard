@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import { motion } from "framer-motion";
 import { Snake } from "@/lib/types";
 import { VenomTypeChip } from "./VenomTypeChip";
@@ -23,7 +23,7 @@ interface VenomPaperCardProps {
   snake: Snake;
 }
 
-export function VenomPaperCard({ snake }: VenomPaperCardProps) {
+const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPaperCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (snake.venomClassification === "Non-venomous") return null;
@@ -31,7 +31,7 @@ export function VenomPaperCard({ snake }: VenomPaperCardProps) {
   return (
     // Anchor: fixed, ~40% wide, centered in viewport
     <div 
-      className="fixed bottom-[-40px] left-1/2 z-50 w-[48%] max-w-[560px] min-w-[320px] hover:z-[60] transition-all duration-300" 
+      className="fixed bottom-[-40px] left-1/2 z-50 w-[48%] max-w-[560px] min-w-[320px] hover:z-[60] transition-[z-index] delay-300 duration-0" 
       style={{ transform: "translateX(-50%)" }}
     >
       <motion.div
@@ -39,7 +39,7 @@ export function VenomPaperCard({ snake }: VenomPaperCardProps) {
         initial={{ y: 800 }}
         animate={{ y: isExpanded ? 20 : 540 }}
         transition={{ ease: EASE, duration: 0.6 }}
-        className="relative flex flex-col cursor-pointer select-none"
+        className="relative flex flex-col cursor-pointer select-none will-change-transform"
         style={{ height: CARD_H }}
       >
         {/* Paper background */}
@@ -208,4 +208,7 @@ export function VenomPaperCard({ snake }: VenomPaperCardProps) {
       </motion.div>
     </div>
   );
-}
+});
+
+export { VenomPaperCardComponent as VenomPaperCard };
+export default VenomPaperCardComponent;

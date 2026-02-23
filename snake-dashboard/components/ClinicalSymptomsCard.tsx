@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, memo } from "react";
 import { motion } from "framer-motion";
 import type { Snake } from "@/lib/types";
 
@@ -26,33 +26,36 @@ const EASE = [0.32, 0.72, 0, 1] as const;
 const COMPRESSED = "var(--font-pangram-compressed), system-ui, sans-serif";
 const COMPACT = "var(--font-pangram-compact), system-ui, sans-serif";
 
-export function ClinicalSymptomsCard({ symptoms, causesOfDeath }: ClinicalSymptomsCardProps) {
+const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ symptoms, causesOfDeath }: ClinicalSymptomsCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  type Section = { label: string; values: string[] };
-  const sections: Section[] = [];
+  const sections = useMemo(() => {
+    type Section = { label: string; values: string[] };
+    const items: Section[] = [];
 
-  for (const [key, list] of Object.entries(symptoms)) {
-    if (!Array.isArray(list) || list.length === 0 || (list.length === 1 && list[0] === "N/A")) continue;
-    const label = KEY_LABELS[key] ?? key.replace(/([A-Z])/g, " $1");
-    sections.push({ label, values: list });
-  }
-  if (causesOfDeath && causesOfDeath.length > 0) {
-    sections.push({ label: "Causes of Death", values: causesOfDeath });
-  }
+    for (const [key, list] of Object.entries(symptoms)) {
+      if (!Array.isArray(list) || list.length === 0 || (list.length === 1 && list[0] === "N/A")) continue;
+      const label = KEY_LABELS[key] ?? key.replace(/([A-Z])/g, " $1");
+      items.push({ label, values: list });
+    }
+    if (causesOfDeath && causesOfDeath.length > 0) {
+      items.push({ label: "Causes of Death", values: causesOfDeath });
+    }
+    return items;
+  }, [symptoms, causesOfDeath]);
 
   if (sections.length === 0) return null;
 
   return (
     <div
-      className="fixed bottom-[-40px] left-[68px] z-40 w-[45%] max-w-[520px] min-w-[300px] hover:z-[60] transition-all duration-300"
+      className="fixed bottom-[-40px] left-[68px] z-40 w-[45%] max-w-[520px] min-w-[300px] hover:z-[60] transition-[z-index] delay-300 duration-0"
     >
       <motion.div
         onClick={() => setIsExpanded(!isExpanded)}
         initial={{ y: 800 }}
         animate={{ y: isExpanded ? 100 : 680 }}
         transition={{ ease: EASE, duration: 0.6 }}
-        className="relative flex flex-col cursor-pointer select-none"
+        className="relative flex flex-col cursor-pointer select-none will-change-transform"
         style={{ height: CARD_H }}
       >
         {/* Receipt paper background */}
@@ -131,4 +134,7 @@ export function ClinicalSymptomsCard({ symptoms, causesOfDeath }: ClinicalSympto
       </motion.div>
     </div>
   );
-}
+});
+
+export { ClinicalSymptomsCardComponent as ClinicalSymptomsCard };
+export default ClinicalSymptomsCardComponent;
