@@ -20,6 +20,7 @@ import { VenomPotencyChart } from "@/components/VenomPotencyChart";
 import { hasRangeMapForSnake } from "@/lib/rangeMaps";
 import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
 import { Kbd } from "@/components/ui/kbd";
+import { PolaroidStack } from "@/components/PolaroidStack";
 
 export async function generateStaticParams() {
   const snakes = getAllSnakes();
@@ -86,6 +87,11 @@ export default async function SnakeDetailPage({
   const galleryAttributions = galleryWithAttribution
     .map((item) => item.attr)
     .filter((attr): attr is NonNullable<typeof attr> => Boolean(attr));
+  const polaroidImages = [snake.images.primary, ...galleryImages];
+  const polaroidAttributions = [
+    snake.images.attribution,
+    ...galleryWithAttribution.map((item) => item.attr ?? snake.images.attribution),
+  ];
 
   // Use symptoms if present; otherwise derive from symptomsProgression for venomous snakes
   const sp = (snake as { symptomsProgression?: { short?: string[]; prog?: string[]; crit?: string[] } }).symptomsProgression;
@@ -155,319 +161,278 @@ export default async function SnakeDetailPage({
         </span>
       </div>
 
-      {/* Snake Info Card - hug content so map stays visible */}
-      <div className="relative z-20 rounded-xl p-6 mb-6 max-w-[760px]">
-          {/* Classification label at the very top */}
-          <div style={{ marginBottom: "28px", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-            <span
-              className="inline-flex font-bold text-base"
+      {/* Snake Info Card + Polaroid photo */}
+      <div className="relative z-20 rounded-xl p-6 mb-6 max-w-[980px]">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          <div className="lg:max-w-[500px]">
+            {/* Classification label at the very top */}
+            <div style={{ marginBottom: "28px", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+              <span
+                className="inline-flex font-bold text-base"
+                style={{
+                  padding: "4px 8px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "10px",
+                  borderRadius: "4px",
+                  backgroundColor: classificationColor,
+                  color: "#000000B2",
+                }}
+              >
+                {classificationLabel}
+              </span>
+              {(snake.clinicalData?.fatalitySummary === "Rarely Fatal" || snake.causesOfDeath?.includes("Rarely Fatal")) && (
+                <span
+                  className="inline-flex font-bold text-base"
+                  style={{
+                    padding: "4px 8px",
+                    borderRadius: "4px",
+                    backgroundColor: "#E0E7FF", // Indigo-100
+                    color: "#3730A3", // Indigo-800
+                  }}
+                >
+                  Rarely Fatal
+                </span>
+              )}
+              {snake.constrictor && (
+                <span
+                  className="inline-flex font-bold text-base"
+                  style={{
+                    padding: "4px 8px",
+                    borderRadius: "4px",
+                    backgroundColor: "#A7F3D0", // Emerald-200
+                    color: "#064E3B", // Emerald-900
+                  }}
+                >
+                  Constrictor
+                </span>
+              )}
+              {snake.accolades && snake.accolades.map(accolade => (
+                <span
+                  key={accolade}
+                  className="inline-flex font-bold text-base"
+                  style={{
+                    padding: "4px 8px",
+                    borderRadius: "4px",
+                    backgroundColor: "#FDE68A", // Yellow-300
+                    color: "#78350F", // Amber-900
+                  }}
+                >
+                  {accolade}
+                </span>
+              ))}
+            </div>
+
+            {/* Scientific name: light grey, Inter, 20px, italic, 600 */}
+            <p
               style={{
-                padding: "4px 8px",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "10px",
-                borderRadius: "4px",
-                backgroundColor: classificationColor,
-                color: "#000000B2",
+                color: "rgba(0, 0, 0, 0.45)",
+                fontFamily: "var(--font-inter), Inter, sans-serif",
+                fontSize: "20px",
+                fontStyle: "italic",
+                fontWeight: 600,
+                lineHeight: "normal",
+                marginBottom: "4px",
               }}
             >
-              {classificationLabel}
-            </span>
-            {(snake.clinicalData?.fatalitySummary === "Rarely Fatal" || snake.causesOfDeath?.includes("Rarely Fatal")) && (
-              <span
-                className="inline-flex font-bold text-base"
-                style={{
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  backgroundColor: "#E0E7FF", // Indigo-100
-                  color: "#3730A3", // Indigo-800
-                }}
-              >
-                Rarely Fatal
-              </span>
-            )}
-            {snake.constrictor && (
-              <span
-                className="inline-flex font-bold text-base"
-                style={{
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  backgroundColor: "#A7F3D0", // Emerald-200
-                  color: "#064E3B", // Emerald-900
-                }}
-              >
-                Constrictor
-              </span>
-            )}
-            {snake.accolades && snake.accolades.map(accolade => (
-              <span
-                key={accolade}
-                className="inline-flex font-bold text-base"
-                style={{
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  backgroundColor: "#FDE68A", // Yellow-300
-                  color: "#78350F", // Amber-900
-                }}
-              >
-                {accolade}
-              </span>
-            ))}
-          </div>
-
-          {/* Scientific name: light grey, Inter, 20px, italic, 600 */}
-          <p 
-            style={{
-              color: "rgba(0, 0, 0, 0.45)",
-              fontFamily: "var(--font-inter), Inter, sans-serif",
-              fontSize: "20px",
-              fontStyle: "italic",
-              fontWeight: 600,
-              lineHeight: "normal",
-              marginBottom: "4px",
-            }}
-          >
-            {snake.scientificName}
-          </p>
-          {/* Common name: #000, Inter, 40px, normal, 800 */}
-          <h1 
-            style={{
-              color: "#000",
-              fontFamily: "var(--font-inter), Inter, sans-serif",
-              fontSize: "40px",
-              fontStyle: "normal",
-              fontWeight: 800,
-              lineHeight: "normal",
-              marginBottom: "12px",
-            }}
-          >
-            {snake.commonName}
-          </h1>
-          
-          {snake.description && (
-            <p 
-              className="text-stone-600 leading-relaxed max-w-[440px]"
-              style={{ marginBottom: "40px", fontSize: "16px" }}
-            >
-              {snake.description}
+              {snake.scientificName}
             </p>
-          )}
+            {/* Common name: #000, Inter, 40px, normal, 800 */}
+            <h1
+              style={{
+                color: "#000",
+                fontFamily: "var(--font-inter), Inter, sans-serif",
+                fontSize: "40px",
+                fontStyle: "normal",
+                fontWeight: 800,
+                lineHeight: "normal",
+                marginBottom: "12px",
+              }}
+            >
+              {snake.commonName}
+            </h1>
 
-          {/* Taxonomy - Labels: 16px semi-bold; Values: 16px regular, black 70% */}
-          <div 
-            style={{
-              fontFamily: "var(--font-inter), Inter, sans-serif",
-              fontSize: "16px",
-            }}
-          >
-            {snake.otherCommonNames && snake.otherCommonNames.length > 0 && (
-              <p style={{ marginBottom: "14px", display: "flex", alignItems: "baseline" }}>
-                <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Also Known As</span>
-                <span 
-                  style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)", marginLeft: "24px" }}
-                >
-                  {snake.otherCommonNames[0]}
-                </span>
+            {snake.description && (
+              <p
+                className="text-stone-600 leading-relaxed max-w-[440px]"
+                style={{ marginBottom: "40px", fontSize: "16px" }}
+              >
+                {snake.description}
               </p>
             )}
-            <p style={{ marginBottom: "18px", display: "flex", alignItems: "baseline" }}>
-              <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Family</span>
-              <Link
-                href={`/phylogeny?snakeId=${snake.id}`}
-                className="underline hover:text-stone-900 transition-colors"
-                style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
-              >
-                {snake.family}
-              </Link>
-            </p>
-            <p style={{ marginBottom: "14px", display: "flex", alignItems: "baseline" }}>
-              <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Genus</span>
-              <span 
-                style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
-              >
-                {snake.genus}
-              </span>
-            </p>
-            <p style={{ marginBottom: "14px", display: "flex", alignItems: "baseline" }}>
-              <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Region</span>
-              <span
-                className="inline-flex flex-wrap items-center"
-                style={{ gap: "16px" }}
-              >
-                {(snake.continent || snake.distribution?.regions?.length) ? (
-                  <>
-                    <Link
-                      href={`/rank?region=${encodeURIComponent(snake.continent ?? snake.distribution?.regions?.[0] ?? "")}`}
-                      className="underline hover:text-stone-900 transition-colors"
-                      style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
-                    >
-                      {snake.continent ?? snake.distribution?.regions?.[0]}
-                    </Link>
-                    <span style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.3)" }}>
-                      {(Array.isArray(snake.subregions) ? snake.subregions : snake.distribution?.regions)?.join(", ") ?? ""}
-                    </span>
-                  </>
-                ) : null}
-              </span>
-            </p>
 
-            {/* Misidentified as — inline pill pairs below Region */}
-            {snake.misidentificationRisk === "high" && confusedSnakesData.length > 0 && (() => {
-              const isSnakeVenomous = snake.venomClassification !== "Non-venomous";
-              const pairs = confusedSnakesData.filter(({ snake: other }) => {
-                if (!other) return true; // Include non-existent snakes
-                const otherVenomous = other.venomClassification !== "Non-venomous";
-                // Show if: venomous ↔ non-venomous OR highly venomous ↔ moderately/mildly venomous
-                // OR both are venomous (still dangerous confusion even if same level)
-                if (isSnakeVenomous !== otherVenomous) return true;
-                if (
-                  snake.venomClassification === "Highly Venomous" &&
-                  (other.venomClassification === "Venomous" ||
-                    other.venomClassification === "Moderately Venomous" ||
-                    other.venomClassification === "Mildly Venomous")
-                )
-                  return true;
-                // Include venomous ↔ venomous pairs (e.g. copperhead ↔ cottonmouth)
-                if (isSnakeVenomous && otherVenomous) return true;
-                return false;
-              });
-              if (pairs.length === 0) return null;
-              return (
-                <p className="flex items-center flex-wrap gap-y-1">
-                  <span className="font-semibold text-[#000]">Misidentification risk</span>
+            {/* Taxonomy - Labels: 16px semi-bold; Values: 16px regular, black 70% */}
+            <div
+              style={{
+                fontFamily: "var(--font-inter), Inter, sans-serif",
+                fontSize: "16px",
+              }}
+            >
+              {snake.otherCommonNames && snake.otherCommonNames.length > 0 && (
+                <p style={{ marginBottom: "14px", display: "flex", alignItems: "baseline" }}>
+                  <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Also Known As</span>
                   <span
-                    className="inline-flex flex-wrap items-center"
-                    style={{ marginLeft: "24px", gap: "4px" }}
+                    style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)", marginLeft: "24px" }}
                   >
-                    {/* Current snake — rendered once */}
-                    <span
-                      className="font-semibold"
-                      style={{
-                        padding: "3px 10px",
-                        borderRadius: "6px",
-                        fontSize: "14px",
-                        background: snake.venomClassification === "Highly Venomous"
-                          ? "#FF7373"
-                          : snake.venomClassification === "Venomous"
-                          ? "#FFAB73"
-                          : snake.venomClassification === "Moderately Venomous"
-                          ? "#FEF08A"
-                          : snake.venomClassification === "Mildly Venomous"
-                          ? "#B9E948"
-                          : "#CCCCCC",
-                        color: "#000000B2",
-                      }}
-                    >
-                      {snake.commonName}
-                    </span>
-                    <span className="text-stone-400 font-medium select-none" style={{ fontSize: "15px" }}>↔</span>
-                    {/* All confused snakes */}
-                    {pairs.map(({ id, snake: other }) => {
-                      const exists = other !== undefined;
-                      const displayName = other?.commonName || id.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
-                      
-                      // Get correct color based on venom classification
-                      const getPillColor = (classification: string | undefined) => {
-                        if (!classification) return "#E5E5E5";
-                        if (classification === "Highly Venomous") return "#FF7373";
-                        if (classification === "Venomous") return "#FFAB73";
-                        if (classification === "Moderately Venomous") return "#FEF08A";
-                        if (classification === "Mildly Venomous") return "#B9E948";
-                        return "#CCCCCC";
-                      };
-                      
-                      const pillStyle = {
-                        padding: "3px 10px",
-                        borderRadius: "6px",
-                        fontSize: "14px",
-                        background: getPillColor(other?.venomClassification),
-                        color: exists ? "#000000B2" : "#999999", // Lighter text for non-existent
-                        opacity: exists ? 1 : 0.6,
-                      };
-
-                      if (exists) {
-                        return (
-                          <Link
-                            key={id}
-                            href={`/snakes/${id}`}
-                            className="font-semibold transition-opacity hover:opacity-75"
-                            style={pillStyle}
-                          >
-                            {displayName}
-                          </Link>
-                        );
-                      } else {
-                        return (
-                          <span
-                            key={id}
-                            className="font-semibold"
-                            style={pillStyle}
-                            title="Not yet in database"
-                          >
-                            {displayName}
-                          </span>
-                        );
-                      }
-                    })}
+                    {snake.otherCommonNames[0]}
                   </span>
                 </p>
-              );
-            })()}
-          </div>
-      </div>
-
-      {/* Hero Image Section */}
-      {snake.images?.primary && (
-        <>
-          <div className="relative z-20 mb-4 max-w-[760px] w-full aspect-[760/450] rounded-xl overflow-hidden">
-            <Image
-              src={snake.images.primary}
-              alt={`${snake.commonName} (${snake.scientificName})`}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 760px"
-              priority
-            />
-          </div>
-
-          {/* Attribution */}
-          {snake.images.attribution && (
-            <div className="relative z-20 mb-6 max-w-[760px] text-xs text-stone-500">
-              <p>
-                <strong className="font-medium">Photo:</strong>{" "}
-                {snake.images.attribution.photographer || "Unknown"} •{" "}
-                <strong className="font-medium">Source:</strong>{" "}
-                {snake.images.attribution.sourceUrl ? (
-                  <a
-                    href={snake.images.attribution.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-stone-700 underline"
-                  >
-                    {snake.images.attribution.source}
-                  </a>
-                ) : (
-                  snake.images.attribution.source
-                )}
-                {" • "}
-                <strong className="font-medium">License:</strong>{" "}
-                {snake.images.attribution.licenseUrl ? (
-                  <a
-                    href={snake.images.attribution.licenseUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-stone-700 underline"
-                  >
-                    {snake.images.attribution.license}
-                  </a>
-                ) : (
-                  snake.images.attribution.license
-                )}
+              )}
+              <p style={{ marginBottom: "18px", display: "flex", alignItems: "baseline" }}>
+                <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Family</span>
+                <Link
+                  href={`/phylogeny?snakeId=${snake.id}`}
+                  className="underline hover:text-stone-900 transition-colors"
+                  style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
+                >
+                  {snake.family}
+                </Link>
               </p>
+              <p style={{ marginBottom: "14px", display: "flex", alignItems: "baseline" }}>
+                <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Genus</span>
+                <span
+                  style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
+                >
+                  {snake.genus}
+                </span>
+              </p>
+              <p style={{ marginBottom: "14px", display: "flex", alignItems: "baseline" }}>
+                <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Region</span>
+                <span
+                  className="inline-flex flex-wrap items-center"
+                  style={{ gap: "16px" }}
+                >
+                  {(snake.continent || snake.distribution?.regions?.length) ? (
+                    <>
+                      <Link
+                        href={`/rank?region=${encodeURIComponent(snake.continent ?? snake.distribution?.regions?.[0] ?? "")}`}
+                        className="underline hover:text-stone-900 transition-colors"
+                        style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
+                      >
+                        {snake.continent ?? snake.distribution?.regions?.[0]}
+                      </Link>
+                      <span style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.3)" }}>
+                        {(Array.isArray(snake.subregions) ? snake.subregions : snake.distribution?.regions)?.join(", ") ?? ""}
+                      </span>
+                    </>
+                  ) : null}
+                </span>
+              </p>
+
+              {/* Misidentified as — inline pill pairs below Region */}
+              {snake.misidentificationRisk === "high" && confusedSnakesData.length > 0 && (() => {
+                const isSnakeVenomous = snake.venomClassification !== "Non-venomous";
+                const pairs = confusedSnakesData.filter(({ snake: other }) => {
+                  if (!other) return true; // Include non-existent snakes
+                  const otherVenomous = other.venomClassification !== "Non-venomous";
+                  // Show if: venomous ↔ non-venomous OR highly venomous ↔ moderately/mildly venomous
+                  // OR both are venomous (still dangerous confusion even if same level)
+                  if (isSnakeVenomous !== otherVenomous) return true;
+                  if (
+                    snake.venomClassification === "Highly Venomous" &&
+                    (other.venomClassification === "Venomous" ||
+                      other.venomClassification === "Moderately Venomous" ||
+                      other.venomClassification === "Mildly Venomous")
+                  )
+                    return true;
+                  // Include venomous ↔ venomous pairs (e.g. copperhead ↔ cottonmouth)
+                  if (isSnakeVenomous && otherVenomous) return true;
+                  return false;
+                });
+                if (pairs.length === 0) return null;
+                return (
+                  <p className="flex flex-col items-start">
+                    <span className="font-semibold text-[#000]">Misidentification risk</span>
+                    <span
+                      className="inline-flex w-full flex-wrap items-center gap-1 mt-4"
+                    >
+                      {/* Current snake — rendered once */}
+                      <span
+                        className="font-semibold"
+                        style={{
+                          padding: "3px 10px",
+                          borderRadius: "6px",
+                          fontSize: "14px",
+                          background: snake.venomClassification === "Highly Venomous"
+                            ? "#FF7373"
+                            : snake.venomClassification === "Venomous"
+                            ? "#FFAB73"
+                            : snake.venomClassification === "Moderately Venomous"
+                            ? "#FEF08A"
+                            : snake.venomClassification === "Mildly Venomous"
+                            ? "#B9E948"
+                            : "#CCCCCC",
+                          color: "#000000B2",
+                        }}
+                      >
+                        {snake.commonName}
+                      </span>
+                      <span className="text-stone-400 font-medium select-none" style={{ fontSize: "15px" }}>↔</span>
+                      {/* All confused snakes */}
+                      {pairs.map(({ id, snake: other }) => {
+                        const exists = other !== undefined;
+                        const displayName = other?.commonName || id.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+
+                        const getPillColor = (classification: string | undefined) => {
+                          if (!classification) return "#E5E5E5";
+                          if (classification === "Highly Venomous") return "#FF7373";
+                          if (classification === "Venomous") return "#FFAB73";
+                          if (classification === "Moderately Venomous") return "#FEF08A";
+                          if (classification === "Mildly Venomous") return "#B9E948";
+                          return "#CCCCCC";
+                        };
+
+                        const pillStyle = {
+                          padding: "3px 10px",
+                          borderRadius: "6px",
+                          fontSize: "14px",
+                          background: getPillColor(other?.venomClassification),
+                          color: exists ? "#000000B2" : "#999999",
+                          opacity: exists ? 1 : 0.6,
+                        };
+
+                        if (exists) {
+                          return (
+                            <Link
+                              key={id}
+                              href={`/snakes/${id}`}
+                              className="font-semibold transition-opacity hover:opacity-75"
+                              style={pillStyle}
+                            >
+                              {displayName}
+                            </Link>
+                          );
+                        } else {
+                          return (
+                            <span
+                              key={id}
+                              className="font-semibold"
+                              style={pillStyle}
+                              title="Not yet in database"
+                            >
+                              {displayName}
+                            </span>
+                          );
+                        }
+                      })}
+                    </span>
+                  </p>
+                );
+              })()}
+            </div>
+          </div>
+
+          {snake.images?.primary && (
+            <div className="mx-auto w-full max-w-[420px] lg:mx-0 lg:w-[420px] lg:flex-none">
+              <PolaroidStack
+                images={polaroidImages}
+                caption={snake.commonName}
+                attributions={polaroidAttributions}
+              />
             </div>
           )}
-        </>
-      )}
+        </div>
+      </div>
 
       {process.env.NODE_ENV !== "production" && (
         <ImageCandidatePicker snakeId={snake.id} />
