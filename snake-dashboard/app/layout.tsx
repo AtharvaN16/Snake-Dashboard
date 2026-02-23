@@ -28,6 +28,11 @@ const pangramSlim = localFont({
   variable: "--font-pangram-slim",
 });
 
+const pangramCompact = localFont({
+  src: [{ path: "../fonts/pangram-sans/PPPangramSans-CompactRegular.otf", weight: "400", style: "normal" }],
+  variable: "--font-pangram-compact",
+});
+
 export const metadata: Metadata = {
   title: "Is It Venomous? - Venomous Snake Database",
   description: "Comprehensive database of the world's most dangerous venomous snakes, with detailed information on venom types, danger scores, and medical data.",
@@ -40,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pangramSans.variable} ${pangramCompressed.variable} ${pangramSlim.variable} relative font-sans antialiased`}>
+      <body className={`${pangramSans.variable} ${pangramCompressed.variable} ${pangramSlim.variable} ${pangramCompact.variable} relative font-sans antialiased`}>
         <PaperAppBackground />
         <SearchModalProvider>
           <div className="relative z-10">

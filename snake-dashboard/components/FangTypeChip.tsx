@@ -18,8 +18,20 @@ const pillStyle = {
 
 export function FangTypeChip({ fangType, className }: FangTypeChipProps) {
   return (
-    <span className={className} style={pillStyle}>
-      <span className="font-semibold text-sm">{fangType}</span>
+    <span 
+      className={className} 
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        fontFamily: "var(--font-pangram-compact), system-ui, sans-serif",
+        fontWeight: 400,
+        fontSize: "14px",
+        textTransform: "uppercase",
+        letterSpacing: "0.05em",
+        color: "#555",
+      }}
+    >
+      <span>{fangType}</span>
     </span>
   );
 }

@@ -12,12 +12,13 @@ import { VenomTypeChip } from "@/components/VenomTypeChip";
 import { VenomSpeedChip } from "@/components/VenomSpeedChip";
 import { VenomYieldChip } from "@/components/VenomYieldChip";
 import { FangTypeChip } from "@/components/FangTypeChip";
-import { SymptomChip } from "@/components/SymptomChip";
 import { DangerScoreWaterfall } from "@/components/DangerScoreWaterfall";
 import { VenomPotencyChart } from "@/components/VenomPotencyChart";
 import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
 import { Kbd } from "@/components/ui/kbd";
 import { PolaroidStack } from "@/components/PolaroidStack";
+import { VenomPaperCard } from "@/components/VenomPaperCard";
+import { ClinicalSymptomsCard } from "@/components/ClinicalSymptomsCard";
 
 export async function generateStaticParams() {
   const snakes = getAllSnakes();
@@ -418,150 +419,99 @@ export default async function SnakeDetailPage({
         <ImageCandidatePicker snakeId={snake.id} />
       )}
 
+      {/* Floating overlays — slide up from bottom */}
+      {venomous && <VenomPaperCard snake={snake} />}
+      {venomous && symptomsForDisplay && (
+        <ClinicalSymptomsCard
+          symptoms={symptomsForDisplay}
+          causesOfDeath={snake.causesOfDeath}
+        />
+      )}
+
       {/* Main Content Grid */}
-      <div className="relative z-20 grid md:grid-cols-3 gap-4">
-          {/* Left Column */}
-          {venomous && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-xl p-6">
-                {snake.dangerScoreComponents ? (
-                  <DangerScoreWaterfall
-                    dangerScore={snake.dangerScore}
-                    components={snake.dangerScoreComponents}
-                    venomClassification={snake.venomClassification}
-                    fangType={snake.fangType}
-                  />
-                ) : (
-                  <div>
-                    <h3 className="text-sm font-bold text-[#2c2c2c] mb-2">Danger Score</h3>
-                    <span className="text-lg font-extrabold">{snake.dangerScore}</span>
-                    <span className="text-xs text-stone-400">/100</span>
-                  </div>
-                )}
-                <Link
-                  href={`/rank?view=danger&snakeId=${snake.id}`}
-                  className="block mt-2 text-xs text-center text-stone-400 hover:text-stone-600 transition-colors no-underline"
-                >
-                  Rank: {snake.dangerRank} · View full rankings →
-                </Link>
+      <div className="relative z-20 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Left/Top: Danger Analysis */}
+          <div className="lg:col-span-1 space-y-6">
+            <div className="bg-white rounded-xl p-8 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-black text-stone-400 uppercase tracking-[0.2em]">Danger Analysis</h3>
+                <span className="text-[10px] font-black bg-stone-100 text-stone-500 px-2 py-0.5 rounded uppercase tracking-widest">
+                  RANK {snake.dangerRank}
+                </span>
               </div>
-
-              <div className="bg-white rounded-xl p-6">
-                {snake.venomTypes && snake.venomTypes.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Venom Type</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {snake.venomTypes.map((type) => (
-                        <VenomTypeChip key={type} type={type} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {snake.venomYield && (
-                  <div className="mb-6">
-                    <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Venom yield</h3>
-                    <VenomYieldChip yield={snake.venomYield} />
-                  </div>
-                )}
-                {snake.venomSpeed && (
-                  <div className="mb-6">
-                    <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Venom Speed</h3>
-                    <VenomSpeedChip speed={snake.venomSpeed} />
-                  </div>
-                )}
-                {snake.fangType && (
-                  <div className="mb-6">
-                    <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Fang Type</h3>
-                    <FangTypeChip fangType={snake.fangType} />
-                  </div>
-                )}
-                <div>
-                  <h3 className="text-sm font-bold text-[#2c2c2c] mb-3">Chance of human encounters</h3>
-                  <span
-                    className="inline-flex font-semibold text-sm px-2 py-1 bg-stone-100 rounded text-black"
-                  >
-                    {snake.humanEncounterChance}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Right Column */}
-          <div className={venomous ? "md:col-span-2" : "md:col-span-3"}>
-            <div className="bg-white rounded-xl p-6">
-              {venomous && symptomsForDisplay ? (
-                <>
-                  <h3 className="text-lg font-bold text-[#2c2c2c] mb-4">Clinical Symptoms</h3>
-                  <div className="space-y-5">
-                    {Object.entries(symptomsForDisplay).map(([key, list]) => (
-                      (Array.isArray(list) && list.length > 0 && !(list.length === 1 && list[0] === 'N/A')) ? (
-                        <div key={key} className="grid grid-cols-[auto_1fr] items-start gap-x-3">
-                          <span className="mt-px">
-                            {key === 'localEffects' ? '🩹' : key === 'neurological' ? '🧠' : key === 'blood' ? '🩸' : key === 'muscle' ? '💪' : '🤢'}
-                          </span>
-                          <div>
-                            <h4 className="text-sm font-bold text-stone-600 mb-2 uppercase tracking-tight text-xs">
-                              {key.replace(/([A-Z])/g, ' $1')}
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {list.map((s, idx) => <SymptomChip key={s} symptom={s} index={idx} />)}
-                            </div>
-                          </div>
-                        </div>
-                      ) : null
-                    ))}
-                  </div>
-
-                  {snake.causesOfDeath && snake.causesOfDeath.length > 0 && (
-                    <div className="mt-6 pt-5 border-t border-stone-200">
-                      <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
-                        <span className="mt-px">💀</span>
-                        <div>
-                          <h4 className="text-sm font-bold text-stone-600 mb-2 uppercase tracking-tight text-xs">Primary Causes of Death</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {snake.causesOfDeath.map((cause, idx) => (
-                              <SymptomChip key={cause} symptom={cause} index={idx} />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </>
+              
+              {snake.dangerScoreComponents ? (
+                <DangerScoreWaterfall
+                  dangerScore={snake.dangerScore}
+                  components={snake.dangerScoreComponents}
+                  venomClassification={snake.venomClassification}
+                  fangType={snake.fangType}
+                />
               ) : (
-                <div className="space-y-4">
-                  {snake.maxLength && (
-                    <p className="text-sm text-stone-600"><strong className="font-bold text-black">Max Length:</strong> Up to {snake.maxLength.value} {snake.maxLength.unit}</p>
-                  )}
-                  {snake.diet && snake.diet.length > 0 && (
-                    <p className="text-sm text-stone-600"><strong className="font-bold text-black">Diet:</strong> {snake.diet.join(", ")}</p>
-                  )}
+                <div className="flex flex-col items-center py-6">
+                  <span className="text-6xl font-black text-stone-900 font-pangram-compressed leading-none">
+                    {snake.dangerScore}
+                  </span>
+                  <span className="text-xs text-stone-400 font-bold uppercase tracking-widest mt-2">
+                    Danger Score / 100
+                  </span>
                 </div>
               )}
 
-              <div className={venomous && symptomsForDisplay ? "mt-6 pt-5 border-t border-stone-200" : ""}>
-                <h4 className="text-xs font-bold text-[#2c2c2c] mb-2 uppercase tracking-tight">Habitat</h4>
-                <p className="text-sm text-stone-600 mb-1">
-                  <strong className="font-semibold">Regions:</strong> {snake.distribution.regions.join(", ")}
-                </p>
-                <p className="text-xs text-stone-500">{snake.distribution.habitat}</p>
-              </div>
+              <Link
+                href={`/rank?view=danger&snakeId=${snake.id}`}
+                className="block mt-6 text-center text-[10px] font-black text-stone-300 hover:text-stone-800 transition-colors uppercase tracking-widest"
+              >
+                View full global rankings →
+              </Link>
+            </div>
 
+            {venomous && snake.venomPotency && (
+              <div className="hidden lg:block">
+                <VenomPotencyChart currentSnake={snake} medianLD50={medianLD50} />
+              </div>
+            )}
+          </div>
+
+          {/* Clinical & Habitat Column */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Non-venomous info */}
+            {(!venomous || !symptomsForDisplay) && (
+              <div className="bg-white rounded-xl p-8 shadow-sm space-y-6">
+                {snake.maxLength && (
+                  <div className="flex items-baseline gap-4">
+                    <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest w-24">Max Length</span>
+                    <span className="text-lg font-bold text-stone-800">Up to {snake.maxLength.value} {snake.maxLength.unit}</span>
+                  </div>
+                )}
+                {snake.diet && snake.diet.length > 0 && (
+                  <div className="flex items-start gap-4">
+                    <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest w-24 mt-1">Diet</span>
+                    <div className="flex flex-wrap gap-2 font-medium text-stone-700">
+                      {snake.diet.join(", ")}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Habitat */}
+            <div className="bg-white rounded-xl p-8 shadow-sm">
+              <h4 className="text-[10px] font-black text-stone-400 mb-3 uppercase tracking-[0.2em]">Habitat & Ecology</h4>
+              <div className="bg-stone-50 rounded-lg p-4">
+                <p className="text-sm text-stone-600 mb-2 leading-relaxed">
+                  <strong className="font-bold text-stone-800">Distribution:</strong> {snake.distribution.regions.join(", ")}
+                </p>
+                <p className="text-xs text-stone-500 italic leading-relaxed">{snake.distribution.habitat}</p>
+              </div>
               {snake.sources && snake.sources.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-stone-100">
-                  <p className="text-xs text-stone-400">
-                    <strong className="font-medium">Sources:</strong> {snake.sources.join(", ")}
+                <div className="mt-6 pt-4 border-t border-stone-50">
+                  <p className="text-[9px] text-stone-300 font-bold uppercase tracking-widest">
+                    Verified Sources: {snake.sources.join(", ")}
                   </p>
                 </div>
               )}
             </div>
-
-            {venomous && snake.venomPotency && (
-              <div className="mt-6">
-                <VenomPotencyChart currentSnake={snake} medianLD50={medianLD50} />
-              </div>
-            )}
           </div>
       </div>
 

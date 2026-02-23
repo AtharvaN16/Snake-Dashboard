@@ -30,10 +30,20 @@ export function VenomSpeedChip({ speed, className }: VenomSpeedChipProps) {
   return (
     <span
       className={className}
-      style={pillStyle}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "6px",
+        fontFamily: "var(--font-pangram-compact), system-ui, sans-serif",
+        fontWeight: 400,
+        fontSize: "14px",
+        textTransform: "uppercase",
+        letterSpacing: "0.05em",
+        color: "#555",
+      }}
     >
-      <Icon className="shrink-0" />
-      <span className="font-semibold text-sm">{speed}</span>
+      <Icon className="shrink-0 opacity-70" />
+      <span>{speed}</span>
     </span>
   );
 }
