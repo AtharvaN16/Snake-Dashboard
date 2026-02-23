@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-22",
+  "lastUpdated": "2026-02-23",
   "totalSnakes": 139,
   "snakes": [
     {
@@ -7986,13 +7986,781 @@
       }
     },
     {
+      "id": "african-rock-python",
+      "commonName": "African Rock Python",
+      "scientificName": "Python natalensis",
+      "family": "Pythonidae",
+      "genus": "Python",
+      "dangerScore": 5,
+      "dangerRank": "73/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Sub-Saharan Africa"
+        ],
+        "habitat": "Savannas, rocky areas, near water",
+        "coordinates": [
+          {
+            "lat": -15,
+            "lng": 30
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/african-rock-python/primary.jpg",
+        "thumbnail": "/images/snakes/african-rock-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Bernard DUPONT from FRANCE",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Southern_African_Python_(Python_natalensis)_juvenile_(6046153604).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+        }
+      },
+      "description": "Africa's largest snake. Aggressive when threatened.",
+      "maxLength": {
+        "value": 5.5,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds",
+        "reptiles"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 20,
+        "speedScore": 40
+      },
+      "continent": "Africa",
+      "subregions": [
+        "Sub-Saharan Africa"
+      ]
+    },
+    {
+      "id": "burmese-python",
+      "commonName": "Burmese Python",
+      "scientificName": "Python bivittatus",
+      "family": "Pythonidae",
+      "genus": "Python",
+      "dangerScore": 5,
+      "dangerRank": "74/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Southeast Asia",
+          "Florida (introduced)"
+        ],
+        "habitat": "Forests, wetlands",
+        "coordinates": [
+          {
+            "lat": 15,
+            "lng": 100
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/burmese-python/primary.jpg",
+        "thumbnail": "/images/snakes/burmese-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Rushen",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Python_bivittatus,_Burmese_python_(juvenile)_-_Kaeng_Krachan_National_Park_(26928549504).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+        }
+      },
+      "description": "One of the five largest snakes. Invasive in Florida Everglades.",
+      "maxLength": {
+        "value": 5.7,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 40,
+        "speedScore": 40
+      },
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia",
+        "Florida (introduced)"
+      ]
+    },
+    {
+      "id": "reticulated-python",
+      "commonName": "Reticulated Python",
+      "scientificName": "Malayopython reticulatus",
+      "family": "Pythonidae",
+      "genus": "Malayopython",
+      "dangerScore": 5,
+      "dangerRank": "75/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Southeast Asia"
+        ],
+        "habitat": "Rainforests, rivers",
+        "coordinates": [
+          {
+            "lat": 5,
+            "lng": 110
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/reticulated-python/primary.jpg",
+        "thumbnail": "/images/snakes/reticulated-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "This photography was created by Mariluna. Other photos see here.",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Python_reticulatus_%D1%81%D0%B5%D1%82%D1%87%D0%B0%D1%82%D1%8B%D0%B9_%D0%BF%D0%B8%D1%82%D0%BE%D0%BD-2.jpg",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        }
+      },
+      "description": "World's longest snake. Powerful constrictor. Generally avoids humans.",
+      "maxLength": {
+        "value": 6.9,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 20,
+        "speedScore": 40
+      },
+      "continent": "Asia",
+      "subregions": [
+        "Southeast Asia"
+      ]
+    },
+    {
+      "id": "boa-constrictor",
+      "commonName": "Boa Constrictor",
+      "scientificName": "Boa constrictor",
+      "family": "Boidae",
+      "genus": "Boa",
+      "dangerScore": 5,
+      "dangerRank": "76/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Central America",
+          "South America",
+          "Mexico"
+        ],
+        "habitat": "Tropical rainforests, semi-arid regions, and agricultural areas",
+        "coordinates": [
+          {
+            "lat": -5,
+            "lng": -60
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/boa-constrictor/primary.jpg",
+        "thumbnail": "/images/snakes/boa-constrictor/thumbnail.jpg",
+        "gallery": [
+          "/images/snakes/boa-constrictor/gallery/1.jpg",
+          "/images/snakes/boa-constrictor/gallery/2.jpg",
+          "/images/snakes/boa-constrictor/gallery/3.jpg"
+        ],
+        "attribution": {
+          "photographer": "Bernard DUPONT from FRANCE",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+        },
+        "galleryAttributions": [
+          {
+            "photographer": "Bernard DUPONT from FRANCE",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
+            "license": "CC BY-SA 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+          },
+          {
+            "photographer": "Bernard DUPONT from FRANCE",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
+            "license": "CC BY-SA 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+          },
+          {
+            "photographer": "Bernard DUPONT from FRANCE",
+            "source": "Wikimedia Commons",
+            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
+            "license": "CC BY-SA 2.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+          }
+        ]
+      },
+      "description": "A large, heavy-bodied constrictor. Kills prey by coiling around it and suffocation. Popular in the pet trade.",
+      "maxLength": {
+        "value": 4,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds",
+        "lizards"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "North America",
+      "subregions": [
+        "Central America",
+        "South America",
+        "Mexico"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 40,
+        "speedScore": 40
+      }
+    },
+    {
+      "id": "amethystine-python",
+      "commonName": "Amethystine Python",
+      "scientificName": "Simalia amethistina",
+      "family": "Pythonidae",
+      "genus": "Simalia",
+      "dangerScore": 5,
+      "dangerRank": "77/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Australia",
+          "Indonesia",
+          "Papua New Guinea"
+        ],
+        "habitat": "Rainforests",
+        "coordinates": [
+          {
+            "lat": -15,
+            "lng": 145
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/amethystine-python/primary.jpg",
+        "thumbnail": "/images/snakes/amethystine-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Philipp Hoenle",
+          "source": "iNaturalist",
+          "sourceUrl": "https://www.inaturalist.org/observations/133065892",
+          "license": "CC0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+        }
+      },
+      "description": "One of the six largest snakes. Iridescent scales.",
+      "maxLength": {
+        "value": 5.5,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 20,
+        "speedScore": 40
+      },
+      "continent": "Oceania",
+      "subregions": [
+        "Australia",
+        "Indonesia",
+        "Papua New Guinea"
+      ]
+    },
+    {
+      "id": "carpet-python",
+      "commonName": "Carpet Python",
+      "scientificName": "Morelia spilota",
+      "family": "Pythonidae",
+      "genus": "Morelia",
+      "dangerScore": 5,
+      "dangerRank": "78/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Australia",
+          "New Guinea"
+        ],
+        "habitat": "Forests, woodlands, urban",
+        "coordinates": [
+          {
+            "lat": -25,
+            "lng": 133
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/carpet-python/primary.jpg",
+        "thumbnail": "/images/snakes/carpet-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "LiquidGhoul",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Morelia_spilota_head.jpg",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        }
+      },
+      "description": "Popular in pet trade. Variable patterns. Good climber.",
+      "maxLength": {
+        "value": 3.7,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 40,
+        "speedScore": 40
+      },
+      "continent": "Oceania",
+      "subregions": [
+        "Australia",
+        "New Guinea"
+      ]
+    },
+    {
+      "id": "diamond-python",
+      "commonName": "Diamond Python",
+      "scientificName": "Morelia spilota spilota",
+      "family": "Pythonidae",
+      "genus": "Morelia",
+      "dangerScore": 5,
+      "dangerRank": "79/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "Southeastern Australia"
+        ],
+        "habitat": "Forests, woodland",
+        "coordinates": [
+          {
+            "lat": -33,
+            "lng": 151
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/diamond-python/primary.jpg",
+        "thumbnail": "/images/snakes/diamond-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "LiquidGhoul",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Morelia_spilota_head.jpg",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        }
+      },
+      "description": "Subspecies of carpet python. Black with yellow spots.",
+      "maxLength": {
+        "value": 3,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 40,
+        "speedScore": 40
+      },
+      "continent": "Oceania",
+      "subregions": [
+        "Southeastern Australia"
+      ]
+    },
+    {
+      "id": "olive-python",
+      "commonName": "Olive Python",
+      "scientificName": "Liasis olivaceus",
+      "family": "Pythonidae",
+      "genus": "Liasis",
+      "dangerScore": 5,
+      "dangerRank": "80/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Australia"
+        ],
+        "habitat": "Rivers, gorges",
+        "coordinates": [
+          {
+            "lat": -18,
+            "lng": 126
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/olive-python/primary.jpg",
+        "thumbnail": "/images/snakes/olive-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "WG1",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Albino_Olive_Python_(Liasis_olivaceus)_Sensing.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        }
+      },
+      "description": "Australia's second largest snake. Semi-aquatic.",
+      "maxLength": {
+        "value": 4,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 20,
+        "speedScore": 40
+      },
+      "continent": "Oceania",
+      "subregions": [
+        "Australia"
+      ]
+    },
+    {
+      "id": "scrub-python",
+      "commonName": "Scrub Python",
+      "scientificName": "Simalia kinghorni",
+      "family": "Pythonidae",
+      "genus": "Simalia",
+      "dangerScore": 5,
+      "dangerRank": "81/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "Australia",
+          "New Guinea"
+        ],
+        "habitat": "Rainforests",
+        "coordinates": [
+          {
+            "lat": -15,
+            "lng": 145
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/scrub-python/primary.jpg",
+        "thumbnail": "/images/snakes/scrub-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "heosemys (Bill Hughes)",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Australian_scrub_python_(Morelia_kinghorni),_hatchling.jpg",
+          "license": "CC BY-SA 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+        }
+      },
+      "description": "Large python. Variable pattern. Good climber.",
+      "maxLength": {
+        "value": 5,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 20,
+        "speedScore": 40
+      },
+      "continent": "Oceania",
+      "subregions": [
+        "Australia",
+        "New Guinea"
+      ]
+    },
+    {
+      "id": "green-anaconda",
+      "commonName": "Green Anaconda",
+      "scientificName": "Eunectes murinus",
+      "family": "Boidae",
+      "genus": "Eunectes",
+      "dangerScore": 5,
+      "dangerRank": "82/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "South America"
+        ],
+        "habitat": "Rivers, swamps, wetlands",
+        "coordinates": [
+          {
+            "lat": -5,
+            "lng": -60
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/green-anaconda/primary.jpg",
+        "thumbnail": "/images/snakes/green-anaconda/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Diego Delso",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Anaconda_com%C3%BAn_(Eunectes_murinus),_Tierpark_Hellabrunn,_M%C3%BAnich,_Alemania,_2012-06-17,_DD_01.JPG",
+          "license": "CC BY-SA 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        }
+      },
+      "description": "Heaviest snake in the world. Semi-aquatic. Preys on caimans.",
+      "maxLength": {
+        "value": 5.2,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds",
+        "fish",
+        "reptiles"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 20,
+        "speedScore": 40
+      },
+      "continent": "South America",
+      "subregions": [
+        "South America"
+      ]
+    },
+    {
+      "id": "yellow-anaconda",
+      "commonName": "Yellow Anaconda",
+      "scientificName": "Eunectes notaeus",
+      "family": "Boidae",
+      "genus": "Eunectes",
+      "dangerScore": 5,
+      "dangerRank": "83/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Low",
+      "distribution": {
+        "regions": [
+          "South America"
+        ],
+        "habitat": "Wetlands, marshes",
+        "coordinates": [
+          {
+            "lat": -25,
+            "lng": -58
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/yellow-anaconda/primary.jpg",
+        "thumbnail": "/images/snakes/yellow-anaconda/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Sebastián Gómez Barboza Silveira",
+          "source": "iNaturalist",
+          "sourceUrl": "https://www.inaturalist.org/observations/141388007",
+          "license": "CC0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+        }
+      },
+      "description": "Smaller than green anaconda. Semi-aquatic.",
+      "maxLength": {
+        "value": 4.2,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds",
+        "reptiles"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 20,
+        "speedScore": 40
+      },
+      "continent": "South America",
+      "subregions": [
+        "South America"
+      ]
+    },
+    {
+      "id": "indian-python",
+      "commonName": "Indian Python",
+      "scientificName": "Python molurus",
+      "family": "Pythonidae",
+      "genus": "Python",
+      "dangerScore": 5,
+      "dangerRank": "84/139",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "Moderate",
+      "distribution": {
+        "regions": [
+          "South Asia"
+        ],
+        "habitat": "Grasslands, forests, wetlands, agricultural edges",
+        "coordinates": [
+          {
+            "lat": 22,
+            "lng": 78
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/indian-python/primary.jpg",
+        "thumbnail": "/images/snakes/indian-python/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Holger Krisp",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heller_Tigerpython_Python_molurus_molurus.jpg",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+        }
+      },
+      "description": "Large constrictor native to the Indian subcontinent. Frequently recognized in zoos and documentaries.",
+      "maxLength": {
+        "value": 4.5,
+        "unit": "m"
+      },
+      "diet": [
+        "mammals",
+        "birds",
+        "reptiles"
+      ],
+      "constrictor": true,
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "dangerScoreComponents": {
+        "clinicalScore": 0,
+        "potencyScore": 0,
+        "yieldScore": 0,
+        "lethalityScore": 0,
+        "encounterScore": 40,
+        "speedScore": 40
+      },
+      "continent": "Asia",
+      "subregions": [
+        "South Asia"
+      ]
+    },
+    {
       "id": "brown-tree-snake",
       "commonName": "Brown Tree Snake",
       "scientificName": "Boiga irregularis",
       "family": "Colubridae",
       "genus": "Boiga",
       "dangerScore": 1,
-      "dangerRank": "73/139",
+      "dangerRank": "85/139",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 25,
@@ -8097,7 +8865,7 @@
       "family": "Colubridae",
       "genus": "Thamnophis",
       "dangerScore": 0,
-      "dangerRank": "74/139",
+      "dangerRank": "86/139",
       "venomClassification": "Non-venomous",
       "venomTypes": [
         "Myotoxic"
@@ -8154,7 +8922,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 0,
-      "dangerRank": "75/139",
+      "dangerRank": "87/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8205,7 +8973,7 @@
       "family": "Colubridae",
       "genus": "Ahaetulla",
       "dangerScore": 0,
-      "dangerRank": "76/139",
+      "dangerRank": "88/139",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -8295,7 +9063,7 @@
       "family": "Colubridae",
       "genus": "Diadophis",
       "dangerScore": 0,
-      "dangerRank": "77/139",
+      "dangerRank": "89/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8375,7 +9143,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 0,
-      "dangerRank": "78/139",
+      "dangerRank": "90/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8425,7 +9193,7 @@
       "family": "Colubridae",
       "genus": "Boiga",
       "dangerScore": 0,
-      "dangerRank": "79/139",
+      "dangerRank": "91/139",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 27,
@@ -8530,7 +9298,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 0,
-      "dangerRank": "80/139",
+      "dangerRank": "92/139",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -8670,7 +9438,7 @@
         "habitat": "Forest edges, gardens, shrubs"
       },
       "description": "Famous green arboreal snake; mild rear-fanged venom.",
-      "dangerRank": "81/139",
+      "dangerRank": "93/139",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -8759,7 +9527,7 @@
         "habitat": "Dry rocky habitats"
       },
       "description": "Mildly venomous rear-fanged species known in Mediterranean regions.",
-      "dangerRank": "82/139",
+      "dangerRank": "94/139",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -8829,66 +9597,13 @@
       "fangType": "Rear fangs"
     },
     {
-      "id": "african-rock-python",
-      "commonName": "African Rock Python",
-      "scientificName": "Python natalensis",
-      "family": "Pythonidae",
-      "genus": "Python",
-      "dangerScore": 0,
-      "dangerRank": "83/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Sub-Saharan Africa"
-        ],
-        "habitat": "Savannas, rocky areas, near water",
-        "coordinates": [
-          {
-            "lat": -15,
-            "lng": 30
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/african-rock-python/primary.jpg",
-        "thumbnail": "/images/snakes/african-rock-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Bernard DUPONT from FRANCE",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Southern_African_Python_(Python_natalensis)_juvenile_(6046153604).jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        }
-      },
-      "description": "Africa's largest snake. Aggressive when threatened.",
-      "maxLength": {
-        "value": 5.5,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds",
-        "reptiles"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ]
-    },
-    {
       "id": "ball-python",
       "commonName": "Ball Python",
       "scientificName": "Python regius",
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "84/139",
+      "dangerRank": "95/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8942,7 +9657,7 @@
       "family": "Boidae",
       "genus": "Acrantophis",
       "dangerScore": 0,
-      "dangerRank": "85/139",
+      "dangerRank": "96/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8994,7 +9709,7 @@
       "family": "Boidae",
       "genus": "Eryx",
       "dangerScore": 0,
-      "dangerRank": "86/139",
+      "dangerRank": "97/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9045,7 +9760,7 @@
       "family": "Colubridae",
       "genus": "Ptyas",
       "dangerScore": 0,
-      "dangerRank": "87/139",
+      "dangerRank": "98/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9099,7 +9814,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "88/139",
+      "dangerRank": "99/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9145,67 +9860,13 @@
       ]
     },
     {
-      "id": "burmese-python",
-      "commonName": "Burmese Python",
-      "scientificName": "Python bivittatus",
-      "family": "Pythonidae",
-      "genus": "Python",
-      "dangerScore": 0,
-      "dangerRank": "89/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Southeast Asia",
-          "Florida (introduced)"
-        ],
-        "habitat": "Forests, wetlands",
-        "coordinates": [
-          {
-            "lat": 15,
-            "lng": 100
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/burmese-python/primary.jpg",
-        "thumbnail": "/images/snakes/burmese-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Rushen",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Python_bivittatus,_Burmese_python_(juvenile)_-_Kaeng_Krachan_National_Park_(26928549504).jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        }
-      },
-      "description": "One of the five largest snakes. Invasive in Florida Everglades.",
-      "maxLength": {
-        "value": 5.7,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia",
-        "Florida (introduced)"
-      ]
-    },
-    {
       "id": "milk-snake",
       "commonName": "Milk Snake",
       "scientificName": "Lampropeltis triangulum",
       "family": "Colubridae",
       "genus": "Lampropeltis",
       "dangerScore": 0,
-      "dangerRank": "90/139",
+      "dangerRank": "100/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9257,7 +9918,7 @@
       "family": "Colubridae",
       "genus": "Chrysopelea",
       "dangerScore": 0,
-      "dangerRank": "91/139",
+      "dangerRank": "101/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9302,65 +9963,13 @@
       ]
     },
     {
-      "id": "reticulated-python",
-      "commonName": "Reticulated Python",
-      "scientificName": "Malayopython reticulatus",
-      "family": "Pythonidae",
-      "genus": "Malayopython",
-      "dangerScore": 0,
-      "dangerRank": "92/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Southeast Asia"
-        ],
-        "habitat": "Rainforests, rivers",
-        "coordinates": [
-          {
-            "lat": 5,
-            "lng": 110
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/reticulated-python/primary.jpg",
-        "thumbnail": "/images/snakes/reticulated-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "This photography was created by Mariluna. Other photos see here.",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Python_reticulatus_%D1%81%D0%B5%D1%82%D1%87%D0%B0%D1%82%D1%8B%D0%B9_%D0%BF%D0%B8%D1%82%D0%BE%D0%BD-2.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "World's longest snake. Powerful constrictor. Generally avoids humans.",
-      "maxLength": {
-        "value": 6.9,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ]
-    },
-    {
       "id": "aesculapian-snake",
       "commonName": "Aesculapian Snake",
       "scientificName": "Zamenis longissimus",
       "family": "Colubridae",
       "genus": "Zamenis",
       "dangerScore": 0,
-      "dangerRank": "93/139",
+      "dangerRank": "102/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9413,7 +10022,7 @@
       "family": "Colubridae",
       "genus": "Natrix",
       "dangerScore": 0,
-      "dangerRank": "94/139",
+      "dangerRank": "103/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9466,7 +10075,7 @@
       "family": "Colubridae",
       "genus": "Zamenis",
       "dangerScore": 0,
-      "dangerRank": "95/139",
+      "dangerRank": "104/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9518,7 +10127,7 @@
       "family": "Colubridae",
       "genus": "Elaphe",
       "dangerScore": 0,
-      "dangerRank": "96/139",
+      "dangerRank": "105/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9569,7 +10178,7 @@
       "family": "Colubridae",
       "genus": "Natrix",
       "dangerScore": 0,
-      "dangerRank": "97/139",
+      "dangerRank": "106/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -9622,7 +10231,7 @@
       "family": "Colubridae",
       "genus": "Malpolon",
       "dangerScore": 0,
-      "dangerRank": "98/139",
+      "dangerRank": "107/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9702,7 +10311,7 @@
       "family": "Colubridae",
       "genus": "Coronella",
       "dangerScore": 0,
-      "dangerRank": "99/139",
+      "dangerRank": "108/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9753,7 +10362,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "100/139",
+      "dangerRank": "109/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -9819,91 +10428,6 @@
       ]
     },
     {
-      "id": "boa-constrictor",
-      "commonName": "Boa Constrictor",
-      "scientificName": "Boa constrictor",
-      "family": "Boidae",
-      "genus": "Boa",
-      "dangerScore": 0,
-      "dangerRank": "101/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Central America",
-          "South America",
-          "Mexico"
-        ],
-        "habitat": "Tropical rainforests, semi-arid regions, and agricultural areas",
-        "coordinates": [
-          {
-            "lat": -5,
-            "lng": -60
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/boa-constrictor/primary.jpg",
-        "thumbnail": "/images/snakes/boa-constrictor/thumbnail.jpg",
-        "gallery": [
-          "/images/snakes/boa-constrictor/gallery/1.jpg",
-          "/images/snakes/boa-constrictor/gallery/2.jpg",
-          "/images/snakes/boa-constrictor/gallery/3.jpg"
-        ],
-        "attribution": {
-          "photographer": "Bernard DUPONT from FRANCE",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        },
-        "galleryAttributions": [
-          {
-            "photographer": "Bernard DUPONT from FRANCE",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
-            "license": "CC BY-SA 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-          },
-          {
-            "photographer": "Bernard DUPONT from FRANCE",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
-            "license": "CC BY-SA 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-          },
-          {
-            "photographer": "Bernard DUPONT from FRANCE",
-            "source": "Wikimedia Commons",
-            "sourceUrl": "https://commons.wikimedia.org/wiki/File:Columbian_Red_Tail_Boa_(Boa_constrictor_constrictor)_(10642150755).jpg",
-            "license": "CC BY-SA 2.0",
-            "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-          }
-        ]
-      },
-      "description": "A large, heavy-bodied constrictor. Kills prey by coiling around it and suffocation. Popular in the pet trade.",
-      "maxLength": {
-        "value": 4,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds",
-        "lizards"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "North America",
-      "subregions": [
-        "Central America",
-        "South America",
-        "Mexico"
-      ]
-    },
-    {
       "id": "boa-imperator",
       "commonName": "Boa Imperator",
       "scientificName": "Boa imperator",
@@ -9933,7 +10457,7 @@
       ],
       "constrictor": true,
       "dangerScore": 0,
-      "dangerRank": "102/139",
+      "dangerRank": "110/139",
       "venomClassification": "Non-venomous",
       "images": {
         "primary": "/images/snakes/boa-imperator/primary.jpg",
@@ -9958,7 +10482,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "103/139",
+      "dangerRank": "111/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10010,7 +10534,7 @@
       "family": "Colubridae",
       "genus": "Lampropeltis",
       "dangerScore": 0,
-      "dangerRank": "104/139",
+      "dangerRank": "112/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10064,7 +10588,7 @@
       "family": "Colubridae",
       "genus": "Leptodeira",
       "dangerScore": 0,
-      "dangerRank": "105/139",
+      "dangerRank": "113/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10136,7 +10660,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "106/139",
+      "dangerRank": "114/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10188,7 +10712,7 @@
       "family": "Colubridae",
       "genus": "Chironius",
       "dangerScore": 0,
-      "dangerRank": "107/139",
+      "dangerRank": "115/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10241,7 +10765,7 @@
       "family": "Colubridae",
       "genus": "Storeria",
       "dangerScore": 0,
-      "dangerRank": "108/139",
+      "dangerRank": "116/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -10293,7 +10817,7 @@
       "family": "Colubridae",
       "genus": "Drymarchon",
       "dangerScore": 0,
-      "dangerRank": "109/139",
+      "dangerRank": "117/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10346,7 +10870,7 @@
       "family": "Colubridae",
       "genus": "Thamnophis",
       "dangerScore": 0,
-      "dangerRank": "110/139",
+      "dangerRank": "118/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -10425,7 +10949,7 @@
       "family": "Colubridae",
       "genus": "Carphophis",
       "dangerScore": 0,
-      "dangerRank": "111/139",
+      "dangerRank": "119/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10476,7 +11000,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "112/139",
+      "dangerRank": "120/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10555,7 +11079,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "113/139",
+      "dangerRank": "121/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10607,7 +11131,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "114/139",
+      "dangerRank": "122/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10658,7 +11182,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "115/139",
+      "dangerRank": "123/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10709,7 +11233,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "116/139",
+      "dangerRank": "124/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10760,7 +11284,7 @@
       "family": "Colubridae",
       "genus": "Nerodia",
       "dangerScore": 0,
-      "dangerRank": "117/139",
+      "dangerRank": "125/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -10815,7 +11339,7 @@
       "family": "Colubridae",
       "genus": "Storeria",
       "dangerScore": 0,
-      "dangerRank": "118/139",
+      "dangerRank": "126/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10878,7 +11402,7 @@
       "family": "Boidae",
       "genus": "Lichanura",
       "dangerScore": 0,
-      "dangerRank": "119/139",
+      "dangerRank": "127/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10932,7 +11456,7 @@
       "family": "Colubridae",
       "genus": "Opheodrys",
       "dangerScore": 0,
-      "dangerRank": "120/139",
+      "dangerRank": "128/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10983,7 +11507,7 @@
       "family": "Boidae",
       "genus": "Charina",
       "dangerScore": 0,
-      "dangerRank": "121/139",
+      "dangerRank": "129/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11047,7 +11571,7 @@
       "family": "Colubridae",
       "genus": "Opheodrys",
       "dangerScore": 0,
-      "dangerRank": "122/139",
+      "dangerRank": "130/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -11092,123 +11616,13 @@
       ]
     },
     {
-      "id": "amethystine-python",
-      "commonName": "Amethystine Python",
-      "scientificName": "Simalia amethistina",
-      "family": "Pythonidae",
-      "genus": "Simalia",
-      "dangerScore": 0,
-      "dangerRank": "123/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Australia",
-          "Indonesia",
-          "Papua New Guinea"
-        ],
-        "habitat": "Rainforests",
-        "coordinates": [
-          {
-            "lat": -15,
-            "lng": 145
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/amethystine-python/primary.jpg",
-        "thumbnail": "/images/snakes/amethystine-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Philipp Hoenle",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/133065892",
-          "license": "CC0",
-          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-        }
-      },
-      "description": "One of the six largest snakes. Iridescent scales.",
-      "maxLength": {
-        "value": 5.5,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Oceania",
-      "subregions": [
-        "Australia",
-        "Indonesia",
-        "Papua New Guinea"
-      ]
-    },
-    {
-      "id": "carpet-python",
-      "commonName": "Carpet Python",
-      "scientificName": "Morelia spilota",
-      "family": "Pythonidae",
-      "genus": "Morelia",
-      "dangerScore": 0,
-      "dangerRank": "124/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Australia",
-          "New Guinea"
-        ],
-        "habitat": "Forests, woodlands, urban",
-        "coordinates": [
-          {
-            "lat": -25,
-            "lng": 133
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/carpet-python/primary.jpg",
-        "thumbnail": "/images/snakes/carpet-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "LiquidGhoul",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Morelia_spilota_head.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "Popular in pet trade. Variable patterns. Good climber.",
-      "maxLength": {
-        "value": 3.7,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Oceania",
-      "subregions": [
-        "Australia",
-        "New Guinea"
-      ]
-    },
-    {
       "id": "centralian-carpet-python",
       "commonName": "Centralian Carpet Python",
       "scientificName": "Morelia bredli",
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "125/139",
+      "dangerRank": "131/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11266,58 +11680,6 @@
       ]
     },
     {
-      "id": "diamond-python",
-      "commonName": "Diamond Python",
-      "scientificName": "Morelia spilota spilota",
-      "family": "Pythonidae",
-      "genus": "Morelia",
-      "dangerScore": 0,
-      "dangerRank": "126/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Southeastern Australia"
-        ],
-        "habitat": "Forests, woodland",
-        "coordinates": [
-          {
-            "lat": -33,
-            "lng": 151
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/diamond-python/primary.jpg",
-        "thumbnail": "/images/snakes/diamond-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "LiquidGhoul",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Morelia_spilota_head.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "Subspecies of carpet python. Black with yellow spots.",
-      "maxLength": {
-        "value": 3,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Oceania",
-      "subregions": [
-        "Southeastern Australia"
-      ]
-    },
-    {
       "id": "emerald-tree-python",
       "commonName": "Emerald Tree Python",
       "scientificName": "Morelia viridis",
@@ -11347,7 +11709,7 @@
       ],
       "constrictor": true,
       "dangerScore": 0,
-      "dangerRank": "127/139",
+      "dangerRank": "132/139",
       "venomClassification": "Non-venomous",
       "images": {
         "primary": "/images/snakes/emerald-tree-python/primary.jpg",
@@ -11372,7 +11734,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "128/139",
+      "dangerRank": "133/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11422,65 +11784,13 @@
       ]
     },
     {
-      "id": "olive-python",
-      "commonName": "Olive Python",
-      "scientificName": "Liasis olivaceus",
-      "family": "Pythonidae",
-      "genus": "Liasis",
-      "dangerScore": 0,
-      "dangerRank": "129/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Australia"
-        ],
-        "habitat": "Rivers, gorges",
-        "coordinates": [
-          {
-            "lat": -18,
-            "lng": 126
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/olive-python/primary.jpg",
-        "thumbnail": "/images/snakes/olive-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "WG1",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Albino_Olive_Python_(Liasis_olivaceus)_Sensing.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        }
-      },
-      "description": "Australia's second largest snake. Semi-aquatic.",
-      "maxLength": {
-        "value": 4,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Oceania",
-      "subregions": [
-        "Australia"
-      ]
-    },
-    {
       "id": "rough-scaled-python",
       "commonName": "Rough-scaled Python",
       "scientificName": "Morelia carinata",
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "130/139",
+      "dangerRank": "134/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11525,67 +11835,13 @@
       ]
     },
     {
-      "id": "scrub-python",
-      "commonName": "Scrub Python",
-      "scientificName": "Simalia kinghorni",
-      "family": "Pythonidae",
-      "genus": "Simalia",
-      "dangerScore": 0,
-      "dangerRank": "131/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Australia",
-          "New Guinea"
-        ],
-        "habitat": "Rainforests",
-        "coordinates": [
-          {
-            "lat": -15,
-            "lng": 145
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/scrub-python/primary.jpg",
-        "thumbnail": "/images/snakes/scrub-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "heosemys (Bill Hughes)",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Australian_scrub_python_(Morelia_kinghorni),_hatchling.jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        }
-      },
-      "description": "Large python. Variable pattern. Good climber.",
-      "maxLength": {
-        "value": 5,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Oceania",
-      "subregions": [
-        "Australia",
-        "New Guinea"
-      ]
-    },
-    {
       "id": "woma-python",
       "commonName": "Woma Python",
       "scientificName": "Aspidites ramsayi",
       "family": "Pythonidae",
       "genus": "Aspidites",
       "dangerScore": 0,
-      "dangerRank": "132/139",
+      "dangerRank": "135/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11665,7 +11921,7 @@
       "family": "Boidae",
       "genus": "Corallus",
       "dangerScore": 0,
-      "dangerRank": "133/139",
+      "dangerRank": "136/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11729,7 +11985,7 @@
       "family": "Boidae",
       "genus": "Epicrates",
       "dangerScore": 0,
-      "dangerRank": "134/139",
+      "dangerRank": "137/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11781,7 +12037,7 @@
       "family": "Boidae",
       "genus": "Corallus",
       "dangerScore": 0,
-      "dangerRank": "135/139",
+      "dangerRank": "138/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11855,113 +12111,6 @@
       ]
     },
     {
-      "id": "green-anaconda",
-      "commonName": "Green Anaconda",
-      "scientificName": "Eunectes murinus",
-      "family": "Boidae",
-      "genus": "Eunectes",
-      "dangerScore": 0,
-      "dangerRank": "136/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "South America"
-        ],
-        "habitat": "Rivers, swamps, wetlands",
-        "coordinates": [
-          {
-            "lat": -5,
-            "lng": -60
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/green-anaconda/primary.jpg",
-        "thumbnail": "/images/snakes/green-anaconda/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Diego Delso",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Anaconda_com%C3%BAn_(Eunectes_murinus),_Tierpark_Hellabrunn,_M%C3%BAnich,_Alemania,_2012-06-17,_DD_01.JPG",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "Heaviest snake in the world. Semi-aquatic. Preys on caimans.",
-      "maxLength": {
-        "value": 5.2,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds",
-        "fish",
-        "reptiles"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "South America",
-      "subregions": [
-        "South America"
-      ]
-    },
-    {
-      "id": "yellow-anaconda",
-      "commonName": "Yellow Anaconda",
-      "scientificName": "Eunectes notaeus",
-      "family": "Boidae",
-      "genus": "Eunectes",
-      "dangerScore": 0,
-      "dangerRank": "137/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "South America"
-        ],
-        "habitat": "Wetlands, marshes",
-        "coordinates": [
-          {
-            "lat": -25,
-            "lng": -58
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/yellow-anaconda/primary.jpg",
-        "thumbnail": "/images/snakes/yellow-anaconda/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Sebastián Gómez Barboza Silveira",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/141388007",
-          "license": "CC0",
-          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
-        }
-      },
-      "description": "Smaller than green anaconda. Semi-aquatic.",
-      "maxLength": {
-        "value": 4.2,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds",
-        "reptiles"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "South America",
-      "subregions": [
-        "South America"
-      ]
-    },
-    {
       "id": "brahminy-blind-snake",
       "commonName": "Brahminy Blind Snake",
       "scientificName": "Indotyphlops braminus",
@@ -11976,7 +12125,7 @@
         "Cosmopolitan (Global)"
       ],
       "dangerScore": 0,
-      "dangerRank": "138/139",
+      "dangerRank": "139/139",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "misidentificationRisk": "high",
@@ -12037,59 +12186,6 @@
       "diet": [
         "Ant eggs",
         "Termite larvae"
-      ]
-    },
-    {
-      "id": "indian-python",
-      "commonName": "Indian Python",
-      "scientificName": "Python molurus",
-      "family": "Pythonidae",
-      "genus": "Python",
-      "dangerScore": 0,
-      "dangerRank": "139/139",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "South Asia"
-        ],
-        "habitat": "Grasslands, forests, wetlands, agricultural edges",
-        "coordinates": [
-          {
-            "lat": 22,
-            "lng": 78
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/indian-python/primary.jpg",
-        "thumbnail": "/images/snakes/indian-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Holger Krisp",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heller_Tigerpython_Python_molurus_molurus.jpg",
-          "license": "CC BY 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-        }
-      },
-      "description": "Large constrictor native to the Indian subcontinent. Frequently recognized in zoos and documentaries.",
-      "maxLength": {
-        "value": 4.5,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds",
-        "reptiles"
-      ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia"
       ]
     }
   ]

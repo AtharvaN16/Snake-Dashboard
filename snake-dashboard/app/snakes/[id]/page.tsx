@@ -520,36 +520,37 @@ export default async function SnakeDetailPage({
 
       {/* Main Content Grid */}
       <div className="relative z-20 grid md:grid-cols-3 gap-4">
-          {/* Left Column - Venom Attributes Card (venomous only) */}
+          {/* Left Column - Danger Score & Venom cards (venomous only) */}
           {venomous && (
-            <div>
+            <div className="space-y-4">
+              {/* Danger Score card */}
               <div className="bg-white rounded-xl p-6">
-                {/* Danger Score — waterfall chart */}
-                <div className="mb-6">
-                  {snake.dangerScoreComponents ? (
-                    <>
-                      <DangerScoreWaterfall
-                        dangerScore={snake.dangerScore}
-                        components={snake.dangerScoreComponents}
-                        venomClassification={snake.venomClassification}
-                        fangType={snake.fangType}
-                      />
-                    </>
-                  ) : (
-                    <div>
-                      <h3 className="text-sm font-bold text-[#2c2c2c] mb-2">Danger Score</h3>
-                      <span className="text-lg font-extrabold">{snake.dangerScore}</span>
-                      <span className="text-xs text-stone-400">/100</span>
-                    </div>
-                  )}
-                  <Link
-                    href={`/rank?view=danger&snakeId=${snake.id}`}
-                    className="block mt-2 text-xs text-center text-stone-400 hover:text-stone-600 transition-colors no-underline"
-                  >
-                    Rank: {snake.dangerRank} · View full rankings →
-                  </Link>
-                </div>
+                {snake.dangerScoreComponents ? (
+                  <>
+                    <DangerScoreWaterfall
+                      dangerScore={snake.dangerScore}
+                      components={snake.dangerScoreComponents}
+                      venomClassification={snake.venomClassification}
+                      fangType={snake.fangType}
+                    />
+                  </>
+                ) : (
+                  <div>
+                    <h3 className="text-sm font-bold text-[#2c2c2c] mb-2">Danger Score</h3>
+                    <span className="text-lg font-extrabold">{snake.dangerScore}</span>
+                    <span className="text-xs text-stone-400">/100</span>
+                  </div>
+                )}
+                <Link
+                  href={`/rank?view=danger&snakeId=${snake.id}`}
+                  className="block mt-2 text-xs text-center text-stone-400 hover:text-stone-600 transition-colors no-underline"
+                >
+                  Rank: {snake.dangerRank} · View full rankings →
+                </Link>
+              </div>
 
+              {/* Venom & encounter attributes card */}
+              <div className="bg-white rounded-xl p-6">
                 {/* Venom Type */}
                 {snake.venomTypes && snake.venomTypes.length > 0 && (
                   <div className="mb-6">
