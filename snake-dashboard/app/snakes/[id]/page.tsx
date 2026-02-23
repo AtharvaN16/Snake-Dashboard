@@ -123,12 +123,12 @@ export default async function SnakeDetailPage({
       {/* Distribution map fixed to top-right (only when range data exists) */}
       {hasRangeMap && (
         <div
-          className="fixed top-0 right-0 w-[540px] h-[580px] pointer-events-none z-0 overflow-hidden"
+          className="fixed top-0 right-0 w-[640px] h-[680px] pointer-events-none z-0 overflow-hidden"
           style={{
             WebkitMaskImage:
-              "linear-gradient(to right, transparent 0%, black 26%), linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
+              "linear-gradient(to right, transparent 0%, black 15%), linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
             maskImage:
-              "linear-gradient(to right, transparent 0%, black 26%), linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
+              "linear-gradient(to right, transparent 0%, black 15%), linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
             WebkitMaskComposite: "destination-in",
             maskComposite: "intersect",
           }}
@@ -137,8 +137,8 @@ export default async function SnakeDetailPage({
             <DistributionMap
               distribution={snake.distribution}
               snakeId={snake.id}
-              width={540}
-              height={580}
+              width={640}
+              height={680}
             />
           </div>
         </div>
@@ -542,8 +542,8 @@ export default async function SnakeDetailPage({
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Local Effects</h4>
                           <div className="flex flex-wrap gap-2">
-                            {symptomsForDisplay.localEffects.map((symptom) => (
-                              <SymptomChip key={symptom} symptom={symptom} />
+                            {symptomsForDisplay.localEffects.map((symptom, idx) => (
+                              <SymptomChip key={symptom} symptom={symptom} index={idx} />
                             ))}
                           </div>
                         </div>
@@ -555,8 +555,8 @@ export default async function SnakeDetailPage({
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Neurological</h4>
                           <div className="flex flex-wrap gap-2">
-                            {symptomsForDisplay.neurological.map((symptom) => (
-                              <SymptomChip key={symptom} symptom={symptom} />
+                            {symptomsForDisplay.neurological.map((symptom, idx) => (
+                              <SymptomChip key={symptom} symptom={symptom} index={idx} />
                             ))}
                           </div>
                         </div>
@@ -568,8 +568,8 @@ export default async function SnakeDetailPage({
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Blood & Circulation</h4>
                           <div className="flex flex-wrap gap-2">
-                            {symptomsForDisplay.blood.map((symptom) => (
-                              <SymptomChip key={symptom} symptom={symptom} />
+                            {symptomsForDisplay.blood.map((symptom, idx) => (
+                              <SymptomChip key={symptom} symptom={symptom} index={idx} />
                             ))}
                           </div>
                         </div>
@@ -581,8 +581,8 @@ export default async function SnakeDetailPage({
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Muscle & Kidney</h4>
                           <div className="flex flex-wrap gap-2">
-                            {symptomsForDisplay.muscle.map((symptom) => (
-                              <SymptomChip key={symptom} symptom={symptom} />
+                            {symptomsForDisplay.muscle.map((symptom, idx) => (
+                              <SymptomChip key={symptom} symptom={symptom} index={idx} />
                             ))}
                           </div>
                         </div>
@@ -594,8 +594,8 @@ export default async function SnakeDetailPage({
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Gastrointestinal</h4>
                           <div className="flex flex-wrap gap-2">
-                            {symptomsForDisplay.gastrointestinal.map((symptom) => (
-                              <SymptomChip key={symptom} symptom={symptom} />
+                            {symptomsForDisplay.gastrointestinal.map((symptom, idx) => (
+                              <SymptomChip key={symptom} symptom={symptom} index={idx} />
                             ))}
                           </div>
                         </div>
@@ -610,8 +610,8 @@ export default async function SnakeDetailPage({
                         <div>
                           <h4 className="text-sm font-bold text-stone-600 mb-2">Primary Causes of Death</h4>
                           <div className="flex flex-wrap gap-2">
-                            {snake.causesOfDeath.map((cause) => (
-                              <SymptomChip key={cause} symptom={cause} />
+                            {snake.causesOfDeath.map((cause, idx) => (
+                              <SymptomChip key={cause} symptom={cause} index={idx} />
                             ))}
                           </div>
                         </div>
