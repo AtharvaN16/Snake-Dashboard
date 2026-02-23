@@ -178,6 +178,12 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
           >
             {caption}
           </p>
+
+          {images.length > 1 && (
+            <div className="absolute right-[6%] bottom-[5%] text-[10px] text-black/40 opacity-0 transition-opacity duration-200 group-hover:opacity-100 pointer-events-none uppercase tracking-tight font-medium">
+              Click to shuffle ({activeIndex + 1}/{images.length})
+            </div>
+          )}
         </motion.div>
 
         {/* ANCHORED PIN - Outside the moving card so it stays fixed */}
