@@ -438,51 +438,6 @@ export default async function SnakeDetailPage({
         <ImageCandidatePicker snakeId={snake.id} />
       )}
 
-      {/* Gallery Section */}
-      {galleryImages.length > 0 && (
-        <div className="relative z-20 rounded-xl bg-white p-6 mb-6 max-w-[760px]">
-          <h3 className="text-sm font-bold text-[#2c2c2c] mb-4">Additional Images</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {galleryImages.map((imgSrc, idx) => (
-              <div key={idx} className="relative aspect-[4/3] rounded-lg overflow-hidden bg-stone-100">
-                <Image
-                  src={imgSrc}
-                  alt={`${snake.commonName} - view ${idx + 1}`}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform cursor-pointer"
-                  sizes="(max-width: 768px) 50vw, 250px"
-                />
-              </div>
-            ))}
-          </div>
-          
-          {/* Attribution for gallery images if different from primary */}
-          {galleryAttributions.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-stone-200 text-xs text-stone-500">
-              <p className="font-medium mb-2">Gallery image credits:</p>
-              {galleryAttributions.map((attr, idx) => (
-                <p key={idx} className="mb-1">
-                  Image {idx + 1}: {attr.photographer || "Unknown"} ({attr.source})
-                  {attr.licenseUrl && (
-                    <>
-                      {" • "}
-                      <a
-                        href={attr.licenseUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-stone-700 underline"
-                      >
-                        {attr.license}
-                      </a>
-                    </>
-                  )}
-                </p>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
       {/* Main Content Grid */}
       <div className="relative z-20 grid md:grid-cols-3 gap-4">
           {/* Left Column - Danger Score & Venom cards (venomous only) */}
