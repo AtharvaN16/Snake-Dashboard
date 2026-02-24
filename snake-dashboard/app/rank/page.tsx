@@ -275,7 +275,7 @@ function RankPageInner() {
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       const target = e.target as HTMLElement;
-      if (target.closest("input, textarea, select") || target.isContentEditable) return;
+      if (!target || typeof target.closest !== "function" || target.closest("input, textarea, select") || target.isContentEditable) return;
       const key = e.key.toLowerCase();
       if (key === "d") {
         e.preventDefault();
