@@ -679,5 +679,6 @@ export function setupInteractions(ctx: ChartContext): {
     applyRegionFilter: (region: Snake["continent"] | null) => highlightPathsForRegion(region),
     applyVenomFade,
     refreshNodePositions,
+    resetView: resetToDefault,
   };
 }

@@ -53,6 +53,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const viewportRef = useRef<{ cw: number; ch: number; scale0: number; cx: number; cy: number } | null>(null);
   const prevVenomSubsRef = useRef<VenomSubModes>({ classification: false, potency: false, yield: false });
   const refreshNodePositionsRef = useRef<(() => void) | null>(null);
+  const resetViewRef = useRef<(() => void) | null>(null);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [venomSubs, setVenomSubs] = useState<VenomSubModes>({ classification: false, potency: false, yield: false });
   const [selectedRegion, setSelectedRegion] = useState<Snake["continent"] | null>(null);
@@ -486,7 +487,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       x0 = Math.min(x0, px - r); y0 = Math.min(y0, py - r);
       x1 = Math.max(x1, px + r); y1 = Math.max(y1, py + r);
     });
-    const pad = 150;
+    
+    // Mobile-optimized padding for initial zoom
+    const isMobile = window.innerWidth < 1024;
+    const pad = isMobile ? 40 : 150;
     x0 -= pad; y0 -= pad; x1 += pad; y1 += pad;
 
     const cw = Math.max(container.clientWidth, 400);
@@ -544,6 +548,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     applyRegionFilterRef.current = interactions.applyRegionFilter;
     applyVenomFilterRef.current = interactions.applyVenomFade;
     refreshNodePositionsRef.current = interactions.refreshNodePositions;
+    resetViewRef.current = interactions.resetView;
     interactions.updateSpeciesVisibility(scale0);
 
     const bloomDelay = shouldBloom ? bloomTotalDelay : 0;
@@ -831,7 +836,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           onClose={() => setSelectedTaxon(null)}
         />
       )}
-      <div className="absolute top-2 right-2 flex flex-col gap-2 items-end">
+      <div className="absolute top-2 right-2 hidden lg:flex flex-col gap-2 items-end">
         <VenomPills subModes={venomSubs} onChange={setVenomSubs} />
         <RegionPills
           selectedRegion={selectedRegion}
@@ -840,11 +845,19 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           singleColumn
         />
       </div>
-      <p className="absolute bottom-2 left-2 text-xs text-stone-400 pointer-events-none">
+      <p className="absolute bottom-2 left-2 text-xs text-stone-400 pointer-events-none hidden lg:block">
         Drag to pan · Scroll to zoom · Click node to focus ·
         Hover to trace lineage
       </p>
-      <TreeLegend />
+      <button
+        onClick={() => resetViewRef.current?.()}
+        className="absolute bottom-4 left-4 lg:hidden px-4 py-2 bg-white/80 backdrop-blur-sm border border-stone-200 rounded-full text-xs font-semibold text-stone-600 shadow-sm active:bg-stone-100 transition-colors z-20"
+      >
+        Reset View
+      </button>
+      <div className="hidden lg:block">
+        <TreeLegend />
+      </div>
     </div>
   );
 }

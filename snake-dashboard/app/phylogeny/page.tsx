@@ -3,6 +3,7 @@ import { HyperbolicTreeWrapper } from "@/components/Phylogeny/HyperbolicTreeWrap
 import { Kbd } from "@/components/ui/kbd";
 import { getAllSnakes } from "@/lib/snakeData";
 import { buildFullSnakeHierarchy } from "@/lib/snakeTaxonomy";
+import { SnakeDetailMobileHeader } from "@/components/SnakeDetailMobileHeader";
 
 export const metadata = {
   title: "Snake phylogeny (Suborder Serpentes) – Is It Venomous?",
@@ -28,8 +29,10 @@ export default async function GlobalPhylogenyPage({
         body[data-chart-zoomed] [data-hint='back'] { display: none; }
       `}} />
 
+      <SnakeDetailMobileHeader />
+
       {/* Back + keyboard shortcut hints (snake info page style) */}
-      <div className="absolute top-0 left-0 z-20 py-4 px-[68px] flex items-center gap-4 flex-wrap text-sm text-stone-600">
+      <div className="absolute top-0 left-0 z-20 py-4 px-4 lg:px-[68px] hidden lg:flex items-center gap-4 flex-wrap text-sm text-stone-600">
         <span data-hint="back" className="flex items-center gap-2">
           <Kbd triggerKey="Escape">Esc</Kbd>
           <Link
