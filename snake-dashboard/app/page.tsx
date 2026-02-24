@@ -4,24 +4,47 @@ import Link from "next/link";
 import { HomeSearchCard } from "@/components/HomeSearchCard";
 import { Kbd } from "@/components/ui/kbd";
 import { SnakeGame } from "@/components/SnakeGame";
-import { useState } from "react";
+import { PaperAppBackground } from "@/components/PaperAppBackground";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
 
+  // Strictly disable scrolling on the body for the home page
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+    document.body.style.height = "100%";
+
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+    };
+  }, []);
+
   return (
-    <div className="relative min-h-screen px-2 pb-5 pt-4 sm:px-4 sm:pb-6 sm:pt-5 lg:px-[68px] lg:py-8 overflow-hidden">
-      {/* Desktop Logo - Top Left */}
+    <div className="relative h-dvh w-full px-2 sm:px-4 lg:px-[68px] overflow-hidden">
+      <PaperAppBackground />
+      
+      {/* Desktop Easter Egg Logo - Top Left */}
       <div className="hidden lg:block absolute left-[68px] top-8 z-20">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-stone-800 rounded flex items-center justify-center text-white font-bold text-xl">🐍</div>
-          <span className="font-serif text-lg font-bold text-[#2c2c2c] tracking-tight">VNM</span>
-        </div>
+        <SnakeGame 
+          forcedPlaying={isPlaying}
+          onGameStart={() => setIsPlaying(true)} 
+          onGameOver={() => setIsPlaying(false)}
+          onExit={() => setIsPlaying(false)}
+          className="!w-16 !h-16 shadow-lg hover:shadow-xl transition-shadow border-2 border-stone-300/20"
+        />
       </div>
 
-      {/* Nav links */}
+      {/* Nav links - Absolute positioned to stay within viewport without flow issues */}
       {!isPlaying && (
-        <nav className="mx-auto mb-3 flex w-fit items-center gap-3 text-xs font-medium text-stone-600 sm:text-sm lg:absolute lg:right-[68px] lg:top-8 lg:mb-0 lg:gap-4 z-10">
+        <nav className="absolute top-6 left-0 right-0 mx-auto z-20 flex w-fit items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-stone-500 sm:text-xs lg:left-auto lg:right-[68px] lg:top-8 lg:mx-0 lg:gap-4 lg:text-sm lg:font-medium lg:normal-case lg:tracking-normal lg:text-stone-600">
           <span className="flex items-center gap-2">
             <Kbd triggerKey="R" className="hidden lg:inline-flex">R</Kbd>
             <Link
@@ -43,55 +66,42 @@ export default function Home() {
         </nav>
       )}
 
-      <div className="mx-auto flex max-w-2xl flex-col">
-        {/* Header/Game Section */}
-        <div className={`shrink-0 text-center ${isPlaying ? "" : "mb-4 mt-2 lg:mt-2"}`}>
+      {/* Main Content Area - Center aligned relative to viewport */}
+      <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none">
+        <div className="w-full max-w-2xl pointer-events-auto">
           {/* Mobile Header (SNAKES Dot Matrix) */}
           {!isPlaying && (
-            <div className="lg:hidden flex flex-col items-center gap-4 py-4">
-              <SnakeGame isStatic />
-              <h1 className="text-[2.25rem] font-serif font-normal leading-tight text-[#2c2c2c]">
-                Is It Venomous?
-              </h1>
+            <div className="lg:hidden flex flex-col items-center gap-4 mb-8">
+              <SnakeGame isStatic className="!w-24 !h-24" />
             </div>
           )}
 
-          {/* Desktop Snake Game (Hidden on Mobile) */}
-          <div className="hidden lg:block">
-            <SnakeGame 
-              forcedPlaying={isPlaying}
-              onGameStart={() => setIsPlaying(true)} 
-              onGameOver={() => setIsPlaying(false)}
-              onExit={() => setIsPlaying(false)}
-            />
-          </div>
+          {/* Search Card - Centered exactly in the viewport with a slight translate-y on desktop */}
+          {!isPlaying && (
+            <div className="lg:translate-y-16">
+              <HomeSearchCard
+                inputId="main-search"
+                className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col w-full max-h-[70vh]"
+              />
+            </div>
+          )}
         </div>
-
-        {/* Search Card - Pushed down by 20px (lg:mt-5) and hidden when playing */}
-        {!isPlaying && (
-          <div className="lg:mt-5">
-            <HomeSearchCard
-              inputId="main-search"
-              className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col w-full max-h-[70vh]"
-            />
-          </div>
-        )}
-
-        {/* Footer Attribution - Fixed 12px from bottom */}
-        {!isPlaying && (
-          <div className="fixed bottom-[12px] left-0 right-0 text-center text-xs text-stone-600 sm:text-sm z-10 pointer-events-none">
-            <p className="pointer-events-auto">
-              Researched 🔬 by{" "}
-              <a 
-                href="https://github.com" 
-                className="hover:text-stone-900 transition-colors no-underline font-medium"
-              >
-                Atharva
-              </a>
-            </p>
-          </div>
-        )}
       </div>
+
+      {/* Footer Attribution - Desktop Only, Fixed 12px from bottom */}
+      {!isPlaying && (
+        <div className="fixed bottom-[12px] left-0 right-0 text-center text-xs text-stone-600 z-10 pointer-events-none hidden lg:block">
+          <p className="pointer-events-auto">
+            Created by{" "}
+            <a 
+              href="https://github.com" 
+              className="hover:text-stone-900 transition-colors no-underline font-medium"
+            >
+              Atharva
+            </a>
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -82,13 +82,15 @@ export function SnakeGame({
   onGameOver,
   onExit,
   forcedPlaying = false,
-  isStatic = false
+  isStatic = false,
+  className = ""
 }: { 
   onGameStart?: () => void;
   onGameOver?: () => void;
   onExit?: () => void;
   forcedPlaying?: boolean;
   isStatic?: boolean;
+  className?: string;
 }) {
   const [snake, setSnake] = useState<Point[]>([]);
   const [direction, setDirection] = useState<Point>({ x: 0, y: -1 });
@@ -223,12 +225,19 @@ export function SnakeGame({
 
   const gameContent = (
     <div 
-      className={`relative bg-stone-200 p-2 overflow-hidden transition-all duration-500 ${
-        isPlaying ? "w-full h-full" : "w-[100px] h-[100px] rounded-lg shadow-inner"
-      }`}
+      className={`relative bg-stone-200 p-1 overflow-hidden transition-all duration-500 cursor-pointer ${
+        isPlaying ? "w-full h-full p-2 cursor-default" : "w-10 h-10 lg:w-12 lg:h-12 rounded shadow-sm hover:shadow-md hover:bg-stone-300"
+      } ${className}`}
+      onClick={() => {
+        if (!isPlaying && !isStatic) {
+          setIsPlaying(true);
+          setHasStarted(true);
+          onGameStart?.();
+        }
+      }}
     >
       <div 
-        className="grid gap-px h-full w-full"
+        className="grid gap-[0.5px] h-full w-full"
         style={{ 
           gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
           gridTemplateRows: `repeat(${GRID_SIZE}, 1fr)` 
@@ -250,8 +259,8 @@ export function SnakeGame({
           return (
             <div
               key={i}
-              className={`rounded-sm transition-colors duration-75 ${
-                isActive ? "bg-stone-800" : isFood ? "bg-stone-500 animate-pulse" : "bg-stone-300/50"
+              className={`rounded-[0.5px] transition-colors duration-75 ${
+                isActive ? "bg-stone-800" : isFood ? "bg-stone-500 animate-pulse" : "bg-stone-300/30"
               }`}
             />
           );
@@ -263,7 +272,7 @@ export function SnakeGame({
           <h2 className="text-4xl font-black text-stone-800 mb-2">GAME OVER</h2>
           <p className="text-stone-600 mb-6 font-bold text-xl">SCORE: {score}</p>
           <button 
-            onClick={resetGame}
+            onClick={(e) => { e.stopPropagation(); resetGame(); }}
             className="px-8 py-3 bg-white border-4 border-stone-800 text-stone-800 font-black uppercase tracking-tighter shadow-[4px_4px_0px_0px_rgba(44,44,44,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
           >
             TRY AGAIN
@@ -276,32 +285,9 @@ export function SnakeGame({
   if (isStatic) return gameContent;
 
   return (
-    <div className={`flex items-center justify-center transition-all duration-500 ${isPlaying ? "fixed inset-0 z-50 bg-stone-200" : "relative h-[155px]"}`}>
-      {!isPlaying ? (
-        <div className="relative flex flex-col items-center gap-4">
-          {/* Score on the left - top aligned and color-matched */}
-          {hasStarted && (
-            <div className="absolute right-full mr-6 top-0 text-stone-800 font-mono flex flex-col items-center animate-in fade-in slide-in-from-right-4 duration-500" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-              <span className="text-[9px] uppercase tracking-[0.2em] mb-1 opacity-60">Score</span>
-              <span className="text-sm font-bold leading-none">{score}</span>
-            </div>
-          )}
-          
-          {gameContent}
-          <button 
-            onClick={() => {
-              setIsPlaying(true);
-              setHasStarted(true);
-              onGameStart?.();
-            }}
-            className="px-8 py-1.5 bg-white border-[3px] border-stone-800 text-stone-800 font-black uppercase tracking-tight text-sm shadow-[3px_3px_0px_0px_rgba(44,44,44,1)] hover:shadow-none hover:translate-x-[1.5px] hover:translate-y-[1.5px] transition-all flex items-center gap-2"
-          >
-            <span className="px-1.5 py-0.5 rounded bg-stone-800 text-white font-mono shadow-sm text-[10px] min-w-0 h-5 flex items-center justify-center">P</span>
-            PLAY
-          </button>
-        </div>
-      ) : (
-        <>
+    <>
+      {isPlaying ? (
+        <div className="fixed inset-0 z-50 bg-stone-200 flex items-center justify-center">
           {gameContent}
           
           {/* In-Game UI Overlay */}
@@ -326,8 +312,18 @@ export function SnakeGame({
                <span className="text-[10px] font-bold text-stone-500 uppercase tracking-widest">to exit</span>
             </div>
           </div>
-        </>
+        </div>
+      ) : (
+        <div className="flex items-center gap-3">
+          {gameContent}
+          {hasStarted && (
+            <div className="text-stone-400 font-mono text-xl font-bold flex flex-col items-start animate-in fade-in slide-in-from-left-2 duration-500" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+              <span className="text-[8px] uppercase tracking-[0.2em] opacity-60">Score</span>
+              {score}
+            </div>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }
