@@ -9,9 +9,13 @@ import {
   RADIUS,
   BLOOM_BASE_DELAY,
   BLOOM_DURATION,
+  MAX_POTENCY_EXTENSION,
   familyColor,
   RANK_COLORS,
 } from "./treeConstants";
+import { VenomPills } from "./VenomPills";
+import type { VenomSubModes } from "./VenomPills";
+import { getPotencyExtension, getYieldRadius, getPotencyColor, isVenomous } from "./treeVenomLayout";
 import { radialPoint, starburstPath, hexagonPath, roundedSquarePath, diamondPath } from "./treeGeometry";
 import { nodeRadius, fontSize, fontWeight, linkWidth, computeNodeFill } from "./treeNodeStyles";
 import { TreeLegend } from "./TreeLegend";
@@ -41,12 +45,17 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const colorModeRef = useRef<'family' | 'venom'>('family');
   const nodeColorRef = useRef<(n: d3.HierarchyNode<HierarchyNode>) => string>(() => "#94a3b8");
   const isInitialRenderRef = useRef(true);
+  const isInitialVenomRenderRef = useRef(true);
+  const nodeBaseYRef = useRef<Map<string, number>>(new Map());
+  const benchmarkGroupRef = useRef<d3.Selection<SVGGElement, unknown, SVGGElement, unknown> | null>(null);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
-  const [colorMode, setColorMode] = useState<'family' | 'venom'>('family');
+  const [venomSubs, setVenomSubs] = useState<VenomSubModes>({ classification: false, potency: false, yield: false });
   const [selectedRegion, setSelectedRegion] = useState<Snake["continent"] | null>(null);
   const selectedRegionRef = useRef<Snake["continent"] | null>(null);
   selectedRegionRef.current = selectedRegion;
   const applyRegionFilterRef = useRef<((region: Snake["continent"] | null) => void) | null>(null);
+  // colorMode is derived: any active venom sub → 'venom', otherwise 'family'
+  const colorMode: 'family' | 'venom' = (venomSubs.classification || venomSubs.potency || venomSubs.yield) ? 'venom' : 'family';
   colorModeRef.current = colorMode;
 
   // Create a lookup map for snake data by id
@@ -86,23 +95,28 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const isSpecies = (d: d3.HierarchyNode<HierarchyNode>) => d.data.rank === "species";
 
   const nodeColor = useCallback((n: d3.HierarchyNode<HierarchyNode>): string => {
-    if (colorMode === 'venom' && isSpecies(n) && n.data.id) {
+    if (isSpecies(n) && n.data.id) {
       const snake = snakeMap.get(n.data.id);
-      if (snake?.venomClassification) {
+      // Potency wins over classification when active (they're mutually exclusive via VenomPills toggle)
+      if (venomSubs.potency) {
+        return getPotencyColor(snake?.dangerScoreComponents?.potencyScore ?? 0);
+      }
+      if (venomSubs.classification && snake?.venomClassification) {
         return venomClassificationColors[snake.venomClassification] ?? "#94a3b8";
       }
+      // yield-only: fall through to family colors (size encodes yield, not color)
     }
     const rank = n.data.rank;
     if (rank && RANK_COLORS[rank]) return RANK_COLORS[rank];
-    
-    function familyOf(n: d3.HierarchyNode<HierarchyNode>): string | null {
-      for (let c: typeof n | null = n; c; c = c.parent)
+
+    function familyOf(node: d3.HierarchyNode<HierarchyNode>): string | null {
+      for (let c: typeof node | null = node; c; c = c.parent)
         if (c.data.rank === "family") return c.data.name;
       return null;
     }
     const f = familyOf(n);
     return f ? familyColor(f) : "#94a3b8";
-  }, [colorMode, snakeMap]);
+  }, [venomSubs, snakeMap]);
   nodeColorRef.current = nodeColor;
 
   useEffect(() => {
@@ -231,6 +245,14 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const allLinks = root.links();
     const nodePoints = allNodes.map(n => radialPoint((n as any).x, (n as any).y));
 
+    // Store base Y (radius) for all species — used by the venom potency effect to compute extensions
+    nodeBaseYRef.current = new Map();
+    allNodes.forEach(n => {
+      if (n.data.rank === 'species' && n.data.id) {
+        nodeBaseYRef.current.set(n.data.id, (n as any).y);
+      }
+    });
+
     // --- Ancestor lookup for path highlighting ---
     const nodeToAncestors = new Map<
       d3.HierarchyNode<HierarchyNode>,
@@ -260,6 +282,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     });
 
     const g = svg.append("g");
+
+    // Benchmark group (rendered behind all nodes) — populated by the venom potency effect
+    benchmarkGroupRef.current = g.insert("g", ":first-child") as unknown as d3.Selection<SVGGElement, unknown, SVGGElement, unknown>;
 
     // --- Links: node centers; magnetic repulsion except for links within a family (family + its child branches) ---
     const linkGen = d3
@@ -569,6 +594,130 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
   }, [colorMode, nodeColor, currentSnakeId]);
 
+  // Effect for venom geometry encoding — potency extends branches, yield scales node radii
+  useEffect(() => {
+    if (isInitialVenomRenderRef.current) {
+      isInitialVenomRenderRef.current = false;
+      return;
+    }
+    const svg = d3.select(svgRef.current);
+    if (!svg.node() || !svg.selectAll(".node").size()) return;
+
+    const { potency, yield: yieldActive } = venomSubs;
+    const DURATION = 600;
+    const ease = d3.easeCubicInOut;
+    const BASE_RADIUS = 28;
+
+    type SpeciesData = d3.HierarchyPointNode<HierarchyNode>;
+
+    // 1. Compute target positions and radii for each species node
+    const speciesUpdates = new Map<string, { newY: number; newR: number }>();
+    svg.selectAll<SVGGElement, SpeciesData>(".species-node").each(d => {
+      if (!d.data.id) return;
+      const snake = snakeMap.get(d.data.id);
+      const venomousNode = isVenomous(snake);
+      const baseY = nodeBaseYRef.current.get(d.data.id) ?? (d as any).y;
+      const extension = potency && venomousNode ? getPotencyExtension(snake) : 0;
+      const newY = baseY + extension;
+      const newR = yieldActive && venomousNode ? getYieldRadius(snake, BASE_RADIUS) : BASE_RADIUS;
+      speciesUpdates.set(d.data.id, { newY, newR });
+    });
+
+    // 2. Apply position and radius transitions to each species node
+    svg.selectAll<SVGGElement, SpeciesData>(".species-node").each(function(d) {
+      if (!d.data.id) return;
+      const update = speciesUpdates.get(d.data.id);
+      if (!update) return;
+
+      // Store current target Y on node datum for link redraw
+      (d as any)._currentY = update.newY;
+
+      const [nx, ny] = radialPoint((d as any).x, update.newY);
+      d3.select(this)
+        .transition("venom-layout").duration(DURATION).ease(ease)
+        .attr("transform", `translate(${nx},${ny})`);
+
+      d3.select(this).select("circle")
+        .transition("venom-layout").duration(DURATION).ease(ease)
+        .attr("r", update.newR);
+    });
+
+    // 3. Redraw species links to follow extended node positions
+    const linkRadialGen = d3
+      .linkRadial<d3.HierarchyPointLink<HierarchyNode>, d3.HierarchyPointNode<HierarchyNode>>()
+      .angle((d: any) => d.x)
+      .radius((d: any) => (d as any)._currentY ?? (d as any).y);
+
+    svg.selectAll<SVGPathElement, d3.HierarchyPointLink<HierarchyNode>>(".species-link")
+      .transition("venom-layout").duration(DURATION).ease(ease)
+      .attrTween("d", function(link) {
+        const startD = this.getAttribute("d") ?? "";
+        const endD = linkRadialGen(link) ?? "";
+        const interpolator = d3.interpolateString(startD, endD);
+        return (t: number) => interpolator(t);
+      });
+
+    // 4. Fade non-venomous species when potency or yield is active
+    svg.selectAll<SVGGElement, SpeciesData>(".species-node")
+      .transition("venom-fade").duration(DURATION).ease(ease)
+      .style("opacity", (d) => {
+        if (!(potency || yieldActive)) return "1";
+        const snake = d.data.id ? snakeMap.get(d.data.id) : undefined;
+        return isVenomous(snake) ? "1" : "0.15";
+      });
+
+    // 5. Update node colors (potency color scale or classification or family)
+    svg.selectAll<SVGGElement, SpeciesData>(".node").each(function(d) {
+      const shape = d3.select(this).select<SVGElement>("circle, path");
+      shape.interrupt("color");
+      const newColor = nodeColor(d);
+      const fill = computeNodeFill(d, nodeColor, colorMode, currentSnakeId);
+      shape.transition("color").duration(500).attr("fill", fill).attr("stroke", newColor);
+    });
+
+    // 6. Update link gradients for new colors
+    const defsEl = svg.select("defs");
+    if (defsEl.node()) {
+      defsEl.selectAll<SVGLinearGradientElement, d3.HierarchyPointLink<HierarchyNode>>("linearGradient")
+        .each(function(d) {
+          if (!d || !d.source || !d.target) return;
+          d3.select(this).selectAll("stop")
+            .interrupt("color")
+            .transition("color").duration(500)
+            .attr("stop-color", (_: unknown, i: number) => nodeColor(i === 0 ? d.source : d.target));
+        });
+    }
+
+    // 7. Potency benchmark ring — dashed circle at Inland Taipan's max-extended radius
+    const benchGroup = benchmarkGroupRef.current;
+    if (benchGroup) {
+      if (potency) {
+        const taipanBaseY = nodeBaseYRef.current.get("inland-taipan") ?? RADIUS;
+        const benchmarkR = taipanBaseY + MAX_POTENCY_EXTENSION;
+        let ring = benchGroup.select<SVGCircleElement>(".potency-benchmark-ring");
+        if (ring.empty()) {
+          ring = benchGroup.append("circle")
+            .attr("class", "potency-benchmark-ring")
+            .attr("r", benchmarkR)
+            .attr("fill", "none")
+            .attr("stroke", "rgba(106, 5, 114, 0.18)")
+            .attr("stroke-width", 2.5)
+            .attr("stroke-dasharray", "14,7")
+            .attr("opacity", 0) as unknown as d3.Selection<SVGCircleElement, unknown, SVGGElement, unknown>;
+        }
+        (ring as d3.Selection<SVGCircleElement, unknown, SVGGElement, unknown>)
+          .transition("venom-benchmark").duration(DURATION).ease(ease)
+          .attr("opacity", 1);
+      } else {
+        benchGroup.select<SVGCircleElement>(".potency-benchmark-ring")
+          .transition("venom-benchmark").duration(DURATION).ease(ease)
+          .attr("opacity", 0)
+          .on("end", function() { d3.select(this).remove(); });
+      }
+    }
+
+  }, [venomSubs, snakeMap, nodeColor, colorMode, currentSnakeId]);
+
   return (
     <div
       ref={containerRef}
@@ -589,16 +738,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         />
       )}
       <div className="absolute top-2 right-2 flex flex-col gap-2 items-end">
-        <button
-          onClick={() => setColorMode((m) => (m === 'venom' ? 'family' : 'venom'))}
-          className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-            colorMode === 'venom'
-              ? 'bg-stone-800 text-white shadow-sm'
-              : 'bg-white/80 text-stone-600 hover:text-stone-800 border border-stone-200/50 backdrop-blur-sm'
-          }`}
-        >
-          Venom
-        </button>
+        <VenomPills subModes={venomSubs} onChange={setVenomSubs} />
         <RegionPills
           selectedRegion={selectedRegion}
           onChange={setSelectedRegion}
