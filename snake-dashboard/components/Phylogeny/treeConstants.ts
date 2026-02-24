@@ -15,7 +15,7 @@ export const BLOOM_BASE_DELAY = 200;
 export const BLOOM_DURATION = 600;
 
 /** Maximum radial extension (in tree units) for the highest-potency species (Inland Taipan, score 100). */
-export const MAX_POTENCY_EXTENSION = 1200;
+export const MAX_POTENCY_EXTENSION = 1800;
 
 // Pinned family → color map (stable regardless of insertion order)
 export const FAMILY_COLOR_MAP: Record<string, string> = {

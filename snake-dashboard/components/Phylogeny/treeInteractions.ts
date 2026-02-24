@@ -91,6 +91,9 @@ export function setupInteractions(ctx: ChartContext): {
   }
 
   function getEffectiveHighlightedNodes(): Set<d3.HierarchyNode<HierarchyNode>> {
+    // When hovering, show the hover lineage path — not the full region set.
+    // This ensures labels and opacities outside the lineage fade correctly in region view.
+    if (hoveredNode && currentHighlightedNodes.size > 0) return currentHighlightedNodes;
     if (regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0)
       return regionHighlightPathNodes;
     return currentHighlightedNodes;
@@ -307,8 +310,6 @@ export function setupInteractions(ctx: ChartContext): {
     const { fill, fillOpacity } = getNodeHoverStyle(getColorMode(), d, currentNodeColor(), currentSnakeId);
     d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", fillOpacity);
     if (searchHighlightNode && d === searchHighlightNode) return;
-    // Show highlight label only at default zoom; when zoomed in, skip to avoid duplicating ext-labels
-    if (zoomScaleRef.current > scale0 * 1.001) return;
     hoverLabel = createLabel(g, d, "hover-label");
   }
 

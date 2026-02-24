@@ -603,7 +603,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const svg = d3.select(svgRef.current);
     if (!svg.node() || !svg.selectAll(".node").size()) return;
 
-    const { potency, yield: yieldActive } = venomSubs;
+    const { classification, potency, yield: yieldActive } = venomSubs;
     const DURATION = 600;
     const ease = d3.easeCubicInOut;
     const BASE_RADIUS = 28;
@@ -623,16 +623,56 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       speciesUpdates.set(d.data.id, { newY, newR });
     });
 
-    // 2. Apply position and radius transitions to each species node
+    // 2. Run D3 force simulation when yield is active to spread nodes angularly,
+    //    preventing large circles from overlapping their neighbors.
+    if (yieldActive) {
+      interface ForceNode extends d3.SimulationNodeDatum {
+        id: string;
+        r: number;
+        baseRadius: number;
+      }
+      const forceNodes: ForceNode[] = [];
+      svg.selectAll<SVGGElement, SpeciesData>(".species-node").each(d => {
+        if (!d.data.id) return;
+        const update = speciesUpdates.get(d.data.id);
+        if (!update) return;
+        const [cx, cy] = radialPoint((d as any).x, update.newY);
+        forceNodes.push({ id: d.data.id, x: cx, y: cy, r: update.newR, baseRadius: update.newY });
+      });
+      if (forceNodes.length > 0) {
+        const sim = d3.forceSimulation<ForceNode>(forceNodes)
+          .force("collide", d3.forceCollide<ForceNode>(n => n.r + 6).strength(0.8))
+          .force("radial", d3.forceRadial<ForceNode>(n => n.baseRadius, 0, 0).strength(1.0))
+          .alphaDecay(0.05)
+          .stop();
+        for (let i = 0; i < 100; i++) sim.tick();
+        const forceMap = new Map<string, ForceNode>(forceNodes.map(n => [n.id, n]));
+        // Convert back to polar: our convention radialPoint(a, r) = (r·cos(a−π/2), r·sin(a−π/2))
+        // so angle = atan2(y, x) + π/2
+        svg.selectAll<SVGGElement, SpeciesData>(".species-node").each(d => {
+          if (!d.data.id) return;
+          const fn = forceMap.get(d.data.id);
+          if (!fn) return;
+          (d as any)._currentAngle = Math.atan2(fn.y!, fn.x!) + Math.PI / 2;
+        });
+      }
+    } else {
+      // Clear force-adjusted angles so nodes return to their original angular positions
+      svg.selectAll<SVGGElement, SpeciesData>(".species-node").each(d => {
+        delete (d as any)._currentAngle;
+      });
+    }
+
+    // 3. Apply position and radius transitions to each species node
     svg.selectAll<SVGGElement, SpeciesData>(".species-node").each(function(d) {
       if (!d.data.id) return;
       const update = speciesUpdates.get(d.data.id);
       if (!update) return;
 
-      // Store current target Y on node datum for link redraw
+      // Store current target Y and angle on node datum for link redraw
       (d as any)._currentY = update.newY;
-
-      const [nx, ny] = radialPoint((d as any).x, update.newY);
+      const angle = (d as any)._currentAngle ?? (d as any).x;
+      const [nx, ny] = radialPoint(angle, update.newY);
       d3.select(this)
         .transition("venom-layout").duration(DURATION).ease(ease)
         .attr("transform", `translate(${nx},${ny})`);
@@ -642,10 +682,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         .attr("r", update.newR);
     });
 
-    // 3. Redraw species links to follow extended node positions
+    // 4a. Redraw species links to follow force-adjusted positions
     const linkRadialGen = d3
       .linkRadial<d3.HierarchyPointLink<HierarchyNode>, d3.HierarchyPointNode<HierarchyNode>>()
-      .angle((d: any) => d.x)
+      .angle((d: any) => (d as any)._currentAngle ?? d.x)
       .radius((d: any) => (d as any)._currentY ?? (d as any).y);
 
     svg.selectAll<SVGPathElement, d3.HierarchyPointLink<HierarchyNode>>(".species-link")
@@ -657,11 +697,11 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         return (t: number) => interpolator(t);
       });
 
-    // 4. Fade non-venomous species when potency or yield is active
+    // 4b. Fade non-venomous species when any venom sub-mode is active
     svg.selectAll<SVGGElement, SpeciesData>(".species-node")
       .transition("venom-fade").duration(DURATION).ease(ease)
       .style("opacity", (d) => {
-        if (!(potency || yieldActive)) return "1";
+        if (!(potency || yieldActive || classification)) return "1";
         const snake = d.data.id ? snakeMap.get(d.data.id) : undefined;
         return isVenomous(snake) ? "1" : "0.15";
       });

@@ -133,6 +133,14 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
 
         // Higher ranks: show ext-label when in-node text is too small
         if (!isHigherRank) return;
+
+        // When hovering, show ancestor labels for every node in the lineage path
+        if (hoverActive && highlightedNodes.has(nd) && !isClickFocused && !isSearchHighlighted) {
+          inNodeText.attr("opacity", 0);
+          addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true }, labelOpacityFor(nd));
+          return;
+        }
+
         const fs = fontSize(nd);
         const screenPx = fs * scale;
         const isDirectChildOfHenophidia =

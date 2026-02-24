@@ -8,7 +8,10 @@ import { MAX_POTENCY_EXTENSION } from "./treeConstants";
  */
 export function getPotencyExtension(snake: Snake | undefined): number {
   const score = snake?.dangerScoreComponents?.potencyScore ?? 0;
-  return (score / 100) * MAX_POTENCY_EXTENSION;
+  const t = score / 100;
+  // Quadratic curve amplifies top-end differences: Inland Taipan (100) vs King Cobra (43)
+  // becomes 100% vs 18% of MAX_POTENCY_EXTENSION instead of 100% vs 43%.
+  return Math.pow(t, 2) * MAX_POTENCY_EXTENSION;
 }
 
 /**
