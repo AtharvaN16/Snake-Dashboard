@@ -7,9 +7,9 @@ import { type ComponentPropsWithoutRef } from "react";
  * When triggerKey is set, clicking the indicator dispatches that key so global handlers run.
  */
 const kbdClass =
-  "px-1.5 py-0.5 rounded bg-stone-200 text-stone-800 font-mono shadow-sm cursor-default";
+  "px-1.5 py-0.5 rounded bg-stone-300 text-stone-950 font-mono shadow-sm cursor-default";
 
-const kbdButtonClass = kbdClass + " cursor-pointer hover:bg-stone-300 transition-colors";
+const kbdButtonClass = kbdClass + " cursor-pointer hover:bg-stone-400 transition-colors";
 
 function dispatchKey(key: string) {
   window.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));

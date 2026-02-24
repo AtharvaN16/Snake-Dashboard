@@ -30,6 +30,14 @@ export function normalizeLD50ToSC(
 }
 
 /**
+ * Raw lethal doses per bite for a 70kg human.
+ */
+export function calculateLethalDosesRaw(ld50Sc: number, yieldMg: number): number {
+  if (ld50Sc <= 0 || yieldMg <= 0) return 0;
+  return yieldMg / (ld50Sc * HUMAN_BODY_WEIGHT_KG);
+}
+
+/**
  * Potency score from SC-equivalent LD50 (log-scale).
  * Lower LD50 = more potent = higher score. Clamped [0, 100].
  * Kept for venom classification derivation and display.
@@ -347,7 +355,14 @@ export function getDeliveryModifier(
  */
 export function computeDangerScoreForSnake(snake: Snake): Snake {
   // 1. Base check for non-venomous
-  if (snake.venomClassification === "Non-venomous" && !snake.clinicalData) {
+  // Skip early return if it's a large constrictor that needs a minimum score
+  const isLargeConstrictor = 
+    snake.constrictor && 
+    snake.maxLength && 
+    snake.maxLength.value >= 3 && 
+    snake.maxLength.unit === "m";
+
+  if (snake.venomClassification === "Non-venomous" && !snake.clinicalData && !isLargeConstrictor) {
     return {
       ...snake,
       dangerScore: 0,
@@ -429,7 +444,14 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
   const deliveryModifier = getDeliveryModifier(snake.fangType, venomClassification);
 
   // 5. Compute Final Score
-  const dangerScore = calculateDangerScore(components, deliveryModifier);
+  let dangerScore = calculateDangerScore(components, deliveryModifier);
+
+  // 6. Handle Large Constrictors
+  // Even if non-venomous, large snakes (>= 3m) pose a physical danger (trauma/constriction)
+  // and shouldn't be dismissed with a 0 score.
+  if (isLargeConstrictor) {
+    dangerScore = Math.max(dangerScore, 5);
+  }
 
   return {
     ...snake,

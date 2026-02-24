@@ -28,12 +28,12 @@ export function SearchModal() {
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/40 z-40"
+        className="fixed inset-0 bg-black/40 z-[100]"
         aria-hidden
         onClick={closeModal}
       />
       <div
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl h-[85vh] mx-4"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-full max-w-2xl h-[85vh] mx-4"
         role="dialog"
         aria-modal="true"
         aria-label="Search snakes"

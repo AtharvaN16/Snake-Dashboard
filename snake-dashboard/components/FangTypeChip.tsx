@@ -1,25 +1,31 @@
-import type { FangType } from "@/lib/types";
+import type { FangType, Snake } from "@/lib/types";
 
 interface FangTypeChipProps {
   fangType: FangType;
+  venomousClassification?: Snake["venomClassification"];
   className?: string;
 }
 
-const pillStyle = {
-  padding: "4px 8px",
-  display: "inline-flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "4px",
-  borderRadius: "4px",
-  backgroundColor: "#E5E5E5",
-  color: "#000",
-};
+export function FangTypeChip({ fangType, venomousClassification, className }: FangTypeChipProps) {
+  const isRearFangedMildlyVenomous = 
+    fangType === "Rear fangs" && 
+    venomousClassification === "Mildly Venomous";
 
-export function FangTypeChip({ fangType, className }: FangTypeChipProps) {
   return (
-    <span className={className} style={pillStyle}>
-      <span className="font-semibold text-sm">{fangType}</span>
+    <span 
+      className={className} 
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        fontFamily: "var(--font-pangram-compact), system-ui, sans-serif",
+        fontWeight: 400,
+        fontSize: "14px",
+        textTransform: "uppercase",
+        letterSpacing: "0.05em",
+        color: "#555",
+      }}
+    >
+      <span>{fangType}{isRearFangedMildlyVenomous ? " (requires chewing)" : ""}</span>
     </span>
   );
 }

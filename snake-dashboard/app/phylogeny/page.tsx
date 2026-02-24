@@ -20,7 +20,7 @@ export default async function GlobalPhylogenyPage({
   const root = buildFullSnakeHierarchy(snakes);
 
   return (
-    <div className="fixed inset-0 flex flex-col bg-background">
+    <div className="fixed inset-0 flex flex-col">
       {/* CSS-driven pill visibility based on body[data-chart-zoomed] */}
       <style dangerouslySetInnerHTML={{ __html: `
         [data-hint='zoom-out'] { display: none; }

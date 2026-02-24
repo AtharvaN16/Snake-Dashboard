@@ -6,7 +6,7 @@ import { Kbd } from "@/components/ui/kbd";
 
 export default function Home() {
   return (
-    <div className="h-screen overflow-hidden bg-background py-8 px-[68px] relative">
+    <div className="h-screen overflow-hidden py-8 px-[68px] relative">
       {/* Top right: keyboard shortcut labels */}
       <nav className="absolute top-8 right-[68px] flex items-center gap-4 flex-wrap text-sm text-stone-600 shrink-0">
         <span className="flex items-center gap-2">

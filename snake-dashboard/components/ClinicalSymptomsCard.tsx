@@ -1,0 +1,241 @@
+"use client";
+
+import { useState, useMemo, memo } from "react";
+import { motion } from "framer-motion";
+import type { Snake, ClinicalData } from "@/lib/types";
+import { calculateClinicalScore } from "@/lib/dangerScore";
+import { ScoreTooltip, type TooltipRow } from "./ScoreTooltip";
+
+type SymptomsMap = NonNullable<Snake["symptoms"]>;
+
+interface ClinicalSymptomsCardProps {
+  symptoms: SymptomsMap;
+  causesOfDeath?: string[];
+  clinicalData?: ClinicalData;
+}
+
+const KEY_LABELS: Record<string, string> = {
+  localEffects: "Local Effects",
+  neurological: "Neurological",
+  blood: "Blood",
+  muscle: "Muscle",
+  gastrointestinal: "Gastrointestinal",
+};
+
+const CONTENT_H = 850;
+const CARD_H = CONTENT_H;
+const EASE = [0.32, 0.72, 0, 1] as const;
+
+const COMPRESSED = "var(--font-pangram-compressed), system-ui, sans-serif";
+const COMPACT = "var(--font-pangram-compact), system-ui, sans-serif";
+
+const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ symptoms, causesOfDeath, clinicalData }: ClinicalSymptomsCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const sections = useMemo(() => {
+    type Section = { label: string; values: string[] };
+    const items: Section[] = [];
+
+    for (const [key, list] of Object.entries(symptoms)) {
+      if (!Array.isArray(list) || list.length === 0 || (list.length === 1 && list[0] === "N/A")) continue;
+      const label = KEY_LABELS[key] ?? key.replace(/([A-Z])/g, " $1");
+      items.push({ label, values: list });
+    }
+    if (causesOfDeath && causesOfDeath.length > 0) {
+      items.push({ label: "Causes of Death", values: causesOfDeath });
+    }
+    return items;
+  }, [symptoms, causesOfDeath]);
+
+  if (sections.length === 0 && !clinicalData) return null;
+
+  return (
+    <div
+      className="fixed bottom-[-40px] left-[68px] z-40 w-[45%] max-w-[520px] min-w-[300px] hover:z-[60] transition-[z-index] delay-300 duration-0 pointer-events-none"
+    >
+      <motion.div
+        onClick={() => setIsExpanded(!isExpanded)}
+        initial={{ y: 800 }}
+        animate={{ y: isExpanded ? 80 : 710 }}
+        whileHover={{ 
+          y: isExpanded ? 80 : 700,
+          transition: { delay: 0.3, duration: 0.2, ease: "easeOut" }
+        }}
+        transition={{ ease: EASE, duration: 0.6 }}
+        className="relative flex flex-col cursor-pointer select-none will-change-transform pointer-events-auto"
+        style={{ height: CARD_H }}
+      >
+        {/* Receipt paper background */}
+        <div
+          aria-hidden
+          className="absolute pointer-events-none select-none"
+          style={{
+            top: -48,
+            left: -48,
+            right: -48,
+            bottom: -200,
+            backgroundImage: "url('/paper/receipt-no-title.png')",
+            backgroundSize: "100% auto",
+            backgroundPosition: "center top",
+            backgroundRepeat: "no-repeat",
+            filter: "drop-shadow(0 -20px 50px rgba(0,0,0,0.22))",
+          }}
+        />
+
+        {/* Severity stamp — top-left, decorative */}
+        {clinicalData && (() => {
+          const stampFile =
+            clinicalData.severity === "Life-threatening" ? "Life-threatening-Stamp.png" :
+            clinicalData.severity === "Severe" ? "Severe-Stamp.png" :
+            clinicalData.severity === "Moderate" ? "Moderate-Stamp.png" :
+            clinicalData.severity === "Mild" ? "Mild-Stamp.png" :
+            "Negligible-Stamp.png";
+          return (
+            <img
+              src={`/stamps/${stampFile}`}
+              alt={clinicalData.severity}
+              aria-hidden
+              className="absolute pointer-events-none select-none z-20"
+              style={{
+                width: "110px",
+                top: "2px",
+                left: "2px",
+                transform: "rotate(-8deg)",
+                opacity: 0.92,
+              }}
+            />
+          );
+        })()}
+
+        {/* Content */}
+        <div
+          className="relative z-10 flex-1 px-12 pt-10 pb-32"
+        >
+          {/* Title */}
+          <h2
+            className="mb-8 text-center"
+            style={{
+              fontFamily: COMPRESSED,
+              fontWeight: 800,
+              fontSize: "36px",
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              color: "#2c2c2c",
+              lineHeight: 1,
+            }}
+          >
+            Clinical Severity
+          </h2>
+
+          <motion.div
+            animate={{ opacity: isExpanded ? 1 : 0.4 }}
+            className="transition-opacity duration-300"
+          >
+            {/* Clinical Severity Header */}
+            {clinicalData && (() => {
+              const clinicalScore = calculateClinicalScore(clinicalData);
+              const midCfr = (clinicalData.untreatedFatalityRate.low + clinicalData.untreatedFatalityRate.high) / 2;
+              const base = Math.sqrt(midCfr / 100) * 100;
+              const morbidityBonus =
+                clinicalData.severity === "Life-threatening" ? 20 :
+                clinicalData.severity === "Severe" ? 10 :
+                clinicalData.severity === "Moderate" ? 5 : 0;
+              const whoBonus = clinicalData.whoCategory === 1 ? 10 : clinicalData.whoCategory === 2 ? 5 : 0;
+              const b = (val: number | string) => <span style={{ fontWeight: 700, color: '#1c1917' }}>{val}</span>;
+              const tooltipRows: TooltipRow[] = [
+                { type: "header", text: "Clinical Score" },
+                { type: "desc", text: "How often does an untreated bite kill? Real-world outcome data, not lab estimates." },
+                { type: "spacer" },
+                {
+                  type: "formula",
+                  left: <>({b(clinicalData.untreatedFatalityRate.low)} + {b(clinicalData.untreatedFatalityRate.high)}) / 2</>,
+                  right: `${midCfr}%`,
+                },
+                {
+                  type: "formula",
+                  left: <>√({b(midCfr)} / 100) × 100</>,
+                  right: `${base.toFixed(0)} pts`,
+                },
+                { type: "note", text: "√ compresses the top end — a 25% CFR isn't 4× safer than 100%. The scale reflects how bite risk actually curves in practice." },
+              ];
+              if (morbidityBonus > 0 || whoBonus > 0) {
+                tooltipRows.push({ type: "section", text: "Additive Bonuses" });
+                tooltipRows.push({ type: "desc", text: "Stacked on top of the CFR base to capture danger not in the fatality rate: severity of injury, systemic damage, and medical burden." });
+                if (morbidityBonus > 0) tooltipRows.push({ type: "formula", left: `Severity (${clinicalData.severity})`, right: `+${morbidityBonus}` });
+                if (whoBonus > 0) tooltipRows.push({ type: "formula", left: `WHO Category ${clinicalData.whoCategory}`, right: `+${whoBonus}` });
+                tooltipRows.push({ type: "note", text: "Prevents high-morbidity snakes (e.g. Puff Adder — severe necrosis, rare fatality) from scoring too low just because they rarely kill outright." });
+              }
+              tooltipRows.push({ type: "result", left: "Score", right: `${clinicalScore}/100` });
+
+              return (
+                <div className="mb-6 border-b border-dashed border-stone-300 pb-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Fatality (Untreated)</div>
+                      <div className="text-lg font-bold text-stone-800 tabular-nums">
+                        {clinicalData.untreatedFatalityRate.low}–{clinicalData.untreatedFatalityRate.high}%
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">WHO Importance</div>
+                      <div className="text-lg font-bold text-stone-800 uppercase">
+                        {clinicalData.whoCategory ? `Cat. ${clinicalData.whoCategory}` : "—"}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <ScoreTooltip rows={tooltipRows} anchor="left" width={268}>
+                        <div>
+                          <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Clinical Score</div>
+                          <div className="tabular-nums leading-none">
+                            <span style={{ fontFamily: COMPRESSED, fontWeight: 800, fontSize: "36px", color: "#1c1917" }}>{clinicalScore}</span>
+                            <span className="text-sm font-normal text-stone-400">/100</span>
+                          </div>
+                        </div>
+                      </ScoreTooltip>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Sections */}
+            <div className="space-y-6">
+              {sections.map((section, i) => (
+                <div key={i} className="flex flex-col gap-1">
+                  <span
+                    style={{
+                      fontFamily: COMPRESSED,
+                      fontWeight: 800,
+                      fontSize: "20px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      color: "#2c2c2c",
+                    }}
+                  >
+                    {section.label}
+                  </span>
+                  <p
+                    style={{
+                      fontFamily: COMPACT,
+                      fontWeight: 400,
+                      fontSize: "14px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                      color: "#555",
+                      lineHeight: "1.4",
+                    }}
+                  >
+                    {section.values.join(", ")}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+    </div>
+  );
+});
+
+export { ClinicalSymptomsCardComponent as ClinicalSymptomsCard };
+export default ClinicalSymptomsCardComponent;

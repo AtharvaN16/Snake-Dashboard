@@ -30,9 +30,22 @@ const pillStyle = {
 export function VenomYieldChip({ yield: venomYield, className }: VenomYieldChipProps) {
   const drops = yieldToDrops[venomYield.qualitative];
   return (
-    <span className={className} style={pillStyle}>
-      <YieldIcon drops={drops} className="shrink-0" />
-      <span className="font-semibold text-sm">{venomYield.qualitative}</span>
+    <span 
+      className={className} 
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "6px",
+        fontFamily: "var(--font-pangram-compact), system-ui, sans-serif",
+        fontWeight: 400,
+        fontSize: "14px",
+        textTransform: "uppercase",
+        letterSpacing: "0.05em",
+        color: "#555",
+      }}
+    >
+      <YieldIcon drops={drops} className="shrink-0 opacity-70" />
+      <span>{venomYield.qualitative}</span>
     </span>
   );
 }

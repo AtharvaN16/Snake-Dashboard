@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useMemo, useState } from "react";
 import * as d3 from "d3";
+import { motion, useSpring, useTransform, animate } from "framer-motion";
 import { getIntrinsicWeights, getEncounterModifier, getSpeedModifier, getDeliveryModifier } from "@/lib/dangerScore";
 import type { DangerScoreComponents, Snake } from "@/lib/types";
 
@@ -36,6 +37,7 @@ const COLORS = {
   deliveryHover: "#a78bfa",
   encounter: "#e11d48",
   encounterHover: "#f43f5e",
+  delivery: "#8b5cf6",
   final: "#44403c",
   finalHover: "#57534e",
 };
@@ -125,6 +127,16 @@ export function DangerScoreWaterfall({
 }: DangerScoreWaterfallProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // --- Count-up Animation for Header ---
+  const count = useSpring(0, { stiffness: 45, damping: 15 });
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+
+  useEffect(() => {
+    count.set(dangerScore);
+    setIsLoaded(true);
+  }, [dangerScore, count]);
 
   const steps = useMemo(() => 
     buildSteps(components, dangerScore, venomClassification, fangType), 
@@ -169,27 +181,6 @@ export function DangerScoreWaterfall({
       .call((g) => g.select(".domain").remove())
       .call((g) => g.selectAll("text").attr("fill", "#a8a29e").style("font-size", "9px"));
 
-    // Connector lines
-    for (let i = 0; i < steps.length - 2; i++) {
-      const from = steps[i];
-      const to = steps[i + 1];
-      g.append("line")
-        .attr("x1", (x(from.key) ?? 0) + x.bandwidth())
-        .attr("x2", x(to.key) ?? 0)
-        .attr("y1", y(from.cumEnd))
-        .attr("y2", y(to.cumStart))
-        .attr("stroke", "#d6d3d1").attr("stroke-dasharray", "3,2").attr("stroke-width", 1);
-    }
-
-    // Connector from encounter bottom to final top
-    const encStep = steps.find((s) => s.key === "encounter")!;
-    g.append("line")
-      .attr("x1", (x("encounter") ?? 0) + x.bandwidth())
-      .attr("x2", x("final") ?? 0)
-      .attr("y1", y(encStep.cumStart))
-      .attr("y2", y(dangerScore))
-      .attr("stroke", "#d6d3d1").attr("stroke-dasharray", "3,2").attr("stroke-width", 1);
-
     // Diagonal stripe pattern for modifiers
     const defs = svg.append("defs");
     defs.append("pattern")
@@ -200,32 +191,78 @@ export function DangerScoreWaterfall({
       .attr("d", "M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2")
       .attr("stroke", "rgba(255,255,255,0.25)").attr("stroke-width", 1);
 
-    // Bars
-    steps.forEach((step) => {
+    // Bars & Connectors
+    steps.forEach((step, i) => {
       const bx = x(step.key) ?? 0;
       const barH = Math.max(2, Math.abs(y(step.cumStart) - y(step.cumEnd)));
       const by = y(Math.max(step.cumStart, step.cumEnd));
 
-      // Bar rect
+      // 1. Draw Bar with staggered entry
       const rect = g.append("rect")
         .attr("x", bx).attr("y", by)
         .attr("width", x.bandwidth())
-        .attr("height", barH)
+        .attr("height", 0) // Initial height for animation
         .attr("fill", step.color)
         .attr("rx", 2)
         .attr("cursor", "pointer")
         .attr("data-key", step.key);
 
+      rect.transition()
+        .delay(i * 180) // Staggered delay
+        .duration(600)
+        .ease(d3.easeCubicOut)
+        .attr("height", barH);
+
       // Modifier bars get stripe overlay
       if (step.key === "encounter" || (step.key === "speed" && step.value < 0) || step.key === "delivery") {
         g.append("rect")
           .attr("x", bx).attr("y", by)
-          .attr("width", x.bandwidth()).attr("height", barH)
+          .attr("width", x.bandwidth())
+          .attr("height", 0)
           .attr("fill", "url(#stripe-modifier)")
-          .attr("rx", 2).attr("pointer-events", "none");
+          .attr("rx", 2).attr("pointer-events", "none")
+          .transition()
+          .delay(i * 180)
+          .duration(600)
+          .attr("height", barH);
       }
 
-      // Value label above/below bar
+      // 2. Draw Connector line to next bar
+      if (i < steps.length - 1 && step.key !== "encounter") {
+        const next = steps[i + 1];
+        const line = g.append("line")
+          .attr("x1", bx + x.bandwidth())
+          .attr("x2", (x(next.key) ?? 0))
+          .attr("y1", y(step.cumEnd))
+          .attr("y2", y(step.cumEnd)) // Initial horizontal line
+          .attr("stroke", "#d6d3d1").attr("stroke-dasharray", "3,2").attr("stroke-width", 1)
+          .attr("opacity", 0);
+
+        line.transition()
+          .delay(i * 180 + 300)
+          .duration(400)
+          .attr("opacity", 1)
+          .attr("y2", y(next.cumStart));
+      }
+
+      // Special connector for encounter -> final
+      if (step.key === "encounter") {
+        const finalX = x("final") ?? 0;
+        g.append("line")
+          .attr("x1", bx + x.bandwidth())
+          .attr("x2", finalX)
+          .attr("y1", y(step.cumStart))
+          .attr("y2", y(step.cumStart))
+          .attr("stroke", "#d6d3d1").attr("stroke-dasharray", "3,2").attr("stroke-width", 1)
+          .attr("opacity", 0)
+          .transition()
+          .delay(i * 180 + 300)
+          .duration(400)
+          .attr("opacity", 1)
+          .attr("y2", y(dangerScore));
+      }
+
+      // 3. Draw Labels with fade-in
       const labelValue = step.key === "encounter" || (step.key === "speed" && step.value < 0) || step.key === "delivery"
         ? `-${Math.abs(step.value).toFixed(0)}`
         : step.kind === "total"
@@ -236,14 +273,21 @@ export function DangerScoreWaterfall({
         ? by + barH + 9
         : by - 3;
 
-      g.append("text")
-        .attr("x", bx + x.bandwidth() / 2)
-        .attr("y", labelY)
-        .attr("text-anchor", "middle")
-        .attr("fill", "#78716c")
-        .style("font-size", "9px")
-        .style("font-weight", "600")
-        .text(Math.abs(step.value) >= 0.5 || step.kind === "total" ? labelValue : "");
+      if (Math.abs(step.value) >= 0.5 || step.kind === "total") {
+        g.append("text")
+          .attr("x", bx + x.bandwidth() / 2)
+          .attr("y", labelY)
+          .attr("text-anchor", "middle")
+          .attr("fill", "#78716c")
+          .style("font-size", "9px")
+          .style("font-weight", "600")
+          .attr("opacity", 0)
+          .text(labelValue)
+          .transition()
+          .delay(i * 180 + 400)
+          .duration(300)
+          .attr("opacity", 1);
+      }
 
       // Hover events
       rect
@@ -252,7 +296,7 @@ export function DangerScoreWaterfall({
     });
 
     // X-axis labels
-    steps.forEach((step) => {
+    steps.forEach((step, i) => {
       const bx = (x(step.key) ?? 0) + x.bandwidth() / 2;
       g.append("text")
         .attr("x", bx)
@@ -260,7 +304,12 @@ export function DangerScoreWaterfall({
         .attr("text-anchor", "middle")
         .attr("fill", "#a8a29e")
         .style("font-size", "9px")
-        .text(step.shortLabel);
+        .attr("opacity", 0)
+        .text(step.shortLabel)
+        .transition()
+        .delay(i * 180)
+        .duration(400)
+        .attr("opacity", 1);
     });
   }, [steps, dangerScore]);
 
@@ -300,13 +349,15 @@ export function DangerScoreWaterfall({
 
   return (
     <div className="w-full">
-      {/* Header */}
+      {/* Header with Count-up Animation */}
       <div className="flex items-baseline justify-between mb-2">
         <h3 className="text-sm font-bold text-[#2c2c2c]">Danger Score</h3>
-        <span className="text-lg font-extrabold tabular-nums text-[#2c2c2c]">
-          {dangerScore}
+        <motion.span 
+          className="text-lg font-extrabold tabular-nums text-[#2c2c2c]"
+        >
+          <motion.span>{rounded}</motion.span>
           <span className="text-xs font-normal text-stone-400">/100</span>
-        </span>
+        </motion.span>
       </div>
 
       {/* SVG Chart */}

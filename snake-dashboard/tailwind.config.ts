@@ -9,7 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-pangram-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-pangram-compressed)", "system-ui", "sans-serif"],
+        slim: ["var(--font-pangram-slim)", "system-ui", "sans-serif"],
+        compact: ["var(--font-pangram-compact)", "system-ui", "sans-serif"],
       },
       colors: {
         background: {
