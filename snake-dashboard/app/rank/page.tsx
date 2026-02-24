@@ -20,7 +20,7 @@ function isNonSnake(item: Rankable): item is NonSnake {
   return "category" in item;
 }
 
-const COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px] gap-x-1 lg:grid-cols-[48px_140px_minmax(220px,1fr)_190px] lg:gap-x-3";
+const COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px] gap-x-1 lg:grid-cols-[48px_140px_minmax(200px,1fr)_120px_100px_190px] lg:gap-x-3";
 const INTRINSIC_WEIGHTS = getIntrinsicWeights();
 
 function getRankDisplay(rank: number): { numeral: string; color: string } {
@@ -126,6 +126,20 @@ function RankTableRow({
         </div>
       </div>
 
+      {/* Family */}
+      <div className="hidden items-center px-4 py-3 min-w-0 lg:flex">
+        <span className="text-[10px] font-medium text-stone-400 truncate">
+          {item.family}
+        </span>
+      </div>
+
+      {/* Region */}
+      <div className="hidden items-center px-4 py-3 min-w-0 lg:flex">
+        <span className="text-[10px] font-medium text-stone-400 truncate">
+          {item.continent}
+        </span>
+      </div>
+
       {/* Score */}
       <div className="px-1.5 py-2 flex flex-col justify-center min-h-[72px] lg:px-4 lg:py-3 lg:min-h-[88px]">
         {viewMode === "danger" && snake ? (
@@ -146,9 +160,9 @@ function RankTableRow({
                       title={`Intrinsic ${intrinsicScore}`}
                     />
                     <div
-                      className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border border-white shadow-sm"
+                      className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border border-white shadow-sm"
                       style={{
-                        left: `calc(${Math.max(0, Math.min(100, finalScore ?? 0))}% - 6px)`,
+                        left: `calc(${Math.max(0, Math.min(100, finalScore ?? 0))}% - 8px)`,
                         backgroundColor: scoreColor,
                       }}
                       title={`Final ${finalScore}`}
@@ -288,7 +302,7 @@ function RankPageInner() {
 
   return (
     <div className="min-h-screen py-8 px-2 sm:px-6 md:px-10 lg:px-[68px] pb-14">
-      <div className="fixed left-2 top-2 z-30 lg:hidden">
+      <div className="fixed left-2 top-4 z-30 lg:hidden">
         <Link
           href="/"
           className="inline-flex items-center rounded-md bg-white/75 px-2 py-1 text-sm text-stone-700 shadow-sm backdrop-blur-sm transition-colors hover:text-stone-900"
@@ -390,7 +404,7 @@ function RankPageInner() {
       </div>
 
       {/* Region pills - top right, dropdown animates downward like taxonomy page */}
-      <div className="fixed top-6 right-4 z-20 flex flex-col items-end lg:right-6">
+      <div className="fixed top-4 right-4 z-20 flex flex-col items-end lg:right-6">
         <RegionPills
           selectedRegion={regionParam as Snake["continent"] | null}
           onChange={setRegion}
@@ -400,11 +414,14 @@ function RankPageInner() {
       </div>
 
       {/* Table */}
-      <div className="-mx-2 mt-[220px] w-auto max-h-[66vh] overflow-y-auto overflow-x-hidden bg-white rounded-2xl shadow-md border border-stone-200 sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:max-h-none sm:overflow-visible">
-          <div className={`grid ${COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white`}>
+      <div className="fixed inset-x-0 bottom-0 top-[210px] z-10 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.12)] border-t border-stone-200 sm:relative sm:inset-auto sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:rounded-2xl sm:border sm:shadow-md sm:max-h-none sm:overflow-y-visible">
+          <div className="h-full overflow-y-auto sm:h-auto sm:overflow-y-visible">
+            <div className={`grid ${COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white sm:rounded-t-2xl`}>
             <div className="hidden px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center lg:block lg:px-4 lg:py-3">#</div>
             <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 text-center lg:px-4 lg:py-3 lg:text-[10px]">Photo</div>
             <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">Species</div>
+            <div className="hidden px-2 py-1 text-[10px] font-bold tracking-wider text-stone-400 lg:block lg:px-4 lg:py-3">Family</div>
+            <div className="hidden px-2 py-1 text-[10px] font-bold tracking-wider text-stone-400 lg:block lg:px-4 lg:py-3">Region</div>
             <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">
               {viewMode === "danger" ? (
                 <>
@@ -424,11 +441,35 @@ function RankPageInner() {
               priority={index < 8}
             />
           ))}
-        </div>
 
-      {/* Other venomous species toggle - bottom right (potency view only) */}
+          {/* Mobile-only: other venomous species toggle above table content (potency view) */}
+          <div className="px-3 py-2 flex justify-end border-t border-stone-100 bg-white lg:hidden">
+            {viewMode === "potency" && (
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <div className="relative inline-flex items-center">
+                  <input
+                    type="checkbox"
+                    className="sr-only"
+                    checked={!showOnlySnakes}
+                    onChange={() => setShowOnlySnakes(!showOnlySnakes)}
+                  />
+                  <div className={`relative w-8 h-4 rounded-full transition-colors duration-200 ${!showOnlySnakes ? "bg-stone-800" : "bg-stone-200"}`}>
+                    <div className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full transition-transform duration-200 ${!showOnlySnakes ? "translate-x-4" : ""}`} />
+                  </div>
+                </div>
+                <Image src="/icons/spider.svg" alt="" width={20} height={20} className="opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden />
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 group-hover:text-stone-800 transition-colors">
+                  Other venomous species
+                </span>
+              </label>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Other venomous species toggle - bottom right (potency view only, desktop) */}
       {viewMode === "potency" && (
-        <div className="fixed bottom-6 right-4 z-20 lg:right-6">
+        <div className="fixed bottom-6 right-4 z-20 hidden lg:block lg:right-6">
           <label className="flex items-center gap-2 cursor-pointer group">
             <div className="relative inline-flex items-center">
               <input
@@ -449,9 +490,9 @@ function RankPageInner() {
         </div>
       )}
 
-      {/* Info link - same position but for danger view */}
+      {/* Info link - desktop only for danger view */}
       {viewMode === "danger" && (
-        <div className="fixed bottom-6 right-4 z-20 lg:right-6">
+        <div className="fixed bottom-6 right-4 z-20 hidden lg:block lg:right-6">
           <button
             onClick={() => setShowInfo(true)}
             className="flex items-center gap-2 cursor-pointer group"
@@ -466,7 +507,9 @@ function RankPageInner() {
         </div>
       )}
 
-      {showInfo && <DangerScoreInfoBox onClose={() => setShowInfo(false)} />}
+      {showInfo && (
+        <DangerScoreInfoBox onClose={() => setShowInfo(false)} />
+      )}
     </div>
   );
 }

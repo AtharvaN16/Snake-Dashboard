@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { existsSync } from "fs";
 import { join } from "path";
 import {
@@ -12,8 +11,10 @@ import { VenomPaperCard } from "@/components/VenomPaperCard";
 import { ClinicalSymptomsCard } from "@/components/ClinicalSymptomsCard";
 import { DangerScoreCard } from "@/components/DangerScoreCard";
 import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
+import Link from "next/link";
 import { DistributionMap } from "@/components/DistributionMap";
 import { Kbd } from "@/components/ui/kbd";
+import { SnakeDetailMobileHeader } from "@/components/SnakeDetailMobileHeader";
 
 export async function generateStaticParams() {
   const snakes = getAllSnakes();
@@ -102,20 +103,7 @@ export default async function SnakeDetailPage({
 
   return (
     <div className="min-h-screen px-2 pb-5 pt-0 sm:px-4 sm:pb-6 sm:pt-4 lg:px-[68px] lg:py-8">
-      <div className="fixed left-2 top-2 z-40 flex items-center gap-2 lg:hidden">
-        <Link
-          href="/"
-          className="inline-flex items-center rounded-md bg-white/75 px-2 py-1 text-sm text-stone-700 shadow-sm backdrop-blur-sm transition-colors hover:text-stone-900"
-        >
-          Back
-        </Link>
-        <Link
-          href="/"
-          className="inline-flex items-center rounded-md bg-white/75 px-2 py-1 text-sm text-stone-700 shadow-sm backdrop-blur-sm transition-colors hover:text-stone-900"
-        >
-          Search
-        </Link>
-      </div>
+      <SnakeDetailMobileHeader />
 
       {/* Mobile distribution map */}
       <div
