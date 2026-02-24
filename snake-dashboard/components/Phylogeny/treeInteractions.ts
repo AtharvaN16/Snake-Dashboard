@@ -42,6 +42,7 @@ export function setupInteractions(ctx: ChartContext): {
   updateSpeciesVisibility: (scale: number) => void;
   applyRegionFilter: (region: Snake["continent"] | null) => void;
   applyVenomFade: (nodes: Set<d3.HierarchyPointNode<HierarchyNode>> | null) => void;
+  refreshNodePositions: () => void;
 } {
   const {
     svg, g, labelsLayer, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
@@ -70,7 +71,7 @@ export function setupInteractions(ctx: ChartContext): {
   let venomHighlightPathNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
 
   // --- Voronoi/Delaunay setup ---
-  const delaunay = d3.Delaunay.from(nodePoints);
+  let delaunay = d3.Delaunay.from(nodePoints);
 
   if (currentSnakeId) {
     const found = allNodes.find((n) => n.data.id === currentSnakeId);
@@ -460,12 +461,14 @@ export function setupInteractions(ctx: ChartContext): {
     const [mx, my] = d3.pointer(event, g.node());
     const closestNodeIndex = delaunay.find(mx, my);
     const newNode = allNodes[closestNodeIndex];
-    
-    // Calculate distance to the new node
-    const closestPoint = nodePoints[closestNodeIndex];
-    const dist = Math.sqrt(Math.pow(mx - closestPoint[0], 2) + Math.pow(my - closestPoint[1], 2));
-    const radius = nodeRadius(newNode);
-    const threshold = radius + 30; // Hover if within 30px of the node's edge
+
+    // Use force-adjusted/extended positions when available (potency extends branches, yield adjusts angles)
+    const nodeY = (newNode as any)._currentY ?? (newNode as any).y;
+    const nodeX = (newNode as any)._currentAngle ?? (newNode as any).x;
+    const [cpx, cpy] = radialPoint(nodeX, nodeY);
+    const dist = Math.hypot(mx - cpx, my - cpy);
+    const radius = (newNode as any)._currentR ?? nodeRadius(newNode);
+    const threshold = radius + 30;
 
     let finalNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
     if (dist <= threshold) {
@@ -651,6 +654,17 @@ export function setupInteractions(ctx: ChartContext): {
     updateSpeciesVisibility(zoomScaleRef.current);
   }
 
+  /** Rebuild Delaunay from current node positions (_currentY/_currentAngle on datums).
+   *  Call after any venom effect that moves nodes (potency / yield). */
+  function refreshNodePositions() {
+    const updatedPoints = allNodes.map(n => {
+      const ny = (n as any)._currentY ?? (n as any).y;
+      const nx = (n as any)._currentAngle ?? (n as any).x;
+      return radialPoint(nx, ny) as [number, number];
+    });
+    delaunay = d3.Delaunay.from(updatedPoints);
+  }
+
   return {
     cleanup() {
       if (searchHighlightTimeoutId != null) {
@@ -664,5 +678,6 @@ export function setupInteractions(ctx: ChartContext): {
     updateSpeciesVisibility,
     applyRegionFilter: (region: Snake["continent"] | null) => highlightPathsForRegion(region),
     applyVenomFade,
+    refreshNodePositions,
   };
 }

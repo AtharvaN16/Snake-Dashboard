@@ -20,7 +20,7 @@ function isNonSnake(item: Rankable): item is NonSnake {
   return "category" in item;
 }
 
-const COLS = "grid-cols-[48px_140px_minmax(220px,1fr)_110px_90px_190px] gap-x-3 w-full";
+const COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px] gap-x-1 lg:grid-cols-[48px_140px_minmax(220px,1fr)_190px] lg:gap-x-3";
 const INTRINSIC_WEIGHTS = getIntrinsicWeights();
 
 function getRankDisplay(rank: number): { numeral: string; color: string } {
@@ -73,16 +73,16 @@ function RankTableRow({
   const finalScore = snake?.dangerScore;
 
   const RowContent = (
-    <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[88px] hover:bg-stone-50/80`}>
+    <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px]`}>
       {/* Rank */}
-      <div className="flex items-center justify-center py-4 min-h-[88px]">
+      <div className="hidden items-center justify-center py-4 min-h-[88px] lg:flex">
         <span className="font-mono text-[13px] font-bold" style={{ color: rankColor }}>
           {numeral}
         </span>
       </div>
 
       {/* Photo */}
-      <div className="relative self-stretch overflow-hidden bg-stone-100 min-h-[88px]">
+      <div className="relative self-stretch overflow-hidden bg-stone-100 min-h-[72px] lg:min-h-[88px]">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -100,17 +100,17 @@ function RankTableRow({
       </div>
 
       {/* Identity + Taxonomy */}
-      <div className="px-4 py-3 flex flex-col justify-center gap-1.5 min-w-0">
+      <div className="px-2 py-2 flex flex-col justify-center gap-1 min-w-0 lg:px-4 lg:py-3 lg:gap-1.5">
         <div className="min-w-0">
-          <p className="text-[11px] text-stone-400 italic truncate">{item.scientificName}</p>
-          <h3 className="text-sm font-semibold text-[#2c2c2c] leading-tight truncate flex items-center gap-1.5">
+          <p className="text-[9px] text-stone-400 italic truncate lg:text-[11px]">{item.scientificName}</p>
+          <h3 className="text-[11px] font-semibold text-[#2c2c2c] leading-tight truncate flex items-center gap-1 lg:text-sm lg:gap-1.5">
             <span className="truncate">{item.commonName}</span>
             {isNS && (
               <Image src="/icons/spider.svg" alt="" width={16} height={16} className="shrink-0 opacity-70" aria-hidden />
             )}
           </h3>
         </div>
-        <div className="flex items-center gap-1 flex-wrap">
+        <div className="hidden items-center gap-1 flex-wrap lg:flex">
           {(isNS ? nonSnake?.venomTypes : snake?.venomTypes)
             ?.filter((type) => type in VENOM_TYPE_CHIP)
             ?.slice(0, 2)
@@ -126,56 +126,53 @@ function RankTableRow({
         </div>
       </div>
 
-      {/* Family */}
-      <div className="pl-2 pr-1 py-3 flex flex-col justify-center min-w-0">
-        <span className="text-sm text-stone-400 truncate">{item.family}</span>
-      </div>
-
-      {/* Region */}
-      <div className="pl-2 pr-1 py-3 flex flex-col justify-center min-w-0">
-        <span className="text-sm text-stone-400 truncate">{item.continent}</span>
-      </div>
-
       {/* Score */}
-      <div className="px-4 py-3 flex flex-col justify-center min-h-[88px]">
+      <div className="px-1.5 py-2 flex flex-col justify-center min-h-[72px] lg:px-4 lg:py-3 lg:min-h-[88px]">
         {viewMode === "danger" && snake ? (
-          <div className="w-full flex-1 min-h-0 flex flex-col justify-center gap-1.5">
-            {intrinsicScore != null ? (
-              <>
-                <div className="relative h-5">
-                  <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-stone-200 rounded-full" />
-                  <div
-                    className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-stone-500 border border-white shadow-sm"
-                    style={{ left: `calc(${Math.max(0, Math.min(100, intrinsicScore))}% - 5px)` }}
-                    title={`Intrinsic ${intrinsicScore}`}
-                  />
-                  <div
-                    className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border border-white shadow-sm"
-                    style={{
-                      left: `calc(${Math.max(0, Math.min(100, finalScore ?? 0))}% - 6px)`,
-                      backgroundColor: scoreColor,
-                    }}
-                    title={`Final ${finalScore}`}
-                  />
-                </div>
-                <div className="flex items-center justify-between text-[10px] font-mono tabular-nums text-stone-500">
-                  <span>I {intrinsicScore.toFixed(1)}</span>
-                  <span className="font-bold" style={{ color: scoreColor }}>
-                    F {finalScore}
+          <>
+            <div className="flex items-center justify-center w-full min-h-0 lg:hidden">
+              <span className="text-sm font-bold font-mono tabular-nums" style={{ color: scoreColor }}>
+                {snake.dangerScore}
+              </span>
+            </div>
+            <div className="hidden w-full flex-1 min-h-0 flex-col justify-center gap-1.5 lg:flex">
+              {intrinsicScore != null ? (
+                <>
+                  <div className="relative h-5">
+                    <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-stone-200 rounded-full" />
+                    <div
+                      className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-stone-500 border border-white shadow-sm"
+                      style={{ left: `calc(${Math.max(0, Math.min(100, intrinsicScore))}% - 5px)` }}
+                      title={`Intrinsic ${intrinsicScore}`}
+                    />
+                    <div
+                      className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border border-white shadow-sm"
+                      style={{
+                        left: `calc(${Math.max(0, Math.min(100, finalScore ?? 0))}% - 6px)`,
+                        backgroundColor: scoreColor,
+                      }}
+                      title={`Final ${finalScore}`}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] font-mono tabular-nums text-stone-500">
+                    <span>I {intrinsicScore.toFixed(1)}</span>
+                    <span className="font-bold" style={{ color: scoreColor }}>
+                      F {finalScore}
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <div className="flex items-center justify-center w-full min-h-0">
+                  <span className="text-lg font-bold font-mono tabular-nums" style={{ color: scoreColor }}>
+                    {snake.dangerScore}
                   </span>
                 </div>
-              </>
-            ) : (
-              <div className="flex items-center justify-center w-full min-h-0">
-                <span className="text-lg font-bold font-mono tabular-nums" style={{ color: scoreColor }}>
-                  {snake.dangerScore}
-                </span>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          </>
         ) : (
           <div className="flex items-center justify-center w-full flex-1 min-h-0">
-            <span className="text-lg font-bold font-mono text-sky-700">
+            <span className="text-sm font-bold font-mono text-sky-700 lg:text-lg">
               {formatLD50(item.venomPotency?.ld50Normalized)}
             </span>
           </div>
@@ -290,9 +287,60 @@ function RankPageInner() {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 md:px-10 lg:px-[68px] pb-14">
+    <div className="min-h-screen py-8 px-2 sm:px-6 md:px-10 lg:px-[68px] pb-14">
+      <div className="fixed left-2 top-2 z-30 lg:hidden">
+        <Link
+          href="/"
+          className="inline-flex items-center rounded-md bg-white/75 px-2 py-1 text-sm text-stone-700 shadow-sm backdrop-blur-sm transition-colors hover:text-stone-900"
+        >
+          Back
+        </Link>
+      </div>
+
+      {/* Mobile fixed header: toggle + title */}
+      <div className="fixed left-2 right-2 top-20 z-20 lg:hidden">
+        <div className="mb-3">
+          <div className="relative inline-flex p-0.5 bg-stone-200/70 rounded-full shrink-0">
+            <div
+              className="absolute top-0.5 bottom-0.5 w-[calc(50%-4px)] rounded-full bg-white shadow-sm transition-[transform] duration-200 ease-out left-0.5"
+              style={{
+                transform: viewMode === "danger" ? "translateX(0)" : "translateX(calc(100% + 4px))",
+              }}
+              aria-hidden
+            />
+            {(["danger", "potency"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => switchView(mode)}
+                className={`relative z-10 flex-1 min-w-[100px] px-5 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 flex items-center justify-center ${
+                  viewMode === mode ? "text-[#2c2c2c]" : "text-stone-500 hover:text-stone-700"
+                }`}
+              >
+                {mode === "danger" ? "Danger" : "Potency"}
+              </button>
+            ))}
+          </div>
+        </div>
+        <h1 className="text-[2.1rem] font-extrabold text-[#2c2c2c] leading-none">
+          {viewMode === "danger" ? (
+            <>
+              Danger
+              <br />
+              Rankings
+            </>
+          ) : (
+            <>
+              Venom
+              <br />
+              Potency
+            </>
+          )}
+        </h1>
+      </div>
+
       {/* Keyboard shortcut hint (snake info page style) */}
-      <div className="mb-8 flex items-center gap-4 flex-wrap text-sm text-stone-600">
+      <div className="mb-8 hidden items-center gap-4 flex-wrap text-sm text-stone-600 lg:flex">
         <span className="flex items-center gap-2">
           <Kbd triggerKey="Escape">Esc</Kbd>
           <Link href="/" className="hover:text-stone-800 transition-colors">
@@ -302,7 +350,7 @@ function RankPageInner() {
       </div>
 
       {/* Page Header */}
-      <div className="max-w-4xl mx-auto mb-8">
+      <div className="hidden max-w-4xl mx-auto mb-8 mt-8 sm:mt-10 lg:mt-0 lg:block">
         {/* Danger / Potency toggle above title */}
         <div className="mb-4">
           <div className="relative inline-flex p-0.5 bg-stone-200/70 rounded-full shrink-0">
@@ -324,7 +372,7 @@ function RankPageInner() {
                 }`}
               >
                 <Kbd
-                  className="!text-[10px] font-semibold !rounded-sm min-w-[20px] h-5 inline-flex items-center justify-center !border-0 !bg-stone-600 !text-white !shadow-none"
+                  className="hidden lg:inline-flex !text-[10px] font-semibold !rounded-sm min-w-[20px] h-5 items-center justify-center !border-0 !bg-stone-600 !text-white !shadow-none"
                 >
                   {mode === "danger" ? "D" : "P"}
                 </Kbd>
@@ -335,7 +383,7 @@ function RankPageInner() {
         </div>
 
         <div>
-          <h1 className="text-[2.5rem] font-extrabold text-[#2c2c2c] leading-none">
+          <h1 className="text-[2.1rem] lg:text-[2.5rem] font-extrabold text-[#2c2c2c] leading-none">
             {viewMode === "danger" ? "Danger Rankings" : "Venom Potency"}
           </h1>
         </div>
@@ -352,15 +400,18 @@ function RankPageInner() {
       </div>
 
       {/* Table */}
-      <div className="max-w-4xl mx-auto w-full bg-white rounded-2xl shadow-md border border-stone-200 overflow-hidden">
-          <div className={`grid ${COLS} border-b-2 border-stone-200/60 sticky top-4 z-10 rounded-t-2xl bg-white mb-3`}>
-            <div className="pt-1 pb-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">#</div>
-            <div className="pt-1 pb-3 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center">Photo</div>
-            <div className="pt-1 pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">Species</div>
-            <div className="pt-1 pb-3 pl-2 pr-1 text-[10px] font-bold uppercase tracking-wider text-stone-400">Family</div>
-            <div className="pt-1 pb-3 pl-2 pr-1 text-[10px] font-bold uppercase tracking-wider text-stone-400">Region</div>
-            <div className="pt-1 pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">
-              {viewMode === "danger" ? "Intrinsic → Final" : "LD₅₀ (mg/kg)"}
+      <div className="-mx-2 mt-[220px] w-auto max-h-[66vh] overflow-y-auto overflow-x-hidden bg-white rounded-2xl shadow-md border border-stone-200 sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:max-h-none sm:overflow-visible">
+          <div className={`grid ${COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white`}>
+            <div className="hidden px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center lg:block lg:px-4 lg:py-3">#</div>
+            <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 text-center lg:px-4 lg:py-3 lg:text-[10px]">Photo</div>
+            <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">Species</div>
+            <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">
+              {viewMode === "danger" ? (
+                <>
+                  <span className="lg:hidden">Danger score</span>
+                  <span className="hidden lg:inline">Intrinsic → Final</span>
+                </>
+              ) : "LD₅₀ (mg/kg)"}
             </div>
           </div>
 

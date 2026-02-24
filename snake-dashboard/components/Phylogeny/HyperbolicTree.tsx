@@ -52,6 +52,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const zoomBehaviorRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const viewportRef = useRef<{ cw: number; ch: number; scale0: number; cx: number; cy: number } | null>(null);
   const prevVenomSubsRef = useRef<VenomSubModes>({ classification: false, potency: false, yield: false });
+  const refreshNodePositionsRef = useRef<(() => void) | null>(null);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [venomSubs, setVenomSubs] = useState<VenomSubModes>({ classification: false, potency: false, yield: false });
   const [selectedRegion, setSelectedRegion] = useState<Snake["continent"] | null>(null);
@@ -542,6 +543,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     updateSpeciesVisibility = interactions.updateSpeciesVisibility;
     applyRegionFilterRef.current = interactions.applyRegionFilter;
     applyVenomFilterRef.current = interactions.applyVenomFade;
+    refreshNodePositionsRef.current = interactions.refreshNodePositions;
     interactions.updateSpeciesVisibility(scale0);
 
     const bloomDelay = shouldBloom ? bloomTotalDelay : 0;
@@ -677,8 +679,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       const update = speciesUpdates.get(d.data.id);
       if (!update) return;
 
-      // Store current target Y and angle on node datum for link redraw
+      // Store current target Y, radius, and angle on node datum for link redraw + hover detection
       (d as any)._currentY = update.newY;
+      (d as any)._currentR = update.newR;
       const angle = (d as any)._currentAngle ?? (d as any).x;
       const [nx, ny] = radialPoint(angle, update.newY);
       d3.select(this)
@@ -745,37 +748,44 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         });
     }
 
-    // 7. Potency benchmark ring — more prominent dashed circle + subtle fill at Inland Taipan's max radius
+    // 7. Potency benchmark ring — radial gradient: transparent at center, vivid glow at Inland Taipan's rim
     const benchGroup = benchmarkGroupRef.current;
     if (benchGroup) {
       if (potency) {
         const taipanBaseY = nodeBaseYRef.current.get("inland-taipan") ?? RADIUS;
         const benchmarkR = taipanBaseY + MAX_POTENCY_EXTENSION;
-        if (benchGroup.select(".potency-benchmark-ring").empty()) {
-          benchGroup.append("circle")
-            .attr("class", "potency-benchmark-ring")
-            .attr("r", benchmarkR)
-            .attr("fill", "rgba(106, 5, 114, 0.04)")
-            .attr("stroke", "rgba(106, 5, 114, 0.55)")
-            .attr("stroke-width", 3)
-            .attr("stroke-dasharray", "10,5")
-            .attr("opacity", 0);
-          benchGroup.append("circle")
-            .attr("class", "potency-benchmark-ring-inner")
-            .attr("r", benchmarkR - 6)
-            .attr("fill", "none")
-            .attr("stroke", "rgba(106, 5, 114, 0.18)")
-            .attr("stroke-width", 1)
-            .attr("stroke-dasharray", "4,8")
-            .attr("opacity", 0);
-        }
-        benchGroup.selectAll<SVGCircleElement, unknown>(".potency-benchmark-ring, .potency-benchmark-ring-inner")
-          .transition("venom-benchmark").duration(DURATION).ease(ease).attr("opacity", 1);
+        // Always recreate to handle toggle on/off/on correctly
+        benchGroup.selectAll(".potency-benchmark-ring").remove();
+        svg.select("defs").select("#potency-ring-fill").remove();
+        // Radial gradient: transparent at center → pink → vivid purple at rim
+        const grad = svg.select("defs").append("radialGradient")
+          .attr("id", "potency-ring-fill")
+          .attr("cx", "0").attr("cy", "0")
+          .attr("r", benchmarkR)
+          .attr("gradientUnits", "userSpaceOnUse");
+        grad.append("stop").attr("offset", "0%").attr("stop-color", "#6a0572").attr("stop-opacity", 0);
+        grad.append("stop").attr("offset", "72%").attr("stop-color", "#6a0572").attr("stop-opacity", 0);
+        grad.append("stop").attr("offset", "86%").attr("stop-color", "#d966e0").attr("stop-opacity", 0.08);
+        grad.append("stop").attr("offset", "94%").attr("stop-color", "#a01db0").attr("stop-opacity", 0.24);
+        grad.append("stop").attr("offset", "100%").attr("stop-color", "#6a0572").attr("stop-opacity", 0.42);
+        benchGroup.append("circle")
+          .attr("class", "potency-benchmark-ring")
+          .attr("r", benchmarkR)
+          .attr("fill", "url(#potency-ring-fill)")
+          .attr("stroke", "rgba(106, 5, 114, 0.62)")
+          .attr("stroke-width", 2.5)
+          .attr("stroke-dasharray", "12,6")
+          .attr("opacity", 0)
+          .transition("venom-benchmark").duration(DURATION).ease(ease)
+          .attr("opacity", 1);
       } else {
-        benchGroup.selectAll<SVGCircleElement, unknown>(".potency-benchmark-ring, .potency-benchmark-ring-inner")
+        benchGroup.selectAll<SVGCircleElement, unknown>(".potency-benchmark-ring")
           .transition("venom-benchmark").duration(DURATION).ease(ease)
           .attr("opacity", 0)
-          .on("end", function() { d3.select(this).remove(); });
+          .on("end", function() {
+            d3.select(this).remove();
+            svg.select("defs").select("#potency-ring-fill").remove();
+          });
       }
     }
 
@@ -796,6 +806,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         .call((zoomBehaviorRef.current as any).transform,
           d3.zoomIdentity.translate(cw / 2 - cx * s, ch / 2 - cy * s).scale(s));
     }
+
+    // 9. Rebuild Delaunay with updated positions so hover detection works on extended nodes
+    refreshNodePositionsRef.current?.();
 
   }, [venomSubs, snakeMap, nodeColor, colorMode, currentSnakeId]);
 
