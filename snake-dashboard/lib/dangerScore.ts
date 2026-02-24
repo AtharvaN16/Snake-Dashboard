@@ -30,6 +30,14 @@ export function normalizeLD50ToSC(
 }
 
 /**
+ * Raw lethal doses per bite for a 70kg human.
+ */
+export function calculateLethalDosesRaw(ld50Sc: number, yieldMg: number): number {
+  if (ld50Sc <= 0 || yieldMg <= 0) return 0;
+  return yieldMg / (ld50Sc * HUMAN_BODY_WEIGHT_KG);
+}
+
+/**
  * Potency score from SC-equivalent LD50 (log-scale).
  * Lower LD50 = more potent = higher score. Clamped [0, 100].
  * Kept for venom classification derivation and display.
