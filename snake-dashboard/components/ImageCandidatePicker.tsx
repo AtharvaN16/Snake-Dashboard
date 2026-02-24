@@ -78,7 +78,7 @@ export function ImageCandidatePicker({ snakeId }: { snakeId: string }) {
     setSelections(new Map());
 
     try {
-      const data = await callAction("search");
+      const data = await callAction("search") as { candidates: CandidateEntry[] };
       setCandidates(data.candidates);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Network error");

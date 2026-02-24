@@ -23,7 +23,7 @@ const chipVariants = {
     transition: {
       delay: i * 0.04, // Staggered delay based on index
       duration: 0.4,
-      ease: [0.215, 0.61, 0.355, 1], // easeOutCubic
+      ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number], // easeOutCubic
     },
   }),
 };

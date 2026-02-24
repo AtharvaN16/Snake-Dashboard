@@ -7,7 +7,7 @@ import { VenomTypeChip } from "./VenomTypeChip";
 import { VenomYieldChip } from "./VenomYieldChip";
 import { VenomSpeedChip } from "./VenomSpeedChip";
 import { FangTypeChip } from "./FangTypeChip";
-import { calculateLethalDosesRaw } from "@/lib/dangerScore";
+import { calculateLethalDosesRaw, imputeDryYield } from "@/lib/dangerScore";
 
 // Card content height when expanded.
 const CONTENT_H = 720;
@@ -28,9 +28,18 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
 
   if (snake.venomClassification === "Non-venomous") return null;
 
-  const rawLethalDoses = snake.venomPotency?.ld50Normalized && snake.venomYield?.dryWeight
-    ? calculateLethalDosesRaw(snake.venomPotency.ld50Normalized, snake.venomYield.dryWeight)
-    : 0;
+  const ld50Sc = snake.venomPotency?.ld50Normalized ?? snake.venomPotency?.ld50;
+  const yieldMgNumeric = snake.venomYield?.dryWeight
+    ?? (snake.venomYield?.wetVolume != null ? snake.venomYield.wetVolume * 200 : null);
+  const yieldMgImputed = !yieldMgNumeric && snake.venomYield
+    ? imputeDryYield(snake.venomYield.qualitative)
+    : null;
+  const yieldMg = yieldMgNumeric ?? yieldMgImputed;
+  const yieldIsEstimated = !yieldMgNumeric && yieldMgImputed != null;
+  const rawLethalDoses = ld50Sc && yieldMg
+    ? calculateLethalDosesRaw(ld50Sc, yieldMg)
+    : null;
+  const lethalityScore = snake.dangerScoreComponents?.lethalityScore;
 
   return (
     // Anchor: fixed, ~40% wide, centered in viewport
@@ -106,35 +115,49 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                 >
                   Lethality Breakdown
                 </span>
-                {rawLethalDoses > 0 && (
-                   <span className="text-xl font-bold text-red-600 font-pangram-compressed tracking-wider">
-                     ~{rawLethalDoses.toFixed(1)} lethal doses per bite
-                   </span>
+                {lethalityScore != null && (
+                  <div className="text-right">
+                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Lethality Score</div>
+                    <div className="text-lg font-bold text-stone-800 tabular-nums">{lethalityScore}<span className="text-xs font-normal text-stone-400">/100</span></div>
+                  </div>
                 )}
               </div>
-              
-              <div className="grid grid-cols-2 gap-8">
+
+              <div className="grid grid-cols-2 gap-8 mb-4">
                 <div className="flex flex-col">
                   <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Potency (SC Equivalent)</span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-stone-800">{snake.venomPotency?.ld50Normalized?.toFixed(3) ?? "N/A"}</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-bold text-stone-800">
+                      {ld50Sc != null ? ld50Sc.toFixed(3) : "N/A"}
+                    </span>
                     <span className="text-xs font-medium text-stone-500">mg/kg LD50</span>
-                    {snake.dangerScoreComponents && (
-                      <span className="ml-auto text-xs font-bold text-stone-400">Score: {snake.dangerScoreComponents.potencyScore}/100</span>
-                    )}
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Max Dry Yield</span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-stone-800">{snake.venomYield?.dryWeight ?? "N/A"}</span>
+                  <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">
+                    Max Dry Yield{yieldIsEstimated ? " (est.)" : ""}
+                  </span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-bold text-stone-800">
+                      {yieldMg != null ? `${yieldIsEstimated ? "~" : ""}${yieldMg}` : "N/A"}
+                    </span>
                     <span className="text-xs font-medium text-stone-500">mg dry</span>
-                    {snake.dangerScoreComponents && (
-                      <span className="ml-auto text-xs font-bold text-stone-400">Score: {snake.dangerScoreComponents.yieldScore}/100</span>
-                    )}
                   </div>
                 </div>
               </div>
+
+              {rawLethalDoses != null && (
+                <p
+                  style={{
+                    fontFamily: COMPACT,
+                    fontSize: "11px",
+                    color: "#a8a29e",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  ~{rawLethalDoses.toFixed(1)}× LD50 deliverable per bite (70kg model). Mouse-derived estimate — human sensitivity varies by venom type.{yieldIsEstimated ? " Yield estimated from qualitative data." : ""}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-x-12 gap-y-8">

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getAllSnakes, filterByContinent } from "@/lib/snakeData";
 import { getNonSnakes, NonSnake } from "@/lib/nonSnakeData";
+import { getIntrinsicWeights } from "@/lib/dangerScore";
 import { VENOM_TYPE_CHIP } from "@/components/VenomTypeChip";
 import { RegionPills } from "@/components/RegionPills";
 import { Kbd } from "@/components/ui/kbd";
@@ -19,7 +20,8 @@ function isNonSnake(item: Rankable): item is NonSnake {
   return "category" in item;
 }
 
-const COLS = "grid-cols-[48px_140px_minmax(220px,1fr)_110px_90px_164px] gap-x-3 w-full";
+const COLS = "grid-cols-[48px_140px_minmax(220px,1fr)_110px_90px_190px] gap-x-3 w-full";
+const INTRINSIC_WEIGHTS = getIntrinsicWeights();
 
 function getRankDisplay(rank: number): { numeral: string; color: string } {
   const numeral = rank < 10 ? `0${rank}` : `${rank}`;
@@ -35,6 +37,15 @@ function dangerBarColor(score: number): string {
   if (score >= 40) return "#ca8a04";
   if (score >= 20) return "#65a30d";
   return "#16a34a";
+}
+
+function getIntrinsicScore(snake: Snake): number | null {
+  const c = snake.dangerScoreComponents;
+  if (!c) return null;
+  const intrinsic =
+    c.lethalityScore * INTRINSIC_WEIGHTS.lethalityScore +
+    c.clinicalScore * INTRINSIC_WEIGHTS.clinicalScore;
+  return Math.round(intrinsic * 10) / 10;
 }
 
 function formatLD50(val: number | undefined): string {
@@ -58,6 +69,8 @@ function RankTableRow({
 
   const imageUrl = isNS ? nonSnake?.images?.thumbnail : snake?.images?.thumbnail;
   const scoreColor = snake ? dangerBarColor(snake.dangerScore) : "#C4B8B0";
+  const intrinsicScore = snake ? getIntrinsicScore(snake) : null;
+  const finalScore = snake?.dangerScore;
 
   const RowContent = (
     <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[88px] hover:bg-stone-50/80`}>
@@ -126,10 +139,39 @@ function RankTableRow({
       {/* Score */}
       <div className="px-4 py-3 flex flex-col justify-center min-h-[88px]">
         {viewMode === "danger" && snake ? (
-          <div className="flex items-center justify-center w-full flex-1 min-h-0">
-            <span className="text-lg font-bold font-mono tabular-nums" style={{ color: scoreColor }}>
-              {snake.dangerScore}
-            </span>
+          <div className="w-full flex-1 min-h-0 flex flex-col justify-center gap-1.5">
+            {intrinsicScore != null ? (
+              <>
+                <div className="relative h-5">
+                  <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-stone-200 rounded-full" />
+                  <div
+                    className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-stone-500 border border-white shadow-sm"
+                    style={{ left: `calc(${Math.max(0, Math.min(100, intrinsicScore))}% - 5px)` }}
+                    title={`Intrinsic ${intrinsicScore}`}
+                  />
+                  <div
+                    className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border border-white shadow-sm"
+                    style={{
+                      left: `calc(${Math.max(0, Math.min(100, finalScore ?? 0))}% - 6px)`,
+                      backgroundColor: scoreColor,
+                    }}
+                    title={`Final ${finalScore}`}
+                  />
+                </div>
+                <div className="flex items-center justify-between text-[10px] font-mono tabular-nums text-stone-500">
+                  <span>I {intrinsicScore.toFixed(1)}</span>
+                  <span className="font-bold" style={{ color: scoreColor }}>
+                    F {finalScore}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className="flex items-center justify-center w-full min-h-0">
+                <span className="text-lg font-bold font-mono tabular-nums" style={{ color: scoreColor }}>
+                  {snake.dangerScore}
+                </span>
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex items-center justify-center w-full flex-1 min-h-0">
@@ -318,7 +360,7 @@ function RankPageInner() {
             <div className="pt-1 pb-3 pl-2 pr-1 text-[10px] font-bold uppercase tracking-wider text-stone-400">Family</div>
             <div className="pt-1 pb-3 pl-2 pr-1 text-[10px] font-bold uppercase tracking-wider text-stone-400">Region</div>
             <div className="pt-1 pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-stone-400">
-              {viewMode === "danger" ? "Danger Score" : "LD₅₀ (mg/kg)"}
+              {viewMode === "danger" ? "Intrinsic → Final" : "LD₅₀ (mg/kg)"}
             </div>
           </div>
 

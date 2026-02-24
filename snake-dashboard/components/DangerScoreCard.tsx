@@ -3,15 +3,15 @@
 import { useState, memo, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Snake } from "@/lib/types";
-import { 
-  getIntrinsicWeights, 
-  getSpeedModifier, 
-  getEncounterModifier, 
+import {
+  getIntrinsicWeights,
+  getSpeedModifier,
+  getEncounterModifier,
   getDeliveryModifier,
   deriveVenomClassification
 } from "@/lib/dangerScore";
 
-const CONTENT_H = 500;
+const CONTENT_H = 580;
 const CARD_H = CONTENT_H;
 const EASE = [0.32, 0.72, 0, 1] as const;
 
@@ -27,14 +27,14 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
 
   const { intrinsicScore, speedMod, encounterMod, deliveryMod } = useMemo(() => {
     if (!snake.dangerScoreComponents) return { intrinsicScore: 0, speedMod: 1, encounterMod: 1, deliveryMod: 1 };
-    
+
     const weights = getIntrinsicWeights();
-    const intrinsic = 
+    const intrinsic =
       snake.dangerScoreComponents.lethalityScore * weights.lethalityScore +
       snake.dangerScoreComponents.clinicalScore * weights.clinicalScore;
-    
+
     const venomClass = deriveVenomClassification(snake.dangerScoreComponents, snake.clinicalData);
-    
+
     return {
       intrinsicScore: Math.round(intrinsic),
       speedMod: getSpeedModifier(snake.dangerScoreComponents.speedScore),
@@ -47,14 +47,14 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
     {
       label: "Speed",
       value: speedMod,
-      text: snake.venomSpeed === "Extremely quick" ? "Extremely quick" : 
+      text: snake.venomSpeed === "Extremely quick" ? "Extremely quick" :
             snake.venomSpeed === "Quick" ? "Quick-acting" : "Slow-acting",
       direction: speedMod > 1 ? "up" : speedMod < 1 ? "down" : "neutral"
     },
     {
       label: "Delivery",
       value: deliveryMod,
-      text: snake.fangType === "Rear fangs" && deliveryMod < 1 ? "Inefficient rear fangs" : "Efficient delivery",
+      text: snake.fangType === "Rear fangs" && deliveryMod < 1 ? "Rear fangs" : "Efficient delivery",
       direction: deliveryMod > 1 ? "up" : deliveryMod < 1 ? "down" : "neutral"
     },
     {
@@ -67,16 +67,19 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
     }
   ];
 
+  const lethalityScore = snake.dangerScoreComponents?.lethalityScore;
+  const clinicalScore = snake.dangerScoreComponents?.clinicalScore;
+
   return (
-    <div 
+    <div
       className="fixed bottom-[-40px] right-[68px] z-40 w-[24%] max-w-[280px] min-w-[240px] hover:z-[60] transition-[z-index] delay-300 duration-0 pointer-events-none"
     >
       <motion.div
         onClick={() => setIsExpanded(!isExpanded)}
         initial={{ y: 800 }}
-        animate={{ y: isExpanded ? 0 : 240 }}
-        whileHover={{ 
-          y: isExpanded ? 0 : 220,
+        animate={{ y: isExpanded ? 20 : 310 }}
+        whileHover={{
+          y: isExpanded ? 20 : 295,
           transition: { delay: 0.3, duration: 0.2, ease: "easeOut" }
         }}
         transition={{ ease: EASE, duration: 0.6 }}
@@ -101,7 +104,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
         />
 
         {/* Content */}
-        <div className="relative z-10 flex-1 px-8 pt-10">
+        <div className="relative z-10 flex-1 px-8 pt-10 pb-16">
           <div className="text-center mb-6">
             <h2
               style={{
@@ -124,11 +127,11 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
 
           <div className="flex flex-col items-center mb-8">
             <div className="flex items-baseline gap-1">
-              <span 
-                style={{ 
-                  fontFamily: COMPRESSED, 
-                  fontSize: "76px", 
-                  fontWeight: 800, 
+              <span
+                style={{
+                  fontFamily: COMPRESSED,
+                  fontSize: "76px",
+                  fontWeight: 800,
                   lineHeight: 0.9,
                   color: "#000"
                 }}
@@ -137,11 +140,11 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
               </span>
               <span className="text-base font-bold text-stone-400">/100</span>
             </div>
-            <div 
-              style={{ 
-                fontFamily: COMPACT, 
-                fontSize: "14px", 
-                fontWeight: 700, 
+            <div
+              style={{
+                fontFamily: COMPACT,
+                fontSize: "14px",
+                fontWeight: 700,
                 textTransform: "uppercase",
                 letterSpacing: "0.05em",
                 color: "#78716c",
@@ -152,18 +155,33 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
             </div>
           </div>
 
-          <motion.div 
+          <motion.div
             animate={{ opacity: isExpanded ? 1 : 0.4 }}
             className="space-y-4 transition-opacity duration-300"
           >
-            <div className="flex justify-between items-center border-b border-stone-200 pb-2">
-              <span className="text-[13px] font-bold text-stone-500 uppercase tracking-wider">Venom Core</span>
-              <span className="text-base font-bold text-stone-800">{intrinsicScore}/100</span>
+            {/* Venom Core — links to Venom Profile + Clinical Severity cards */}
+            <div className="border-b border-stone-200 pb-3">
+              <div className="flex justify-between items-baseline mb-2">
+                <span className="text-[13px] font-bold text-stone-500 uppercase tracking-wider">Venom Core</span>
+                <span className="text-base font-bold text-stone-800">{intrinsicScore}/100</span>
+              </div>
+              {lethalityScore != null && clinicalScore != null && (
+                <div className="space-y-1">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] text-stone-400">Lethality Score <span className="text-stone-300">(55%)</span></span>
+                    <span className="text-[12px] font-bold text-stone-600 tabular-nums">{lethalityScore}/100</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[11px] text-stone-400">Clinical Score <span className="text-stone-300">(45%)</span></span>
+                    <span className="text-[12px] font-bold text-stone-600 tabular-nums">{clinicalScore}/100</span>
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div className="space-y-3 pt-2">
+            <div className="space-y-3 pt-1">
               {modifiers.map((mod) => (
-                <div key={mod.label} className="flex items-center justify-between group">
+                <div key={mod.label} className="flex items-center justify-between">
                   <div className="flex flex-col">
                     <span className="text-[12px] font-black text-stone-400 uppercase tracking-widest leading-none mb-1">
                       {mod.label}
@@ -177,7 +195,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                       ×{mod.value.toFixed(2)}
                     </span>
                     <span className={`text-[12px] ${
-                      mod.direction === "up" ? "text-emerald-600" : 
+                      mod.direction === "up" ? "text-emerald-600" :
                       mod.direction === "down" ? "text-red-500" : "text-stone-300"
                     }`}>
                       {mod.direction === "up" ? "▲" : mod.direction === "down" ? "▼" : "—"}

@@ -3,6 +3,7 @@
 import { useState, useMemo, memo } from "react";
 import { motion } from "framer-motion";
 import type { Snake, ClinicalData } from "@/lib/types";
+import { calculateClinicalScore } from "@/lib/dangerScore";
 
 type SymptomsMap = NonNullable<Snake["symptoms"]>;
 
@@ -97,49 +98,55 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
               lineHeight: 1,
             }}
           >
-            Clinical Symptoms
+            Clinical Severity
           </h2>
 
-          <motion.div 
+          <motion.div
             animate={{ opacity: isExpanded ? 1 : 0.4 }}
             className="transition-opacity duration-300"
           >
             {/* Clinical Severity Header */}
-            {clinicalData && (
-              <div className="mb-10 border-b-2 border-dashed border-stone-300 pb-8">
-                <div className="flex flex-col items-center gap-2 mb-6">
-                  <span className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em]">Severity Level</span>
-                  <span 
-                    className="px-3 py-1 rounded text-sm font-black uppercase tracking-widest"
-                    style={{ 
-                      backgroundColor: 
-                        clinicalData.severity === "Life-threatening" ? "#FEE2E2" : 
-                        clinicalData.severity === "Severe" ? "#FFEDD5" : "#FEF9C3",
-                      color: 
-                        clinicalData.severity === "Life-threatening" ? "#991B1B" : 
-                        clinicalData.severity === "Severe" ? "#9A3412" : "#854D0E"
-                    }}
-                  >
-                    {clinicalData.severity}
-                  </span>
-                </div>
+            {clinicalData && (() => {
+              const clinicalScore = calculateClinicalScore(clinicalData);
+              return (
+                <div className="mb-6 border-b border-dashed border-stone-300 pb-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <span
+                      className="px-3 py-1 rounded text-sm font-black uppercase tracking-widest"
+                      style={{
+                        backgroundColor:
+                          clinicalData.severity === "Life-threatening" ? "#FEE2E2" :
+                          clinicalData.severity === "Severe" ? "#FFEDD5" : "#FEF9C3",
+                        color:
+                          clinicalData.severity === "Life-threatening" ? "#991B1B" :
+                          clinicalData.severity === "Severe" ? "#9A3412" : "#854D0E"
+                      }}
+                    >
+                      {clinicalData.severity}
+                    </span>
+                    <div className="text-right">
+                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Clinical Score</div>
+                      <div className="text-lg font-bold text-stone-800 tabular-nums">{clinicalScore}<span className="text-xs font-normal text-stone-400">/100</span></div>
+                    </div>
+                  </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center">
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Fatality (Untreated)</div>
-                    <div className="text-xl font-bold text-stone-800 tabular-nums">
-                      {clinicalData.untreatedFatalityRate.low}–{clinicalData.untreatedFatalityRate.high}%
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Fatality (Untreated)</div>
+                      <div className="text-lg font-bold text-stone-800 tabular-nums">
+                        {clinicalData.untreatedFatalityRate.low}–{clinicalData.untreatedFatalityRate.high}%
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">WHO Importance</div>
-                    <div className="text-xl font-bold text-stone-800 uppercase">
-                      {clinicalData.whoCategory ? `Category ${clinicalData.whoCategory}` : "N/A"}
+                    <div>
+                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">WHO Importance</div>
+                      <div className="text-lg font-bold text-stone-800 uppercase">
+                        {clinicalData.whoCategory ? `Cat. ${clinicalData.whoCategory}` : "—"}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Sections */}
             <div className="space-y-6">

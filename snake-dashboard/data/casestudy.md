@@ -257,6 +257,25 @@ Key improvements in Version 6:
 
 4. **Self-correcting logic is best.** By tying the delivery penalty to venom classification, the model autonomously handles "deadly" rear-fanged snakes without manual overrides.
 
+## Known Limitations
+
+### The Mouse-to-Human Extrapolation Problem
+
+The `lethalityScore` is derived from LD50 data measured in mice, normalized to a 70kg human using a published subcutaneous conversion factor. This extrapolation assumes venom toxicity scales uniformly from mice to humans — an assumption that breaks down in practice.
+
+**Venom-type sensitivity varies by species:**
+
+- **Neurotoxic venoms** (cobras, mambas, taipans) bind to acetylcholine receptors. Human and mouse acetylcholine receptors are structurally different, and some neurotoxins bind significantly more strongly to human receptors. The mouse LD50 for these venoms can substantially *understate* their danger to humans. The Inland Taipan's theoretical lethal dose model yields ~25 doses per bite for a 70kg human — yet its actual reported lethal capacity in humans is estimated at 100–150, because humans are more sensitive to its particular oxylepitoxin chemistry than mice are.
+- **Cytotoxic and hemotoxic venoms** (most vipers) act through enzymatic pathways that are more conserved across mammals. The mouse-to-human extrapolation holds more reliably for these.
+
+This means the `lethalityScore` for neurotoxic elapids may be systematically underestimated relative to hemotoxic vipers — the mouse model penalizes them less than it should.
+
+**The clinical score is a partial correction.** By weighting actual human CFR data at 45%, the model partially corrects for mouse-model biases. A snake whose venom is disproportionately dangerous to humans will show a higher real-world fatality rate in the clinical score. But this correction is only partial — rare snakes with sparse human bite documentation may score low on both axes despite genuinely dangerous venom.
+
+**Practical implication:** The ranking is more accurate than LD50-only rankings, but may still underrank neurotoxic elapid specialists relative to well-documented hemotoxic vipers. The `lethalityScore` and its underlying "lethal doses" derivation should be read as a comparative ranking tool, not as absolute statements of human lethality. The raw LD50 and yield values are objective measurements; the derived score is our model's interpretation of them.
+
+5. **LD50 is a relative, not absolute, truth.** Mouse LD50 is a precise lab measurement but an imperfect human proxy. Its value is in ranking snakes relative to each other, not in claiming biological certainty about human outcomes.
+
 ## Formula Reference
 
 ```

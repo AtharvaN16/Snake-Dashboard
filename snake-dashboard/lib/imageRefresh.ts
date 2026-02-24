@@ -588,7 +588,7 @@ export async function commitSelections(
           snake.images = {
             primary: "", 
             thumbnail: "",
-            attribution: { source: "", license: "" },
+            attribution: { source: "", license: "", sourceUrl: "", licenseUrl: "" },
             gallery: [],
             galleryAttributions: [],
           };
