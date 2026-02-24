@@ -43,7 +43,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
         initial={{ y: 800 }}
         animate={{ y: isExpanded ? 40 : 600 }}
         whileHover={{ 
-          y: isExpanded ? 30 : 590,
+          y: isExpanded ? 40 : 590,
           transition: { delay: 0.3, duration: 0.2, ease: "easeOut" }
         }}
         transition={{ ease: EASE, duration: 0.6 }}

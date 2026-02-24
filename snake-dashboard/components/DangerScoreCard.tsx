@@ -74,9 +74,9 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
       <motion.div
         onClick={() => setIsExpanded(!isExpanded)}
         initial={{ y: 800 }}
-        animate={{ y: isExpanded ? 0 : 250 }}
+        animate={{ y: isExpanded ? 0 : 240 }}
         whileHover={{ 
-          y: isExpanded ? -10 : 240,
+          y: isExpanded ? 0 : 220,
           transition: { delay: 0.3, duration: 0.2, ease: "easeOut" }
         }}
         transition={{ ease: EASE, duration: 0.6 }}

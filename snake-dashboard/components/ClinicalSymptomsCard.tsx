@@ -56,7 +56,7 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
         initial={{ y: 800 }}
         animate={{ y: isExpanded ? 80 : 710 }}
         whileHover={{ 
-          y: isExpanded ? 70 : 700,
+          y: isExpanded ? 80 : 700,
           transition: { delay: 0.3, duration: 0.2, ease: "easeOut" }
         }}
         transition={{ ease: EASE, duration: 0.6 }}
