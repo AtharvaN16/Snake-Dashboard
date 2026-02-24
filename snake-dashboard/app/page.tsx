@@ -6,11 +6,11 @@ import { Kbd } from "@/components/ui/kbd";
 
 export default function Home() {
   return (
-    <div className="h-screen overflow-hidden py-8 px-[68px] relative">
-      {/* Top right: keyboard shortcut labels */}
-      <nav className="absolute top-8 right-[68px] flex items-center gap-4 flex-wrap text-sm text-stone-600 shrink-0">
+    <div className="relative min-h-screen px-2 pb-5 pt-4 sm:px-4 sm:pb-6 sm:pt-5 lg:px-[68px] lg:py-8">
+      {/* Nav links */}
+      <nav className="mx-auto mb-3 flex w-fit items-center gap-3 text-[10px] text-stone-600 sm:text-sm lg:absolute lg:right-[68px] lg:top-8 lg:mb-0 lg:gap-4">
         <span className="flex items-center gap-2">
-          <Kbd triggerKey="R">R</Kbd>
+          <Kbd triggerKey="R" className="hidden lg:inline-flex">R</Kbd>
           <Link
             href="/rank"
             className="hover:text-stone-800 transition-colors no-underline"
@@ -19,7 +19,7 @@ export default function Home() {
           </Link>
         </span>
         <span className="flex items-center gap-2">
-          <Kbd triggerKey="T">T</Kbd>
+          <Kbd triggerKey="T" className="hidden lg:inline-flex">T</Kbd>
           <Link
             href="/phylogeny"
             className="hover:text-stone-800 transition-colors no-underline"
@@ -29,21 +29,24 @@ export default function Home() {
         </span>
       </nav>
 
-      <div className="h-full max-w-2xl mx-auto flex flex-col">
+      <div className="mx-auto flex max-w-2xl flex-col">
         {/* Header with Icon and Title */}
-        <div className="text-center mb-5 shrink-0">
-          <div className="flex justify-center mb-3">
-            <div className="text-6xl">🐍</div>
+        <div className="mb-4 shrink-0 text-center sm:mb-5">
+          <div className="mb-2 flex justify-center sm:mb-3">
+            <div className="text-5xl sm:text-6xl">🐍</div>
           </div>
-          <h1 className="text-[2.75rem] font-serif font-normal text-[#2c2c2c] leading-tight">
+          <h1 className="mx-auto max-w-[9ch] text-[2.2rem] font-serif font-normal leading-[1.04] text-[#2c2c2c] sm:max-w-none sm:text-[2.75rem]">
             Is It Venomous?
           </h1>
         </div>
 
-        <HomeSearchCard inputId="main-search" />
+        <HomeSearchCard
+          inputId="main-search"
+          className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col w-full"
+        />
 
         {/* Footer Attribution */}
-        <div className="text-center mt-5 text-sm text-stone-600 shrink-0">
+        <div className="mt-4 shrink-0 text-center text-xs text-stone-600 sm:mt-5 sm:text-sm">
           <p>
             Researched 🔬 by{" "}
             <a 
