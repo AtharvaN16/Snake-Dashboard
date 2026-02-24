@@ -10,6 +10,7 @@ import {
   getDeliveryModifier,
   deriveVenomClassification
 } from "@/lib/dangerScore";
+import { ScoreTooltip, type TooltipRow } from "./ScoreTooltip";
 
 const CONTENT_H = 580;
 const CARD_H = CONTENT_H;
@@ -25,8 +26,8 @@ interface DangerScoreCardProps {
 const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: DangerScoreCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { intrinsicScore, speedMod, encounterMod, deliveryMod } = useMemo(() => {
-    if (!snake.dangerScoreComponents) return { intrinsicScore: 0, speedMod: 1, encounterMod: 1, deliveryMod: 1 };
+  const { intrinsicScore, intrinsicExact, speedMod, encounterMod, deliveryMod } = useMemo(() => {
+    if (!snake.dangerScoreComponents) return { intrinsicScore: 0, intrinsicExact: 0, speedMod: 1, encounterMod: 1, deliveryMod: 1 };
 
     const weights = getIntrinsicWeights();
     const intrinsic =
@@ -37,6 +38,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
 
     return {
       intrinsicScore: Math.round(intrinsic),
+      intrinsicExact: intrinsic,
       speedMod: getSpeedModifier(snake.dangerScoreComponents.speedScore),
       encounterMod: getEncounterModifier(snake.dangerScoreComponents.encounterScore),
       deliveryMod: getDeliveryModifier(snake.fangType, venomClass)
@@ -70,6 +72,41 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
   const lethalityScore = snake.dangerScoreComponents?.lethalityScore;
   const clinicalScore = snake.dangerScoreComponents?.clinicalScore;
 
+  const afterSpeed = intrinsicExact * speedMod;
+  const afterDelivery = afterSpeed * deliveryMod;
+  const afterEncounter = afterDelivery * encounterMod;
+  const b = (val: number | string) => <span style={{ fontWeight: 700, color: '#1c1917' }}>{val}</span>;
+  const dangerTooltipRows: TooltipRow[] = snake.dangerScoreComponents ? [
+    { type: "header", text: "Danger Score" },
+    { type: "desc", text: "Two-stage model: how dangerous is the venom biology, then how likely does a real-world bite actually lead to death?" },
+    { type: "section", text: "Venom Core" },
+    { type: "desc", text: "Lethality weighted 55% — it's the direct biological mechanism (potency × yield). Clinical weighted 45% — real-world truth, but CFR ranges can be broad estimates." },
+    {
+      type: "formula",
+      left: <>0.55 × {b(lethalityScore ?? 0)} + 0.45 × {b(clinicalScore ?? 0)}</>,
+      right: intrinsicExact.toFixed(1),
+    },
+    { type: "section", text: "Modifiers" },
+    { type: "desc", text: "Multiplicative scalers applied to the core. Amplify or reduce existing danger — can't create it from nothing." },
+    {
+      type: "formula",
+      left: <>× Speed ({b(speedMod.toFixed(2))})</>,
+      right: afterSpeed.toFixed(1),
+    },
+    {
+      type: "formula",
+      left: <>× Delivery ({b(deliveryMod.toFixed(2))})</>,
+      right: afterDelivery.toFixed(1),
+    },
+    {
+      type: "formula",
+      left: <>× Encounter ({b(encounterMod.toFixed(2))})</>,
+      right: afterEncounter.toFixed(1),
+    },
+    { type: "note", text: "Speed = how fast venom acts (antivenom window). Delivery = fang efficiency (rear-fanged snakes penalised). Encounter = probability of real-world exposure." },
+    { type: "result", left: "Score", right: `${snake.dangerScore}/100` },
+  ] : [];
+
   return (
     <div
       className="fixed bottom-[-40px] right-[68px] z-40 w-[24%] max-w-[280px] min-w-[240px] hover:z-[60] transition-[z-index] delay-300 duration-0 pointer-events-none"
@@ -77,7 +114,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
       <motion.div
         onClick={() => setIsExpanded(!isExpanded)}
         initial={{ y: 800 }}
-        animate={{ y: isExpanded ? 20 : 310 }}
+        animate={{ y: isExpanded ? 10 : 310 }}
         whileHover={{
           y: isExpanded ? 20 : 295,
           transition: { delay: 0.3, duration: 0.2, ease: "easeOut" }
@@ -126,83 +163,105 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
           </div>
 
           <div className="flex flex-col items-center mb-8">
-            <div className="flex items-baseline gap-1">
-              <span
-                style={{
-                  fontFamily: COMPRESSED,
-                  fontSize: "76px",
-                  fontWeight: 800,
-                  lineHeight: 0.9,
-                  color: "#000"
-                }}
-              >
-                {snake.dangerScore}
-              </span>
-              <span className="text-base font-bold text-stone-400">/100</span>
-            </div>
-            <div
-              style={{
-                fontFamily: COMPACT,
-                fontSize: "14px",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.05em",
-                color: "#78716c",
-                marginTop: "4px"
-              }}
-            >
-              Final Danger Score
-            </div>
+            <ScoreTooltip rows={dangerTooltipRows} anchor="center" width={270}>
+              <div className="flex flex-col items-center">
+                <div className="flex items-baseline gap-1">
+                  <span
+                    style={{
+                      fontFamily: COMPRESSED,
+                      fontSize: "76px",
+                      fontWeight: 800,
+                      lineHeight: 0.9,
+                      color: "#000"
+                    }}
+                  >
+                    {snake.dangerScore}
+                  </span>
+                  <span className="text-base font-bold text-stone-400">/100</span>
+                </div>
+                <div
+                  style={{
+                    fontFamily: COMPACT,
+                    fontSize: "14px",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                    color: "#78716c",
+                    marginTop: "4px"
+                  }}
+                >
+                  Final Danger Score
+                </div>
+              </div>
+            </ScoreTooltip>
           </div>
 
           <motion.div
             animate={{ opacity: isExpanded ? 1 : 0.4 }}
             className="space-y-4 transition-opacity duration-300"
           >
-            {/* Venom Core — links to Venom Profile + Clinical Severity cards */}
+            {/* Intrinsic Danger — links to Venom Profile + Clinical Severity cards */}
             <div className="border-b border-stone-200 pb-3">
               <div className="flex justify-between items-baseline mb-2">
-                <span className="text-[13px] font-bold text-stone-500 uppercase tracking-wider">Venom Core</span>
+                <span className="text-[13px] font-bold text-stone-500 uppercase tracking-wider">Intrinsic Danger</span>
                 <span className="text-base font-bold text-stone-800">{intrinsicScore}/100</span>
               </div>
               {lethalityScore != null && clinicalScore != null && (
                 <div className="space-y-1">
                   <div className="flex justify-between items-center">
-                    <span className="text-[11px] text-stone-400">Lethality Score <span className="text-stone-300">(55%)</span></span>
+                    <span className="text-[11px] text-stone-500">
+                      Lethality Score{" "}
+                      <span className="font-semibold text-stone-500">
+                        <span className="text-[13px]">×</span> 55%
+                      </span>
+                    </span>
                     <span className="text-[12px] font-bold text-stone-600 tabular-nums">{lethalityScore}/100</span>
                   </div>
+                  <div className="flex justify-center text-[13px] font-bold text-stone-500 leading-none">
+                    +
+                  </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-[11px] text-stone-400">Clinical Score <span className="text-stone-300">(45%)</span></span>
+                    <span className="text-[11px] text-stone-500">
+                      Clinical Score{" "}
+                      <span className="font-semibold text-stone-500">
+                        <span className="text-[13px]">×</span> 45%
+                      </span>
+                    </span>
                     <span className="text-[12px] font-bold text-stone-600 tabular-nums">{clinicalScore}/100</span>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="space-y-3 pt-1">
-              {modifiers.map((mod) => (
-                <div key={mod.label} className="flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <span className="text-[12px] font-black text-stone-400 uppercase tracking-widest leading-none mb-1">
-                      {mod.label}
-                    </span>
-                    <span className="text-[13px] font-bold text-stone-700 leading-none">
-                      {mod.text}
-                    </span>
+            <div className="pt-3">
+              <div className="text-[11px] font-black text-stone-400 uppercase tracking-widest mb-2">
+                Modifiers
+              </div>
+              <div className="space-y-3">
+                {modifiers.map((mod) => (
+                  <div key={mod.label} className="flex items-center justify-between">
+                    <div className="flex flex-col">
+                      <span className="text-[12px] font-black text-stone-400 uppercase tracking-widest leading-none mb-1">
+                        {mod.label}
+                      </span>
+                      <span className="text-[13px] font-bold text-stone-700 leading-none">
+                        {mod.text}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-bold tabular-nums text-stone-800">
+                        ×{mod.value.toFixed(2)}
+                      </span>
+                      <span className={`text-[12px] ${
+                        mod.direction === "up" ? "text-emerald-600" :
+                        mod.direction === "down" ? "text-red-500" : "text-stone-300"
+                      }`}>
+                        {mod.direction === "up" ? "▲" : mod.direction === "down" ? "▼" : "—"}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm font-bold tabular-nums text-stone-800">
-                      ×{mod.value.toFixed(2)}
-                    </span>
-                    <span className={`text-[12px] ${
-                      mod.direction === "up" ? "text-emerald-600" :
-                      mod.direction === "down" ? "text-red-500" : "text-stone-300"
-                    }`}>
-                      {mod.direction === "up" ? "▲" : mod.direction === "down" ? "▼" : "—"}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>

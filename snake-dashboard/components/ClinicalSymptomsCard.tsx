@@ -4,6 +4,7 @@ import { useState, useMemo, memo } from "react";
 import { motion } from "framer-motion";
 import type { Snake, ClinicalData } from "@/lib/types";
 import { calculateClinicalScore } from "@/lib/dangerScore";
+import { ScoreTooltip, type TooltipRow } from "./ScoreTooltip";
 
 type SymptomsMap = NonNullable<Snake["symptoms"]>;
 
@@ -133,6 +134,39 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
             {/* Clinical Severity Header */}
             {clinicalData && (() => {
               const clinicalScore = calculateClinicalScore(clinicalData);
+              const midCfr = (clinicalData.untreatedFatalityRate.low + clinicalData.untreatedFatalityRate.high) / 2;
+              const base = Math.sqrt(midCfr / 100) * 100;
+              const morbidityBonus =
+                clinicalData.severity === "Life-threatening" ? 20 :
+                clinicalData.severity === "Severe" ? 10 :
+                clinicalData.severity === "Moderate" ? 5 : 0;
+              const whoBonus = clinicalData.whoCategory === 1 ? 10 : clinicalData.whoCategory === 2 ? 5 : 0;
+              const b = (val: number | string) => <span style={{ fontWeight: 700, color: '#1c1917' }}>{val}</span>;
+              const tooltipRows: TooltipRow[] = [
+                { type: "header", text: "Clinical Score" },
+                { type: "desc", text: "How often does an untreated bite kill? Real-world outcome data, not lab estimates." },
+                { type: "spacer" },
+                {
+                  type: "formula",
+                  left: <>({b(clinicalData.untreatedFatalityRate.low)} + {b(clinicalData.untreatedFatalityRate.high)}) / 2</>,
+                  right: `${midCfr}%`,
+                },
+                {
+                  type: "formula",
+                  left: <>√({b(midCfr)} / 100) × 100</>,
+                  right: `${base.toFixed(0)} pts`,
+                },
+                { type: "note", text: "√ compresses the top end — a 25% CFR isn't 4× safer than 100%. The scale reflects how bite risk actually curves in practice." },
+              ];
+              if (morbidityBonus > 0 || whoBonus > 0) {
+                tooltipRows.push({ type: "section", text: "Additive Bonuses" });
+                tooltipRows.push({ type: "desc", text: "Stacked on top of the CFR base to capture danger not in the fatality rate: severity of injury, systemic damage, and medical burden." });
+                if (morbidityBonus > 0) tooltipRows.push({ type: "formula", left: `Severity (${clinicalData.severity})`, right: `+${morbidityBonus}` });
+                if (whoBonus > 0) tooltipRows.push({ type: "formula", left: `WHO Category ${clinicalData.whoCategory}`, right: `+${whoBonus}` });
+                tooltipRows.push({ type: "note", text: "Prevents high-morbidity snakes (e.g. Puff Adder — severe necrosis, rare fatality) from scoring too low just because they rarely kill outright." });
+              }
+              tooltipRows.push({ type: "result", left: "Score", right: `${clinicalScore}/100` });
+
               return (
                 <div className="mb-6 border-b border-dashed border-stone-300 pb-5">
                   <div className="flex items-center justify-between gap-4">
@@ -149,11 +183,15 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Clinical Score</div>
-                      <div className="tabular-nums leading-none">
-                        <span style={{ fontFamily: COMPRESSED, fontWeight: 800, fontSize: "36px", color: "#1c1917" }}>{clinicalScore}</span>
-                        <span className="text-sm font-normal text-stone-400">/100</span>
-                      </div>
+                      <ScoreTooltip rows={tooltipRows} anchor="left" width={268}>
+                        <div>
+                          <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Clinical Score</div>
+                          <div className="tabular-nums leading-none">
+                            <span style={{ fontFamily: COMPRESSED, fontWeight: 800, fontSize: "36px", color: "#1c1917" }}>{clinicalScore}</span>
+                            <span className="text-sm font-normal text-stone-400">/100</span>
+                          </div>
+                        </div>
+                      </ScoreTooltip>
                     </div>
                   </div>
                 </div>

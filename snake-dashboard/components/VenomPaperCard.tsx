@@ -7,7 +7,8 @@ import { VenomTypeChip } from "./VenomTypeChip";
 import { VenomYieldChip } from "./VenomYieldChip";
 import { VenomSpeedChip } from "./VenomSpeedChip";
 import { FangTypeChip } from "./FangTypeChip";
-import { imputeDryYield } from "@/lib/dangerScore";
+import { calculateLethalDosesRaw, imputeDryYield } from "@/lib/dangerScore";
+import { ScoreTooltip, type TooltipRow } from "./ScoreTooltip";
 
 // Card content height when expanded.
 const CONTENT_H = 720;
@@ -35,7 +36,29 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
     : null;
   const yieldMg = yieldMgNumeric ?? yieldMgImputed;
   const yieldIsEstimated = !yieldMgNumeric && yieldMgImputed != null;
+  const rawLethalDoses = ld50Sc && yieldMg ? calculateLethalDosesRaw(ld50Sc, yieldMg) : null;
   const lethalityScore = snake.dangerScoreComponents?.lethalityScore;
+
+  const b = (val: number | string) => <span style={{ fontWeight: 700, color: '#1c1917' }}>{val}</span>;
+  const lethalityTooltipRows: TooltipRow[] = (ld50Sc && yieldMg && lethalityScore != null && rawLethalDoses != null) ? [
+    { type: "header", text: "Lethality Score" },
+    { type: "desc", text: "Can one bite inject enough venom to be lethal? Combines potency and yield — neither alone tells the full story." },
+    { type: "spacer" },
+    {
+      type: "formula",
+      left: <>{b(yieldIsEstimated ? `~${yieldMg}` : yieldMg)}mg / ({b(ld50Sc.toFixed(3))} mg/kg × 70 kg)</>,
+      right: `${rawLethalDoses.toFixed(2)} doses`,
+    },
+    { type: "desc", text: "High yield with weak venom, or potent venom with a tiny injection — both reduce real danger. Multiplying them captures the interaction." },
+    {
+      type: "formula",
+      left: "log-scaled [0.01 → 30] to [0 → 100]",
+      right: `${lethalityScore} pts`,
+    },
+    { type: "desc", text: "Range spans 1,000×. Without log scale, extreme outliers would crush most snakes to near-zero." },
+    { type: "result", left: "Score", right: `${lethalityScore}/100` },
+    { type: "note", text: `LD₅₀ from mouse studies — human sensitivity varies by venom type.${yieldIsEstimated ? " Yield estimated from qualitative data." : ""}` },
+  ] : [];
 
   return (
     // Anchor: fixed, ~40% wide, centered in viewport
@@ -244,24 +267,26 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                   </div>
                 </div>
                 {lethalityScore != null && (
-                  <div className="flex flex-col items-end">
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">
-                      Lethality Score
+                  <ScoreTooltip rows={lethalityTooltipRows} anchor="left" width={280}>
+                    <div className="flex flex-col items-end">
+                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">
+                        Lethality Score
+                      </div>
+                      <div className="tabular-nums leading-none">
+                        <span
+                          style={{
+                            fontFamily: COMPRESSED,
+                            fontWeight: 800,
+                            fontSize: "36px",
+                            color: "#1c1917",
+                          }}
+                        >
+                          {lethalityScore}
+                        </span>
+                        <span className="text-sm font-normal text-stone-400">/100</span>
+                      </div>
                     </div>
-                    <div className="tabular-nums leading-none">
-                      <span
-                        style={{
-                          fontFamily: COMPRESSED,
-                          fontWeight: 800,
-                          fontSize: "36px",
-                          color: "#1c1917",
-                        }}
-                      >
-                        {lethalityScore}
-                      </span>
-                      <span className="text-sm font-normal text-stone-400">/100</span>
-                    </div>
-                  </div>
+                  </ScoreTooltip>
                 )}
               </div>
             </div>
