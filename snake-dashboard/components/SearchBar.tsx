@@ -40,7 +40,7 @@ export function SearchBar({
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         autoComplete="off"
-        className="h-10 rounded-lg border-0 bg-transparent pl-10 text-xs placeholder:text-stone-400 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 sm:h-11 sm:text-[15px]"
+        className="h-10 rounded-lg border-0 bg-transparent pl-10 text-base placeholder:text-stone-400 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 sm:h-11 sm:text-[15px]"
       />
     </div>
   );
