@@ -1667,6 +1667,7 @@ const enriched = ranked.map((s: any) => {
 const PRESERVED_FIELDS_FROM_EXISTING = [
   "firstAidInfo", "behaviorNotes", "conservationStatus", "accolades", "causesOfDeath",
   "dataQuality", "maxLength", "diet", "constrictor", "fangType",
+  "otherCommonNames", "commonlyMisidentifiedAs", "misidentificationRisk",
 ] as const;
 function pickPreserved(prev: Record<string, unknown> | undefined): Record<string, unknown> {
   if (!prev) return {};

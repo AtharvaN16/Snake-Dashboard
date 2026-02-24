@@ -255,6 +255,16 @@ export default async function SnakeDetailPage({
                     fontSize: "16px",
                   }}
                 >
+                  {snake.otherCommonNames && snake.otherCommonNames.length > 0 && (
+                    <p style={{ marginBottom: "14px", display: "flex", alignItems: "baseline" }}>
+                      <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Also Known As</span>
+                      <span
+                        style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)", marginLeft: "24px" }}
+                      >
+                        {snake.otherCommonNames.join(", ")}
+                      </span>
+                    </p>
+                  )}
                   <p style={{ marginBottom: "18px", display: "flex", alignItems: "baseline" }}>
                     <span className="font-semibold text-[#000]" style={{ minWidth: "90px" }}>Family</span>
                     <Link
@@ -295,6 +305,106 @@ export default async function SnakeDetailPage({
                       ) : null}
                     </span>
                   </p>
+                  {snake.misidentificationRisk === "high" && confusedSnakesData.length > 0 && (() => {
+                    const isSnakeVenomous = snake.venomClassification !== "Non-venomous";
+                    const pairs = confusedSnakesData.filter(({ snake: other }) => {
+                      if (!other) return true;
+                      const otherVenomous = other.venomClassification !== "Non-venomous";
+                      if (isSnakeVenomous !== otherVenomous) return true;
+                      if (
+                        snake.venomClassification === "Highly Venomous" &&
+                        (other.venomClassification === "Venomous" ||
+                          other.venomClassification === "Moderately Venomous" ||
+                          other.venomClassification === "Mildly Venomous")
+                      ) {
+                        return true;
+                      }
+                      if (isSnakeVenomous && otherVenomous) return true;
+                      return false;
+                    });
+                    if (pairs.length === 0) return null;
+
+                    return (
+                      <div style={{ marginBottom: "14px" }}>
+                        <p className="font-semibold text-[#000]">Misidentification risk</p>
+                        <span
+                          className="inline-flex flex-wrap items-center"
+                          style={{ marginTop: "10px", gap: "4px" }}
+                        >
+                          <span
+                            className="font-semibold"
+                            style={{
+                              padding: "3px 10px",
+                              borderRadius: "6px",
+                              fontSize: "14px",
+                              background: snake.venomClassification === "Highly Venomous"
+                                ? "#FF7373"
+                                : snake.venomClassification === "Venomous"
+                                ? "#FFAB73"
+                                : snake.venomClassification === "Moderately Venomous"
+                                ? "#FEF08A"
+                                : snake.venomClassification === "Mildly Venomous"
+                                ? "#B9E948"
+                                : "#CCCCCC",
+                              color: "#000000B2",
+                            }}
+                          >
+                            {snake.commonName}
+                          </span>
+                          <span className="text-stone-400 font-medium select-none" style={{ fontSize: "15px" }}>↔</span>
+                          {pairs.map(({ id: cid, snake: other }) => {
+                            const exists = other !== undefined;
+                            const displayName =
+                              other?.commonName ||
+                              cid
+                                .split("-")
+                                .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                                .join(" ");
+                            const getPillColor = (classification: string | undefined) => {
+                              if (!classification) return "#E5E5E5";
+                              if (classification === "Highly Venomous") return "#FF7373";
+                              if (classification === "Venomous") return "#FFAB73";
+                              if (classification === "Moderately Venomous") return "#FEF08A";
+                              if (classification === "Mildly Venomous") return "#B9E948";
+                              return "#CCCCCC";
+                            };
+                            const pillStyle = {
+                              padding: "3px 10px",
+                              borderRadius: "6px",
+                              fontSize: "14px",
+                              background: getPillColor(other?.venomClassification),
+                              color: exists ? "#000000B2" : "#999999",
+                              opacity: exists ? 1 : 0.6,
+                            };
+
+                            if (exists) {
+                              return (
+                                <Link
+                                  key={cid}
+                                  href={`/snakes/${cid}`}
+                                  className="font-semibold transition-opacity hover:opacity-75"
+                                  style={pillStyle}
+                                >
+                                  {displayName}
+                                </Link>
+                              );
+                            }
+
+                            return (
+                              <span
+                                key={cid}
+                                className="font-semibold"
+                                style={pillStyle}
+                                title="Not yet in database"
+                              >
+                                {displayName}
+                              </span>
+                            );
+                          })}
+                        </span>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
