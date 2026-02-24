@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import type { Distribution } from "@/lib/types";
@@ -20,6 +20,7 @@ export interface DistributionMapProps {
   className?: string;
   width?: number;
   height?: number;
+  responsive?: boolean;
 }
 
 // --- Geometry Utilities ---
@@ -81,7 +82,14 @@ function getBboxFromFeatureCollection(fc: FeatureCollection): [number, number, n
   return minLng === Infinity ? null : [minLng, minLat, maxLng, maxLat];
 }
 
-export function DistributionMap({ distribution, snakeId, className = "", width = 460, height = 280 }: DistributionMapProps) {
+export function DistributionMap({
+  distribution,
+  snakeId,
+  className = "",
+  width = 460,
+  height = 280,
+  responsive = false,
+}: DistributionMapProps) {
   const [rangeGeoJson, setRangeGeoJson] = useState<FeatureCollection | null>(() => 
     distribution.geometry ? normalizeFeatureCollectionWinding(geometryToFeatureCollection(distribution.geometry)) : null
   );
@@ -123,6 +131,7 @@ export function DistributionMap({ distribution, snakeId, className = "", width =
   useEffect(() => {
     if (distribution.geometry) {
       const fc = normalizeFeatureCollectionWinding(geometryToFeatureCollection(distribution.geometry));
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setRangeGeoJson(fc);
       setLoading(false);
       
@@ -145,6 +154,7 @@ export function DistributionMap({ distribution, snakeId, className = "", width =
     let cancelled = false;
     if (!urlToFetch) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     fetch(urlToFetch)
       .then(res => res.ok ? res.json() : Promise.reject())
@@ -185,7 +195,10 @@ export function DistributionMap({ distribution, snakeId, className = "", width =
   const blurFilterId = useMemo(() => `range-blur-${snakeId.replace(/[^a-zA-Z0-9_-]/g, "-")}`, [snakeId]);
 
   return (
-    <div className={`relative ${className}`} style={{ width, height }}>
+    <div
+      className={`relative ${className}`}
+      style={{ width: responsive ? "100%" : width, height: responsive ? "100%" : height }}
+    >
       <div className="w-full h-full overflow-hidden">
         <ComposableMap
           projection="geoMercator"

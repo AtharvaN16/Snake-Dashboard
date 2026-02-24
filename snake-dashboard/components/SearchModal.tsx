@@ -33,7 +33,7 @@ export function SearchModal() {
         onClick={closeModal}
       />
       <div
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-full max-w-2xl h-[85vh] mx-4"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[calc(100%-32px)] max-w-2xl h-[85vh]"
         role="dialog"
         aria-modal="true"
         aria-label="Search snakes"

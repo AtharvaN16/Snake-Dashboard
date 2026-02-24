@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { existsSync } from "fs";
 import { join } from "path";
 import {
@@ -12,7 +11,10 @@ import { VenomPaperCard } from "@/components/VenomPaperCard";
 import { ClinicalSymptomsCard } from "@/components/ClinicalSymptomsCard";
 import { DangerScoreCard } from "@/components/DangerScoreCard";
 import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
+import Link from "next/link";
+import { DistributionMap } from "@/components/DistributionMap";
 import { Kbd } from "@/components/ui/kbd";
+import { SnakeDetailMobileHeader } from "@/components/SnakeDetailMobileHeader";
 
 export async function generateStaticParams() {
   const snakes = getAllSnakes();
@@ -76,8 +78,6 @@ export default async function SnakeDetailPage({
     ...galleryWithAttribution.map((item) => item.attr || snake.images.attribution),
   ];
 
-  const tapeImage = Math.random() < 0.5 ? '/paper/scotch-tape-09.webp' : '/paper/scotch-tape-12.webp';
-
   // Use symptoms if present; otherwise derive from symptomsProgression for venomous snakes
   const sp = (snake as { symptomsProgression?: { shortTerm?: string[]; progressive?: string[]; critical?: string[] } }).symptomsProgression;
   const symptomsForDisplay =
@@ -102,12 +102,33 @@ export default async function SnakeDetailPage({
       : [];
 
   return (
-    <div className="min-h-screen py-8 px-[68px]">
+    <div className="min-h-screen px-2 pb-5 pt-0 sm:px-4 sm:pb-6 sm:pt-4 lg:px-[68px] lg:py-8">
+      <SnakeDetailMobileHeader />
+
+      {/* Mobile distribution map */}
+      <div
+        className="relative z-10 -mx-2 mb-0 h-[220px] overflow-hidden sm:-mx-4 sm:h-[260px] lg:mx-0 lg:hidden"
+        style={{
+          WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
+          maskImage: "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
+        }}
+      >
+        <DistributionMap
+          distribution={snake.distribution}
+          snakeId={snake.id}
+          width={640}
+          height={360}
+          responsive
+          className="h-full w-full"
+        />
+      </div>
 
       {/* Back + keyboard shortcut hints */}
-      <div className="relative z-20 mb-3 flex items-center gap-4 flex-wrap text-sm text-stone-600">
+      <div className="relative z-20 mb-3 mt-2 hidden items-center gap-4 flex-wrap text-sm text-stone-600 lg:flex">
         <span className="flex items-center gap-2">
-          <Kbd triggerKey="Escape">Esc</Kbd>
+          <span className="hidden items-center gap-2 lg:inline-flex">
+            <Kbd triggerKey="Escape">Esc</Kbd>
+          </span>
           <Link
             href="/"
             className="hover:text-stone-800 transition-colors"
@@ -115,35 +136,21 @@ export default async function SnakeDetailPage({
             Back
           </Link>
         </span>
-        <span className="flex items-center gap-2">
+        <span className="hidden items-center gap-2 lg:inline-flex">
           <Kbd triggerKey=" ">Space</Kbd>
           <span>Search another snake</span>
         </span>
       </div>
 
       {/* Snake Info Card + Polaroid photo */}
-      <div className="relative z-20 mb-20 max-w-[980px] pt-12">
-        {/* Scotch tape */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={tapeImage}
-          alt=""
-          aria-hidden
-          className="absolute top-1 -translate-x-1/2 z-20 pointer-events-none select-none"
-          style={{ width: "200px", height: "auto", left: "calc(50% - 54px)" }}
-        />
-
+      <div className="relative z-20 -mt-8 mb-12 max-w-[980px] overflow-hidden pt-6 sm:-mt-10 sm:pt-8 lg:mt-0 lg:mb-20 lg:overflow-visible lg:pt-12">
         {/* Paper card container */}
-        <div className="relative pt-10 pb-6 pl-9 pr-6 bg-transparent">
+        <div className="relative -mt-7 bg-transparent px-2 pb-6 pt-7 sm:-mt-8 sm:px-4 lg:mt-0 lg:pb-6 lg:pl-9 lg:pr-6 lg:pt-10">
           {/* Paper background */}
           <div
             aria-hidden
-            className="absolute pointer-events-none select-none"
+            className="absolute pointer-events-none select-none hidden bottom-[-120px] left-[-16px] right-0 top-[-24px] lg:block lg:bottom-[-210px] lg:left-[-68px] lg:right-[100px] lg:top-[-52px]"
             style={{
-              left: "-68px",
-              top: "-52px",
-              right: "100px",
-              bottom: "-210px",
               backgroundImage: "url('/paper/paper-48.webp')",
               backgroundSize: "cover",
               backgroundPosition: "left top",
@@ -215,7 +222,7 @@ export default async function SnakeDetailPage({
                   style={{
                     color: "rgba(0, 0, 0, 0.45)",
                     fontFamily: "var(--font-pangram-slim), system-ui, sans-serif",
-                    fontSize: "20px",
+                    fontSize: "clamp(16px, 4.5vw, 20px)",
                     fontStyle: "italic",
                     fontWeight: 600,
                     lineHeight: "normal",
@@ -229,7 +236,7 @@ export default async function SnakeDetailPage({
                   style={{
                     color: "#000",
                     fontFamily: "var(--font-pangram-compressed), system-ui, sans-serif",
-                    fontSize: "52px",
+                    fontSize: "clamp(34px, 10vw, 52px)",
                     fontStyle: "normal",
                     fontWeight: 800,
                     lineHeight: "normal",
@@ -409,7 +416,7 @@ export default async function SnakeDetailPage({
               </div>
 
               {snake.images?.primary && (
-                <div className="mx-auto w-full max-w-[420px] lg:mx-0 lg:w-[420px] lg:flex-none">
+                <div className="mx-auto hidden w-full max-w-[420px] lg:mx-0 lg:block lg:w-[420px] lg:flex-none">
                   <PolaroidStack
                     images={polaroidImages}
                     caption={snake.commonName}
@@ -422,11 +429,25 @@ export default async function SnakeDetailPage({
         </div>
       </div>
 
+      {snake.images?.primary && (
+        <div className="relative z-20 mb-8 lg:hidden">
+          <div className="w-full max-w-[420px] ml-auto" style={{ transform: "translateX(6px)" }}>
+            <PolaroidStack
+              images={polaroidImages}
+              caption={snake.commonName}
+              attributions={polaroidAttributions}
+            />
+          </div>
+        </div>
+      )}
+
       {process.env.NODE_ENV !== "production" && (
         <ImageCandidatePicker snakeId={snake.id} />
       )}
 
       {/* Floating overlays — slide up from bottom */}
+      <DangerScoreCard snake={snake} />
+
       {venomous && <VenomPaperCard snake={snake} />}
       
       {venomous && (
@@ -437,11 +458,6 @@ export default async function SnakeDetailPage({
         />
       )}
 
-      <DangerScoreCard snake={snake} />
-
-      <div className="relative z-20 text-center mt-20 text-sm text-stone-500">
-        <p>Researched 🔬 by Atharva</p>
-      </div>
     </div>
   );
 }

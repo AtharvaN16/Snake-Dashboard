@@ -22,7 +22,7 @@ export default function SnakesLayout({ children }: { children: React.ReactNode }
       {/* Persistent Distribution Map */}
       {hasRangeMap && snake && (
         <div
-          className="fixed top-0 right-0 w-[640px] h-[680px] pointer-events-none z-0 overflow-hidden"
+          className="fixed top-0 right-0 hidden h-[680px] w-[640px] pointer-events-none z-0 overflow-hidden lg:block"
           style={{
             WebkitMaskImage:
               "linear-gradient(to right, transparent 0%, black 15%), linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",

@@ -41,6 +41,8 @@ export function setupInteractions(ctx: ChartContext): {
   cleanup: () => void;
   updateSpeciesVisibility: (scale: number) => void;
   applyRegionFilter: (region: Snake["continent"] | null) => void;
+  applyVenomFade: (nodes: Set<d3.HierarchyPointNode<HierarchyNode>> | null) => void;
+  refreshNodePositions: () => void;
 } {
   const {
     svg, g, labelsLayer, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
@@ -65,24 +67,28 @@ export function setupInteractions(ctx: ChartContext): {
   let currentFamilyBranchNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
   /** When region filter is active, paths to all species in that region; otherwise null. */
   let regionHighlightPathNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
+  /** When venom filter is active, paths to all venomous species; otherwise null. */
+  let venomHighlightPathNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
 
   // --- Voronoi/Delaunay setup ---
-  const delaunay = d3.Delaunay.from(nodePoints);
+  let delaunay = d3.Delaunay.from(nodePoints);
 
   if (currentSnakeId) {
     const found = allNodes.find((n) => n.data.id === currentSnakeId);
     searchHighlightNode = found ?? null;
   }
 
-  /** Partial fade (0.2/0.1) for click focus, search highlight, or region when not hovering; when hovering in region view always full dim (0) so only the path is visible. */
+  /** Partial fade (0.2/0.1) for click focus, search highlight, or filter when not hovering; full dim (0) when hovering within an active filter. */
   function getDimmedOpacity(): { node: string; link: number } {
     const regionActive = regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0;
-    const hoveringInRegion = regionActive && !!hoveredNode;
-    const usePartialFade = hoveringInRegion
+    const venomActive = venomHighlightPathNodes != null && venomHighlightPathNodes.size > 0;
+    const anyFilterActive = regionActive || venomActive;
+    const hoveringInFilter = anyFilterActive && !!hoveredNode;
+    const usePartialFade = hoveringInFilter
       ? false
       : !!clickFocusNode ||
         !!searchHighlightNode ||
-        regionActive ||
+        anyFilterActive ||
         zoomScaleRef.current > scale0 * 1.001;
     return {
       node: usePartialFade ? "0.2" : "0",
@@ -91,8 +97,12 @@ export function setupInteractions(ctx: ChartContext): {
   }
 
   function getEffectiveHighlightedNodes(): Set<d3.HierarchyNode<HierarchyNode>> {
+    // When hovering, show the hover lineage path — not the full filter set.
+    if (hoveredNode && currentHighlightedNodes.size > 0) return currentHighlightedNodes;
     if (regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0)
       return regionHighlightPathNodes;
+    if (venomHighlightPathNodes != null && venomHighlightPathNodes.size > 0)
+      return venomHighlightPathNodes;
     return currentHighlightedNodes;
   }
 
@@ -125,9 +135,11 @@ export function setupInteractions(ctx: ChartContext): {
     currentHighlightedNodes = pathNodes;
     const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
 
-    const regionActive = regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0;
+    const anyFilterActive =
+      (regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0) ||
+      (venomHighlightPathNodes != null && venomHighlightPathNodes.size > 0);
     const isSpeciesAtDefaultZoom =
-      isSpecies(target) && dimmedNode === "0" && !regionActive;
+      isSpecies(target) && dimmedNode === "0" && !anyFilterActive;
     let familyBranch: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
     if (isSpeciesAtDefaultZoom && target.parent?.parent) {
       const family = target.parent.parent;
@@ -197,6 +209,21 @@ export function setupInteractions(ctx: ChartContext): {
     getRegionFilterActive: () => regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0,
   });
 
+  function restoreVenomFade() {
+    const vn = venomHighlightPathNodes!;
+    hoverActive = true;
+    currentHighlightedNodes = new Set();
+    currentFamilyBranchNodes = null;
+    const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
+    nodeSelection.style("pointer-events", d => vn.has(d) ? "auto" : "none");
+    nodeSelection.transition().duration(300).style("opacity", d => vn.has(d) ? "1" : dimmedNode);
+    linkSelection.attr("stroke-dashoffset", 0);
+    linkSelection.transition().duration(300).attr("stroke-opacity", l =>
+      vn.has(l.source) && vn.has(l.target) ? 0.9 : dimmedLink
+    );
+    updateSpeciesVisibility(zoomScaleRef.current);
+  }
+
   function clearHighlight() {
     if (clickFocusNode) {
       highlightSubtree(clickFocusNode);
@@ -212,6 +239,11 @@ export function setupInteractions(ctx: ChartContext): {
     if (currentRegion != null && regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0) {
       highlightPathsForRegion(currentRegion);
       updateSpeciesVisibility(zoomScaleRef.current);
+      return;
+    }
+    // Restore venom filter fade if active
+    if (venomHighlightPathNodes != null) {
+      restoreVenomFade();
       return;
     }
     hoverActive = false;
@@ -281,7 +313,10 @@ export function setupInteractions(ctx: ChartContext): {
   ) {
     const color = currentNodeColor()(node);
     const r = nodeRadius(node);
-    const [px, py] = radialPoint((node as any).x, (node as any).y);
+    // Use force-adjusted angle/_currentY when available (potency/yield modes shift node positions)
+    const nodeY = (node as any)._currentY ?? (node as any).y;
+    const nodeX = (node as any)._currentAngle ?? (node as any).x;
+    const [px, py] = radialPoint(nodeX, nodeY);
     const k = zoomScaleRef.current;
     const invK = 1 / k;
     const gap = r + (opts?.large ? 28 : 24) * invK;
@@ -307,8 +342,6 @@ export function setupInteractions(ctx: ChartContext): {
     const { fill, fillOpacity } = getNodeHoverStyle(getColorMode(), d, currentNodeColor(), currentSnakeId);
     d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", fillOpacity);
     if (searchHighlightNode && d === searchHighlightNode) return;
-    // Show highlight label only at default zoom; when zoomed in, skip to avoid duplicating ext-labels
-    if (zoomScaleRef.current > scale0 * 1.001) return;
     hoverLabel = createLabel(g, d, "hover-label");
   }
 
@@ -380,26 +413,41 @@ export function setupInteractions(ctx: ChartContext): {
     searchHighlightNode = null;
     hoveredNode = null;
     regionHighlightPathNodes = null;
+    // Note: venomHighlightPathNodes is NOT cleared — venom pills stay active across Z-reset.
     currentHighlightedNodes = new Set();
     currentFamilyBranchNodes = null;
     document.body.removeAttribute("data-chart-zoomed");
-    hoverActive = false;
 
     if (searchLabel) { searchLabel.remove(); searchLabel = null; }
     if (hoverLabel) { hoverLabel.remove(); hoverLabel = null; }
     if (focusLabel) { focusLabel.remove(); focusLabel = null; }
 
-    // Reset all nodes to base state respecting current color mode
+    // Reset all nodes to base fill respecting current color mode
     nodeSelection.each(function (nd) {
       const fill = computeNodeFill(nd, currentNodeColor(), getColorMode(), currentSnakeId);
       d3.select(this).select<SVGElement>("circle, path")
         .attr("fill", fill).attr("fill-opacity", 1);
     });
-    
-    nodeSelection.style("pointer-events", "auto");
-    nodeSelection.interrupt().transition().duration(200).style("opacity", "1");
-    linkSelection.attr("stroke-dashoffset", 0);
-    linkSelection.interrupt().transition().duration(200).attr("stroke-opacity", 0.7);
+
+    if (venomHighlightPathNodes != null) {
+      // Venom filter is still active; restore its opacity state
+      hoverActive = true;
+      const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
+      nodeSelection.style("pointer-events", d => venomHighlightPathNodes!.has(d) ? "auto" : "none");
+      nodeSelection.interrupt().transition().duration(200)
+        .style("opacity", d => venomHighlightPathNodes!.has(d) ? "1" : dimmedNode);
+      linkSelection.attr("stroke-dashoffset", 0);
+      linkSelection.interrupt().transition().duration(200)
+        .attr("stroke-opacity", l =>
+          venomHighlightPathNodes!.has(l.source) && venomHighlightPathNodes!.has(l.target) ? 0.9 : dimmedLink
+        );
+    } else {
+      hoverActive = false;
+      nodeSelection.style("pointer-events", "auto");
+      nodeSelection.interrupt().transition().duration(200).style("opacity", "1");
+      linkSelection.attr("stroke-dashoffset", 0);
+      linkSelection.interrupt().transition().duration(200).attr("stroke-opacity", 0.7);
+    }
   }
 
   // --- Bind mouse events ---
@@ -413,12 +461,14 @@ export function setupInteractions(ctx: ChartContext): {
     const [mx, my] = d3.pointer(event, g.node());
     const closestNodeIndex = delaunay.find(mx, my);
     const newNode = allNodes[closestNodeIndex];
-    
-    // Calculate distance to the new node
-    const closestPoint = nodePoints[closestNodeIndex];
-    const dist = Math.sqrt(Math.pow(mx - closestPoint[0], 2) + Math.pow(my - closestPoint[1], 2));
-    const radius = nodeRadius(newNode);
-    const threshold = radius + 30; // Hover if within 30px of the node's edge
+
+    // Use force-adjusted/extended positions when available (potency extends branches, yield adjusts angles)
+    const nodeY = (newNode as any)._currentY ?? (newNode as any).y;
+    const nodeX = (newNode as any)._currentAngle ?? (newNode as any).x;
+    const [cpx, cpy] = radialPoint(nodeX, nodeY);
+    const dist = Math.hypot(mx - cpx, my - cpy);
+    const radius = (newNode as any)._currentR ?? nodeRadius(newNode);
+    const threshold = radius + 30;
 
     let finalNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
     if (dist <= threshold) {
@@ -585,6 +635,36 @@ export function setupInteractions(ctx: ChartContext): {
     }
   }
 
+  function applyVenomFade(pathNodes: Set<d3.HierarchyPointNode<HierarchyNode>> | null) {
+    venomHighlightPathNodes = pathNodes;
+    if (pathNodes == null) {
+      // Venom deactivated: let clearHighlight restore region/default state
+      clearHighlight();
+      return;
+    }
+    hoverActive = true;
+    const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
+    nodeSelection.style("pointer-events", d => pathNodes.has(d) ? "auto" : "none");
+    nodeSelection.transition("venom-filter").duration(600).ease(d3.easeCubicInOut)
+      .style("opacity", d => pathNodes.has(d) ? "1" : dimmedNode);
+    linkSelection.transition("venom-filter").duration(600).ease(d3.easeCubicInOut)
+      .attr("stroke-opacity", l =>
+        pathNodes.has(l.source) && pathNodes.has(l.target) ? 0.9 : dimmedLink
+      );
+    updateSpeciesVisibility(zoomScaleRef.current);
+  }
+
+  /** Rebuild Delaunay from current node positions (_currentY/_currentAngle on datums).
+   *  Call after any venom effect that moves nodes (potency / yield). */
+  function refreshNodePositions() {
+    const updatedPoints = allNodes.map(n => {
+      const ny = (n as any)._currentY ?? (n as any).y;
+      const nx = (n as any)._currentAngle ?? (n as any).x;
+      return radialPoint(nx, ny) as [number, number];
+    });
+    delaunay = d3.Delaunay.from(updatedPoints);
+  }
+
   return {
     cleanup() {
       if (searchHighlightTimeoutId != null) {
@@ -597,5 +677,8 @@ export function setupInteractions(ctx: ChartContext): {
     },
     updateSpeciesVisibility,
     applyRegionFilter: (region: Snake["continent"] | null) => highlightPathsForRegion(region),
+    applyVenomFade,
+    refreshNodePositions,
+    resetView: resetToDefault,
   };
 }

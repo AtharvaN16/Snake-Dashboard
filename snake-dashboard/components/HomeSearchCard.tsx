@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getAllSnakes, isVenomous } from "@/lib/snakeData";
@@ -47,7 +47,7 @@ function SnakeListItem({
   return (
     <div
       onMouseEnter={onHover}
-      className={`flex items-center justify-between py-3 px-5 mx-2 rounded-lg transition-colors group ${
+      className={`group mx-1.5 flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors sm:mx-2 sm:px-5 sm:py-3 ${
         isActive ? "bg-stone-100" : keyboardPriority ? "" : "hover:bg-stone-100"
       }`}
     >
@@ -57,14 +57,14 @@ function SnakeListItem({
         onClick={() => onSelectSnake?.()}
       >
         <span
-          className={`font-semibold whitespace-nowrap ${
+          className={`min-w-0 truncate text-sm font-semibold sm:text-base ${
             isActive ? "text-stone-700" : "text-[#2c2c2c] group-hover:text-stone-700"
           }`}
         >
           {snake.commonName}
         </span>
         <span
-          className={`text-sm truncate ${
+          className={`hidden truncate text-xs sm:inline sm:text-sm ${
             venomous ? "text-stone-400" : "text-stone-500"
           }`}
         >
@@ -72,10 +72,10 @@ function SnakeListItem({
         </span>
       </Link>
 
-      <div className="flex items-center gap-1 ml-4 shrink-0">
+      <div className="ml-2 flex shrink-0 items-center gap-1 sm:ml-4">
         <Link
           href="/rank"
-          className="text-[11px] font-medium px-2 py-0.5 rounded hover:opacity-80 transition-opacity no-underline"
+          className="max-w-[110px] truncate rounded px-2 py-0.5 text-[9px] font-medium no-underline transition-opacity hover:opacity-80 sm:max-w-none sm:text-[11px]"
           style={{
             backgroundColor: classification.bg,
             color: classification.text,
@@ -115,7 +115,7 @@ export function HomeSearchCard({
   inputId,
   onSelectSnake,
   getSnakeHref,
-  className = "bg-white rounded-2xl shadow-md overflow-hidden flex-1 min-h-0 flex flex-col",
+  className = "bg-white rounded-2xl shadow-md overflow-hidden flex flex-col w-full",
 }: HomeSearchCardProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
@@ -129,6 +129,10 @@ export function HomeSearchCard({
     const result = searchQuery ? searchSnakes(allSnakes, searchQuery) : allSnakes;
     return sortSnakes(result, sortBy);
   }, [allSnakes, searchQuery, sortBy]);
+  const effectiveActiveIndex =
+    filteredSnakes.length === 0 || activeIndex < 0
+      ? -1
+      : Math.min(activeIndex, filteredSnakes.length - 1);
 
   const groupedSnakes = useMemo(() => {
     if (sortBy === "rank" || sortBy === "alphabetical") return null;
@@ -148,19 +152,11 @@ export function HomeSearchCard({
     return groups;
   }, [filteredSnakes, sortBy]);
 
-  useEffect(() => {
-    setActiveIndex((prev) => {
-      if (filteredSnakes.length === 0) return -1;
-      if (prev < 0) return -1;
-      return Math.min(prev, filteredSnakes.length - 1);
-    });
-  }, [filteredSnakes.length]);
-
   // Auto-scroll only for keyboard navigation; do not scroll when hovering with cursor
   useEffect(() => {
-    if (!isKeyboardNavigating || !listRef.current || activeIndex < 0) return;
+    if (!isKeyboardNavigating || !listRef.current || effectiveActiveIndex < 0) return;
     const activeItem = listRef.current.querySelector<HTMLElement>(
-      `[data-snake-index="${activeIndex}"]`
+      `[data-snake-index="${effectiveActiveIndex}"]`
     );
     if (activeItem) {
       const container = listRef.current;
@@ -174,11 +170,7 @@ export function HomeSearchCard({
         activeItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
       }
     }
-  }, [activeIndex, isKeyboardNavigating]);
-
-  useEffect(() => {
-    setActiveIndex(-1);
-  }, [searchQuery, sortBy]);
+  }, [effectiveActiveIndex, isKeyboardNavigating]);
 
   useEffect(() => {
     function resetKeyboardNavigation() {
@@ -194,12 +186,12 @@ export function HomeSearchCard({
     };
   }, []);
 
-  const navigateToActiveSnake = () => {
-    if (activeIndex < 0) return;
-    const snake = filteredSnakes[activeIndex];
+  const navigateToActiveSnake = useCallback(() => {
+    if (effectiveActiveIndex < 0) return;
+    const snake = filteredSnakes[effectiveActiveIndex];
     onSelectSnake?.();
     router.push(getSnakeHref ? getSnakeHref(snake) : `/snakes/${snake.id}`);
-  };
+  }, [effectiveActiveIndex, filteredSnakes, getSnakeHref, onSelectSnake, router]);
 
   useEffect(() => {
     function handleGlobalNavigation(e: KeyboardEvent) {
@@ -236,7 +228,17 @@ export function HomeSearchCard({
 
     window.addEventListener("keydown", handleGlobalNavigation);
     return () => window.removeEventListener("keydown", handleGlobalNavigation);
-  }, [activeIndex, filteredSnakes]);
+  }, [filteredSnakes, navigateToActiveSnake]);
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setActiveIndex(-1);
+  };
+
+  const handleSortChange = (nextSort: SortOption) => {
+    setSortBy(nextSort);
+    setActiveIndex(-1);
+  };
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowDown") {
@@ -263,12 +265,12 @@ export function HomeSearchCard({
 
   return (
     <div className={`${className} relative`}>
-      <div className="pt-2 pb-2 px-6 shrink-0">
-        <div className="relative flex items-center gap-2">
+      <div className="shrink-0 px-3 pb-2 pt-2 sm:px-6">
+        <div className="relative flex flex-wrap items-center gap-2">
           <div className="flex-1">
             <SearchBar
               inputId={inputId}
-              onSearch={setSearchQuery}
+              onSearch={handleSearch}
               onKeyDown={handleSearchKeyDown}
               placeholder="Search for snakes..."
             />
@@ -276,8 +278,8 @@ export function HomeSearchCard({
           <select
             id={`${inputId}-sort`}
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortOption)}
-            className="border-0 rounded-full px-4 h-11 bg-stone-100 text-stone-700 text-xs focus:outline-none focus:ring-0 cursor-pointer appearance-none pr-10"
+            onChange={(e) => handleSortChange(e.target.value as SortOption)}
+            className="h-10 w-full cursor-pointer appearance-none rounded-full border-0 bg-stone-100 px-4 pr-10 text-[10px] text-stone-700 focus:outline-none focus:ring-0 sm:h-11 sm:w-auto sm:text-xs"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
               backgroundPosition: 'right 0.75rem center',
@@ -292,16 +294,16 @@ export function HomeSearchCard({
             <option value="family">Family</option>
           </select>
         </div>
-        <div className="border-b border-stone-200 -mx-6 mt-2" />
+        <div className="-mx-3 mt-2 border-b border-stone-200 sm:-mx-6" />
       </div>
 
       <div
         ref={listRef}
-        className="px-1.5 pt-2 pb-24 space-y-0 flex-1 min-h-0 overflow-y-auto scrollbar-hide"
+        className="min-h-0 flex-1 space-y-0 overflow-y-auto px-1.5 pb-6 pt-2 scrollbar-hide max-h-[56vh] lg:pb-24"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {filteredSnakes.length === 0 ? (
-          <div className="py-12 px-6 text-center text-stone-500">
+          <div className="px-6 py-10 text-center text-xs text-stone-500 sm:py-12 sm:text-sm">
             No snakes found matching your search.
           </div>
         ) : sortBy === "rank" || sortBy === "alphabetical" || !groupedSnakes ? (
@@ -309,7 +311,7 @@ export function HomeSearchCard({
             <div key={snake.id} data-snake-index={index}>
               <SnakeListItem
                 snake={snake}
-                isActive={index === activeIndex}
+                isActive={index === effectiveActiveIndex}
                 keyboardPriority={isKeyboardNavigating}
                 onHover={() => {
                   if (isKeyboardNavigating) return;
@@ -323,14 +325,14 @@ export function HomeSearchCard({
         ) : (
           groupedSnakes.map((group) => (
             <div key={`${sortBy}-${group.heading}`}>
-              <div className="mx-1 my-1 px-4 py-1 text-[11px] font-semibold uppercase tracking-wide text-white rounded-sm" style={{ backgroundColor: '#3D3D3D' }}>
+              <div className="mx-1 my-1 rounded-sm px-4 py-1 text-[9px] font-semibold uppercase tracking-wide text-white sm:text-[11px]" style={{ backgroundColor: '#3D3D3D' }}>
                 {group.heading}
               </div>
               {group.items.map(({ snake, index }) => (
                 <div key={snake.id} data-snake-index={index}>
                   <SnakeListItem
                     snake={snake}
-                    isActive={index === activeIndex}
+                    isActive={index === effectiveActiveIndex}
                     keyboardPriority={isKeyboardNavigating}
                     onHover={() => {
                       if (isKeyboardNavigating) return;
@@ -348,7 +350,7 @@ export function HomeSearchCard({
 
       {/* Glassy tooltip bar at bottom */}
       <div 
-        className="absolute bottom-0 left-0 right-0 px-6 py-3 border-t border-stone-200/30"
+        className="absolute bottom-0 left-0 right-0 hidden border-t border-stone-200/30 px-6 py-3 lg:block"
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.25)',
           backdropFilter: 'blur(20px) saturate(180%)',
