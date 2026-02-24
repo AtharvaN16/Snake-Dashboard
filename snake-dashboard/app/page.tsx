@@ -28,7 +28,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative h-dvh w-full px-2 sm:px-4 lg:px-[68px] overflow-hidden">
+    <div className="relative h-dvh w-full px-0 md:px-4 lg:px-[68px] overflow-hidden">
       <PaperAppBackground />
       
       {/* Desktop Easter Egg Logo - Top Left */}
@@ -42,46 +42,60 @@ export default function Home() {
         />
       </div>
 
-      {/* Nav links - Absolute positioned to stay within viewport without flow issues */}
+      {/* Nav links - Desktop: absolute; Mobile: in flow above logo with gap */}
       {!isPlaying && (
-        <nav className="absolute top-6 left-0 right-0 mx-auto z-20 flex w-fit items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-stone-500 sm:text-xs lg:left-auto lg:right-[68px] lg:top-8 lg:mx-0 lg:gap-4 lg:text-sm lg:font-medium lg:normal-case lg:tracking-normal lg:text-stone-600">
-          <span className="flex items-center gap-2">
-            <Kbd triggerKey="R" className="hidden lg:inline-flex">R</Kbd>
-            <Link
-              href="/rank"
-              className="hover:text-stone-800 transition-colors no-underline"
-            >
-              Rankings
-            </Link>
-          </span>
-          <span className="flex items-center gap-2">
-            <Kbd triggerKey="T" className="hidden lg:inline-flex">T</Kbd>
-            <Link
-              href="/phylogeny"
-              className="hover:text-stone-800 transition-colors no-underline"
-            >
-              Taxonomy
-            </Link>
-          </span>
-        </nav>
+        <nav className="hidden lg:flex absolute left-auto right-[68px] top-8 z-20 mx-0 w-fit items-center gap-4 text-sm font-medium normal-case tracking-normal text-stone-600">
+            <span className="flex items-center gap-2">
+              <Kbd triggerKey="R" className="inline-flex">R</Kbd>
+              <Link
+                href="/rank"
+                className="hover:text-stone-800 transition-colors no-underline"
+              >
+                Rankings
+              </Link>
+            </span>
+            <span className="flex items-center gap-2">
+              <Kbd triggerKey="T" className="inline-flex">T</Kbd>
+              <Link
+                href="/phylogeny"
+                className="hover:text-stone-800 transition-colors no-underline"
+              >
+                Taxonomy
+              </Link>
+            </span>
+          </nav>
       )}
 
-      {/* Main Content Area - Center aligned relative to viewport */}
-      <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none">
-        <div className="w-full max-w-2xl pointer-events-auto">
-          {/* Mobile Header (SNAKES Dot Matrix) */}
+      {/* Main Content Area - Mobile: top band (links + logo with gap) + bottom 70% (search); Desktop: centered */}
+      <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none lg:justify-center">
+        <div className="flex flex-col h-full w-full max-w-2xl pointer-events-auto lg:h-auto lg:justify-center">
+          {/* Mobile: top section - links, vertical gap, then logo */}
           {!isPlaying && (
-            <div className="lg:hidden flex flex-col items-center gap-4 mb-8">
+            <div className="lg:hidden flex shrink-0 flex-col items-center gap-6 pt-4 pb-3 sm:pt-5 sm:pb-4">
+              <nav className="flex w-fit items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-stone-500 sm:text-xs">
+                <Link
+                  href="/rank"
+                  className="hover:text-stone-800 transition-colors no-underline"
+                >
+                  Rankings
+                </Link>
+                <Link
+                  href="/phylogeny"
+                  className="hover:text-stone-800 transition-colors no-underline"
+                >
+                  Taxonomy
+                </Link>
+              </nav>
               <SnakeGame isStatic className="!w-24 !h-24" />
             </div>
           )}
 
-          {/* Search Card - Centered exactly in the viewport with a slight translate-y on desktop */}
+          {/* Search Card - Mobile: fixed 70vh at bottom, full-width; Desktop: centered, max-h-70vh */}
           {!isPlaying && (
-            <div className="lg:translate-y-16">
+            <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-0 lg:h-auto lg:min-h-0 lg:translate-y-16 lg:w-full">
               <HomeSearchCard
                 inputId="main-search"
-                className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col w-full max-h-[70vh]"
+                className="bg-white rounded-t-2xl shadow-md overflow-hidden flex flex-col w-full h-full min-h-0 max-h-[70vh] lg:rounded-2xl lg:min-h-0 lg:max-h-[70vh]"
               />
             </div>
           )}

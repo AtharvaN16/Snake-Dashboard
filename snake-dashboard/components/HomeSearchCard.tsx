@@ -299,7 +299,7 @@ export function HomeSearchCard({
 
       <div
         ref={listRef}
-        className="min-h-0 flex-1 space-y-0 overflow-y-auto px-1.5 pb-6 pt-2 scrollbar-hide max-h-[56vh] lg:pb-24"
+        className="min-h-0 flex-1 space-y-0 overflow-y-auto px-1.5 pb-6 pt-2 scrollbar-hide lg:max-h-[56vh] lg:pb-24"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {filteredSnakes.length === 0 ? (

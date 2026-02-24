@@ -35,8 +35,8 @@ export function SearchModal() {
       <div
         className={
           isPhylogeny
-            ? "fixed left-1/2 top-1/2 z-[101] w-[calc(100%-32px)] max-w-2xl max-h-[70vh] lg:max-h-[80vh] -translate-x-1/2 -translate-y-1/2"
-            : "fixed left-1/2 top-1/2 z-[101] w-[calc(100%-32px)] max-w-2xl max-h-[80vh] -translate-x-1/2 -translate-y-1/2"
+            ? "fixed left-1/2 top-1/2 z-[101] w-[calc(100%-32px)] max-w-2xl h-[70vh] max-h-[70vh] lg:h-auto lg:max-h-[80vh] -translate-x-1/2 -translate-y-1/2"
+            : "fixed left-1/2 top-1/2 z-[101] w-[calc(100%-32px)] max-w-2xl h-[70vh] max-h-[80vh] lg:h-auto lg:max-h-[80vh] -translate-x-1/2 -translate-y-1/2"
         }
         role="dialog"
         aria-modal="true"
@@ -46,7 +46,7 @@ export function SearchModal() {
           inputId={MODAL_SEARCH_INPUT_ID}
           onSelectSnake={closeModal}
           getSnakeHref={getSnakeHref}
-          className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-xl"
+          className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-xl"
         />
       </div>
     </>

@@ -1,5 +1,4 @@
-snake-dashboard/public/images
-public/images
+**/candidates/
 node_modules
 .next
 temp
