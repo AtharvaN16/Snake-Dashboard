@@ -43,6 +43,7 @@ export function setupInteractions(ctx: ChartContext): {
   applyRegionFilter: (region: Snake["continent"] | null) => void;
   applyVenomFade: (nodes: Set<d3.HierarchyPointNode<HierarchyNode>> | null) => void;
   refreshNodePositions: () => void;
+  resetView: () => void;
 } {
   const {
     svg, g, labelsLayer, nodeSelection, linkSelection, allNodes, nodePoints, nodeToAncestors,
