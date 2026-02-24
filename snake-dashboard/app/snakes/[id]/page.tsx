@@ -334,9 +334,8 @@ export default async function SnakeDetailPage({
                     return (
                       <div style={{ marginBottom: "14px" }}>
                         <p className="font-semibold text-[#000]">Misidentification risk</p>
-                        <span
-                          className="inline-flex flex-wrap items-center"
-                          style={{ marginTop: "10px", gap: "4px" }}
+                        <div
+                          className="mt-2.5 flex flex-col items-start gap-1 lg:inline-flex lg:flex-row lg:flex-wrap lg:items-center lg:gap-1"
                         >
                           <span
                             className="font-semibold"
@@ -358,7 +357,8 @@ export default async function SnakeDetailPage({
                           >
                             {snake.commonName}
                           </span>
-                          <span className="text-stone-400 font-medium select-none" style={{ fontSize: "15px" }}>↔</span>
+                          <span className="text-stone-400 font-medium select-none text-[15px] lg:hidden" aria-hidden>↕</span>
+                          <span className="text-stone-400 font-medium select-none hidden text-[15px] lg:inline" aria-hidden>↔</span>
                           {pairs.map(({ id: cid, snake: other }) => {
                             const exists = other !== undefined;
                             const displayName =
@@ -408,7 +408,7 @@ export default async function SnakeDetailPage({
                               </span>
                             );
                           })}
-                        </span>
+                        </div>
                       </div>
                     );
                   })()}
