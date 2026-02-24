@@ -81,6 +81,31 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
           }}
         />
 
+        {/* Severity stamp — top-left, decorative */}
+        {clinicalData && (() => {
+          const stampFile =
+            clinicalData.severity === "Life-threatening" ? "Life-threatening-Stamp.png" :
+            clinicalData.severity === "Severe" ? "Severe-Stamp.png" :
+            clinicalData.severity === "Moderate" ? "Moderate-Stamp.png" :
+            clinicalData.severity === "Mild" ? "Mild-Stamp.png" :
+            "Negligible-Stamp.png";
+          return (
+            <img
+              src={`/stamps/${stampFile}`}
+              alt={clinicalData.severity}
+              aria-hidden
+              className="absolute pointer-events-none select-none z-20"
+              style={{
+                width: "110px",
+                top: "2px",
+                left: "2px",
+                transform: "rotate(-8deg)",
+                opacity: 0.92,
+              }}
+            />
+          );
+        })()}
+
         {/* Content */}
         <div
           className="relative z-10 flex-1 px-12 pt-10 pb-32"
@@ -110,27 +135,7 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
               const clinicalScore = calculateClinicalScore(clinicalData);
               return (
                 <div className="mb-6 border-b border-dashed border-stone-300 pb-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <span
-                      className="px-3 py-1 rounded text-sm font-black uppercase tracking-widest"
-                      style={{
-                        backgroundColor:
-                          clinicalData.severity === "Life-threatening" ? "#FEE2E2" :
-                          clinicalData.severity === "Severe" ? "#FFEDD5" : "#FEF9C3",
-                        color:
-                          clinicalData.severity === "Life-threatening" ? "#991B1B" :
-                          clinicalData.severity === "Severe" ? "#9A3412" : "#854D0E"
-                      }}
-                    >
-                      {clinicalData.severity}
-                    </span>
-                    <div className="text-right">
-                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Clinical Score</div>
-                      <div className="text-lg font-bold text-stone-800 tabular-nums">{clinicalScore}<span className="text-xs font-normal text-stone-400">/100</span></div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-center justify-between gap-4">
                     <div>
                       <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Fatality (Untreated)</div>
                       <div className="text-lg font-bold text-stone-800 tabular-nums">
@@ -141,6 +146,13 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
                       <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">WHO Importance</div>
                       <div className="text-lg font-bold text-stone-800 uppercase">
                         {clinicalData.whoCategory ? `Cat. ${clinicalData.whoCategory}` : "—"}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Clinical Score</div>
+                      <div className="tabular-nums leading-none">
+                        <span style={{ fontFamily: COMPRESSED, fontWeight: 800, fontSize: "36px", color: "#1c1917" }}>{clinicalScore}</span>
+                        <span className="text-sm font-normal text-stone-400">/100</span>
                       </div>
                     </div>
                   </div>

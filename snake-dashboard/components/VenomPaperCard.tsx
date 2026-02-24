@@ -7,7 +7,7 @@ import { VenomTypeChip } from "./VenomTypeChip";
 import { VenomYieldChip } from "./VenomYieldChip";
 import { VenomSpeedChip } from "./VenomSpeedChip";
 import { FangTypeChip } from "./FangTypeChip";
-import { calculateLethalDosesRaw, imputeDryYield } from "@/lib/dangerScore";
+import { imputeDryYield } from "@/lib/dangerScore";
 
 // Card content height when expanded.
 const CONTENT_H = 720;
@@ -17,7 +17,6 @@ const CARD_H = CONTENT_H;
 const EASE = [0.32, 0.72, 0, 1] as const;
 
 const COMPRESSED = "var(--font-pangram-compressed), system-ui, sans-serif";
-const COMPACT = "var(--font-pangram-compact), system-ui, sans-serif";
 
 interface VenomPaperCardProps {
   snake: Snake;
@@ -36,9 +35,6 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
     : null;
   const yieldMg = yieldMgNumeric ?? yieldMgImputed;
   const yieldIsEstimated = !yieldMgNumeric && yieldMgImputed != null;
-  const rawLethalDoses = ld50Sc && yieldMg
-    ? calculateLethalDosesRaw(ld50Sc, yieldMg)
-    : null;
   const lethalityScore = snake.dangerScoreComponents?.lethalityScore;
 
   return (
@@ -100,66 +96,6 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
             animate={{ opacity: isExpanded ? 1 : 0.4 }}
             className="space-y-10 transition-opacity duration-300"
           >
-            {/* Top row: Lethality Breakdown */}
-            <div className="border-b border-stone-200 pb-8">
-              <div className="flex items-baseline justify-between mb-6">
-                <span
-                  style={{
-                    fontFamily: COMPRESSED,
-                    fontWeight: 800,
-                    fontSize: "20px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    color: "#2c2c2c",
-                  }}
-                >
-                  Lethality Breakdown
-                </span>
-                {lethalityScore != null && (
-                  <div className="text-right">
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Lethality Score</div>
-                    <div className="text-lg font-bold text-stone-800 tabular-nums">{lethalityScore}<span className="text-xs font-normal text-stone-400">/100</span></div>
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-8 mb-4">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Potency (SC Equivalent)</span>
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-lg font-bold text-stone-800">
-                      {ld50Sc != null ? ld50Sc.toFixed(3) : "N/A"}
-                    </span>
-                    <span className="text-xs font-medium text-stone-500">mg/kg LD50</span>
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">
-                    Max Dry Yield{yieldIsEstimated ? " (est.)" : ""}
-                  </span>
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-lg font-bold text-stone-800">
-                      {yieldMg != null ? `${yieldIsEstimated ? "~" : ""}${yieldMg}` : "N/A"}
-                    </span>
-                    <span className="text-xs font-medium text-stone-500">mg dry</span>
-                  </div>
-                </div>
-              </div>
-
-              {rawLethalDoses != null && (
-                <p
-                  style={{
-                    fontFamily: COMPACT,
-                    fontSize: "11px",
-                    color: "#a8a29e",
-                    lineHeight: 1.4,
-                  }}
-                >
-                  ~{rawLethalDoses.toFixed(1)}× LD50 deliverable per bite (70kg model). Mouse-derived estimate — human sensitivity varies by venom type.{yieldIsEstimated ? " Yield estimated from qualitative data." : ""}
-                </p>
-              )}
-            </div>
-
             <div className="grid grid-cols-2 gap-x-12 gap-y-8">
               {/* Left: Type */}
               <div className="space-y-8">
@@ -200,7 +136,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                         color: "#2c2c2c",
                       }}
                     >
-                      Intensity
+                      Venom Yield
                     </span>
                     <div className="pt-1">
                       <VenomYieldChip yield={snake.venomYield} />
@@ -223,7 +159,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                         color: "#2c2c2c",
                       }}
                     >
-                      Speed
+                      Venom Speed
                     </span>
                     <div className="pt-1">
                       <VenomSpeedChip speed={snake.venomSpeed} />
@@ -278,6 +214,52 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                           transform: "rotate(8deg) translateX(10px)",
                         }}
                       />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Lethality score */}
+            <div>
+              <div className="grid grid-cols-[minmax(0,1.15fr)_minmax(0,1.15fr)_auto] gap-x-6 gap-y-2 items-center mb-4">
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Potency (SC Equivalent)</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-bold text-stone-800">
+                      {ld50Sc != null ? ld50Sc.toFixed(3) : "N/A"}
+                    </span>
+                    <span className="text-xs font-medium text-stone-500">mg/kg LD50</span>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">
+                    Max Dry Yield{yieldIsEstimated ? " (est.)" : ""}
+                  </span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-bold text-stone-800">
+                      {yieldMg != null ? `${yieldIsEstimated ? "~" : ""}${yieldMg}` : "N/A"}
+                    </span>
+                    <span className="text-xs font-medium text-stone-500">mg dry</span>
+                  </div>
+                </div>
+                {lethalityScore != null && (
+                  <div className="flex flex-col items-end">
+                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">
+                      Lethality Score
+                    </div>
+                    <div className="tabular-nums leading-none">
+                      <span
+                        style={{
+                          fontFamily: COMPRESSED,
+                          fontWeight: 800,
+                          fontSize: "36px",
+                          color: "#1c1917",
+                        }}
+                      >
+                        {lethalityScore}
+                      </span>
+                      <span className="text-sm font-normal text-stone-400">/100</span>
                     </div>
                   </div>
                 )}
