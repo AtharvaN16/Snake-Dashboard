@@ -23,12 +23,11 @@ const PIN_ORIGIN = "50% 6%";
 
 export function PolaroidStack({ images, caption, attributions }: PolaroidStackProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isShuffling, setIsShuffling] = useState(false);
+  const [isShuffling, setIsShuffling] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     // Trigger shuffle effect on load - significantly slower than normal shuffle
-    setIsShuffling(true);
     const timer = setTimeout(() => {
       setIsShuffling(false);
       // Wait slightly longer after animation ends to mark load as complete
@@ -51,7 +50,7 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
     }, 300);
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       handleShuffle();
@@ -89,9 +88,8 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
         </div>
 
         {/* Active Polaroid Card Container */}
-        <motion.div
-          role="button"
-          tabIndex={0}
+        <motion.button
+          type="button"
           aria-label="Shuffle snake photo"
           onClick={handleShuffle}
           onKeyDown={handleKeyDown}
@@ -105,7 +103,7 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
             duration: isInitialLoad ? 2.0 : 0.3,
             ease: "easeInOut"
           }}
-          className="group absolute h-[90%] w-[92%] cursor-pointer select-none bg-white outline-none"
+          className="group absolute h-[90%] w-[92%] cursor-pointer select-none bg-white outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2"
           style={{
             transformOrigin: PIN_ORIGIN,
             padding: "5% 4.5% 18% 4.5%",
@@ -138,8 +136,8 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
             </AnimatePresence>
 
             {/* Attribution Overlay */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-black/55 via-black/20 to-transparent opacity-0 transition-opacity duration-250 group-hover:opacity-100 group-focus-within:opacity-100" />
-            <div className="absolute inset-x-2 bottom-2 text-[10px] leading-tight text-white/90 opacity-0 transition-opacity duration-250 group-hover:opacity-100 group-focus-within:opacity-100">
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-black/55 via-black/20 to-transparent opacity-100 transition-opacity duration-250 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100" />
+            <div className="absolute inset-x-2 bottom-2 text-[10px] leading-tight text-white/90 opacity-100 transition-opacity duration-250 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
               <span className="pointer-events-none">Photo: {attributions[activeIndex]?.photographer || "Unknown"} </span>
               <span className="pointer-events-none">· Source: </span>
               {attributions[activeIndex]?.sourceUrl ? (
@@ -179,24 +177,38 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
             {caption}
           </p>
 
+          <div className="absolute left-[6%] bottom-[5%] flex gap-2 md:hidden">
+            {images.length > 1 && (
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleShuffle();
+                }}
+                className="pointer-events-auto rounded border border-black/20 bg-white/80 px-2 py-1 text-[10px] font-semibold uppercase tracking-tight text-black/75"
+              >
+                Next
+              </button>
+            )}
+          </div>
+
           {images.length > 1 && (
-            <div className="absolute right-[6%] bottom-[5%] text-[10px] text-black/40 opacity-0 transition-opacity duration-200 group-hover:opacity-100 pointer-events-none uppercase tracking-tight font-medium">
+            <div className="absolute right-[6%] bottom-[5%] hidden text-[10px] text-black/40 opacity-0 transition-opacity duration-200 pointer-events-none uppercase tracking-tight font-medium md:block group-hover:opacity-100">
               Click to shuffle ({activeIndex + 1}/{images.length})
             </div>
           )}
-        </motion.div>
+        </motion.button>
 
         {/* ANCHORED PIN - Outside the moving card so it stays fixed */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[20]">
+        <div className="pointer-events-none absolute left-1/2 top-[3.8%] z-[20] -translate-x-1/2 md:top-[6%]">
            <Image
             src="/images/ui/red-pin.svg"
             alt=""
             width={40}
             height={50}
-            className="h-auto w-[36px] -translate-y-[384%]" // Positioned exactly at the rotation origin
+            className="h-auto w-[36px]"
             style={{ 
               filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))",
-              // We use translate-y because it needs to be centered in the parent but pushed up to the origin
             }}
           />
         </div>
