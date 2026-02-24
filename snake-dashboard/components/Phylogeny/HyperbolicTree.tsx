@@ -48,6 +48,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const isInitialVenomRenderRef = useRef(true);
   const nodeBaseYRef = useRef<Map<string, number>>(new Map());
   const benchmarkGroupRef = useRef<d3.Selection<SVGGElement, unknown, SVGGElement, unknown> | null>(null);
+  const applyVenomFilterRef = useRef<((nodes: Set<d3.HierarchyPointNode<HierarchyNode>> | null) => void) | null>(null);
+  const zoomBehaviorRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
+  const viewportRef = useRef<{ cw: number; ch: number; scale0: number; cx: number; cy: number } | null>(null);
+  const prevVenomSubsRef = useRef<VenomSubModes>({ classification: false, potency: false, yield: false });
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [venomSubs, setVenomSubs] = useState<VenomSubModes>({ classification: false, potency: false, yield: false });
   const [selectedRegion, setSelectedRegion] = useState<Snake["continent"] | null>(null);
@@ -507,6 +511,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         d3.zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0)
       );
 
+    zoomBehaviorRef.current = zoomBehavior;
+    viewportRef.current = { cw, ch, scale0, cx, cy };
+
     svg.on("dblclick.zoom", null);
     svg.on("dblclick", () => {
       svg.transition().duration(750).ease(d3.easeCubicInOut)
@@ -534,6 +541,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     });
     updateSpeciesVisibility = interactions.updateSpeciesVisibility;
     applyRegionFilterRef.current = interactions.applyRegionFilter;
+    applyVenomFilterRef.current = interactions.applyVenomFade;
     interactions.updateSpeciesVisibility(scale0);
 
     const bloomDelay = shouldBloom ? bloomTotalDelay : 0;
@@ -697,14 +705,23 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         return (t: number) => interpolator(t);
       });
 
-    // 4b. Fade non-venomous species when any venom sub-mode is active
-    svg.selectAll<SVGGElement, SpeciesData>(".species-node")
-      .transition("venom-fade").duration(DURATION).ease(ease)
-      .style("opacity", (d) => {
-        if (!(potency || yieldActive || classification)) return "1";
-        const snake = d.data.id ? snakeMap.get(d.data.id) : undefined;
-        return isVenomous(snake) ? "1" : "0.15";
+    // 4b. Apply venom filter fade via interactions module (mirrors region view behavior:
+    //     fades entire branches including intermediate nodes and links, not just leaf nodes)
+    const anyVenomActive = classification || potency || yieldActive;
+    if (anyVenomActive) {
+      const venomPathNodes = new Set<d3.HierarchyPointNode<HierarchyNode>>();
+      svg.selectAll<SVGGElement, SpeciesData>(".species-node").each(d => {
+        if (!d.data.id) return;
+        const snake = snakeMap.get(d.data.id);
+        if (!isVenomous(snake)) return;
+        for (let n: d3.HierarchyPointNode<HierarchyNode> | null = d; n; n = n.parent) {
+          venomPathNodes.add(n);
+        }
       });
+      applyVenomFilterRef.current?.(venomPathNodes);
+    } else {
+      applyVenomFilterRef.current?.(null);
+    }
 
     // 5. Update node colors (potency color scale or classification or family)
     svg.selectAll<SVGGElement, SpeciesData>(".node").each(function(d) {
@@ -728,32 +745,56 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         });
     }
 
-    // 7. Potency benchmark ring — dashed circle at Inland Taipan's max-extended radius
+    // 7. Potency benchmark ring — more prominent dashed circle + subtle fill at Inland Taipan's max radius
     const benchGroup = benchmarkGroupRef.current;
     if (benchGroup) {
       if (potency) {
         const taipanBaseY = nodeBaseYRef.current.get("inland-taipan") ?? RADIUS;
         const benchmarkR = taipanBaseY + MAX_POTENCY_EXTENSION;
-        let ring = benchGroup.select<SVGCircleElement>(".potency-benchmark-ring");
-        if (ring.empty()) {
-          ring = benchGroup.append("circle")
+        if (benchGroup.select(".potency-benchmark-ring").empty()) {
+          benchGroup.append("circle")
             .attr("class", "potency-benchmark-ring")
             .attr("r", benchmarkR)
+            .attr("fill", "rgba(106, 5, 114, 0.04)")
+            .attr("stroke", "rgba(106, 5, 114, 0.55)")
+            .attr("stroke-width", 3)
+            .attr("stroke-dasharray", "10,5")
+            .attr("opacity", 0);
+          benchGroup.append("circle")
+            .attr("class", "potency-benchmark-ring-inner")
+            .attr("r", benchmarkR - 6)
             .attr("fill", "none")
             .attr("stroke", "rgba(106, 5, 114, 0.18)")
-            .attr("stroke-width", 2.5)
-            .attr("stroke-dasharray", "14,7")
-            .attr("opacity", 0) as unknown as d3.Selection<SVGCircleElement, unknown, SVGGElement, unknown>;
+            .attr("stroke-width", 1)
+            .attr("stroke-dasharray", "4,8")
+            .attr("opacity", 0);
         }
-        (ring as d3.Selection<SVGCircleElement, unknown, SVGGElement, unknown>)
-          .transition("venom-benchmark").duration(DURATION).ease(ease)
-          .attr("opacity", 1);
+        benchGroup.selectAll<SVGCircleElement, unknown>(".potency-benchmark-ring, .potency-benchmark-ring-inner")
+          .transition("venom-benchmark").duration(DURATION).ease(ease).attr("opacity", 1);
       } else {
-        benchGroup.select<SVGCircleElement>(".potency-benchmark-ring")
+        benchGroup.selectAll<SVGCircleElement, unknown>(".potency-benchmark-ring, .potency-benchmark-ring-inner")
           .transition("venom-benchmark").duration(DURATION).ease(ease)
           .attr("opacity", 0)
           .on("end", function() { d3.select(this).remove(); });
       }
+    }
+
+    // 8. Auto-zoom to fit extended tree when potency is first activated
+    const potencyJustEnabled = potency && !prevVenomSubsRef.current.potency;
+    prevVenomSubsRef.current = { ...venomSubs };
+    if (potencyJustEnabled && zoomBehaviorRef.current && viewportRef.current) {
+      const { cw, ch, cx, cy } = viewportRef.current;
+      const taipanBaseY = nodeBaseYRef.current.get("inland-taipan") ?? RADIUS;
+      const maxR = taipanBaseY + MAX_POTENCY_EXTENSION;
+      const pad = 200;
+      // Fit a bounding box centred at (cx, cy) that contains the benchmark circle
+      const fitW = 2 * (maxR + Math.abs(cx)) + pad * 2;
+      const fitH = 2 * (maxR + Math.abs(cy)) + pad * 2;
+      const s = Math.min(cw / fitW, ch / fitH, 0.95);
+      d3.select(svgRef.current)
+        .transition("potency-zoom").duration(DURATION + 200).ease(d3.easeCubicInOut)
+        .call((zoomBehaviorRef.current as any).transform,
+          d3.zoomIdentity.translate(cw / 2 - cx * s, ch / 2 - cy * s).scale(s));
     }
 
   }, [venomSubs, snakeMap, nodeColor, colorMode, currentSnakeId]);
