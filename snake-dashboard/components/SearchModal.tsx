@@ -35,8 +35,8 @@ export function SearchModal() {
       <div
         className={
           isPhylogeny
-            ? "fixed left-1/2 top-1/2 z-[101] w-[calc(100%-32px)] max-w-2xl h-[70vh] max-h-[70vh] lg:h-auto lg:max-h-[80vh] -translate-x-1/2 -translate-y-1/2"
-            : "fixed left-1/2 top-1/2 z-[101] w-[calc(100%-32px)] max-w-2xl h-[70vh] max-h-[80vh] lg:h-auto lg:max-h-[80vh] -translate-x-1/2 -translate-y-1/2"
+            ? "fixed left-1/2 top-1/2 z-[101] flex h-[70vh] w-[calc(100%-32px)] max-w-2xl flex-col lg:h-[80vh] -translate-x-1/2 -translate-y-1/2"
+            : "fixed left-1/2 top-1/2 z-[101] flex h-[70vh] w-[calc(100%-32px)] max-w-2xl flex-col lg:h-[80vh] -translate-x-1/2 -translate-y-1/2"
         }
         role="dialog"
         aria-modal="true"

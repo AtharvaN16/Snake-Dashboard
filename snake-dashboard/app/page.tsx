@@ -90,12 +90,12 @@ export default function Home() {
             </div>
           )}
 
-          {/* Search Card - Mobile: fixed 70vh at bottom, full-width; Desktop: centered, max-h-70vh */}
+          {/* Search Card - Mobile: fixed 70vh at bottom; Desktop: fixed 70vh height, list scrolls inside */}
           {!isPlaying && (
-            <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-0 lg:h-auto lg:min-h-0 lg:translate-y-16 lg:w-full">
+            <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-0 lg:h-[70vh] lg:min-h-0 lg:translate-y-16 lg:w-full">
               <HomeSearchCard
                 inputId="main-search"
-                className="bg-white rounded-t-2xl shadow-md overflow-hidden flex flex-col w-full h-full min-h-0 max-h-[70vh] lg:rounded-2xl lg:min-h-0 lg:max-h-[70vh]"
+                className="bg-white rounded-t-2xl shadow-md overflow-hidden flex flex-col w-full h-full min-h-0 max-h-[70vh] lg:rounded-2xl lg:min-h-0 lg:h-full"
               />
             </div>
           )}
