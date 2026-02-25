@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-02-23",
-  "totalSnakes": 139,
+  "lastUpdated": "2026-02-25",
+  "totalSnakes": 140,
   "snakes": [
     {
       "id": "russells-viper",
@@ -9,7 +9,7 @@
       "family": "Viperidae",
       "genus": "Daboia",
       "dangerScore": 92,
-      "dangerRank": "1/139",
+      "dangerRank": "1/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 71,
@@ -129,7 +129,7 @@
       "family": "Elapidae",
       "genus": "Oxyuranus",
       "dangerScore": 89,
-      "dangerRank": "2/139",
+      "dangerRank": "2/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 85,
@@ -245,7 +245,7 @@
       "family": "Elapidae",
       "genus": "Notechis",
       "dangerScore": 88,
-      "dangerRank": "3/139",
+      "dangerRank": "3/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 91,
@@ -362,7 +362,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 87,
-      "dangerRank": "4/139",
+      "dangerRank": "4/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 70,
@@ -473,7 +473,7 @@
       "family": "Elapidae",
       "genus": "Oxyuranus",
       "dangerScore": 83,
-      "dangerRank": "5/139",
+      "dangerRank": "5/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 100,
@@ -588,7 +588,7 @@
       "family": "Viperidae",
       "genus": "Bitis",
       "dangerScore": 81,
-      "dangerRank": "6/139",
+      "dangerRank": "6/140",
       "dangerScoreComponents": {
         "clinicalScore": 69,
         "potencyScore": 59,
@@ -705,7 +705,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 81,
-      "dangerRank": "7/139",
+      "dangerRank": "7/140",
       "dangerScoreComponents": {
         "clinicalScore": 85,
         "potencyScore": 62,
@@ -833,7 +833,7 @@
         "habitat": "Agricultural fields, forests, villages"
       },
       "description": "One of Asia's most recognized cobras, common in snakebite regions.",
-      "dangerRank": "8/139",
+      "dangerRank": "8/140",
       "dangerScoreComponents": {
         "clinicalScore": 85,
         "potencyScore": 66,
@@ -915,7 +915,7 @@
       "family": "Elapidae",
       "genus": "Acanthophis",
       "dangerScore": 77,
-      "dangerRank": "9/139",
+      "dangerRank": "9/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 70,
@@ -1021,7 +1021,7 @@
       "family": "Elapidae",
       "genus": "Dendroaspis",
       "dangerScore": 75,
-      "dangerRank": "10/139",
+      "dangerRank": "10/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 61,
@@ -1146,7 +1146,7 @@
         "habitat": "Savanna and dry open habitats"
       },
       "description": "The best-known rattlesnake in South America.",
-      "dangerRank": "11/139",
+      "dangerRank": "11/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 72,
@@ -1224,7 +1224,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 73,
-      "dangerRank": "12/139",
+      "dangerRank": "12/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 60,
@@ -1356,7 +1356,7 @@
       "family": "Elapidae",
       "genus": "Pseudonaja",
       "dangerScore": 71,
-      "dangerRank": "13/139",
+      "dangerRank": "13/140",
       "dangerScoreComponents": {
         "clinicalScore": 69,
         "potencyScore": 96,
@@ -1465,7 +1465,7 @@
       "family": "Elapidae",
       "genus": "Ophiophagus",
       "dangerScore": 69,
-      "dangerRank": "14/139",
+      "dangerRank": "14/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 43,
@@ -1576,7 +1576,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 69,
-      "dangerRank": "15/139",
+      "dangerRank": "15/140",
       "dangerScoreComponents": {
         "clinicalScore": 93,
         "potencyScore": 65,
@@ -1703,7 +1703,7 @@
         "habitat": "Rural settlements and fields"
       },
       "description": "Iconic nocturnal krait and major medically important species in South Asia.",
-      "dangerRank": "16/139",
+      "dangerRank": "16/140",
       "dangerScoreComponents": {
         "clinicalScore": 100,
         "potencyScore": 73,
@@ -1799,7 +1799,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 67,
-      "dangerRank": "17/139",
+      "dangerRank": "17/140",
       "dangerScoreComponents": {
         "clinicalScore": 77,
         "potencyScore": 67,
@@ -1923,7 +1923,7 @@
       "family": "Viperidae",
       "genus": "Echis",
       "dangerScore": 65,
-      "dangerRank": "18/139",
+      "dangerRank": "18/140",
       "dangerScoreComponents": {
         "clinicalScore": 77,
         "potencyScore": 64,
@@ -2031,7 +2031,7 @@
       "family": "Viperidae",
       "genus": "Echis",
       "dangerScore": 63,
-      "dangerRank": "19/139",
+      "dangerRank": "19/140",
       "dangerScoreComponents": {
         "clinicalScore": 77,
         "potencyScore": 64,
@@ -2149,7 +2149,7 @@
       "family": "Viperidae",
       "genus": "Bothrops",
       "dangerScore": 61,
-      "dangerRank": "20/139",
+      "dangerRank": "20/140",
       "dangerScoreComponents": {
         "clinicalScore": 63,
         "potencyScore": 38,
@@ -2270,7 +2270,7 @@
       "family": "Elapidae",
       "genus": "Bungarus",
       "dangerScore": 59,
-      "dangerRank": "21/139",
+      "dangerRank": "21/140",
       "dangerScoreComponents": {
         "clinicalScore": 91,
         "potencyScore": 77,
@@ -2377,7 +2377,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 58,
-      "dangerRank": "22/139",
+      "dangerRank": "22/140",
       "dangerScoreComponents": {
         "clinicalScore": 75,
         "potencyScore": 44,
@@ -2491,7 +2491,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 58,
-      "dangerRank": "23/139",
+      "dangerRank": "23/140",
       "dangerScoreComponents": {
         "clinicalScore": 52,
         "potencyScore": 63,
@@ -2605,7 +2605,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 57,
-      "dangerRank": "24/139",
+      "dangerRank": "24/140",
       "dangerScoreComponents": {
         "clinicalScore": 69,
         "potencyScore": 41,
@@ -2736,7 +2736,7 @@
         "habitat": "Coastal marine waters"
       },
       "description": "Iconic highly venomous sea snake known from fisheries bycatch incidents.",
-      "dangerRank": "25/139",
+      "dangerRank": "25/140",
       "dangerScoreComponents": {
         "clinicalScore": 93,
         "potencyScore": 72,
@@ -2834,7 +2834,7 @@
       "family": "Viperidae",
       "genus": "Lachesis",
       "dangerScore": 55,
-      "dangerRank": "26/139",
+      "dangerRank": "26/140",
       "dangerScoreComponents": {
         "clinicalScore": 93,
         "potencyScore": 44,
@@ -2948,7 +2948,7 @@
       "family": "Elapidae",
       "genus": "Bungarus",
       "dangerScore": 54,
-      "dangerRank": "27/139",
+      "dangerRank": "27/140",
       "dangerScoreComponents": {
         "clinicalScore": 91,
         "potencyScore": 75,
@@ -3075,7 +3075,7 @@
         "habitat": "Coastal forests and dense vegetation"
       },
       "description": "Highly recognizable arboreal mamba from East Africa.",
-      "dangerRank": "28/139",
+      "dangerRank": "28/140",
       "dangerScoreComponents": {
         "clinicalScore": 69,
         "potencyScore": 58,
@@ -3156,7 +3156,7 @@
       "family": "Colubridae",
       "genus": "Dispholidus",
       "dangerScore": 51,
-      "dangerRank": "29/139",
+      "dangerRank": "29/140",
       "dangerScoreComponents": {
         "clinicalScore": 93,
         "potencyScore": 77,
@@ -3282,7 +3282,7 @@
         "habitat": "Lowland forests and cultivated areas"
       },
       "description": "Well-known Southeast Asian spitting cobra.",
-      "dangerRank": "30/139",
+      "dangerRank": "30/140",
       "dangerScoreComponents": {
         "clinicalScore": 59,
         "potencyScore": 50,
@@ -3364,7 +3364,7 @@
       "family": "Viperidae",
       "genus": "Bitis",
       "dangerScore": 49,
-      "dangerRank": "31/139",
+      "dangerRank": "31/140",
       "dangerScoreComponents": {
         "clinicalScore": 77,
         "potencyScore": 39,
@@ -3491,7 +3491,7 @@
         "habitat": "Grasslands, wetlands, forests"
       },
       "description": "Highly recognizable black-yellow banded krait.",
-      "dangerRank": "32/139",
+      "dangerRank": "32/140",
       "dangerScoreComponents": {
         "clinicalScore": 75,
         "potencyScore": 51,
@@ -3573,7 +3573,7 @@
       "family": "Elapidae",
       "genus": "Naja",
       "dangerScore": 48,
-      "dangerRank": "33/139",
+      "dangerRank": "33/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 48,
@@ -3683,7 +3683,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 47,
-      "dangerRank": "34/139",
+      "dangerRank": "34/140",
       "dangerScoreComponents": {
         "clinicalScore": 62,
         "potencyScore": 65,
@@ -3819,7 +3819,7 @@
       "family": "Viperidae",
       "genus": "Bitis",
       "dangerScore": 45,
-      "dangerRank": "35/139",
+      "dangerRank": "35/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 59,
@@ -3949,7 +3949,7 @@
         "habitat": "Arid and semi-arid habitats"
       },
       "description": "Well-known large Australian elapid with significant bite severity.",
-      "dangerRank": "36/139",
+      "dangerRank": "36/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 51,
@@ -4030,7 +4030,7 @@
       "family": "Elapidae",
       "genus": "Austrelaps",
       "dangerScore": 45,
-      "dangerRank": "37/139",
+      "dangerRank": "37/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 68,
@@ -4153,7 +4153,7 @@
         "habitat": "Open ocean surface waters"
       },
       "description": "Most famous pelagic sea snake, globally distributed in warm oceans.",
-      "dangerRank": "38/139",
+      "dangerRank": "38/140",
       "dangerScoreComponents": {
         "clinicalScore": 67,
         "potencyScore": 90,
@@ -4247,7 +4247,7 @@
         "habitat": "Deciduous forests and rocky hills"
       },
       "description": "One of the best-known rattlesnakes in North America.",
-      "dangerRank": "39/139",
+      "dangerRank": "39/140",
       "dangerScoreComponents": {
         "clinicalScore": 52,
         "potencyScore": 44,
@@ -4329,7 +4329,7 @@
       "family": "Viperidae",
       "genus": "Protobothrops",
       "dangerScore": 41,
-      "dangerRank": "40/139",
+      "dangerRank": "40/140",
       "dangerScoreComponents": {
         "clinicalScore": 40,
         "potencyScore": 60,
@@ -4439,7 +4439,7 @@
       "family": "Elapidae",
       "genus": "Hemachatus",
       "dangerScore": 41,
-      "dangerRank": "41/139",
+      "dangerRank": "41/140",
       "dangerScoreComponents": {
         "clinicalScore": 40,
         "potencyScore": 56,
@@ -4564,7 +4564,7 @@
         "habitat": "Deserts and dune systems"
       },
       "description": "Iconic horned desert viper seen across documentaries and references.",
-      "dangerRank": "42/139",
+      "dangerRank": "42/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 59,
@@ -4655,7 +4655,7 @@
         "habitat": "Coastal scrub and urban fringes"
       },
       "description": "Famous urban-interface venomous snake in Western Australia.",
-      "dangerRank": "43/139",
+      "dangerRank": "43/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 65,
@@ -4736,7 +4736,7 @@
       "family": "Elapidae",
       "genus": "Hydrophis",
       "dangerScore": 37,
-      "dangerRank": "44/139",
+      "dangerRank": "44/140",
       "dangerScoreComponents": {
         "clinicalScore": 67,
         "potencyScore": 64,
@@ -4848,7 +4848,7 @@
       "family": "Elapidae",
       "genus": "Laticauda",
       "dangerScore": 37,
-      "dangerRank": "45/139",
+      "dangerRank": "45/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 72,
@@ -4977,7 +4977,7 @@
         "habitat": "Prairies, grasslands, scrub"
       },
       "description": "Famous prairie species and frequent human encounter rattlesnake.",
-      "dangerRank": "46/139",
+      "dangerRank": "46/140",
       "dangerScoreComponents": {
         "clinicalScore": 40,
         "potencyScore": 44,
@@ -5058,7 +5058,7 @@
       "family": "Viperidae",
       "genus": "Calloselasma",
       "dangerScore": 36,
-      "dangerRank": "47/139",
+      "dangerRank": "47/140",
       "dangerScoreComponents": {
         "clinicalScore": 52,
         "potencyScore": 44,
@@ -5186,7 +5186,7 @@
         "habitat": "Atlantic forest and agricultural margins"
       },
       "description": "Most recognized pit viper in Brazil and a major medical species.",
-      "dangerRank": "48/139",
+      "dangerRank": "48/140",
       "dangerScoreComponents": {
         "clinicalScore": 43,
         "potencyScore": 47,
@@ -5267,7 +5267,7 @@
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 34,
-      "dangerRank": "49/139",
+      "dangerRank": "49/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 37,
@@ -5376,7 +5376,7 @@
       "family": "Colubridae",
       "genus": "Thelotornis",
       "dangerScore": 33,
-      "dangerRank": "50/139",
+      "dangerRank": "50/140",
       "dangerScoreComponents": {
         "clinicalScore": 47,
         "potencyScore": 72,
@@ -5510,7 +5510,7 @@
         "habitat": "Wet prairies and marshes"
       },
       "description": "Iconic small rattlesnake of the Great Lakes region.",
-      "dangerRank": "51/139",
+      "dangerRank": "51/140",
       "dangerScoreComponents": {
         "clinicalScore": 27,
         "potencyScore": 57,
@@ -5620,7 +5620,7 @@
       "family": "Viperidae",
       "genus": "Gloydius",
       "dangerScore": 30,
-      "dangerRank": "52/139",
+      "dangerRank": "52/140",
       "dangerScoreComponents": {
         "clinicalScore": 27,
         "potencyScore": 62,
@@ -5733,7 +5733,7 @@
       "family": "Elapidae",
       "genus": "Pseudechis",
       "dangerScore": 28,
-      "dangerRank": "53/139",
+      "dangerRank": "53/140",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 51,
@@ -5847,7 +5847,7 @@
       "family": "Elapidae",
       "genus": "Calliophis",
       "dangerScore": 27,
-      "dangerRank": "54/139",
+      "dangerRank": "54/140",
       "dangerScoreComponents": {
         "clinicalScore": 37,
         "potencyScore": 56,
@@ -5976,7 +5976,7 @@
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 27,
-      "dangerRank": "55/139",
+      "dangerRank": "55/140",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 34,
@@ -6122,7 +6122,7 @@
       "family": "Elapidae",
       "genus": "Micrurus",
       "dangerScore": 27,
-      "dangerRank": "56/139",
+      "dangerRank": "56/140",
       "dangerScoreComponents": {
         "clinicalScore": 52,
         "potencyScore": 66,
@@ -6234,7 +6234,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 26,
-      "dangerRank": "57/139",
+      "dangerRank": "57/140",
       "dangerScoreComponents": {
         "clinicalScore": 15,
         "potencyScore": 62,
@@ -6340,7 +6340,7 @@
       "family": "Elapidae",
       "genus": "Micrurus",
       "dangerScore": 26,
-      "dangerRank": "58/139",
+      "dangerRank": "58/140",
       "dangerScoreComponents": {
         "clinicalScore": 40,
         "potencyScore": 66,
@@ -6478,7 +6478,7 @@
       "family": "Atractaspididae",
       "genus": "Atractaspis",
       "dangerScore": 26,
-      "dangerRank": "59/139",
+      "dangerRank": "59/140",
       "dangerScoreComponents": {
         "clinicalScore": 17,
         "potencyScore": 69,
@@ -6589,7 +6589,7 @@
       "family": "Viperidae",
       "genus": "Trimeresurus",
       "dangerScore": 25,
-      "dangerRank": "60/139",
+      "dangerRank": "60/140",
       "dangerScoreComponents": {
         "clinicalScore": 27,
         "potencyScore": 41,
@@ -6710,7 +6710,7 @@
         "habitat": "Rocky grasslands and dry scrub"
       },
       "description": "One of Europe's most recognizable vipers.",
-      "dangerRank": "61/139",
+      "dangerRank": "61/140",
       "dangerScoreComponents": {
         "clinicalScore": 27,
         "potencyScore": 47,
@@ -6804,7 +6804,7 @@
         "habitat": "Rocky slopes, vineyards, scrubland"
       },
       "description": "Classic Mediterranean viper known throughout Europe.",
-      "dangerRank": "62/139",
+      "dangerRank": "62/140",
       "dangerScoreComponents": {
         "clinicalScore": 27,
         "potencyScore": 49,
@@ -6885,7 +6885,7 @@
       "family": "Elapidae",
       "genus": "Calliophis",
       "dangerScore": 19,
-      "dangerRank": "63/139",
+      "dangerRank": "63/140",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 59,
@@ -6988,7 +6988,7 @@
       "family": "Colubridae",
       "genus": "Rhabdophis",
       "dangerScore": 19,
-      "dangerRank": "64/139",
+      "dangerRank": "64/140",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 39,
@@ -7113,7 +7113,7 @@
         "habitat": "Heathlands, forests, grasslands"
       },
       "description": "Most famous and widespread venomous snake in Europe.",
-      "dangerRank": "65/139",
+      "dangerRank": "65/140",
       "dangerScoreComponents": {
         "clinicalScore": 12,
         "potencyScore": 55,
@@ -7194,7 +7194,7 @@
       "family": "Viperidae",
       "genus": "Crotalus",
       "dangerScore": 19,
-      "dangerRank": "66/139",
+      "dangerRank": "66/140",
       "dangerScoreComponents": {
         "clinicalScore": 27,
         "potencyScore": 39,
@@ -7327,7 +7327,7 @@
       "family": "Elapidae",
       "genus": "Calliophis",
       "dangerScore": 18,
-      "dangerRank": "67/139",
+      "dangerRank": "67/140",
       "dangerScoreComponents": {
         "clinicalScore": 32,
         "potencyScore": 60,
@@ -7442,7 +7442,7 @@
       "family": "Viperidae",
       "genus": "Causus",
       "dangerScore": 18,
-      "dangerRank": "68/139",
+      "dangerRank": "68/140",
       "dangerScoreComponents": {
         "clinicalScore": 12,
         "potencyScore": 48,
@@ -7551,7 +7551,7 @@
       "family": "Viperidae",
       "genus": "Bothriechis",
       "dangerScore": 16,
-      "dangerRank": "69/139",
+      "dangerRank": "69/140",
       "dangerScoreComponents": {
         "clinicalScore": 27,
         "potencyScore": 38,
@@ -7687,7 +7687,7 @@
       "family": "Colubridae",
       "genus": "Hydrodynastes",
       "dangerScore": 13,
-      "dangerRank": "70/139",
+      "dangerRank": "70/140",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 45,
@@ -7794,7 +7794,7 @@
       "family": "Viperidae",
       "genus": "Agkistrodon",
       "dangerScore": 12,
-      "dangerRank": "71/139",
+      "dangerRank": "71/140",
       "dangerScoreComponents": {
         "clinicalScore": 10,
         "potencyScore": 24,
@@ -7933,7 +7933,7 @@
       "family": "Viperidae",
       "genus": "Tropidolaemus",
       "dangerScore": 7,
-      "dangerRank": "72/139",
+      "dangerRank": "72/140",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 30,
@@ -8036,7 +8036,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 5,
-      "dangerRank": "73/139",
+      "dangerRank": "73/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8097,7 +8097,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 5,
-      "dangerRank": "74/139",
+      "dangerRank": "74/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8159,7 +8159,7 @@
       "family": "Pythonidae",
       "genus": "Malayopython",
       "dangerScore": 5,
-      "dangerRank": "75/139",
+      "dangerRank": "75/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8219,7 +8219,7 @@
       "family": "Boidae",
       "genus": "Boa",
       "dangerScore": 5,
-      "dangerRank": "76/139",
+      "dangerRank": "76/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8312,7 +8312,7 @@
       "family": "Pythonidae",
       "genus": "Simalia",
       "dangerScore": 5,
-      "dangerRank": "77/139",
+      "dangerRank": "77/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8376,7 +8376,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 5,
-      "dangerRank": "78/139",
+      "dangerRank": "78/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8438,7 +8438,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 5,
-      "dangerRank": "79/139",
+      "dangerRank": "79/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8498,7 +8498,7 @@
       "family": "Pythonidae",
       "genus": "Liasis",
       "dangerScore": 5,
-      "dangerRank": "80/139",
+      "dangerRank": "80/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8558,7 +8558,7 @@
       "family": "Pythonidae",
       "genus": "Simalia",
       "dangerScore": 5,
-      "dangerRank": "81/139",
+      "dangerRank": "81/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8620,7 +8620,7 @@
       "family": "Boidae",
       "genus": "Eunectes",
       "dangerScore": 5,
-      "dangerRank": "82/139",
+      "dangerRank": "82/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8682,7 +8682,7 @@
       "family": "Boidae",
       "genus": "Eunectes",
       "dangerScore": 5,
-      "dangerRank": "83/139",
+      "dangerRank": "83/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -8743,7 +8743,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 5,
-      "dangerRank": "84/139",
+      "dangerRank": "84/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -8804,7 +8804,7 @@
       "family": "Colubridae",
       "genus": "Boiga",
       "dangerScore": 1,
-      "dangerRank": "85/139",
+      "dangerRank": "85/140",
       "dangerScoreComponents": {
         "clinicalScore": 7,
         "potencyScore": 25,
@@ -8909,7 +8909,7 @@
       "family": "Colubridae",
       "genus": "Thamnophis",
       "dangerScore": 0,
-      "dangerRank": "86/139",
+      "dangerRank": "86/140",
       "venomClassification": "Non-venomous",
       "venomTypes": [
         "Myotoxic"
@@ -8966,7 +8966,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 0,
-      "dangerRank": "87/139",
+      "dangerRank": "87/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9017,7 +9017,7 @@
       "family": "Colubridae",
       "genus": "Ahaetulla",
       "dangerScore": 0,
-      "dangerRank": "88/139",
+      "dangerRank": "88/140",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -9107,7 +9107,7 @@
       "family": "Colubridae",
       "genus": "Diadophis",
       "dangerScore": 0,
-      "dangerRank": "89/139",
+      "dangerRank": "89/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9187,7 +9187,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 0,
-      "dangerRank": "90/139",
+      "dangerRank": "90/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9237,7 +9237,7 @@
       "family": "Colubridae",
       "genus": "Boiga",
       "dangerScore": 0,
-      "dangerRank": "91/139",
+      "dangerRank": "91/140",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 27,
@@ -9342,7 +9342,7 @@
       "family": "Colubridae",
       "genus": "Heterodon",
       "dangerScore": 0,
-      "dangerRank": "92/139",
+      "dangerRank": "92/140",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -9482,7 +9482,7 @@
         "habitat": "Forest edges, gardens, shrubs"
       },
       "description": "Famous green arboreal snake; mild rear-fanged venom.",
-      "dangerRank": "93/139",
+      "dangerRank": "93/140",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -9571,7 +9571,7 @@
         "habitat": "Dry rocky habitats"
       },
       "description": "Mildly venomous rear-fanged species known in Mediterranean regions.",
-      "dangerRank": "94/139",
+      "dangerRank": "94/140",
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -9647,7 +9647,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "95/139",
+      "dangerRank": "95/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9701,7 +9701,7 @@
       "family": "Boidae",
       "genus": "Acrantophis",
       "dangerScore": 0,
-      "dangerRank": "96/139",
+      "dangerRank": "96/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9753,7 +9753,7 @@
       "family": "Boidae",
       "genus": "Eryx",
       "dangerScore": 0,
-      "dangerRank": "97/139",
+      "dangerRank": "97/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9808,7 +9808,7 @@
       "family": "Colubridae",
       "genus": "Ptyas",
       "dangerScore": 0,
-      "dangerRank": "98/139",
+      "dangerRank": "98/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9867,7 +9867,7 @@
       "family": "Pythonidae",
       "genus": "Python",
       "dangerScore": 0,
-      "dangerRank": "99/139",
+      "dangerRank": "99/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -9919,7 +9919,7 @@
       "family": "Colubridae",
       "genus": "Lampropeltis",
       "dangerScore": 0,
-      "dangerRank": "100/139",
+      "dangerRank": "100/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -9975,7 +9975,7 @@
       "family": "Colubridae",
       "genus": "Chrysopelea",
       "dangerScore": 0,
-      "dangerRank": "101/139",
+      "dangerRank": "101/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10026,7 +10026,7 @@
       "family": "Colubridae",
       "genus": "Zamenis",
       "dangerScore": 0,
-      "dangerRank": "102/139",
+      "dangerRank": "102/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10079,7 +10079,7 @@
       "family": "Colubridae",
       "genus": "Natrix",
       "dangerScore": 0,
-      "dangerRank": "103/139",
+      "dangerRank": "103/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10132,7 +10132,7 @@
       "family": "Colubridae",
       "genus": "Zamenis",
       "dangerScore": 0,
-      "dangerRank": "104/139",
+      "dangerRank": "104/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10184,7 +10184,7 @@
       "family": "Colubridae",
       "genus": "Elaphe",
       "dangerScore": 0,
-      "dangerRank": "105/139",
+      "dangerRank": "105/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10235,7 +10235,7 @@
       "family": "Colubridae",
       "genus": "Natrix",
       "dangerScore": 0,
-      "dangerRank": "106/139",
+      "dangerRank": "106/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -10288,7 +10288,7 @@
       "family": "Colubridae",
       "genus": "Malpolon",
       "dangerScore": 0,
-      "dangerRank": "107/139",
+      "dangerRank": "107/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10368,7 +10368,7 @@
       "family": "Colubridae",
       "genus": "Coronella",
       "dangerScore": 0,
-      "dangerRank": "108/139",
+      "dangerRank": "108/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10419,7 +10419,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "109/139",
+      "dangerRank": "109/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -10482,7 +10482,11 @@
       "continent": "North America",
       "subregions": [
         "Eastern United States"
-      ]
+      ],
+      "commonlyMisidentifiedAs": [
+        "black-racer"
+      ],
+      "misidentificationRisk": "high"
     },
     {
       "id": "boa-imperator",
@@ -10514,7 +10518,7 @@
       ],
       "constrictor": true,
       "dangerScore": 0,
-      "dangerRank": "110/139",
+      "dangerRank": "110/140",
       "venomClassification": "Non-venomous",
       "images": {
         "primary": "/images/snakes/boa-imperator/primary.jpg",
@@ -10539,7 +10543,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "111/139",
+      "dangerRank": "111/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10594,7 +10598,7 @@
       "family": "Colubridae",
       "genus": "Lampropeltis",
       "dangerScore": 0,
-      "dangerRank": "112/139",
+      "dangerRank": "112/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10648,7 +10652,7 @@
       "family": "Colubridae",
       "genus": "Leptodeira",
       "dangerScore": 0,
-      "dangerRank": "113/139",
+      "dangerRank": "113/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10720,7 +10724,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "114/139",
+      "dangerRank": "114/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -10772,7 +10776,7 @@
       "family": "Colubridae",
       "genus": "Chironius",
       "dangerScore": 0,
-      "dangerRank": "115/139",
+      "dangerRank": "115/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10825,7 +10829,7 @@
       "family": "Colubridae",
       "genus": "Storeria",
       "dangerScore": 0,
-      "dangerRank": "116/139",
+      "dangerRank": "116/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -10877,7 +10881,7 @@
       "family": "Colubridae",
       "genus": "Drymarchon",
       "dangerScore": 0,
-      "dangerRank": "117/139",
+      "dangerRank": "117/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -10930,7 +10934,7 @@
       "family": "Colubridae",
       "genus": "Thamnophis",
       "dangerScore": 0,
-      "dangerRank": "118/139",
+      "dangerRank": "118/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -11009,7 +11013,7 @@
       "family": "Colubridae",
       "genus": "Carphophis",
       "dangerScore": 0,
-      "dangerRank": "119/139",
+      "dangerRank": "119/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11060,7 +11064,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "120/139",
+      "dangerRank": "120/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -11139,7 +11143,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "121/139",
+      "dangerRank": "121/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -11191,7 +11195,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "122/139",
+      "dangerRank": "122/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -11242,7 +11246,7 @@
       "family": "Colubridae",
       "genus": "Pantherophis",
       "dangerScore": 0,
-      "dangerRank": "123/139",
+      "dangerRank": "123/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -11293,7 +11297,7 @@
       "family": "Colubridae",
       "genus": "Pituophis",
       "dangerScore": 0,
-      "dangerRank": "124/139",
+      "dangerRank": "124/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11344,7 +11348,7 @@
       "family": "Colubridae",
       "genus": "Nerodia",
       "dangerScore": 0,
-      "dangerRank": "125/139",
+      "dangerRank": "125/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "distribution": {
@@ -11399,7 +11403,7 @@
       "family": "Colubridae",
       "genus": "Storeria",
       "dangerScore": 0,
-      "dangerRank": "126/139",
+      "dangerRank": "126/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -11462,7 +11466,7 @@
       "family": "Boidae",
       "genus": "Lichanura",
       "dangerScore": 0,
-      "dangerRank": "127/139",
+      "dangerRank": "127/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11516,7 +11520,7 @@
       "family": "Colubridae",
       "genus": "Opheodrys",
       "dangerScore": 0,
-      "dangerRank": "128/139",
+      "dangerRank": "128/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -11567,7 +11571,7 @@
       "family": "Boidae",
       "genus": "Charina",
       "dangerScore": 0,
-      "dangerRank": "129/139",
+      "dangerRank": "129/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11631,7 +11635,7 @@
       "family": "Colubridae",
       "genus": "Opheodrys",
       "dangerScore": 0,
-      "dangerRank": "130/139",
+      "dangerRank": "130/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -11682,7 +11686,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "131/139",
+      "dangerRank": "131/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11769,7 +11773,7 @@
       ],
       "constrictor": true,
       "dangerScore": 0,
-      "dangerRank": "132/139",
+      "dangerRank": "132/140",
       "venomClassification": "Non-venomous",
       "images": {
         "primary": "/images/snakes/emerald-tree-python/primary.jpg",
@@ -11794,7 +11798,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "133/139",
+      "dangerRank": "133/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11850,7 +11854,7 @@
       "family": "Pythonidae",
       "genus": "Morelia",
       "dangerScore": 0,
-      "dangerRank": "134/139",
+      "dangerRank": "134/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11901,7 +11905,7 @@
       "family": "Pythonidae",
       "genus": "Aspidites",
       "dangerScore": 0,
-      "dangerRank": "135/139",
+      "dangerRank": "135/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -11981,7 +11985,7 @@
       "family": "Boidae",
       "genus": "Corallus",
       "dangerScore": 0,
-      "dangerRank": "136/139",
+      "dangerRank": "136/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -12045,7 +12049,7 @@
       "family": "Boidae",
       "genus": "Epicrates",
       "dangerScore": 0,
-      "dangerRank": "137/139",
+      "dangerRank": "137/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -12097,7 +12101,7 @@
       "family": "Boidae",
       "genus": "Corallus",
       "dangerScore": 0,
-      "dangerRank": "138/139",
+      "dangerRank": "138/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "Low",
       "distribution": {
@@ -12185,7 +12189,7 @@
         "Cosmopolitan (Global)"
       ],
       "dangerScore": 0,
-      "dangerRank": "139/139",
+      "dangerRank": "139/140",
       "venomClassification": "Non-venomous",
       "humanEncounterChance": "High",
       "misidentificationRisk": "high",
@@ -12247,6 +12251,64 @@
         "Ant eggs",
         "Termite larvae"
       ]
+    },
+    {
+      "id": "black-racer",
+      "commonName": "Northern Black Racer",
+      "scientificName": "Coluber constrictor",
+      "family": "Colubridae",
+      "genus": "Coluber",
+      "dangerScore": 0,
+      "dangerRank": "140/140",
+      "venomClassification": "Non-venomous",
+      "humanEncounterChance": "High",
+      "distribution": {
+        "regions": [
+          "North America"
+        ],
+        "habitat": "Fields, meadows, woodlands, suburban yards",
+        "coordinates": [
+          {
+            "lat": 38,
+            "lng": -80
+          }
+        ]
+      },
+      "images": {
+        "primary": "/images/snakes/black-racer/primary.jpg",
+        "thumbnail": "/images/snakes/black-racer/thumbnail.jpg",
+        "attribution": {
+          "photographer": "Kristof Zyskowski &amp; Yulia Bereshpolova",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Colubridae-_Coluber_constrictor_constrictor_(Northern_Black_Racer).jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+        }
+      },
+      "description": "Extremely fast, diurnal snake known for its 'periscoping' behavior. While the scientific name suggests constriction, it typically pins prey down rather than using true constriction.",
+      "maxLength": {
+        "value": 1.5,
+        "unit": "m"
+      },
+      "diet": [
+        "rodents",
+        "frogs",
+        "lizards",
+        "insects",
+        "other snakes"
+      ],
+      "sources": [
+        "Reptile Database",
+        "Wikipedia"
+      ],
+      "continent": "North America",
+      "subregions": [
+        "North America"
+      ],
+      "commonlyMisidentifiedAs": [
+        "black-rat-snake"
+      ],
+      "misidentificationRisk": "high"
     }
   ]
 }

@@ -17,6 +17,12 @@
     "water-snake": [
       "cottonmouth"
     ],
+    "black-racer": [
+      "black-rat-snake"
+    ],
+    "black-rat-snake": [
+      "black-racer"
+    ],
     "russells-viper": [
       "common-sand-boa",
       "indian-rock-python"
