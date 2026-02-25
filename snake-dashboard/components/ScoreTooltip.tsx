@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -138,6 +138,8 @@ export function ScoreTooltip({
 }: ScoreTooltipProps) {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [side, setSide] = useState<"top" | "bottom">("top");
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -152,6 +154,19 @@ export function ScoreTooltip({
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
+
+  // Viewport detection for hover side
+  useEffect(() => {
+    if (hovered && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      // If we're in the top 350px of the screen, show tooltip below
+      if (rect.top < 350) {
+        setSide("bottom");
+      } else {
+        setSide("top");
+      }
+    }
+  }, [hovered]);
 
   const headerAndClose = (
     <div className="mb-2 flex items-center justify-between">
@@ -178,6 +193,7 @@ export function ScoreTooltip({
       onMouseLeave={() => !isMobile && setHovered(false)}
     >
       <button
+        ref={triggerRef}
         type="button"
         onClick={(e) => {
           e.stopPropagation();
@@ -193,18 +209,26 @@ export function ScoreTooltip({
       <AnimatePresence>
         {!isMobile && hovered && !open && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            initial={{ 
+              opacity: 0, 
+              y: side === "top" ? 10 : -10, 
+              scale: 0.95 
+            }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            exit={{ 
+              opacity: 0, 
+              y: side === "top" ? 10 : -10, 
+              scale: 0.95 
+            }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute bottom-full z-[100] mb-3 pointer-events-none"
+            className={`absolute z-[100] pointer-events-none ${
+              side === "top" ? "bottom-full mb-3" : "top-full mt-3"
+            }`}
             style={{ 
               width,
               left: anchor === "left" ? 0 : anchor === "right" ? "auto" : "50%",
               right: anchor === "right" ? 0 : "auto",
               transform: anchor === "center" ? "translateX(-50%)" : "none",
-              // Ensure it doesn't go off the top by using a very simple safety
-              // This is a bit of a hack since we don't have viewport detection here without a ref
               maxHeight: "80vh",
             }}
           >
@@ -215,14 +239,18 @@ export function ScoreTooltip({
               
               {/* Arrow */}
               <div 
-                className="absolute top-full left-0 right-0 flex justify-center -translate-y-[5px]"
+                className={`absolute left-0 right-0 flex justify-center ${
+                  side === "top" ? "top-full -translate-y-[5px]" : "bottom-full translate-y-[5px]"
+                }`}
                 style={{
                   justifyContent: anchor === "left" ? "flex-start" : anchor === "right" ? "flex-end" : "center",
                   paddingLeft: anchor === "left" ? "20px" : 0,
                   paddingRight: anchor === "right" ? "20px" : 0,
                 }}
               >
-                <div className="h-2.5 w-2.5 rotate-45 border-b border-r border-stone-200 bg-white" />
+                <div className={`h-2.5 w-2.5 rotate-45 border-stone-200 bg-white ${
+                  side === "top" ? "border-b border-r" : "border-t border-l"
+                }`} />
               </div>
             </div>
           </motion.div>
@@ -273,3 +301,4 @@ export function ScoreTooltip({
     </div>
   );
 }
+
