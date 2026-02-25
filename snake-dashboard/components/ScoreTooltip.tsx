@@ -133,8 +133,11 @@ function ScoreTooltipContent({ rows }: { rows: TooltipRow[] }) {
 export function ScoreTooltip({
   rows,
   children,
+  anchor = "center",
+  width = 280,
 }: ScoreTooltipProps) {
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -169,50 +172,63 @@ export function ScoreTooltip({
   );
 
   return (
-    <>
+    <div 
+      className="relative inline-block"
+      onMouseEnter={() => !isMobile && setHovered(true)}
+      onMouseLeave={() => !isMobile && setHovered(false)}
+    >
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen(true);
+        }}
         className="inline-flex cursor-help rounded-sm text-left outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2"
         aria-haspopup="dialog"
-        aria-expanded={open}
+        aria-expanded={open || hovered}
       >
         {children}
       </button>
 
       <AnimatePresence>
-        {open && isMobile ? (
+        {!isMobile && hovered && !open && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[220] lg:hidden"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Score details"
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="absolute bottom-full z-[100] mb-3 pointer-events-none"
+            style={{ 
+              width,
+              left: anchor === "left" ? 0 : anchor === "right" ? "auto" : "50%",
+              right: anchor === "right" ? 0 : "auto",
+              transform: anchor === "center" ? "translateX(-50%)" : "none",
+              // Ensure it doesn't go off the top by using a very simple safety
+              // This is a bit of a hack since we don't have viewport detection here without a ref
+              maxHeight: "80vh",
+            }}
           >
-            <button
-              type="button"
-              className="absolute inset-0 bg-black/45"
-              aria-label="Close score details"
-              onClick={() => setOpen(false)}
-            />
-
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "tween", duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
-              className="absolute bottom-0 left-0 right-0 z-10 max-h-[85vh] rounded-t-2xl border-t border-stone-200 bg-white px-4 pt-3 pb-6 shadow-2xl"
-            >
-              <div className="mx-auto mb-3 h-1 w-10 shrink-0 rounded-full bg-stone-200" aria-hidden />
-              {headerAndClose}
-              <div className="max-h-[70vh] overflow-y-auto pr-1 pb-6">
+            <div className="rounded-xl border border-stone-200 bg-white p-4 shadow-xl ring-1 ring-black/5">
+              <div className="max-h-[60vh] overflow-y-auto pr-1 custom-scrollbar">
                 <ScoreTooltipContent rows={rows} />
               </div>
-            </motion.div>
+              
+              {/* Arrow */}
+              <div 
+                className="absolute top-full left-0 right-0 flex justify-center -translate-y-[5px]"
+                style={{
+                  justifyContent: anchor === "left" ? "flex-start" : anchor === "right" ? "flex-end" : "center",
+                  paddingLeft: anchor === "left" ? "20px" : 0,
+                  paddingRight: anchor === "right" ? "20px" : 0,
+                }}
+              >
+                <div className="h-2.5 w-2.5 rotate-45 border-b border-r border-stone-200 bg-white" />
+              </div>
+            </div>
           </motion.div>
-        ) : open ? (
+        )}
+
+        {open && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -229,15 +245,31 @@ export function ScoreTooltip({
               onClick={() => setOpen(false)}
             />
 
-            <div className="absolute inset-x-4 top-1/2 z-10 mx-auto w-full max-w-md -translate-y-1/2 rounded-lg border border-stone-200 bg-white px-4 py-3 shadow-2xl">
-              {headerAndClose}
-              <div className="max-h-[70vh] overflow-y-auto pr-1">
-                <ScoreTooltipContent rows={rows} />
+            {isMobile ? (
+              <motion.div
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "tween", duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                className="absolute bottom-0 left-0 right-0 z-10 max-h-[85vh] rounded-t-2xl border-t border-stone-200 bg-white px-4 pt-3 pb-6 shadow-2xl"
+              >
+                <div className="mx-auto mb-3 h-1 w-10 shrink-0 rounded-full bg-stone-200" aria-hidden />
+                {headerAndClose}
+                <div className="max-h-[70vh] overflow-y-auto pr-1 pb-6">
+                  <ScoreTooltipContent rows={rows} />
+                </div>
+              </motion.div>
+            ) : (
+              <div className="absolute inset-x-4 top-1/2 z-10 mx-auto w-full max-w-md -translate-y-1/2 rounded-lg border border-stone-200 bg-white px-4 py-3 shadow-2xl">
+                {headerAndClose}
+                <div className="max-h-[70vh] overflow-y-auto pr-1">
+                  <ScoreTooltipContent rows={rows} />
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
-        ) : null}
+        )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }

@@ -100,7 +100,7 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
             </div>
           </div>
           <div className="sm:text-right">
-            <ScoreTooltip rows={tooltipRows} anchor="left" width={268}>
+            <ScoreTooltip rows={tooltipRows} anchor="right" width={268}>
               <div>
                 <div className="mb-1 text-[10px] font-black uppercase tracking-widest text-stone-400">Clinical Score</div>
                 <div className="tabular-nums leading-none">

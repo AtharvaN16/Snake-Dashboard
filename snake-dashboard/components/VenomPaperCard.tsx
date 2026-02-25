@@ -203,7 +203,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
               </div>
             </div>
             {lethalityScore != null && (
-              <ScoreTooltip rows={lethalityTooltipRows} anchor="left" width={280}>
+              <ScoreTooltip rows={lethalityTooltipRows} anchor="right" width={280}>
                 <div className="flex flex-col sm:items-end">
                   <div className="mb-1 text-[10px] font-black uppercase tracking-widest text-stone-400">Lethality Score</div>
                   <div className="tabular-nums leading-none">
