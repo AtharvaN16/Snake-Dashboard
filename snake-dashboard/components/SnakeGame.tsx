@@ -120,6 +120,18 @@ export function SnakeGame({
   }, [forcedPlaying, isPlaying]);
 
   useEffect(() => {
+    if (isPlaying) {
+      onGameStart?.();
+    }
+  }, [isPlaying, onGameStart]);
+
+  useEffect(() => {
+    if (isGameOver) {
+      onGameOver?.();
+    }
+  }, [isGameOver, onGameOver]);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable) return;
@@ -129,14 +141,14 @@ export function SnakeGame({
       
       if (e.key === "Escape") {
         setIsPlaying(false);
+        setIsGameOver(false);
         onExit?.();
         return;
       }
 
-      if (key === "p" && !isPlaying && !isStatic) {
+      if (key === "p" && !isPlaying && !isStatic && !isGameOver) {
         setIsPlaying(true);
         setHasStarted(true);
-        onGameStart?.();
         return;
       }
       
@@ -180,7 +192,6 @@ export function SnakeGame({
     setScore(0);
     setIsGameOver(false);
     setIsPlaying(true);
-    onGameStart?.();
     generateFood();
   };
 
@@ -196,7 +207,6 @@ export function SnakeGame({
       if (prevSnake.some((segment) => segment.x === newHead.x && segment.y === newHead.y)) {
         setIsGameOver(true);
         setIsPlaying(false);
-        onGameOver?.();
         return prevSnake;
       }
 
@@ -209,7 +219,7 @@ export function SnakeGame({
       }
       return newSnake;
     });
-  }, [direction, food, generateFood, onGameOver]);
+  }, [direction, food, generateFood]);
 
   useEffect(() => {
     if (isPlaying && !isGameOver) {
@@ -236,7 +246,6 @@ export function SnakeGame({
           } else {
             setIsPlaying(true);
             setHasStarted(true);
-            onGameStart?.();
           }
         }
       }}
@@ -274,6 +283,9 @@ export function SnakeGame({
 
       {isGameOver && (
         <div className="absolute inset-0 bg-stone-200/90 flex flex-col items-center justify-center z-[60]">
+          <div className="fixed top-8 left-8 flex items-center gap-2 z-[60]">
+             <Kbd triggerKey="Escape" className="font-bold">Esc</Kbd>
+          </div>
           <h2 className="text-4xl font-black text-stone-800 mb-2">GAME OVER</h2>
           <p className="text-stone-600 mb-6 font-bold text-xl">SCORE: {score}</p>
           <button 
