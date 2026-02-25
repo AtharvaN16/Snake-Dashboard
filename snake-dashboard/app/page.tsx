@@ -86,7 +86,7 @@ export default function Home() {
                   Taxonomy
                 </Link>
               </nav>
-              <SnakeGame isStatic className="!w-24 !h-24" />
+              <SnakeGame isStatic className="!w-24 !h-24 my-5 sm:my-6" />
             </div>
           )}
 
