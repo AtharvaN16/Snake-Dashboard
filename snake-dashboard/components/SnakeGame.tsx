@@ -227,13 +227,17 @@ export function SnakeGame({
   const gameContent = (
     <div 
       className={`relative bg-stone-200 p-1 overflow-hidden transition-all duration-500 cursor-pointer ${
-        isPlaying ? "!w-full !h-full p-2 cursor-default" : "w-10 h-10 lg:w-12 lg:h-12 rounded shadow-sm hover:shadow-md hover:bg-stone-300"
-      } ${!isPlaying ? className : ""}`}
+        isPlaying || isGameOver ? "!w-full !h-full p-2 cursor-default" : "w-10 h-10 lg:w-12 lg:h-12 rounded shadow-sm hover:shadow-md hover:bg-stone-300"
+      } ${!isPlaying && !isGameOver ? className : ""}`}
       onClick={() => {
         if (!isPlaying && !isStatic) {
-          setIsPlaying(true);
-          setHasStarted(true);
-          onGameStart?.();
+          if (isGameOver) {
+            resetGame();
+          } else {
+            setIsPlaying(true);
+            setHasStarted(true);
+            onGameStart?.();
+          }
         }
       }}
     >
@@ -287,31 +291,35 @@ export function SnakeGame({
 
   return (
     <>
-      {isPlaying ? (
+      {isPlaying || isGameOver ? (
         <div className="fixed inset-0 z-50 bg-stone-200 flex items-center justify-center">
           {gameContent}
           
-          {/* In-Game UI Overlay */}
-          <div className="fixed top-8 right-8 text-stone-800 font-mono text-4xl font-bold z-[60]" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-            {score}
-          </div>
-
-          <div className="fixed top-8 left-8 flex items-center gap-2 z-[60]">
-             <Kbd triggerKey="Escape" className="font-bold">Esc</Kbd>
-          </div>
-
-          <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-[60]">
-            <div className="flex flex-col gap-2">
-              <div className="grid grid-cols-3 gap-1 w-fit">
-                <div />
-                <ControlKbd triggerKey="W" isPressed={pressedKeys.has("w")} dark />
-                <div />
-                <ControlKbd triggerKey="A" isPressed={pressedKeys.has("a")} dark />
-                <ControlKbd triggerKey="S" isPressed={pressedKeys.has("s")} dark />
-                <ControlKbd triggerKey="D" isPressed={pressedKeys.has("d")} dark />
+          {!isGameOver && (
+            <>
+              {/* In-Game UI Overlay */}
+              <div className="fixed top-8 right-8 text-stone-800 font-mono text-4xl font-bold z-[60]" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                {score}
               </div>
-            </div>
-          </div>
+
+              <div className="fixed top-8 left-8 flex items-center gap-2 z-[60]">
+                 <Kbd triggerKey="Escape" className="font-bold">Esc</Kbd>
+              </div>
+
+              <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-[60]">
+                <div className="flex flex-col gap-2">
+                  <div className="grid grid-cols-3 gap-1 w-fit">
+                    <div />
+                    <ControlKbd triggerKey="W" isPressed={pressedKeys.has("w")} dark />
+                    <div />
+                    <ControlKbd triggerKey="A" isPressed={pressedKeys.has("a")} dark />
+                    <ControlKbd triggerKey="S" isPressed={pressedKeys.has("s")} dark />
+                    <ControlKbd triggerKey="D" isPressed={pressedKeys.has("d")} dark />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       ) : (
         <div className="flex items-center gap-3">
