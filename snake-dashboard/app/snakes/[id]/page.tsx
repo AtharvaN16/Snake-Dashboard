@@ -334,32 +334,33 @@ export default async function SnakeDetailPage({
                     return (
                       <div style={{ marginBottom: "14px" }}>
                         <p className="font-semibold text-[#000]">Misidentification risk</p>
-                        <div
-                          className="mt-2.5 flex flex-col items-start gap-1 lg:inline-flex lg:flex-row lg:flex-wrap lg:items-center lg:gap-1"
-                        >
-                          <span
-                            className="font-semibold"
-                            style={{
-                              padding: "3px 10px",
-                              borderRadius: "6px",
-                              fontSize: "14px",
-                              background: snake.venomClassification === "Highly Venomous"
-                                ? "#FF7373"
-                                : snake.venomClassification === "Venomous"
-                                ? "#FFAB73"
-                                : snake.venomClassification === "Moderately Venomous"
-                                ? "#FEF08A"
-                                : snake.venomClassification === "Mildly Venomous"
-                                ? "#B9E948"
-                                : "#CCCCCC",
-                              color: "#000000B2",
-                            }}
+                        <div className="mt-2.5">
+                          <div
+                            className="flex flex-col items-start gap-3 min-[360px]:flex-row min-[360px]:flex-wrap min-[360px]:items-center lg:inline-flex lg:gap-3"
                           >
-                            {snake.commonName}
-                          </span>
-                          <span className="text-stone-400 font-medium select-none text-[15px] lg:hidden" aria-hidden>↕</span>
-                          <span className="text-stone-400 font-medium select-none hidden text-[15px] lg:inline" aria-hidden>↔</span>
-                          {pairs.map(({ id: cid, snake: other }) => {
+                            <span
+                              className="font-semibold"
+                              style={{
+                                padding: "3px 10px",
+                                borderRadius: "6px",
+                                fontSize: "14px",
+                                background: snake.venomClassification === "Highly Venomous"
+                                  ? "#FF7373"
+                                  : snake.venomClassification === "Venomous"
+                                  ? "#FFAB73"
+                                  : snake.venomClassification === "Moderately Venomous"
+                                  ? "#FEF08A"
+                                  : snake.venomClassification === "Mildly Venomous"
+                                  ? "#B9E948"
+                                  : "#CCCCCC",
+                                color: "#000000B2",
+                              }}
+                            >
+                              {snake.commonName}
+                            </span>
+                            <span className="select-none self-start text-stone-600 lg:hidden" style={{ fontSize: "1.25rem", lineHeight: 1 }} aria-hidden>↕</span>
+                            <span className="hidden select-none self-start text-stone-600 lg:inline-block" style={{ fontSize: "1.25rem", lineHeight: 1 }} aria-hidden>↔</span>
+                            {pairs.map(({ id: cid, snake: other }) => {
                             const exists = other !== undefined;
                             const displayName =
                               other?.commonName ||
@@ -408,6 +409,7 @@ export default async function SnakeDetailPage({
                               </span>
                             );
                           })}
+                          </div>
                         </div>
                       </div>
                     );
