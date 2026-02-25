@@ -358,8 +358,8 @@ export default async function SnakeDetailPage({
                             >
                               {snake.commonName}
                             </span>
-                            <span className="select-none self-start text-stone-600 lg:hidden" style={{ fontSize: "1.25rem", lineHeight: 1 }} aria-hidden>↕</span>
-                            <span className="hidden select-none self-start text-stone-600 lg:inline-block" style={{ fontSize: "1.25rem", lineHeight: 1 }} aria-hidden>↔</span>
+                            <span className="select-none self-start text-stone-600 min-[360px]:hidden" style={{ fontSize: "1.25rem", lineHeight: 1 }} aria-hidden>↕</span>
+                            <span className="hidden select-none self-start text-stone-600 min-[360px]:inline-block" style={{ fontSize: "1.25rem", lineHeight: 1 }} aria-hidden>↔</span>
                             {pairs.map(({ id: cid, snake: other }) => {
                             const exists = other !== undefined;
                             const displayName =
