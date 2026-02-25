@@ -100,7 +100,7 @@
       ],
       "commonlyMisidentifiedAs": [
         "common-sand-boa",
-        "indian-rock-python"
+        "indian-python"
       ],
       "misidentificationRisk": "high",
       "symptoms": {
@@ -8738,7 +8738,10 @@
     },
     {
       "id": "indian-python",
-      "commonName": "Indian Python",
+      "commonName": "Indian Rock Python",
+      "otherCommonNames": [
+        "Indian Python"
+      ],
       "scientificName": "Python molurus",
       "family": "Pythonidae",
       "genus": "Python",

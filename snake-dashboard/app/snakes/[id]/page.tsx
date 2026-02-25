@@ -360,55 +360,62 @@ export default async function SnakeDetailPage({
                             </span>
                             <span className="select-none self-start text-stone-600 min-[360px]:hidden" style={{ fontSize: "1.25rem", lineHeight: 1 }} aria-hidden>↕</span>
                             <span className="hidden select-none self-start text-stone-600 min-[360px]:inline-block" style={{ fontSize: "1.25rem", lineHeight: 1 }} aria-hidden>↔</span>
-                            {pairs.map(({ id: cid, snake: other }) => {
-                            const exists = other !== undefined;
-                            const displayName =
-                              other?.commonName ||
-                              cid
-                                .split("-")
-                                .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                                .join(" ");
-                            const getPillColor = (classification: string | undefined) => {
-                              if (!classification) return "#E5E5E5";
-                              if (classification === "Highly Venomous") return "#FF7373";
-                              if (classification === "Venomous") return "#FFAB73";
-                              if (classification === "Moderately Venomous") return "#FEF08A";
-                              if (classification === "Mildly Venomous") return "#B9E948";
-                              return "#CCCCCC";
-                            };
-                            const pillStyle = {
-                              padding: "3px 10px",
-                              borderRadius: "6px",
-                              fontSize: "14px",
-                              background: getPillColor(other?.venomClassification),
-                              color: exists ? "#000000B2" : "#999999",
-                              opacity: exists ? 1 : 0.6,
-                            };
+                            {(() => {
+                              const orderedPairs = [
+                                ...pairs.filter(({ snake: other }) => other),
+                                ...pairs.filter(({ snake: other }) => !other),
+                              ];
 
-                            if (exists) {
-                              return (
-                                <Link
-                                  key={cid}
-                                  href={`/snakes/${cid}`}
-                                  className="font-semibold transition-opacity hover:opacity-75"
-                                  style={pillStyle}
-                                >
-                                  {displayName}
-                                </Link>
-                              );
-                            }
+                              return orderedPairs.map(({ id: cid, snake: other }) => {
+                                const exists = other !== undefined;
+                                const displayName =
+                                  other?.commonName ||
+                                  cid
+                                    .split("-")
+                                    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                                    .join(" ");
+                                const getPillColor = (classification: string | undefined) => {
+                                  if (!classification) return "#E5E5E5";
+                                  if (classification === "Highly Venomous") return "#FF7373";
+                                  if (classification === "Venomous") return "#FFAB73";
+                                  if (classification === "Moderately Venomous") return "#FEF08A";
+                                  if (classification === "Mildly Venomous") return "#B9E948";
+                                  return "#CCCCCC";
+                                };
+                                const pillStyle = {
+                                  padding: "3px 10px",
+                                  borderRadius: "6px",
+                                  fontSize: "14px",
+                                  background: getPillColor(other?.venomClassification),
+                                  color: exists ? "#000000B2" : "#999999",
+                                  opacity: exists ? 1 : 0.6,
+                                };
 
-                            return (
-                              <span
-                                key={cid}
-                                className="font-semibold"
-                                style={pillStyle}
-                                title="Not yet in database"
-                              >
-                                {displayName}
-                              </span>
-                            );
-                          })}
+                                if (exists) {
+                                  return (
+                                    <Link
+                                      key={cid}
+                                      href={`/snakes/${cid}`}
+                                      className="font-semibold transition-opacity hover:opacity-75"
+                                      style={pillStyle}
+                                    >
+                                      {displayName}
+                                    </Link>
+                                  );
+                                }
+
+                                return (
+                                  <span
+                                    key={cid}
+                                    className="font-semibold"
+                                    style={pillStyle}
+                                    title="Not yet in database"
+                                  >
+                                    {displayName}
+                                  </span>
+                                );
+                              });
+                            })()}
                           </div>
                         </div>
                       </div>

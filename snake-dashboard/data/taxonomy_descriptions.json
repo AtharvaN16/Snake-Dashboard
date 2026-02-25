@@ -38,5 +38,13 @@
   "pythonidae": {
     "name": "Pythonidae",
     "description": "A family of non-venomous constrictors found in the Old World (Africa, Asia, Australia). Unlike boas, they lay eggs (oviparous) and some species exhibit maternal care by coiling around their eggs to incubate them. They also possess heat-sensing pits. Most have teeth on the premaxilla."
+  },
+  "atractaspididae": {
+    "name": "Atractaspididae",
+    "description": "A family of venomous snakes found in Africa and the Middle East, commonly known as stiletto snakes, mole vipers, or burrowing asps. They possess a unique fang structure and venom delivery system that allows them to stab prey sideways with their mouth closed, an adaptation for hunting in narrow burrows. Their venom can cause severe local tissue damage and, in some species, is cardiotoxic."
+  },
+  "typhlopidae": {
+    "name": "Typhlopidae",
+    "description": "A family of blind snakes found in most tropical and subtropical regions. They are fossorial (burrowing) snakes with cylindrical bodies, smooth scales, and vestigial eyes that can only detect light. They are often mistaken for earthworms. Their diet consists primarily of the eggs, larvae, and pupae of ants and termites."
   }
 }
