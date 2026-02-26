@@ -117,6 +117,8 @@ export function SnakeGame({
   const [isMounted, setIsMounted] = useState(false);
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
   const slowDownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastProcessedDirectionRef = useRef<Point>({ x: 0, y: -1 });
+  const inputQueueRef = useRef<Point[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -173,10 +175,25 @@ export function SnakeGame({
       }
       
       if (!isPlaying) return;
-      if (key === "w" && direction.y !== 1) setDirection({ x: 0, y: -1 });
-      if (key === "s" && direction.y !== -1) setDirection({ x: 0, y: 1 });
-      if (key === "a" && direction.x !== 1) setDirection({ x: -1, y: 0 });
-      if (key === "d" && direction.x !== -1) setDirection({ x: 1, y: 0 });
+
+      const getLatestDirection = () => {
+        if (inputQueueRef.current.length > 0) {
+          return inputQueueRef.current[inputQueueRef.current.length - 1];
+        }
+        return lastProcessedDirectionRef.current;
+      };
+
+      const latestDir = getLatestDirection();
+
+      if (key === "w" && latestDir.y !== 1 && latestDir.y !== -1) {
+        inputQueueRef.current.push({ x: 0, y: -1 });
+      } else if (key === "s" && latestDir.y !== -1 && latestDir.y !== 1) {
+        inputQueueRef.current.push({ x: 0, y: 1 });
+      } else if (key === "a" && latestDir.x !== 1 && latestDir.x !== -1) {
+        inputQueueRef.current.push({ x: -1, y: 0 });
+      } else if (key === "d" && latestDir.x !== -1 && latestDir.x !== 1) {
+        inputQueueRef.current.push({ x: 1, y: 0 });
+      }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
@@ -290,6 +307,8 @@ export function SnakeGame({
   const resetGame = () => {
     const initialSnake = getRandomSnake();
     if (slowDownTimeoutRef.current) clearTimeout(slowDownTimeoutRef.current);
+    inputQueueRef.current = [];
+    lastProcessedDirectionRef.current = { x: 0, y: -1 };
     setSnake(initialSnake);
     setDirection({ x: 0, y: -1 });
     setScore(0);
@@ -305,12 +324,22 @@ export function SnakeGame({
   };
 
   const moveSnake = useCallback(() => {
+    const nextDir = inputQueueRef.current.length > 0 
+      ? inputQueueRef.current.shift()! 
+      : direction;
+    
+    if (nextDir !== direction) {
+      setDirection(nextDir);
+    }
+    
+    lastProcessedDirectionRef.current = nextDir;
+
     setSnake((prevSnake) => {
       if (prevSnake.length === 0) return prevSnake;
       const head = prevSnake[0];
       
-      const nextX = head.x + direction.x;
-      const nextY = head.y + direction.y;
+      const nextX = head.x + nextDir.x;
+      const nextY = head.y + nextDir.y;
 
       const wrappedX = (nextX + GRID_SIZE) % GRID_SIZE;
       const wrappedY = (nextY + GRID_SIZE) % GRID_SIZE;
@@ -319,10 +348,10 @@ export function SnakeGame({
       // EXPLICIT WALL COLLISION: Only hit if crossing the specific boundary from the inside
       let hitWall = false;
       if (activeWall) {
-        if (activeWall.side === "top" && head.y === 0 && direction.y === -1) hitWall = true;
-        if (activeWall.side === "bottom" && head.y === GRID_SIZE - 1 && direction.y === 1) hitWall = true;
-        if (activeWall.side === "left" && head.x === 0 && direction.x === -1) hitWall = true;
-        if (activeWall.side === "right" && head.x === GRID_SIZE - 1 && direction.x === 1) hitWall = true;
+        if (activeWall.side === "top" && head.y === 0 && nextDir.y === -1) hitWall = true;
+        if (activeWall.side === "bottom" && head.y === GRID_SIZE - 1 && nextDir.y === 1) hitWall = true;
+        if (activeWall.side === "left" && head.x === 0 && nextDir.x === -1) hitWall = true;
+        if (activeWall.side === "right" && head.x === GRID_SIZE - 1 && nextDir.x === 1) hitWall = true;
       }
 
       if (hitWall) {
@@ -388,16 +417,22 @@ export function SnakeGame({
     });
   }, [direction, food, dangerBlocks, slowDownBlock, score, activeWall, isSlowed, getWallSegments, spawnNewItems, addFloatingScore, triggerFlash]);
 
+  const moveSnakeRef = useRef(moveSnake);
+  useEffect(() => {
+    moveSnakeRef.current = moveSnake;
+  }, [moveSnake]);
+
   useEffect(() => {
     if (isPlaying && !isGameOver) {
-      gameLoopRef.current = setInterval(moveSnake, tickRate);
+      const id = setInterval(() => {
+        moveSnakeRef.current();
+      }, tickRate);
+      gameLoopRef.current = id;
+      return () => clearInterval(id);
     } else {
       if (gameLoopRef.current) clearInterval(gameLoopRef.current);
     }
-    return () => {
-      if (gameLoopRef.current) clearInterval(gameLoopRef.current);
-    };
-  }, [isPlaying, isGameOver, moveSnake, tickRate]);
+  }, [isPlaying, isGameOver, tickRate]);
 
   if (!isMounted) return null;
 
