@@ -47,44 +47,44 @@ function SnakeListItem({
   return (
     <div
       onMouseEnter={onHover}
-      className={`group mx-1.5 flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors sm:mx-2 sm:px-5 sm:py-3 ${
-        isActive ? "bg-stone-100" : keyboardPriority ? "" : "hover:bg-stone-100"
-      }`}
+      className="mx-1.5 sm:mx-2"
     >
       <Link
         href={href}
-        className="flex items-center gap-2 flex-1 min-w-0 no-underline"
+        className={`group flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors sm:px-5 sm:py-3 ${
+          isActive ? "bg-stone-100" : keyboardPriority ? "" : "hover:bg-stone-100"
+        } flex-1 min-w-0 no-underline`}
         onClick={() => onSelectSnake?.()}
       >
-        <span
-          className={`min-w-0 truncate text-sm font-semibold sm:text-base ${
-            isActive ? "text-stone-700" : "text-[#2c2c2c] group-hover:text-stone-700"
-          }`}
-        >
-          {snake.commonName}
-        </span>
-        <span
-          className={`hidden truncate text-xs sm:inline sm:text-sm ${
-            venomous ? "text-stone-400" : "text-stone-500"
-          }`}
-        >
-          {snake.scientificName}
-        </span>
-      </Link>
+        <div className="flex items-center gap-2 min-w-0">
+          <span
+            className={`min-w-0 truncate text-sm font-semibold sm:text-base ${
+              isActive ? "text-stone-700" : "text-[#2c2c2c] group-hover:text-stone-700"
+            }`}
+          >
+            {snake.commonName}
+          </span>
+          <span
+            className={`hidden truncate text-xs sm:inline sm:text-sm ${
+              venomous ? "text-stone-400" : "text-stone-500"
+            }`}
+          >
+            {snake.scientificName}
+          </span>
+        </div>
 
-      <div className="ml-2 flex shrink-0 items-center gap-1 sm:ml-4">
-        <Link
-          href="/rank"
-          className="max-w-[110px] truncate rounded px-2 py-0.5 text-[9px] font-medium no-underline transition-opacity hover:opacity-80 sm:max-w-none sm:text-[11px]"
-          style={{
-            backgroundColor: classification.bg,
-            color: classification.text,
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {classification.label}
-        </Link>
-      </div>
+        <div className="ml-2 flex shrink-0 items-center gap-1 sm:ml-4">
+          <span
+            className="max-w-[110px] truncate rounded px-2 py-0.5 text-[9px] font-medium sm:max-w-none sm:text-[11px]"
+            style={{
+              backgroundColor: classification.bg,
+              color: classification.text,
+            }}
+          >
+            {classification.label}
+          </span>
+        </div>
+      </Link>
     </div>
   );
 }

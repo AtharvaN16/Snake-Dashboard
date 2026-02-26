@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   // Strictly disable scrolling on the body for the home page
   useEffect(() => {
@@ -35,15 +36,24 @@ export default function Home() {
       <div className="hidden lg:block absolute left-[68px] top-8 z-20">
         <SnakeGame 
           forcedPlaying={isPlaying}
-          onGameStart={() => setIsPlaying(true)} 
-          onGameOver={() => setIsPlaying(false)}
-          onExit={() => setIsPlaying(false)}
+          onGameStart={() => {
+            setIsPlaying(true);
+            setIsGameOver(false);
+          }} 
+          onGameOver={() => {
+            setIsPlaying(false);
+            setIsGameOver(true);
+          }}
+          onExit={() => {
+            setIsPlaying(false);
+            setIsGameOver(false);
+          }}
           className="!w-16 !h-16 shadow-lg hover:shadow-xl transition-shadow border-2 border-stone-300/20"
         />
       </div>
 
       {/* Nav links - Desktop: absolute; Mobile: in flow above logo with gap */}
-      {!isPlaying && (
+      {!isPlaying && !isGameOver && (
         <nav className="hidden lg:flex absolute left-auto right-[68px] top-8 z-20 mx-0 w-fit items-center gap-4 text-sm font-medium normal-case tracking-normal text-stone-600">
             <span className="flex items-center gap-2">
               <Kbd triggerKey="R" className="inline-flex">R</Kbd>
@@ -70,7 +80,7 @@ export default function Home() {
       <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none lg:justify-center">
         <div className="flex flex-col h-full w-full max-w-2xl pointer-events-auto lg:h-auto lg:justify-center">
           {/* Mobile: top section - links, vertical gap, then logo */}
-          {!isPlaying && (
+          {!isPlaying && !isGameOver && (
             <div className="lg:hidden flex shrink-0 flex-col items-center gap-6 pt-4 pb-3 sm:pt-5 sm:pb-4">
               <nav className="flex w-fit items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-stone-500 sm:text-xs">
                 <Link
@@ -91,7 +101,7 @@ export default function Home() {
           )}
 
           {/* Search Card - Mobile: fixed 70vh at bottom; Desktop: fixed 70vh height, list scrolls inside */}
-          {!isPlaying && (
+          {!isPlaying && !isGameOver && (
             <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-0 lg:h-[70vh] lg:min-h-0 lg:translate-y-16 lg:w-full">
               <HomeSearchCard
                 inputId="main-search"

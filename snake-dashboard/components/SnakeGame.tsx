@@ -2,11 +2,17 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Kbd } from "./ui/kbd";
+import { TurtleIcon } from "./icons/TurtleIcon";
 
 const GRID_SIZE = 20;
-const TICK_RATE = 150;
+const INITIAL_TICK_RATE = 150;
+const MIN_SNAKE_LENGTH = 3;
 
 type Point = { x: number; y: number };
+type DangerBlock = Point & { penalty: 10 | 25; lengthPenalty: 2 | 4 };
+type WallType = "lethal" | "penalty";
+type WallSegment = Point & { type: WallType };
+type FloatingScore = { id: number; val: number; x: number; y: number };
 
 // Centered "SNAKES" pattern for a 20x20 grid
 const SNAKES_PATTERN: Point[] = [
@@ -96,6 +102,13 @@ export function SnakeGame({
   const [snake, setSnake] = useState<Point[]>([]);
   const [direction, setDirection] = useState<Point>({ x: 0, y: -1 });
   const [food, setFood] = useState<Point>({ x: -1, y: -1 });
+  const [dangerBlocks, setDangerBlocks] = useState<DangerBlock[]>([]);
+  const [slowDownBlock, setSlowDownBlock] = useState<Point | null>(null);
+  const [activeWall, setActiveWall] = useState<{ side: string; type: WallType } | null>(null);
+  const [flashCoord, setFlashCoord] = useState<Point | null>(null);
+  const [floatingScores, setFloatingScores] = useState<FloatingScore[]>([]);
+  const [tickRate, setTickRate] = useState(INITIAL_TICK_RATE);
+  const [isSlowed, setIsSlowed] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
@@ -103,11 +116,18 @@ export function SnakeGame({
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
   const [isMounted, setIsMounted] = useState(false);
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
+  const slowDownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
     setSnake(getRandomSnake());
     setFood(getRandomPoint());
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (slowDownTimeoutRef.current) clearTimeout(slowDownTimeoutRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -175,34 +195,148 @@ export function SnakeGame({
     };
   }, [isPlaying, direction, onExit, isStatic, onGameStart]);
 
-  const generateFood = useCallback(() => {
+  const triggerFlash = useCallback((p: Point) => {
+    setFlashCoord(p);
+    setTimeout(() => setFlashCoord(null), 300);
+  }, []);
+
+  const addFloatingScore = useCallback((val: number, x: number, y: number) => {
+    const id = Date.now() + Math.random();
+    setFloatingScores(prev => [...prev, { id, val, x, y }]);
+    setTimeout(() => {
+      setFloatingScores(prev => prev.filter(f => f.id !== id));
+    }, 1000);
+  }, []);
+
+  const getWallSegments = useCallback((wall: { side: string; type: WallType } | null) => {
+    if (!wall) return [];
+    const segments: Point[] = [];
+    for (let i = 0; i < GRID_SIZE; i++) {
+      let x = 0, y = 0;
+      if (wall.side === "top") { x = i; y = 0; }
+      if (wall.side === "bottom") { x = i; y = GRID_SIZE - 1; }
+      if (wall.side === "left") { x = 0; y = i; }
+      if (wall.side === "right") { x = GRID_SIZE - 1; y = i; }
+      segments.push({ x, y });
+    }
+    return segments;
+  }, []);
+
+  const spawnNewItems = useCallback((currentSnake: Point[], currentScore: number, shouldRotateWall: boolean) => {
+    // Wall logic: rotate only on 50pt milestones after 100
+    if (currentScore >= 100) {
+      if (shouldRotateWall || !activeWall) {
+        const sides = ["top", "bottom", "left", "right"];
+        const validSides = sides.filter(side => {
+          const segments = getWallSegments({ side, type: "lethal" });
+          return !segments.some(seg => currentSnake.some(s => s.x === seg.x && s.y === seg.y));
+        });
+        
+        if (validSides.length > 0) {
+          const side = validSides[Math.floor(Math.random() * validSides.length)];
+          const type = Math.random() > 0.5 ? "lethal" : "penalty";
+          setActiveWall({ side, type });
+        }
+      }
+    } else {
+      setActiveWall(null);
+    }
+
+    const wallSegments = getWallSegments(activeWall);
+    const isOccupied = (p: Point) => {
+      return currentSnake.some(s => s.x === p.x && s.y === p.y) || 
+             wallSegments.some(w => w.x === p.x && w.y === p.y);
+    };
+
+    // Generate Food
     let newFood: Point;
     while (true) {
       newFood = getRandomPoint();
-      if (!snake.some((segment) => segment.x === newFood.x && segment.y === newFood.y)) {
-        break;
-      }
+      if (!isOccupied(newFood)) break;
     }
     setFood(newFood);
-  }, [snake]);
+
+    // Danger blocks logic (60% chance - MORE COMMON)
+    let newDanger: DangerBlock | null = null;
+    if (Math.random() < 0.6) {
+      let dp: Point;
+      while (true) {
+        dp = getRandomPoint();
+        if (!isOccupied(dp) && (dp.x !== newFood.x || dp.y !== newFood.y)) break;
+      }
+      const penalty = Math.random() > 0.5 ? 25 : 10;
+      const lengthPenalty = penalty === 25 ? 4 : 2;
+      newDanger = { ...dp, penalty, lengthPenalty };
+      setDangerBlocks([newDanger]);
+    } else {
+      setDangerBlocks([]);
+    }
+
+    // Slow down block logic (15% chance - RARE)
+    if (Math.random() < 0.15) {
+      let newSlow: Point;
+      while (true) {
+        newSlow = getRandomPoint();
+        const occupiedByOthers = (newSlow.x === newFood.x && newSlow.y === newFood.y) || 
+                                (newDanger && newSlow.x === newDanger.x && newSlow.y === newDanger.y);
+        if (!isOccupied(newSlow) && !occupiedByOthers) break;
+      }
+      setSlowDownBlock(newSlow);
+    } else {
+      setSlowDownBlock(null);
+    }
+  }, [getWallSegments, activeWall]);
 
   const resetGame = () => {
-    setSnake(getRandomSnake());
+    const initialSnake = getRandomSnake();
+    if (slowDownTimeoutRef.current) clearTimeout(slowDownTimeoutRef.current);
+    setSnake(initialSnake);
     setDirection({ x: 0, y: -1 });
     setScore(0);
     setIsGameOver(false);
     setIsPlaying(true);
-    generateFood();
+    setIsSlowed(false);
+    setTickRate(INITIAL_TICK_RATE);
+    setDangerBlocks([]);
+    setSlowDownBlock(null);
+    setActiveWall(null);
+    setFloatingScores([]);
+    spawnNewItems(initialSnake, 0, true);
   };
 
   const moveSnake = useCallback(() => {
     setSnake((prevSnake) => {
       if (prevSnake.length === 0) return prevSnake;
       const head = prevSnake[0];
-      const newHead = {
-        x: (head.x + direction.x + GRID_SIZE) % GRID_SIZE,
-        y: (head.y + direction.y + GRID_SIZE) % GRID_SIZE,
-      };
+      
+      const nextX = head.x + direction.x;
+      const nextY = head.y + direction.y;
+
+      const wrappedX = (nextX + GRID_SIZE) % GRID_SIZE;
+      const wrappedY = (nextY + GRID_SIZE) % GRID_SIZE;
+      const newHead = { x: wrappedX, y: wrappedY };
+
+      // EXPLICIT WALL COLLISION: Only hit if crossing the specific boundary from the inside
+      let hitWall = false;
+      if (activeWall) {
+        if (activeWall.side === "top" && head.y === 0 && direction.y === -1) hitWall = true;
+        if (activeWall.side === "bottom" && head.y === GRID_SIZE - 1 && direction.y === 1) hitWall = true;
+        if (activeWall.side === "left" && head.x === 0 && direction.x === -1) hitWall = true;
+        if (activeWall.side === "right" && head.x === GRID_SIZE - 1 && direction.x === 1) hitWall = true;
+      }
+
+      if (hitWall) {
+        if (activeWall?.type === "lethal") {
+          setIsGameOver(true);
+          setIsPlaying(false);
+          return prevSnake;
+        } else {
+          setScore(s => Math.max(0, s - 5));
+          addFloatingScore(-5, newHead.x, newHead.y);
+          triggerFlash(newHead);
+          if (!isSlowed) setTickRate(prev => Math.min(prev + 5, 250));
+        }
+      }
 
       if (prevSnake.some((segment) => segment.x === newHead.x && segment.y === newHead.y)) {
         setIsGameOver(true);
@@ -211,28 +345,63 @@ export function SnakeGame({
       }
 
       const newSnake = [newHead, ...prevSnake];
+      
       if (newHead.x === food.x && newHead.y === food.y) {
-        setScore((s) => s + 10);
-        generateFood();
+        const newScore = score + 10;
+        const oldMilestone = Math.floor(score / 50);
+        const newMilestone = Math.floor(newScore / 50);
+        setScore(newScore);
+        // rotate hazards every food, rotate wall every 50 points after 100
+        spawnNewItems(newSnake, newScore, newMilestone > oldMilestone);
       } else {
-        newSnake.pop();
+        const dangerIndex = dangerBlocks.findIndex(d => d.x === newHead.x && d.y === newHead.y);
+        const hitSlow = slowDownBlock?.x === newHead.x && slowDownBlock?.y === newHead.y;
+
+        if (dangerIndex !== -1) {
+          const danger = dangerBlocks[dangerIndex];
+          setScore(s => Math.max(0, s - danger.penalty));
+          addFloatingScore(-danger.penalty, newHead.x, newHead.y);
+          triggerFlash(newHead);
+          setDangerBlocks(prev => prev.filter((_, i) => i !== dangerIndex));
+          
+          for (let i = 0; i < danger.lengthPenalty; i++) {
+            if (newSnake.length > MIN_SNAKE_LENGTH) newSnake.pop();
+          }
+        } else if (hitSlow) {
+          if (!isSlowed) {
+            setIsSlowed(true);
+            setTickRate(300); // 2x slower
+            setSlowDownBlock(null);
+            
+            slowDownTimeoutRef.current = setTimeout(() => {
+              setIsSlowed(false);
+              setTickRate(INITIAL_TICK_RATE);
+              slowDownTimeoutRef.current = null;
+            }, 10000); // 10 seconds
+          }
+          newSnake.pop();
+        } else {
+          newSnake.pop();
+        }
       }
       return newSnake;
     });
-  }, [direction, food, generateFood]);
+  }, [direction, food, dangerBlocks, slowDownBlock, score, activeWall, isSlowed, getWallSegments, spawnNewItems, addFloatingScore, triggerFlash]);
 
   useEffect(() => {
     if (isPlaying && !isGameOver) {
-      gameLoopRef.current = setInterval(moveSnake, TICK_RATE);
+      gameLoopRef.current = setInterval(moveSnake, tickRate);
     } else {
       if (gameLoopRef.current) clearInterval(gameLoopRef.current);
     }
     return () => {
       if (gameLoopRef.current) clearInterval(gameLoopRef.current);
     };
-  }, [isPlaying, isGameOver, moveSnake]);
+  }, [isPlaying, isGameOver, moveSnake, tickRate]);
 
   if (!isMounted) return null;
+
+  const wallSegments = getWallSegments(activeWall);
 
   const gameContent = (
     <div 
@@ -246,12 +415,13 @@ export function SnakeGame({
           } else {
             setIsPlaying(true);
             setHasStarted(true);
+            resetGame();
           }
         }
       }}
     >
       <div 
-        className="grid gap-[0.5px] h-full w-full"
+        className="grid gap-[0.5px] h-full w-full relative"
         style={{ 
           gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
           gridTemplateRows: `repeat(${GRID_SIZE}, 1fr)` 
@@ -262,23 +432,59 @@ export function SnakeGame({
           const y = Math.floor(i / GRID_SIZE);
           
           let isActive = false;
-          if (isStatic || !isPlaying) {
+          if (isStatic || (!isPlaying && !isGameOver)) {
             isActive = SNAKES_PATTERN.some(p => p.x === x && p.y === y);
           } else {
             isActive = snake.some((s) => s.x === x && s.y === y);
           }
           
-          const isFood = (isStatic || !isPlaying) ? false : (food.x === x && food.y === y);
+          const isFood = (isStatic || (!isPlaying && !isGameOver)) ? false : (food.x === x && food.y === y);
+          const isWall = (isStatic || (!isPlaying && !isGameOver)) ? false : wallSegments.some(w => w.x === x && w.y === y);
+          const danger = (isStatic || (!isPlaying && !isGameOver)) ? null : dangerBlocks.find(d => d.x === x && d.y === y);
+          const isSlow = (isStatic || (!isPlaying && !isGameOver)) ? false : (slowDownBlock?.x === x && slowDownBlock?.y === y);
+          const isFlashing = flashCoord?.x === x && flashCoord?.y === y;
 
           return (
             <div
               key={i}
-              className={`rounded-[0.5px] transition-colors duration-75 ${
-                isActive ? "bg-stone-800" : isFood ? "bg-stone-500 animate-pulse" : "bg-stone-300/30"
+              className={`rounded-[0.5px] transition-all duration-75 flex items-center justify-center overflow-visible ${
+                isFlashing ? "bg-red-500 z-10 scale-110" :
+                isActive ? "bg-stone-800" : 
+                isFood ? "bg-stone-500 animate-pulse" : 
+                isWall && activeWall?.type === "lethal" ? "bg-red-950/80" :
+                isWall && activeWall?.type === "penalty" ? "bg-stone-700/80" :
+                "bg-stone-300/30"
               }`}
-            />
+            >
+              {danger && (
+                <span className="text-5xl font-black text-red-800 leading-none tracking-tighter select-none" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                  -{danger.penalty}
+                </span>
+              )}
+              {isSlow && (
+                <TurtleIcon className="w-12 h-12 text-emerald-700 opacity-80" />
+              )}
+              {isWall && (
+                 <div className={`w-full h-full ${activeWall?.type === "lethal" ? "bg-red-950/20" : "bg-stone-700/20"}`} />
+              )}
+            </div>
           );
         })}
+        
+        {floatingScores.map(fs => (
+          <div 
+            key={fs.id}
+            className="absolute pointer-events-none text-red-600 font-black text-sm animate-out fade-out slide-out-to-top-12 duration-1000 fill-mode-forwards"
+            style={{ 
+              left: `${(fs.x / GRID_SIZE) * 100}%`, 
+              top: `${(fs.y / GRID_SIZE) * 100}%`,
+              fontFamily: 'JetBrains Mono, monospace',
+              zIndex: 100
+            }}
+          >
+            {fs.val}
+          </div>
+        ))}
       </div>
 
       {isGameOver && (
@@ -310,8 +516,16 @@ export function SnakeGame({
           {!isGameOver && (
             <>
               {/* In-Game UI Overlay */}
-              <div className="fixed top-8 right-8 text-stone-800 font-mono text-4xl font-bold z-[60]" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-                {score}
+              <div className="fixed top-8 right-8 flex flex-col items-end gap-1 z-[60]">
+                <div className="text-stone-800 font-mono text-4xl font-bold leading-none" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                  {score}
+                </div>
+                {isSlowed && (
+                  <div className="flex items-center gap-1 text-emerald-700 font-bold text-xs uppercase tracking-widest animate-pulse">
+                    <TurtleIcon className="w-4 h-4" />
+                    Slowed
+                  </div>
+                )}
               </div>
 
               <div className="fixed top-8 left-8 flex items-center gap-2 z-[60]">
