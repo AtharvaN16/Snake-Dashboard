@@ -1,4 +1,10 @@
-import * as d3 from "d3";
+import { select, pointer } from "d3-selection";
+import type { Selection } from "d3-selection";
+import type { HierarchyNode as D3HierarchyNode, HierarchyPointNode, HierarchyPointLink } from "d3-hierarchy";
+import { Delaunay } from "d3-delaunay";
+import { zoomIdentity } from "d3-zoom";
+import type { ZoomBehavior } from "d3-zoom";
+import { easeCubicInOut, easeCubicOut } from "d3-ease";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import type { Snake } from "@/lib/types";
 import { BLOOM_BASE_DELAY, BLOOM_DURATION } from "./treeConstants";
@@ -7,18 +13,18 @@ import { nodeRadius, computeNodeFill, getNodeHoverStyle } from "./treeNodeStyles
 import { createUpdateSpeciesVisibility } from "./treeVisibility";
 
 export interface ChartContext {
-  svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
-  g: d3.Selection<SVGGElement, unknown, null, undefined>;
-  labelsLayer: d3.Selection<SVGGElement, unknown, null, undefined>;
-  nodeSelection: d3.Selection<SVGGElement, d3.HierarchyPointNode<HierarchyNode>, SVGGElement, unknown>;
-  linkSelection: d3.Selection<SVGPathElement, d3.HierarchyPointLink<HierarchyNode>, SVGGElement, unknown>;
-  allNodes: d3.HierarchyPointNode<HierarchyNode>[];
+  svg: Selection<SVGSVGElement, unknown, null, undefined>;
+  g: Selection<SVGGElement, unknown, null, undefined>;
+  labelsLayer: Selection<SVGGElement, unknown, null, undefined>;
+  nodeSelection: Selection<SVGGElement, HierarchyPointNode<HierarchyNode>, SVGGElement, unknown>;
+  linkSelection: Selection<SVGPathElement, HierarchyPointLink<HierarchyNode>, SVGGElement, unknown>;
+  allNodes: HierarchyPointNode<HierarchyNode>[];
   nodePoints: [number, number][];
-  nodeToAncestors: Map<d3.HierarchyNode<HierarchyNode>, Set<d3.HierarchyNode<HierarchyNode>>>;
-  nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string;
+  nodeToAncestors: Map<D3HierarchyNode<HierarchyNode>, Set<D3HierarchyNode<HierarchyNode>>>;
+  nodeColor: (n: D3HierarchyNode<HierarchyNode>) => string;
   /** Returns current nodeColor (use when colorMode may have changed without effect re-run). */
-  getNodeColor?: () => (n: d3.HierarchyNode<HierarchyNode>) => string;
-  isSpecies: (d: d3.HierarchyNode<HierarchyNode>) => boolean;
+  getNodeColor?: () => (n: D3HierarchyNode<HierarchyNode>) => string;
+  isSpecies: (d: D3HierarchyNode<HierarchyNode>) => boolean;
   currentSnakeId?: string;
   shouldBloom: boolean;
   cw: number;
@@ -27,10 +33,10 @@ export interface ChartContext {
   cy: number;
   scale0: number;
   zoomScaleRef: { current: number };
-  zoomBehavior: d3.ZoomBehavior<SVGSVGElement, unknown>;
+  zoomBehavior: ZoomBehavior<SVGSVGElement, unknown>;
   getColorMode: () => "family" | "venom";
   onSpeciesClick?: (snakeId: string) => void;
-  onTaxonomyNodeClick?: (node: d3.HierarchyPointNode<HierarchyNode> | null) => void;
+  onTaxonomyNodeClick?: (node: HierarchyPointNode<HierarchyNode> | null) => void;
   onResetView?: () => void;
   /** Current selected region (getter so clearHighlight always uses latest value, not stale closure). */
   getSelectedRegion: () => Snake["continent"] | null;
@@ -41,7 +47,7 @@ export function setupInteractions(ctx: ChartContext): {
   cleanup: () => void;
   updateSpeciesVisibility: (scale: number) => void;
   applyRegionFilter: (region: Snake["continent"] | null) => void;
-  applyVenomFade: (nodes: Set<d3.HierarchyPointNode<HierarchyNode>> | null) => void;
+  applyVenomFade: (nodes: Set<HierarchyPointNode<HierarchyNode>> | null) => void;
   refreshNodePositions: () => void;
   resetView: () => void;
 } {
@@ -56,23 +62,23 @@ export function setupInteractions(ctx: ChartContext): {
   const currentNodeColor = () => (getNodeColor?.() ?? nodeColor);
 
   let hoverActive = false;
-  let hoveredNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
-  let searchHighlightNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
-  let clickFocusNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
-  let hoverLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
-  let searchLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
-  let focusLabel: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
+  let hoveredNode: HierarchyPointNode<HierarchyNode> | null = null;
+  let searchHighlightNode: HierarchyPointNode<HierarchyNode> | null = null;
+  let clickFocusNode: HierarchyPointNode<HierarchyNode> | null = null;
+  let hoverLabel: Selection<SVGGElement, unknown, null, undefined> | null = null;
+  let searchLabel: Selection<SVGGElement, unknown, null, undefined> | null = null;
+  let focusLabel: Selection<SVGGElement, unknown, null, undefined> | null = null;
   /** Set of nodes at full opacity during highlight; used to sync label opacity in labelsLayer. */
-  let currentHighlightedNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
+  let currentHighlightedNodes = new Set<D3HierarchyNode<HierarchyNode>>();
   /** When hovering a species at default zoom: family branch stays at 0.2; used for label opacity. */
-  let currentFamilyBranchNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
+  let currentFamilyBranchNodes: Set<D3HierarchyNode<HierarchyNode>> | null = null;
   /** When region filter is active, paths to all species in that region; otherwise null. */
-  let regionHighlightPathNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
+  let regionHighlightPathNodes: Set<D3HierarchyNode<HierarchyNode>> | null = null;
   /** When venom filter is active, paths to all venomous species; otherwise null. */
-  let venomHighlightPathNodes: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
+  let venomHighlightPathNodes: Set<D3HierarchyNode<HierarchyNode>> | null = null;
 
   // --- Voronoi/Delaunay setup ---
-  let delaunay = d3.Delaunay.from(nodePoints);
+  let delaunay = Delaunay.from(nodePoints);
 
   if (currentSnakeId) {
     const found = allNodes.find((n) => n.data.id === currentSnakeId);
@@ -97,7 +103,7 @@ export function setupInteractions(ctx: ChartContext): {
     };
   }
 
-  function getEffectiveHighlightedNodes(): Set<d3.HierarchyNode<HierarchyNode>> {
+  function getEffectiveHighlightedNodes(): Set<D3HierarchyNode<HierarchyNode>> {
     // When hovering, show the hover lineage path — not the full filter set.
     if (hoveredNode && currentHighlightedNodes.size > 0) return currentHighlightedNodes;
     if (regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0)
@@ -108,10 +114,10 @@ export function setupInteractions(ctx: ChartContext): {
   }
 
   // --- Highlight helpers ---
-  function highlightSubtree(target: d3.HierarchyPointNode<HierarchyNode>) {
+  function highlightSubtree(target: HierarchyPointNode<HierarchyNode>) {
     hoverActive = true;
     currentFamilyBranchNodes = null;
-    const subtreeNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
+    const subtreeNodes = new Set<D3HierarchyNode<HierarchyNode>>();
     target.each((n) => subtreeNodes.add(n));
     currentHighlightedNodes = subtreeNodes;
     const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
@@ -128,7 +134,7 @@ export function setupInteractions(ctx: ChartContext): {
       );
   }
 
-  function highlightPath(target: d3.HierarchyNode<HierarchyNode>) {
+  function highlightPath(target: D3HierarchyNode<HierarchyNode>) {
     hoverActive = true;
     const ancestors = nodeToAncestors.get(target)!;
     const pathNodes = new Set(ancestors);
@@ -141,10 +147,10 @@ export function setupInteractions(ctx: ChartContext): {
       (venomHighlightPathNodes != null && venomHighlightPathNodes.size > 0);
     const isSpeciesAtDefaultZoom =
       isSpecies(target) && dimmedNode === "0" && !anyFilterActive;
-    let familyBranch: Set<d3.HierarchyNode<HierarchyNode>> | null = null;
+    let familyBranch: Set<D3HierarchyNode<HierarchyNode>> | null = null;
     if (isSpeciesAtDefaultZoom && target.parent?.parent) {
       const family = target.parent.parent;
-      familyBranch = new Set<d3.HierarchyNode<HierarchyNode>>();
+      familyBranch = new Set<D3HierarchyNode<HierarchyNode>>();
       family.each((n) => familyBranch!.add(n));
       currentFamilyBranchNodes = familyBranch;
     } else {
@@ -173,13 +179,13 @@ export function setupInteractions(ctx: ChartContext): {
   }
   
   function highlightPathToRoot(
-    from: d3.HierarchyNode<HierarchyNode>,
-    root: d3.HierarchyNode<HierarchyNode>,
+    from: D3HierarchyNode<HierarchyNode>,
+    root: D3HierarchyNode<HierarchyNode>,
   ) {
     hoverActive = true;
     currentFamilyBranchNodes = null;
-    const pathNodes = new Set<d3.HierarchyNode<HierarchyNode>>();
-    for (let n: d3.HierarchyNode<HierarchyNode> | null = from; n; n = n.parent) {
+    const pathNodes = new Set<D3HierarchyNode<HierarchyNode>>();
+    for (let n: D3HierarchyNode<HierarchyNode> | null = from; n; n = n.parent) {
       pathNodes.add(n);
       if (n === root) break;
     }
@@ -278,7 +284,7 @@ export function setupInteractions(ctx: ChartContext): {
       updateSpeciesVisibility(zoomScaleRef.current);
       return;
     }
-    const pathUnion = new Set<d3.HierarchyNode<HierarchyNode>>();
+    const pathUnion = new Set<D3HierarchyNode<HierarchyNode>>();
     for (const n of allNodes) {
       if (!isSpecies(n) || !n.data.id) continue;
       if (getContinentForSpeciesId(n.data.id) !== region) continue;
@@ -307,8 +313,8 @@ export function setupInteractions(ctx: ChartContext): {
   // --- Floating label helper ---
 
   function createLabel(
-    parent: d3.Selection<SVGGElement, unknown, null, undefined>,
-    node: d3.HierarchyPointNode<HierarchyNode>,
+    parent: Selection<SVGGElement, unknown, null, undefined>,
+    node: HierarchyPointNode<HierarchyNode>,
     cls: string,
     opts?: { large?: boolean },
   ) {
@@ -339,18 +345,18 @@ export function setupInteractions(ctx: ChartContext): {
   // Node fill highlight always on hover. Floating hover label only at default zoom (to trace lineage);
   // when zoomed in, ext-labels / in-node text are enough and we avoid duplicates.
 
-  function showHoverEffect(el: SVGGElement, d: d3.HierarchyPointNode<HierarchyNode>) {
+  function showHoverEffect(el: SVGGElement, d: HierarchyPointNode<HierarchyNode>) {
     const { fill, fillOpacity } = getNodeHoverStyle(getColorMode(), d, currentNodeColor(), currentSnakeId);
-    d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", fillOpacity);
+    select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", fillOpacity);
     if (searchHighlightNode && d === searchHighlightNode) return;
     hoverLabel = createLabel(g, d, "hover-label");
   }
 
-  function clearHoverEffect(el: SVGGElement | null, d: d3.HierarchyPointNode<HierarchyNode>) {
+  function clearHoverEffect(el: SVGGElement | null, d: HierarchyPointNode<HierarchyNode>) {
     if (!el) return;
     const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
     const fill = computeNodeFill(d, currentNodeColor(), getColorMode(), currentSnakeId);
-    d3.select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", isCurrent ? 0.85 : 1);
+    select(el).select<SVGElement>("circle, path").attr("fill", fill).attr("fill-opacity", isCurrent ? 0.85 : 1);
     // ext-labels are in labelsLayer and are recreated on each visibility update; no per-node reset needed
     if (hoverLabel) { hoverLabel.remove(); hoverLabel = null; }
   }
@@ -361,7 +367,7 @@ export function setupInteractions(ctx: ChartContext): {
   const ZOOM_MAX_SCALE = 4;
   const ZOOM_ABLE_MIN_SCALE = 1.0;
 
-  function zoomToBounds(nodes: Iterable<d3.HierarchyNode<HierarchyNode>>, padding: number, maxScale: number) {
+  function zoomToBounds(nodes: Iterable<D3HierarchyNode<HierarchyNode>>, padding: number, maxScale: number) {
     let tx0 = Infinity, ty0 = Infinity, tx1 = -Infinity, ty1 = -Infinity;
     for (const n of nodes) {
       const [px, py] = radialPoint((n as any).x, (n as any).y);
@@ -372,13 +378,13 @@ export function setupInteractions(ctx: ChartContext): {
     tx0 -= padding; ty0 -= padding; tx1 += padding; ty1 += padding;
     const tscale = Math.min(cw / (tx1 - tx0), ch / (ty1 - ty0), maxScale);
     const tcx = (tx0 + tx1) / 2, tcy = (ty0 + ty1) / 2;
-    svg.transition().duration(750).ease(d3.easeCubicInOut)
+    svg.transition().duration(750).ease(easeCubicInOut)
       .call((zoomBehavior as any).transform,
-        d3.zoomIdentity.translate(cw / 2 - tcx * tscale, ch / 2 - tcy * tscale).scale(tscale));
+        zoomIdentity.translate(cw / 2 - tcx * tscale, ch / 2 - tcy * tscale).scale(tscale));
   }
 
-  function zoomToFitScale(target: d3.HierarchyPointNode<HierarchyNode>): number {
-    const nodes: d3.HierarchyNode<HierarchyNode>[] = [];
+  function zoomToFitScale(target: HierarchyPointNode<HierarchyNode>): number {
+    const nodes: D3HierarchyNode<HierarchyNode>[] = [];
     target.each((n) => nodes.push(n));
     let tx0 = Infinity, ty0 = Infinity, tx1 = -Infinity, ty1 = -Infinity;
     for (const n of nodes) {
@@ -391,20 +397,20 @@ export function setupInteractions(ctx: ChartContext): {
     return Math.min(cw / (tx1 - tx0), ch / (ty1 - ty0), ZOOM_MAX_SCALE);
   }
 
-  function zoomToNode(target: d3.HierarchyPointNode<HierarchyNode>) {
-    const nodes: d3.HierarchyNode<HierarchyNode>[] = [];
+  function zoomToNode(target: HierarchyPointNode<HierarchyNode>) {
+    const nodes: D3HierarchyNode<HierarchyNode>[] = [];
     target.each((n) => nodes.push(n));
     zoomToBounds(nodes, ZOOM_PADDING, ZOOM_MAX_SCALE);
   }
 
-  function zoomToPath(target: d3.HierarchyPointNode<HierarchyNode>) {
+  function zoomToPath(target: HierarchyPointNode<HierarchyNode>) {
     const ancestors = nodeToAncestors.get(target)!;
     const pathNodes = new Set(ancestors);
     pathNodes.add(target);
     zoomToBounds(pathNodes, 500, 0.8);
   }
 
-  function addSearchLabel(node: d3.HierarchyPointNode<HierarchyNode>) {
+  function addSearchLabel(node: HierarchyPointNode<HierarchyNode>) {
     if (searchLabel) searchLabel.remove();
     searchLabel = createLabel(g, node, "search-label", { large: true });
   }
@@ -426,7 +432,7 @@ export function setupInteractions(ctx: ChartContext): {
     // Reset all nodes to base fill respecting current color mode
     nodeSelection.each(function (nd) {
       const fill = computeNodeFill(nd, currentNodeColor(), getColorMode(), currentSnakeId);
-      d3.select(this).select<SVGElement>("circle, path")
+      select(this).select<SVGElement>("circle, path")
         .attr("fill", fill).attr("fill-opacity", 1);
     });
 
@@ -453,13 +459,13 @@ export function setupInteractions(ctx: ChartContext): {
 
   // --- Bind mouse events ---
   // Store a map from node object to its DOM element
-  const nodeElementMap = new Map<d3.HierarchyPointNode<HierarchyNode>, SVGGElement>();
+  const nodeElementMap = new Map<HierarchyPointNode<HierarchyNode>, SVGGElement>();
   nodeSelection.each(function(d) {
     nodeElementMap.set(d, this);
   });
 
   svg.on("pointermove", (event) => {
-    const [mx, my] = d3.pointer(event, g.node());
+    const [mx, my] = pointer(event, g.node());
     const closestNodeIndex = delaunay.find(mx, my);
     const newNode = allNodes[closestNodeIndex];
 
@@ -471,7 +477,7 @@ export function setupInteractions(ctx: ChartContext): {
     const radius = (newNode as any)._currentR ?? nodeRadius(newNode);
     const threshold = radius + 30;
 
-    let finalNode: d3.HierarchyPointNode<HierarchyNode> | null = null;
+    let finalNode: HierarchyPointNode<HierarchyNode> | null = null;
     if (dist <= threshold) {
       finalNode = newNode;
     }
@@ -574,19 +580,19 @@ export function setupInteractions(ctx: ChartContext): {
   });
 
   // --- Reset to default view ---
-  const defaultTransform = d3.zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0);
+  const defaultTransform = zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0);
 
   function resetToDefault() {
     const nodeToFade = searchHighlightNode ?? (currentSnakeId ? allNodes.find((n) => n.data.id === currentSnakeId) ?? null : null);
     clearAllHighlightsAndState();
-    const t = svg.transition().duration(750).ease(d3.easeCubicInOut)
+    const t = svg.transition().duration(750).ease(easeCubicInOut)
       .call((zoomBehavior as any).transform, defaultTransform);
     t.on("end", () => {
       if (nodeToFade) {
         const targetFill = computeNodeFill(nodeToFade, currentNodeColor(), getColorMode(), undefined);
         nodeSelection.filter((d) => d === nodeToFade)
           .select<SVGElement>("circle, path")
-          .transition().duration(480).ease(d3.easeCubicOut)
+          .transition().duration(480).ease(easeCubicOut)
           .attr("fill", targetFill)
           .on("end", () => onResetView?.());
       } else {
@@ -636,7 +642,7 @@ export function setupInteractions(ctx: ChartContext): {
     }
   }
 
-  function applyVenomFade(pathNodes: Set<d3.HierarchyPointNode<HierarchyNode>> | null) {
+  function applyVenomFade(pathNodes: Set<HierarchyPointNode<HierarchyNode>> | null) {
     venomHighlightPathNodes = pathNodes;
     if (pathNodes == null) {
       // Venom deactivated: let clearHighlight restore region/default state
@@ -646,9 +652,9 @@ export function setupInteractions(ctx: ChartContext): {
     hoverActive = true;
     const { node: dimmedNode, link: dimmedLink } = getDimmedOpacity();
     nodeSelection.style("pointer-events", d => pathNodes.has(d) ? "auto" : "none");
-    nodeSelection.transition("venom-filter").duration(600).ease(d3.easeCubicInOut)
+    nodeSelection.transition("venom-filter").duration(600).ease(easeCubicInOut)
       .style("opacity", d => pathNodes.has(d) ? "1" : dimmedNode);
-    linkSelection.transition("venom-filter").duration(600).ease(d3.easeCubicInOut)
+    linkSelection.transition("venom-filter").duration(600).ease(easeCubicInOut)
       .attr("stroke-opacity", l =>
         pathNodes.has(l.source) && pathNodes.has(l.target) ? 0.9 : dimmedLink
       );
@@ -663,7 +669,7 @@ export function setupInteractions(ctx: ChartContext): {
       const nx = (n as any)._currentAngle ?? (n as any).x;
       return radialPoint(nx, ny) as [number, number];
     });
-    delaunay = d3.Delaunay.from(updatedPoints);
+    delaunay = Delaunay.from(updatedPoints);
   }
 
   return {

@@ -1,14 +1,20 @@
 "use client";
 
 import React, { useEffect, useRef, useMemo, useState } from "react";
-import * as d3 from "d3";
+import { select } from "d3-selection";
+import { scaleOrdinal } from "d3-scale";
+import { quantize, interpolate } from "d3-interpolate";
+import { interpolateRainbow } from "d3-scale-chromatic";
+import { hierarchy as buildHierarchy, partition as buildPartition } from "d3-hierarchy";
+import type { HierarchyRectangularNode } from "d3-hierarchy";
+import { arc as buildArc } from "d3-shape";
 import { Snake } from "@/lib/types";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 
 /** D3 partition node with animation state attached at runtime */
-type PartitionNode = d3.HierarchyRectangularNode<HierarchyNode> & {
+type PartitionNode = HierarchyRectangularNode<HierarchyNode> & {
   current?: PartitionNode;
   target?: { x0: number; x1: number; y0: number; y1: number };
 };
@@ -63,31 +69,28 @@ export function PhylogenyChart({ root: rootProp, family, snakes = [], currentSna
     const radius = width / 6;
 
     // Clear previous render
-    d3.select(svgRef.current).selectAll("*").remove();
+    select(svgRef.current).selectAll("*").remove();
 
-    const svg = d3
-      .select(svgRef.current)
+    const svg = select(svgRef.current)
       .attr("viewBox", `${-width / 2} ${-height / 2} ${width} ${height}`)
       .style("font", "12px sans-serif");
 
     // Color scale (root may have 0+ children)
     const numSiblings = data.children?.length ?? 0;
-    const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, Math.max(numSiblings + 1, 1)));
+    const color = scaleOrdinal(quantize(interpolateRainbow, Math.max(numSiblings + 1, 1)));
 
     // Partition layout
-    const hierarchy = d3
-      .hierarchy(data)
+    const hierarchy = buildHierarchy(data)
       .sum((d) => d.value || 0)
       .sort((a, b) => (b.value || 0) - (a.value || 0));
 
-    const root = d3.partition<HierarchyNode>().size([2 * Math.PI, hierarchy.height + 1])(hierarchy);
+    const root = buildPartition<HierarchyNode>().size([2 * Math.PI, hierarchy.height + 1])(hierarchy);
     root.each((d) => {
       (d as PartitionNode).current = d as PartitionNode;
     });
 
     // Arc generator
-    const arc = d3
-      .arc<d3.HierarchyRectangularNode<HierarchyNode>>()
+    const arc = buildArc<HierarchyRectangularNode<HierarchyNode>>()
       .startAngle((d) => d.x0)
       .endAngle((d) => d.x1)
       .padAngle((d) => Math.min((d.x1 - d.x0) / 2, 0.005))
@@ -184,7 +187,7 @@ export function PhylogenyChart({ root: rootProp, family, snakes = [], currentSna
           const node = d as PartitionNode;
           const target = node.target;
           if (!target || !node.current) return () => {};
-          const i = d3.interpolate(node.current, target);
+          const i = interpolate(node.current, target);
           return (t: number) => { node.current = i(t) as PartitionNode; };
         })
         .filter(function (d) {

@@ -1,23 +1,25 @@
-import * as d3 from "d3";
+import { select } from "d3-selection";
+import type { Selection } from "d3-selection";
+import type { HierarchyNode as D3HierarchyNode, HierarchyPointNode, HierarchyLink } from "d3-hierarchy";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import { SPECIES_ZOOM_THRESHOLD, GENUS_SPECIES_LABEL_ZOOM } from "./treeConstants";
 import { radialPoint } from "./treeGeometry";
 import { nodeRadius, fontSize } from "./treeNodeStyles";
 
 interface VisibilityContext {
-  svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
-  g: d3.Selection<SVGGElement, unknown, null, undefined>;
-  labelsLayer: d3.Selection<SVGGElement, unknown, null, undefined>;
-  nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string;
-  isSpecies: (d: d3.HierarchyNode<HierarchyNode>) => boolean;
+  svg: Selection<SVGSVGElement, unknown, null, undefined>;
+  g: Selection<SVGGElement, unknown, null, undefined>;
+  labelsLayer: Selection<SVGGElement, unknown, null, undefined>;
+  nodeColor: (n: D3HierarchyNode<HierarchyNode>) => string;
+  isSpecies: (d: D3HierarchyNode<HierarchyNode>) => boolean;
   currentSnakeId?: string;
   zoomScaleRef: { current: number };
-  getClickFocusNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
-  getSearchHighlightNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
+  getClickFocusNode: () => HierarchyPointNode<HierarchyNode> | null;
+  getSearchHighlightNode: () => HierarchyPointNode<HierarchyNode> | null;
   getHoverActive: () => boolean;
-  getHoveredNode: () => d3.HierarchyPointNode<HierarchyNode> | null;
-  getHighlightedNodes: () => Set<d3.HierarchyNode<HierarchyNode>>;
-  getFamilyBranchNodes: () => Set<d3.HierarchyNode<HierarchyNode>> | null;
+  getHoveredNode: () => HierarchyPointNode<HierarchyNode> | null;
+  getHighlightedNodes: () => Set<D3HierarchyNode<HierarchyNode>>;
+  getFamilyBranchNodes: () => Set<D3HierarchyNode<HierarchyNode>> | null;
   getDimmedOpacity: () => { node: string; link: number };
   getRegionFilterActive: () => boolean;
 }
@@ -40,7 +42,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     const highlightedNodes = ctx.getHighlightedNodes();
     const familyBranchNodes = ctx.getFamilyBranchNodes();
     const dimmedOpacity = ctx.getDimmedOpacity();
-    const labelOpacityFor = (nd: d3.HierarchyNode<HierarchyNode>) => {
+    const labelOpacityFor = (nd: D3HierarchyNode<HierarchyNode>) => {
       if (!hoverActive) return "1";
       if (highlightedNodes.has(nd)) return "1";
       if (familyBranchNodes?.has(nd)) return "0.2";
@@ -50,10 +52,10 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     // Species visibility is controlled by highlight when hover/click is active
     if (!hoverActive) {
       const show = scale >= SPECIES_ZOOM_THRESHOLD;
-      g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".species-node")
+      g.selectAll<SVGGElement, HierarchyPointNode<HierarchyNode>>(".species-node")
         .style("opacity", show ? "1" : "0")
         .style("pointer-events", show ? "auto" : "none");
-      g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(".species-link")
+      g.selectAll<SVGPathElement, HierarchyLink<HierarchyNode>>(".species-link")
         .attr("stroke-opacity", show ? 0.7 : 0);
     }
 
@@ -88,9 +90,9 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
 
     ctx.labelsLayer.selectAll(".ext-label").remove();
 
-    g.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".node, .species-node")
+    g.selectAll<SVGGElement, HierarchyPointNode<HierarchyNode>>(".node, .species-node")
       .each(function (nd) {
-        const nodeEl = d3.select<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(this);
+        const nodeEl = select<SVGGElement,HierarchyPointNode<HierarchyNode>>(this);
         const rank = nd.data.rank ?? "";
         const isHigherRank = rank === "suborder" || rank === "infraorder" || rank === "clade" || rank === "family";
         const isGenusOrSpecies = rank === "genus" || rank === "species";
@@ -178,8 +180,8 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
    * labelOpacity syncs with node highlight (1 for path, 0 or 0.2 for dimmed).
    */
   function addExtLabel(
-    labelsLayer: d3.Selection<SVGGElement, unknown, null, undefined>,
-    nd: d3.HierarchyPointNode<HierarchyNode>,
+    labelsLayer: Selection<SVGGElement, unknown, null, undefined>,
+    nd: HierarchyPointNode<HierarchyNode>,
     rank: string,
     invK: number,
     _scale: number,

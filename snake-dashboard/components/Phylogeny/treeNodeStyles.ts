@@ -1,10 +1,10 @@
-import type * as d3 from "d3";
+import type { HierarchyNode as D3HierarchyNode } from "d3-hierarchy";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import { lightTint } from "./treeGeometry";
 
 export type ColorMode = "family" | "venom";
 
-export function nodeRadius(d: d3.HierarchyNode<HierarchyNode>): number {
+export function nodeRadius(d: D3HierarchyNode<HierarchyNode>): number {
   switch (d.data.rank) {
     case "suborder":
       return 220;
@@ -23,7 +23,7 @@ export function nodeRadius(d: d3.HierarchyNode<HierarchyNode>): number {
   }
 }
 
-export function fontSize(d: d3.HierarchyNode<HierarchyNode>): number {
+export function fontSize(d: D3HierarchyNode<HierarchyNode>): number {
   switch (d.data.rank) {
     case "suborder":
       return 56;
@@ -42,7 +42,7 @@ export function fontSize(d: d3.HierarchyNode<HierarchyNode>): number {
   }
 }
 
-export function fontWeight(d: d3.HierarchyNode<HierarchyNode>): string {
+export function fontWeight(d: D3HierarchyNode<HierarchyNode>): string {
   switch (d.data.rank) {
     case "suborder":
       return "700";
@@ -61,8 +61,8 @@ export function linkWidth(depth: number): number {
 
 /** Compute node fill color — single source of truth for both render and update paths. */
 export function computeNodeFill(
-  d: d3.HierarchyNode<HierarchyNode>,
-  nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string,
+  d: D3HierarchyNode<HierarchyNode>,
+  nodeColor: (n: D3HierarchyNode<HierarchyNode>) => string,
   colorMode: ColorMode,
   currentSnakeId?: string,
 ): string {
@@ -77,8 +77,8 @@ export function computeNodeFill(
 /** Hover appearance per view — single place to extend when adding new views. */
 export function getNodeHoverStyle(
   colorMode: ColorMode,
-  d: d3.HierarchyNode<HierarchyNode>,
-  nodeColor: (n: d3.HierarchyNode<HierarchyNode>) => string,
+  d: D3HierarchyNode<HierarchyNode>,
+  nodeColor: (n: D3HierarchyNode<HierarchyNode>) => string,
   currentSnakeId?: string,
 ): { fill: string; fillOpacity: number } {
   if (colorMode === "venom" && d.data.rank === "species") {

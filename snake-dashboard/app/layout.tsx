@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { KeyboardShortcuts } from "@/components/KeyboardShortcuts";
 import { PaperAppBackground } from "@/components/PaperAppBackground";
 import { SearchModal } from "@/components/SearchModal";
@@ -56,6 +57,7 @@ export default function RootLayout({
             {children}
           </div>
         </SearchModalProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

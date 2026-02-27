@@ -116,7 +116,7 @@ Audit all `<img>` tags in components. Replace with `next/image`:
 
 `next/image` provides: lazy loading, `sizes` prop for responsive images, automatic format negotiation (WebP when browser supports), and layout shift prevention via `width`/`height`.
 
-### 2.3 Optimize D3 Imports ✅
+### 2.3 Optimize D3 Imports ✅ (implemented)
 
 Instead of `import * as d3 from 'd3'`, import only the modules used in each component:
 
@@ -220,12 +220,14 @@ When Next.js 15 + React Compiler becomes stable, evaluate enabling it for automa
 - [x] `dynamic()` import HyperbolicTreeWrapper in phylogeny page
 - [x] `dynamic()` import DistributionMap in snake detail page
 - [x] `dynamic()` import PaperAppBackground in home page
-- [ ] Audit `<img>` vs `next/image` usage in SnakeCard, detail page header
-- [ ] Add `sizes` prop to `next/image` calls
+- [x] Audit `<img>` vs `next/image` usage in SnakeCard, detail page header (already using next/image)
+- [x] Add `sizes` prop to `next/image` calls (already present in SnakeCard, PolaroidStack)
 - [ ] Add WebP output to `scripts/imageProcessing.ts`
 - [x] Add Cache-Control headers for static GeoJSON in `next.config.mjs`
+- [x] Add Cache-Control headers for `/images/snakes/` (30 days) in `next.config.mjs`
 - [x] Create `getSnakeSummaries()` to slim down home page JS payload
-- [ ] Add `@vercel/speed-insights` to layout for production monitoring
+- [x] Add `@vercel/speed-insights` to layout for production monitoring
+- [x] Replace `import * as d3` with named sub-package imports across all 7 phylogeny files
 
 ---
 

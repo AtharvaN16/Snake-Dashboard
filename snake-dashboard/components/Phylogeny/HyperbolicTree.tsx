@@ -2,7 +2,17 @@
 
 import React, { useEffect, useRef, useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import * as d3 from "d3";
+import { select } from "d3-selection";
+import type { Selection } from "d3-selection";
+import { hierarchy as buildHierarchy, cluster as buildCluster } from "d3-hierarchy";
+import type { HierarchyNode as D3HierarchyNode, HierarchyPointNode, HierarchyPointLink } from "d3-hierarchy";
+import { linkRadial as buildLinkRadial, line as buildLine, curveCatmullRom } from "d3-shape";
+import { zoom as buildZoom, zoomIdentity } from "d3-zoom";
+import type { ZoomBehavior } from "d3-zoom";
+import { easeCubicOut, easeCubicInOut, easeBackOut } from "d3-ease";
+import { forceSimulation, forceCollide, forceRadial } from "d3-force";
+import type { SimulationNodeDatum } from "d3-force";
+import { interpolateString } from "d3-interpolate";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import {
   Props,
@@ -43,13 +53,13 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const hasInitializedRegionFilterRef = useRef(false);
   const zoomScaleRef = useRef<number>(1);
   const colorModeRef = useRef<'family' | 'venom'>('family');
-  const nodeColorRef = useRef<(n: d3.HierarchyNode<HierarchyNode>) => string>(() => "#94a3b8");
+  const nodeColorRef = useRef<(n: D3HierarchyNode<HierarchyNode>) => string>(() => "#94a3b8");
   const isInitialRenderRef = useRef(true);
   const isInitialVenomRenderRef = useRef(true);
   const nodeBaseYRef = useRef<Map<string, number>>(new Map());
-  const benchmarkGroupRef = useRef<d3.Selection<SVGGElement, unknown, SVGGElement, unknown> | null>(null);
-  const applyVenomFilterRef = useRef<((nodes: Set<d3.HierarchyPointNode<HierarchyNode>> | null) => void) | null>(null);
-  const zoomBehaviorRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
+  const benchmarkGroupRef = useRef<Selection<SVGGElement, unknown, SVGGElement, unknown> | null>(null);
+  const applyVenomFilterRef = useRef<((nodes: Set<HierarchyPointNode<HierarchyNode>> | null) => void) | null>(null);
+  const zoomBehaviorRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const viewportRef = useRef<{ cw: number; ch: number; scale0: number; cx: number; cy: number } | null>(null);
   const prevVenomSubsRef = useRef<VenomSubModes>({ classification: false, potency: false, yield: false });
   const refreshNodePositionsRef = useRef<(() => void) | null>(null);
@@ -77,7 +87,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     return Array.from(new Set(snakes.map((s) => s.continent))).sort();
   }, []);
 
-  const handleTaxonomyNodeClick = (node: d3.HierarchyPointNode<HierarchyNode> | null) => {
+  const handleTaxonomyNodeClick = (node: HierarchyPointNode<HierarchyNode> | null) => {
     if (!node) {
       setSelectedTaxon(null);
       return;
@@ -96,11 +106,11 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     }
   };
 
-  const hierarchy = useMemo(() => d3.hierarchy(rootData), [rootData]);
+  const hierarchy = useMemo(() => buildHierarchy(rootData), [rootData]);
 
-  const isSpecies = (d: d3.HierarchyNode<HierarchyNode>) => d.data.rank === "species";
+  const isSpecies = (d: D3HierarchyNode<HierarchyNode>) => d.data.rank === "species";
 
-  const nodeColor = useCallback((n: d3.HierarchyNode<HierarchyNode>): string => {
+  const nodeColor = useCallback((n: D3HierarchyNode<HierarchyNode>): string => {
     if (isSpecies(n) && n.data.id) {
       const snake = snakeMap.get(n.data.id);
       // Potency wins over classification when active (they're mutually exclusive via VenomPills toggle)
@@ -115,7 +125,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const rank = n.data.rank;
     if (rank && RANK_COLORS[rank]) return RANK_COLORS[rank];
 
-    function familyOf(node: d3.HierarchyNode<HierarchyNode>): string | null {
+    function familyOf(node: D3HierarchyNode<HierarchyNode>): string | null {
       for (let c: typeof node | null = node; c; c = c.parent)
         if (c.data.rank === "family") return c.data.name;
       return null;
@@ -130,7 +140,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const svgEl = svgRef.current;
     if (!svgEl || !container) return;
 
-    const svg = d3.select(svgEl);
+    const svg = select(svgEl);
     svg.selectAll("*").remove();
     svg.style("font", "11px var(--font-pangram-sans), system-ui, sans-serif");
 
@@ -150,8 +160,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       return (a.data.name || "").localeCompare(b.data.name || "");
     });
 
-    const clusterLayout = d3
-      .cluster<HierarchyNode>()
+    const clusterLayout = buildCluster<HierarchyNode>()
       .size([2 * Math.PI, RADIUS])
       .separation((a, b) => {
         const depth = Math.max(1, a.depth ?? 1);
@@ -165,7 +174,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         // Extra gap between Pythonidae and Boidae under Henophidia so they don't look closer than Viper/Elapids
         const clade2A = a.ancestors().find((n) => n.depth === 2);
         const clade2B = b.ancestors().find((n) => n.depth === 2);
-        const underHenophidia = (n: d3.HierarchyNode<HierarchyNode>) => (n.data as HierarchyNode).name === "Henophidia";
+        const underHenophidia = (n: D3HierarchyNode<HierarchyNode>) => (n.data as HierarchyNode).name === "Henophidia";
         const pythonVsBoa =
           clade2A && clade2B && underHenophidia(clade2A) && underHenophidia(clade2B) &&
           familyA && familyB && familyA !== familyB &&
@@ -192,7 +201,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       const centerBottom = Math.PI;
 
       function confineSubtreeToSector(
-        node: d3.HierarchyNode<HierarchyNode>,
+        node: D3HierarchyNode<HierarchyNode>,
         center: number,
         sectorRad: number,
       ) {
@@ -209,7 +218,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       }
 
       function confineSubtreeToArc(
-        node: d3.HierarchyNode<HierarchyNode>,
+        node: D3HierarchyNode<HierarchyNode>,
         angleStart: number,
         angleEnd: number,
       ) {
@@ -261,12 +270,12 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     // --- Ancestor lookup for path highlighting ---
     const nodeToAncestors = new Map<
-      d3.HierarchyNode<HierarchyNode>,
-      Set<d3.HierarchyNode<HierarchyNode>>
+      D3HierarchyNode<HierarchyNode>,
+      Set<D3HierarchyNode<HierarchyNode>>
     >();
     allNodes.forEach((n) => {
-      const ancestors = new Set<d3.HierarchyNode<HierarchyNode>>();
-      for (let cur: d3.HierarchyNode<HierarchyNode> | null = n; cur; cur = cur.parent)
+      const ancestors = new Set<D3HierarchyNode<HierarchyNode>>();
+      for (let cur: D3HierarchyNode<HierarchyNode> | null = n; cur; cur = cur.parent)
         ancestors.add(cur);
       nodeToAncestors.set(n, ancestors);
     });
@@ -290,21 +299,20 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const g = svg.append("g");
 
     // Benchmark group (rendered behind all nodes) — populated by the venom potency effect
-    benchmarkGroupRef.current = g.insert("g", ":first-child") as unknown as d3.Selection<SVGGElement, unknown, SVGGElement, unknown>;
+    benchmarkGroupRef.current = g.insert("g", ":first-child") as unknown as Selection<SVGGElement, unknown, SVGGElement, unknown>;
 
     // --- Links: node centers; magnetic repulsion except for links within a family (family + its child branches) ---
-    const linkGen = d3
-      .linkRadial<d3.HierarchyLink<HierarchyNode>, d3.HierarchyPointNode<HierarchyNode>>()
+    const linkGen = buildLinkRadial<HierarchyPointLink<HierarchyNode>, HierarchyPointNode<HierarchyNode>>()
       .angle((d) => (d as any).x)
       .radius((d) => (d as any).y);
 
     const REPEL_SAMPLES = 24;
     const REPEL_MARGIN = 12;
 
-    function linkPath(link: d3.HierarchyPointLink<HierarchyNode>): string {
-      const src = link.source as d3.HierarchyPointNode<HierarchyNode>;
-      const tgt = link.target as d3.HierarchyPointNode<HierarchyNode>;
-      const familyOf = (n: d3.HierarchyNode<HierarchyNode>) =>
+    function linkPath(link: HierarchyPointLink<HierarchyNode>): string {
+      const src = link.source as HierarchyPointNode<HierarchyNode>;
+      const tgt = link.target as HierarchyPointNode<HierarchyNode>;
+      const familyOf = (n: D3HierarchyNode<HierarchyNode>) =>
         n.ancestors().find((a) => (a.data as HierarchyNode).rank === "family");
       const familySrc = familyOf(src);
       const familyTgt = familyOf(tgt);
@@ -339,12 +347,12 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         }
       }
 
-      const line = d3.line<[number, number]>().curve(d3.curveCatmullRom.alpha(0.5));
+      const line = buildLine<[number, number]>().curve(curveCatmullRom.alpha(0.5));
       return line(displaced) ?? "";
     }
 
     const linkSelection = g.append("g").attr("fill", "none")
-      .selectAll<SVGPathElement, d3.HierarchyPointLink<HierarchyNode>>("path")
+      .selectAll<SVGPathElement, HierarchyPointLink<HierarchyNode>>("path")
       .data(allLinks).join("path")
       .attr("class", (d) => isSpecies(d.target) ? "link species-link" : "link")
       .attr("d", linkPath)
@@ -364,7 +372,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         linkSelection.each(function () {
           const pathEl = this as SVGPathElement;
           const len = pathEl.getTotalLength();
-          const sel = d3.select(this);
+          const sel = select(this);
           if (len > 0) {
             sel
               .attr("stroke-dasharray", len)
@@ -378,7 +386,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           .transition("bloom")
           .delay((d) => BLOOM_BASE_DELAY * d.source.depth)
           .duration(BLOOM_DURATION)
-          .ease(d3.easeCubicOut)
+          .ease(easeCubicOut)
           .attrTween("stroke-dashoffset", function () {
             const len = (this as SVGPathElement).getTotalLength();
             return (t) => String(len * (1 - t));
@@ -398,7 +406,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     // --- Nodes ---
     const nodeSelection = g.append("g")
-      .selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>("g")
+      .selectAll<SVGGElement, HierarchyPointNode<HierarchyNode>>("g")
       .data(allNodes).join("g")
       .attr("class", (d) => isSpecies(d) ? "node species-node" : "node")
       .attr("transform", (d) => {
@@ -408,7 +416,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     // Node shapes
     nodeSelection.each(function (d) {
-      const el = d3.select(this);
+      const el = select(this);
       const r = nodeRadius(d);
       const color = nodeColor(d);
       const isCurrent = !!currentSnakeId && d.data.id === currentSnakeId;
@@ -416,7 +424,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       const rank = d.data.rank;
       const sw = Math.max(2, r * 0.06);
 
-      let shape: d3.Selection<SVGElement, unknown, null, undefined>;
+      let shape: Selection<SVGElement, unknown, null, undefined>;
 
       if (rank === "suborder") {
         shape = el.append("path").attr("d", starburstPath(r, 18, 0.12)).attr("fill", fill)
@@ -442,7 +450,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       if (shouldBloom) {
         shape.attr("transform", "scale(0)")
           .transition().delay(BLOOM_BASE_DELAY * d.depth).duration(BLOOM_DURATION)
-          .ease(d3.easeBackOut.overshoot(0.8)).attr("transform", "scale(1)");
+          .ease(easeBackOut.overshoot(0.8)).attr("transform", "scale(1)");
       }
     });
 
@@ -465,7 +473,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       nodeSelection.selectAll("text")
         .transition()
         .delay((_d: unknown, i: number) => BLOOM_BASE_DELAY * allNodes[i].depth + BLOOM_DURATION * 0.5)
-        .duration(BLOOM_DURATION * 0.6).ease(d3.easeCubicOut)
+        .duration(BLOOM_DURATION * 0.6).ease(easeCubicOut)
         .attr("opacity", 1);
     }
 
@@ -476,7 +484,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     // Labels layer (after nodes so labels render on top and are never covered by dimmed node circles)
     const labelsLayer = g.append("g").attr("class", "labels-layer");
 
-    g.selectAll<SVGPathElement, d3.HierarchyLink<HierarchyNode>>(".species-link")
+    g.selectAll<SVGPathElement, HierarchyPointLink<HierarchyNode>>(".species-link")
       .style("transition", "stroke-opacity 0.2s ease");
 
     // --- Bounding box for initial view ---
@@ -502,7 +510,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     // --- Zoom ---
     let updateSpeciesVisibility: (k: number) => void = () => {};
-    const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
+    const zoomBehavior = buildZoom<SVGSVGElement, unknown>()
       .scaleExtent([0.1, 6])
       .on("zoom", (event) => {
         g.attr("transform", event.transform);
@@ -513,7 +521,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       .call(zoomBehavior as any)
       .call(
         (zoomBehavior as any).transform,
-        d3.zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0)
+        zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0)
       );
 
     zoomBehaviorRef.current = zoomBehavior;
@@ -521,10 +529,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     svg.on("dblclick.zoom", null);
     svg.on("dblclick", () => {
-      svg.transition().duration(750).ease(d3.easeCubicInOut)
+      svg.transition().duration(750).ease(easeCubicInOut)
         .call(
           (zoomBehavior as any).transform,
-          d3.zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0)
+          zoomIdentity.translate(cw / 2 - cx * scale0, ch / 2 - cy * scale0).scale(scale0)
         );
     });
 
@@ -578,13 +586,13 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       isInitialRenderRef.current = false;
       return;
     }
-    const svg = d3.select(svgRef.current);
+    const svg = select(svgRef.current);
     if (!svg.node() || !svg.selectAll(".node").size()) return;
 
     // Update node fills — interrupt any in-flight color transitions first
-    svg.selectAll<SVGGElement, d3.HierarchyPointNode<HierarchyNode>>(".node")
+    svg.selectAll<SVGGElement, HierarchyPointNode<HierarchyNode>>(".node")
       .each(function(d) {
-        const shape = d3.select(this).select<SVGElement>("circle, path");
+        const shape = select(this).select<SVGElement>("circle, path");
         shape.interrupt("color");
         const newColor = nodeColor(d);
         const fill = computeNodeFill(d, nodeColor, colorMode, currentSnakeId);
@@ -596,11 +604,11 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     // Update link gradients — interrupt before transitioning
     const defs = svg.select("defs");
     if (defs.node()) {
-      defs.selectAll<SVGLinearGradientElement, d3.HierarchyPointLink<HierarchyNode>>("linearGradient")
+      defs.selectAll<SVGLinearGradientElement, HierarchyPointLink<HierarchyNode>>("linearGradient")
         .each(function(d) {
           if (!d || !d.source || !d.target) return;
           const link = d;
-          d3.select(this).selectAll("stop")
+          select(this).selectAll("stop")
             .interrupt("color")
             .transition("color").duration(500)
             .attr("stop-color", (_stopD, i) => nodeColor(i === 0 ? link.source : link.target));
@@ -615,15 +623,15 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       isInitialVenomRenderRef.current = false;
       return;
     }
-    const svg = d3.select(svgRef.current);
+    const svg = select(svgRef.current);
     if (!svg.node() || !svg.selectAll(".node").size()) return;
 
     const { classification, potency, yield: yieldActive } = venomSubs;
     const DURATION = 600;
-    const ease = d3.easeCubicInOut;
+    const ease = easeCubicInOut;
     const BASE_RADIUS = 28;
 
-    type SpeciesData = d3.HierarchyPointNode<HierarchyNode>;
+    type SpeciesData = HierarchyPointNode<HierarchyNode>;
 
     // 1. Compute target positions and radii for each species node
     const speciesUpdates = new Map<string, { newY: number; newR: number }>();
@@ -641,7 +649,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     // 2. Run D3 force simulation when yield is active to spread nodes angularly,
     //    preventing large circles from overlapping their neighbors.
     if (yieldActive) {
-      interface ForceNode extends d3.SimulationNodeDatum {
+      interface ForceNode extends SimulationNodeDatum {
         id: string;
         r: number;
         baseRadius: number;
@@ -655,9 +663,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         forceNodes.push({ id: d.data.id, x: cx, y: cy, r: update.newR, baseRadius: update.newY });
       });
       if (forceNodes.length > 0) {
-        const sim = d3.forceSimulation<ForceNode>(forceNodes)
-          .force("collide", d3.forceCollide<ForceNode>(n => n.r + 6).strength(0.8))
-          .force("radial", d3.forceRadial<ForceNode>(n => n.baseRadius, 0, 0).strength(1.0))
+        const sim = forceSimulation<ForceNode>(forceNodes)
+          .force("collide", forceCollide<ForceNode>(n => n.r + 6).strength(0.8))
+          .force("radial", forceRadial<ForceNode>(n => n.baseRadius, 0, 0).strength(1.0))
           .alphaDecay(0.05)
           .stop();
         for (let i = 0; i < 100; i++) sim.tick();
@@ -689,27 +697,26 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       (d as any)._currentR = update.newR;
       const angle = (d as any)._currentAngle ?? (d as any).x;
       const [nx, ny] = radialPoint(angle, update.newY);
-      d3.select(this)
+      select(this)
         .transition("venom-layout").duration(DURATION).ease(ease)
         .attr("transform", `translate(${nx},${ny})`);
 
-      d3.select(this).select("circle")
+      select(this).select("circle")
         .transition("venom-layout").duration(DURATION).ease(ease)
         .attr("r", update.newR);
     });
 
     // 4a. Redraw species links to follow force-adjusted positions
-    const linkRadialGen = d3
-      .linkRadial<d3.HierarchyPointLink<HierarchyNode>, d3.HierarchyPointNode<HierarchyNode>>()
+    const linkRadialGen = buildLinkRadial<HierarchyPointLink<HierarchyNode>, HierarchyPointNode<HierarchyNode>>()
       .angle((d: any) => (d as any)._currentAngle ?? d.x)
       .radius((d: any) => (d as any)._currentY ?? (d as any).y);
 
-    svg.selectAll<SVGPathElement, d3.HierarchyPointLink<HierarchyNode>>(".species-link")
+    svg.selectAll<SVGPathElement, HierarchyPointLink<HierarchyNode>>(".species-link")
       .transition("venom-layout").duration(DURATION).ease(ease)
       .attrTween("d", function(link) {
         const startD = this.getAttribute("d") ?? "";
         const endD = linkRadialGen(link) ?? "";
-        const interpolator = d3.interpolateString(startD, endD);
+        const interpolator = interpolateString(startD, endD);
         return (t: number) => interpolator(t);
       });
 
@@ -717,12 +724,12 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     //     fades entire branches including intermediate nodes and links, not just leaf nodes)
     const anyVenomActive = classification || potency || yieldActive;
     if (anyVenomActive) {
-      const venomPathNodes = new Set<d3.HierarchyPointNode<HierarchyNode>>();
+      const venomPathNodes = new Set<HierarchyPointNode<HierarchyNode>>();
       svg.selectAll<SVGGElement, SpeciesData>(".species-node").each(d => {
         if (!d.data.id) return;
         const snake = snakeMap.get(d.data.id);
         if (!isVenomous(snake)) return;
-        for (let n: d3.HierarchyPointNode<HierarchyNode> | null = d; n; n = n.parent) {
+        for (let n: HierarchyPointNode<HierarchyNode> | null = d; n; n = n.parent) {
           venomPathNodes.add(n);
         }
       });
@@ -733,7 +740,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     // 5. Update node colors (potency color scale or classification or family)
     svg.selectAll<SVGGElement, SpeciesData>(".node").each(function(d) {
-      const shape = d3.select(this).select<SVGElement>("circle, path");
+      const shape = select(this).select<SVGElement>("circle, path");
       shape.interrupt("color");
       const newColor = nodeColor(d);
       const fill = computeNodeFill(d, nodeColor, colorMode, currentSnakeId);
@@ -743,10 +750,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     // 6. Update link gradients for new colors
     const defsEl = svg.select("defs");
     if (defsEl.node()) {
-      defsEl.selectAll<SVGLinearGradientElement, d3.HierarchyPointLink<HierarchyNode>>("linearGradient")
+      defsEl.selectAll<SVGLinearGradientElement, HierarchyPointLink<HierarchyNode>>("linearGradient")
         .each(function(d) {
           if (!d || !d.source || !d.target) return;
-          d3.select(this).selectAll("stop")
+          select(this).selectAll("stop")
             .interrupt("color")
             .transition("color").duration(500)
             .attr("stop-color", (_: unknown, i: number) => nodeColor(i === 0 ? d.source : d.target));
@@ -788,7 +795,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           .transition("venom-benchmark").duration(DURATION).ease(ease)
           .attr("opacity", 0)
           .on("end", function() {
-            d3.select(this).remove();
+            select(this).remove();
             svg.select("defs").select("#potency-ring-fill").remove();
           });
       }
@@ -806,10 +813,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       const fitW = 2 * (maxR + Math.abs(cx)) + pad * 2;
       const fitH = 2 * (maxR + Math.abs(cy)) + pad * 2;
       const s = Math.min(cw / fitW, ch / fitH, 0.95);
-      d3.select(svgRef.current)
-        .transition("potency-zoom").duration(DURATION + 200).ease(d3.easeCubicInOut)
+      select(svgRef.current)
+        .transition("potency-zoom").duration(DURATION + 200).ease(easeCubicInOut)
         .call((zoomBehaviorRef.current as any).transform,
-          d3.zoomIdentity.translate(cw / 2 - cx * s, ch / 2 - cy * s).scale(s));
+          zoomIdentity.translate(cw / 2 - cx * s, ch / 2 - cy * s).scale(s));
     }
 
     // 9. Rebuild Delaunay with updated positions so hover detection works on extended nodes

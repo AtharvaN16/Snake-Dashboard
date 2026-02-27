@@ -26,6 +26,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/images/snakes/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000',
+          },
+        ],
+      },
     ];
   },
 };

@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+import { scaleSequential } from "d3-scale";
+import { interpolateRgb } from "d3-interpolate";
 import type { Snake } from "@/lib/types";
 import { MAX_POTENCY_EXTENSION } from "./treeConstants";
 
@@ -25,10 +26,9 @@ export function getYieldRadius(snake: Snake | undefined, baseRadius: number): nu
 }
 
 /** Sequential color scale: low potency = soft pink, high potency = deep purple. */
-export const potencyColorScale = d3
-  .scaleSequential<string>()
+export const potencyColorScale = scaleSequential<string>()
   .domain([0, 100])
-  .interpolator(d3.interpolateRgb("#ff9a9e", "#6a0572"));
+  .interpolator(interpolateRgb("#ff9a9e", "#6a0572"));
 
 /** Color for a potency score [0–100]. */
 export function getPotencyColor(potencyScore: number): string {

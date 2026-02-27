@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import { color as d3Color, rgb as d3Rgb } from "d3-color";
 
 export function radialPoint(angle: number, radius: number): [number, number] {
   return [
@@ -72,8 +72,8 @@ export function diamondPath(r: number): string {
 
 /** Mix a hex color toward white to create a light tint */
 export function lightTint(hex: string, amount = 0.82): string {
-  const c = d3.color(hex)?.rgb();
+  const c = d3Color(hex)?.rgb();
   if (!c) return hex;
   const mix = (v: number) => Math.round(v + (255 - v) * amount);
-  return d3.rgb(mix(c.r), mix(c.g), mix(c.b)).formatHex();
+  return d3Rgb(mix(c.r), mix(c.g), mix(c.b)).formatHex();
 }
