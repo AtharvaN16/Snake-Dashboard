@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { HomeSearchCard } from "@/components/HomeSearchCard";
 import { Kbd } from "@/components/ui/kbd";
 import { SnakeGame } from "@/components/SnakeGame";
@@ -76,9 +77,9 @@ export default function Home() {
           </nav>
       )}
 
-      {/* Main Content Area - Mobile: top band (links + logo with gap) + bottom 70% (search); Desktop: centered */}
-      <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none lg:justify-center">
-        <div className="flex flex-col h-full w-full max-w-2xl pointer-events-auto lg:h-auto lg:justify-center">
+      {/* Main Content Area - Mobile: top band (links + logo with gap) + bottom 70% (search); Desktop: bottom-aligned with 80px footer margin */}
+      <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none lg:justify-end lg:pb-[92px]">
+        <div className="flex flex-col h-full w-full max-w-2xl pointer-events-auto lg:h-auto">
           {/* Mobile: top section - links, vertical gap, then logo */}
           {!isPlaying && !isGameOver && (
             <div className="lg:hidden flex shrink-0 flex-col items-center gap-6 pt-4 pb-3 sm:pt-5 sm:pb-4">
@@ -96,16 +97,40 @@ export default function Home() {
                   Taxonomy
                 </Link>
               </nav>
-              <SnakeGame isStatic className="!w-24 !h-24 my-5 sm:my-6" />
+              <Image 
+                src="/images/logo.png" 
+                alt="Snake Logo" 
+                width={120} 
+                height={120} 
+                priority 
+                className="my-5 sm:my-6 object-contain"
+              />
             </div>
           )}
 
-          {/* Search Card - Mobile: fixed 70vh at bottom; Desktop: fixed 70vh height, list scrolls inside */}
+          {/* Desktop Logo & Title - Centered above search */}
           {!isPlaying && !isGameOver && (
-            <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-0 lg:h-[70vh] lg:min-h-0 lg:translate-y-16 lg:w-full">
+            <div className="hidden lg:flex flex-col items-center mb-8">
+              <Image 
+                src="/images/logo.png" 
+                alt="Snake Logo" 
+                width={100} 
+                height={100} 
+                priority 
+                className="object-contain mb-4"
+              />
+              <h1 className="text-4xl font-serif italic text-stone-800 tracking-tight">
+                How venomous is it?
+              </h1>
+            </div>
+          )}
+
+          {/* Search Card - Mobile: fixed 70vh at bottom; Desktop: fixed 540px height, list scrolls inside */}
+          {!isPlaying && !isGameOver && (
+            <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-0 lg:h-[540px] lg:min-h-0 lg:w-full">
               <HomeSearchCard
                 inputId="main-search"
-                className="bg-white rounded-t-2xl shadow-md overflow-hidden flex flex-col w-full h-full min-h-0 max-h-[70vh] lg:rounded-2xl lg:min-h-0 lg:h-full"
+                className="bg-white rounded-t-2xl shadow-md overflow-hidden flex flex-col w-full h-full min-h-0 max-h-[70vh] lg:rounded-2xl lg:min-h-0 lg:h-full lg:max-h-none"
               />
             </div>
           )}
@@ -118,7 +143,7 @@ export default function Home() {
           <p className="pointer-events-auto">
             Created by{" "}
             <a 
-              href="https://github.com" 
+              href="https://atharva.design" 
               className="hover:text-stone-900 transition-colors no-underline font-medium"
             >
               Atharva
