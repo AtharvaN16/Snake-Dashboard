@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import * as d3 from "d3";
+import { select, pointer } from "d3-selection";
+import { scaleLinear } from "d3-scale";
+import { axisBottom, axisLeft } from "d3-axis";
+import { Delaunay } from "d3-delaunay";
 import type { Snake } from "@/lib/types";
 
 interface LethalityScatterPlotProps {
@@ -51,7 +54,7 @@ export function LethalityScatterPlot({ currentSnakeId, allSnakes }: LethalitySca
     if (!svgRef.current) return;
 
     const points = prepareData(allSnakes, currentSnakeId);
-    const svg = d3.select(svgRef.current);
+    const svg = select(svgRef.current);
     svg.selectAll("*").remove();
 
     svg.attr("viewBox", `0 0 ${CHART_SIZE} ${CHART_SIZE}`);
@@ -59,8 +62,8 @@ export function LethalityScatterPlot({ currentSnakeId, allSnakes }: LethalitySca
     const g = svg.append("g")
       .attr("transform", `translate(${MARGIN.left},${MARGIN.top})`);
 
-    const x = d3.scaleLinear().domain([0, 100]).range([0, INNER]);
-    const y = d3.scaleLinear().domain([0, 100]).range([INNER, 0]);
+    const x = scaleLinear().domain([0, 100]).range([0, INNER]);
+    const y = scaleLinear().domain([0, 100]).range([INNER, 0]);
 
     // Gridlines
     const ticks = [25, 50, 75];
@@ -99,8 +102,8 @@ export function LethalityScatterPlot({ currentSnakeId, allSnakes }: LethalitySca
     });
 
     // Axes
-    const xAxis = d3.axisBottom(x).tickValues([0, 25, 50, 75, 100]).tickSize(0);
-    const yAxis = d3.axisLeft(y).tickValues([0, 25, 50, 75, 100]).tickSize(0);
+    const xAxis = axisBottom(x).tickValues([0, 25, 50, 75, 100]).tickSize(0);
+    const yAxis = axisLeft(y).tickValues([0, 25, 50, 75, 100]).tickSize(0);
 
     g.append("g")
       .attr("transform", `translate(0,${INNER})`)
@@ -128,7 +131,7 @@ export function LethalityScatterPlot({ currentSnakeId, allSnakes }: LethalitySca
       .text("Yield (mg) →");
 
     // Voronoi for hover detection
-    const delaunay = d3.Delaunay.from(
+    const delaunay = Delaunay.from(
       points,
       (d) => x(d.potency),
       (d) => y(d.yield),
@@ -139,7 +142,7 @@ export function LethalityScatterPlot({ currentSnakeId, allSnakes }: LethalitySca
       .attr("width", INNER).attr("height", INNER)
       .attr("fill", "transparent")
       .on("mousemove", (event) => {
-        const [mx, my] = d3.pointer(event);
+        const [mx, my] = pointer(event);
         const idx = delaunay.find(mx, my);
         if (idx !== -1 && idx < points.length) {
           setHovered(points[idx]);

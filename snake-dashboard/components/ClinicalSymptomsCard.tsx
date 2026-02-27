@@ -2,6 +2,7 @@
 
 import { useState, useMemo, memo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import type { Snake, ClinicalData } from "@/lib/types";
 import { calculateClinicalScore } from "@/lib/dangerScore";
 import { ScoreTooltip, type TooltipRow } from "./ScoreTooltip";
@@ -155,7 +156,7 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
   return (
     <>
       <div className="relative z-20 mb-8 lg:hidden">
-        <div className={`relative z-10 px-5 ${isExpanded ? "pb-8 pt-7" : "pb-4 pt-4"}`}>
+        <div className="relative z-10 px-5 pb-4 pt-4">
           {clinicalData && (() => {
             const stampFile =
               clinicalData.severity === "Life-threatening" ? "Life-threatening-Stamp.png" :
@@ -164,11 +165,14 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
               clinicalData.severity === "Mild" ? "Mild-Stamp.png" :
               "Negligible-Stamp.png";
             return (
-              <img
+              <Image
                 src={`/stamps/${stampFile}`}
                 alt={clinicalData.severity}
                 aria-hidden
+                width={110}
+                height={110}
                 className="absolute left-1 top-1 z-20 w-[88px] rotate-[-10deg] pointer-events-none select-none"
+                style={{ height: "auto" }}
               />
             );
           })()}
@@ -208,7 +212,7 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.22, ease: "easeOut" }}
-                className="overflow-hidden pt-6"
+                className="overflow-hidden pt-6 pb-4"
               >
                 <div className="pr-1">
                   {content}
@@ -256,13 +260,16 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
               clinicalData.severity === "Mild" ? "Mild-Stamp.png" :
               "Negligible-Stamp.png";
             return (
-              <img
+              <Image
                 src={`/stamps/${stampFile}`}
                 alt={clinicalData.severity}
                 aria-hidden
+                width={110}
+                height={110}
                 className="absolute pointer-events-none select-none z-20"
                 style={{
                   width: "110px",
+                  height: "auto",
                   top: "2px",
                   left: "2px",
                   transform: "rotate(-8deg)",
@@ -288,7 +295,7 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({ sympt
               Clinical Severity
             </h2>
 
-            <motion.div animate={{ opacity: isExpanded ? 1 : 0.4 }} className="transition-opacity duration-300">
+            <motion.div animate={{ opacity: isExpanded ? 1 : 0.4 }} transition={{ duration: 0.3, ease: "easeOut" }}>
               {content}
             </motion.div>
           </div>

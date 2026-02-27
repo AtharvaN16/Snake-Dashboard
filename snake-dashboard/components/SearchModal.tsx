@@ -4,15 +4,20 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useSearchModal } from "@/contexts/SearchModalContext";
 import { HomeSearchCard } from "@/components/HomeSearchCard";
+import type { SnakeSummary } from "@/lib/types";
 
 const MODAL_SEARCH_INPUT_ID = "search-modal-input";
 
-export function SearchModal() {
+interface SearchModalProps {
+  snakes: SnakeSummary[];
+}
+
+export function SearchModal({ snakes }: SearchModalProps) {
   const pathname = usePathname();
   const { isOpen, closeModal } = useSearchModal();
   const isPhylogeny = pathname === "/phylogeny";
   const getSnakeHref = isPhylogeny
-    ? (snake: { id: string }) => `/phylogeny?snakeId=${snake.id}`
+    ? (snake: SnakeSummary) => `/phylogeny?snakeId=${snake.id}`
     : undefined;
 
   useEffect(() => {
@@ -44,6 +49,7 @@ export function SearchModal() {
       >
         <HomeSearchCard
           inputId={MODAL_SEARCH_INPUT_ID}
+          snakes={snakes}
           onSelectSnake={closeModal}
           getSnakeHref={getSnakeHref}
           className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-xl"

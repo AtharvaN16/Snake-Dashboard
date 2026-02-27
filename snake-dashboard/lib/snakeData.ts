@@ -1,4 +1,4 @@
-import type { Snake, SnakeDatabase } from "./types";
+import type { Snake, SnakeDatabase, SnakeSummary } from "./types";
 import snakesData from "@/data/snakes/index.json";
 
 /**
@@ -7,6 +7,29 @@ import snakesData from "@/data/snakes/index.json";
 export function getAllSnakes(): Snake[] {
   const data = snakesData as SnakeDatabase;
   return data.snakes;
+}
+
+/**
+ * Get minimal snake summaries for search/home UI.
+ * Excludes heavy fields (distribution geometry, symptoms, clinical data, etc.)
+ * to reduce client-side JS payload.
+ */
+export function getSnakeSummaries(): SnakeSummary[] {
+  return getAllSnakes().map((s) => ({
+    id: s.id,
+    commonName: s.commonName,
+    scientificName: s.scientificName,
+    otherCommonNames: s.otherCommonNames,
+    family: s.family,
+    genus: s.genus,
+    continent: s.continent,
+    dangerScore: s.dangerScore,
+    venomClassification: s.venomClassification,
+    venomTypes: s.venomTypes,
+    venomPotency: s.venomPotency
+      ? { ld50: s.venomPotency.ld50, ld50Normalized: s.venomPotency.ld50Normalized }
+      : undefined,
+  }));
 }
 
 /**

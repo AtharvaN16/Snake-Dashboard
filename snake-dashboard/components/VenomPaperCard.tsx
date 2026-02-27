@@ -149,7 +149,8 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                     className="relative z-10"
                   />
                   <motion.img
-                    whileHover={{ scale: 1.1, rotate: 10 }}
+                    initial={{ rotate: 8, x: 10 }}
+                    whileHover={{ scale: 1.1, rotate: 10, x: 10 }}
                     src={`/images/anatomy/${
                       snake.fangType === "Hinged front fangs" || snake.fangType === "Movable front fangs"
                         ? "hinged front fangs.png"
@@ -171,7 +172,6 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                         drop-shadow(1px -1px 0 #fff)
                         drop-shadow(-1px 1px 0 #fff)
                       `,
-                      transform: "rotate(8deg) translateX(10px)",
                     }}
                   />
                 </div>
@@ -230,7 +230,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
   return (
     <>
       <div className="relative z-20 mb-8 lg:hidden">
-        <div className={`relative z-10 px-5 ${isExpanded ? "pb-8 pt-7" : "pb-4 pt-4"}`}>
+        <div className="relative z-10 px-5 pb-4 pt-4">
           <button
             type="button"
             onClick={() => setIsExpanded((prev) => !prev)}
@@ -266,7 +266,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.22, ease: "easeOut" }}
-                className="overflow-hidden pt-6"
+                className="overflow-hidden pt-6 pb-4"
               >
                 <div className="pr-1">
                   {content}
@@ -324,7 +324,7 @@ const VenomPaperCardComponent = memo(function VenomPaperCard({ snake }: VenomPap
             >
               Venom Profile
             </h2>
-            <motion.div animate={{ opacity: isExpanded ? 1 : 0.4 }} className="transition-opacity duration-300">
+            <motion.div animate={{ opacity: isExpanded ? 1 : 0.4 }} transition={{ duration: 0.3, ease: "easeOut" }}>
               {content}
             </motion.div>
           </div>

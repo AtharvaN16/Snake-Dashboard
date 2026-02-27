@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef, useMemo, useState, useCallback } from "react";
-import * as d3 from "d3";
+import { select, pointer } from "d3-selection";
+import { scaleLog, scaleLinear, scaleSqrt } from "d3-scale";
+import { area, line, curveLinear } from "d3-shape";
+import { axisBottom } from "d3-axis";
+import { forceSimulation, forceX, forceY, forceCollide } from "d3-force";
+import { interpolateRgb } from "d3-interpolate";
 import { Snake } from "@/lib/types";
 import { getAllSnakes } from "@/lib/snakeData";
 import { imputeDryYield } from "@/lib/dangerScore";
@@ -133,15 +138,15 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = 360;
 
-    d3.select(svgRef.current).selectAll("*").remove();
+    select(svgRef.current).selectAll("*").remove();
 
-    const svg = d3.select(svgRef.current)
+    const svg = select(svgRef.current)
       .attr("viewBox", `0 0 ${width} ${height}`)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const xScale = d3.scaleLog().domain([0.01, xMax]).range([0, chartWidth]);
-    const yScale = d3.scaleLinear().domain([0, yMax]).range([chartHeight, 0]);
+    const xScale = scaleLog().domain([0.01, xMax]).range([0, chartWidth]);
+    const yScale = scaleLinear().domain([0, yMax]).range([chartHeight, 0]);
     const getCurveY = (val: number) => yScale(Math.max(0, Math.min(yMax, getPotency(val))));
 
     const maxLog = Math.log10(xMax);
@@ -165,11 +170,11 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
     lineGrad.append("stop").attr("offset", "50%").attr("stop-color", "#eab308").attr("stop-opacity", 0.5);
     lineGrad.append("stop").attr("offset", "100%").attr("stop-color", "#22c55e").attr("stop-opacity", 0.4);
 
-    const dotColorScale = d3.scaleLog<string>()
+    const dotColorScale = scaleLog<string>()
       .domain([0.01, 1, 100]).range(["#ef4444", "#eab308", "#22c55e"])
-      .interpolate(d3.interpolateRgb).clamp(true);
+      .interpolate(interpolateRgb).clamp(true);
 
-    const radiusScale = d3.scaleSqrt().domain([0, 600]).range([3.5, 14]);
+    const radiusScale = scaleSqrt().domain([0, 600]).range([3.5, 14]);
 
     const vYield = currentSnake.venomYield;
     const dryMg = vYield?.dryWeight ?? (vYield?.wetVolume != null ? vYield.wetVolume * 200 : null);
@@ -191,16 +196,16 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
     const mainChartG = svg.append("g").attr("clip-path", "url(#chart-clip)");
 
     mainChartG.append("path").datum(curvePoints)
-      .attr("d", d3.area<number>().x(d => xScale(d)).y0(chartHeight).y1(d => getCurveY(d)).curve(d3.curveLinear))
+      .attr("d", area<number>().x(d => xScale(d)).y0(chartHeight).y1(d => getCurveY(d)).curve(curveLinear))
       .attr("fill", "url(#area-gradient)");
 
     mainChartG.append("path").datum(curvePoints)
-      .attr("d", d3.line<number>().x(d => xScale(d)).y(d => getCurveY(d)).curve(d3.curveLinear))
+      .attr("d", line<number>().x(d => xScale(d)).y(d => getCurveY(d)).curve(curveLinear))
       .attr("fill", "none").attr("stroke", "url(#line-gradient)").attr("stroke-width", 1.5);
 
     // 3. All-snakes comparison dots
     if (showAllSnakes) {
-      const tooltip = d3.select(containerRef.current)
+      const tooltip = select(containerRef.current)
         .append("div").attr("class", "potency-tooltip")
         .style("position", "absolute").style("pointer-events", "none").style("opacity", 0)
         .style("background", "#1c1917").style("color", "#fafaf9")
@@ -226,10 +231,10 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
           return { snake: s, ld50, potency: getPotency(ld50), yieldMg, x0, y0, x: x0, y: y0 };
         });
 
-        const sim = d3.forceSimulation(rawData as any)
-          .force("x", d3.forceX((d: any) => d.x0).strength(0.8))
-          .force("y", d3.forceY((d: any) => d.y0).strength(0.8))
-          .force("collide", d3.forceCollide((d: any) => (scaleByYield ? radiusScale(d.yieldMg) : 5.5) + 0.5).iterations(2))
+        const sim = forceSimulation(rawData as any)
+          .force("x", forceX((d: any) => d.x0).strength(0.8))
+          .force("y", forceY((d: any) => d.y0).strength(0.8))
+          .force("collide", forceCollide((d: any) => (scaleByYield ? radiusScale(d.yieldMg) : 5.5) + 0.5).iterations(2))
           .stop();
         for (let i = 0; i < 120; ++i) sim.tick();
 
@@ -255,7 +260,7 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
         .on("click", (_e, d) => { window.location.href = `/snakes/${d.snake.id}`; })
         .on("mouseenter", function (_e, d) {
           const r = scaleByYield ? radiusScale(d.yieldMg) + 2 : 7;
-          d3.select(this).attr("r", r).attr("fill-opacity", 1).attr("stroke-width", 1.5);
+          select(this).attr("r", r).attr("fill-opacity", 1).attr("stroke-width", 1.5);
           const potStr = d.potency >= 1000 ? `${(d.potency / 1000).toFixed(1)}k×` : `${Math.round(d.potency)}×`;
           tooltip.html(
             `<strong>${d.snake.commonName}</strong><br/>` +
@@ -268,7 +273,7 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
           tooltip.style("left", `${event.clientX - rect.left + 12}px`).style("top", `${event.clientY - rect.top - 10}px`);
         })
         .on("mouseleave", function (_e, d) {
-          d3.select(this).attr("r", scaleByYield ? radiusScale(d.yieldMg) : 5.5).attr("fill-opacity", 0.7).attr("stroke-width", 1);
+          select(this).attr("r", scaleByYield ? radiusScale(d.yieldMg) : 5.5).attr("fill-opacity", 0.7).attr("stroke-width", 1);
           tooltip.style("opacity", 0);
         });
 
@@ -289,7 +294,7 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
           });
       };
 
-      svg.on("mousemove", (e) => updateLocalizedSpread(...d3.pointer(e, mainChartG.node()) as [number, number]))
+      svg.on("mousemove", (e) => updateLocalizedSpread(...pointer(e, mainChartG.node()) as [number, number]))
          .on("mouseleave", () => updateLocalizedSpread(null, null));
     }
 
@@ -378,7 +383,7 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
 
     svg.append("g").attr("transform", `translate(0, ${chartHeight})`)
       .call(
-        d3.axisBottom(xScale).tickValues(xTicks).tickSize(6).tickPadding(12)
+        axisBottom(xScale).tickValues(xTicks).tickSize(6).tickPadding(12)
           .tickFormat(d => {
             const v = Number(d);
             if (v >= 1) return v.toFixed(0);
@@ -403,7 +408,7 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
       .text("RELATIVE POTENCY");
 
     return () => {
-      d3.select(containerRef.current).selectAll(".potency-tooltip").remove();
+      select(containerRef.current).selectAll(".potency-tooltip").remove();
     };
   }, [currentLD50, currentSnake, medianLD50, yMax, xMax, ladderTicks, getPotency, showAllSnakes, scaleByYield, allVenomousSnakes, filterFamily, filterRegion]);
 

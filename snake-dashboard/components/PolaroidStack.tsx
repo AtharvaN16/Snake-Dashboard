@@ -50,7 +50,7 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
     }, 300);
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       handleShuffle();
@@ -88,8 +88,9 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
         </div>
 
         {/* Active Polaroid Card Container */}
-        <motion.button
-          type="button"
+        <motion.div
+          role="button"
+          tabIndex={0}
           aria-label="Shuffle snake photo"
           onClick={handleShuffle}
           onKeyDown={handleKeyDown}
@@ -103,7 +104,7 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
             duration: isInitialLoad ? 2.0 : 0.3,
             ease: "easeInOut"
           }}
-          className="group absolute h-[90%] w-[92%] cursor-pointer select-none bg-white outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2"
+          className="group absolute h-[90%] w-[92%] cursor-pointer select-none bg-white outline-none focus-visible:ring-2 focus-visible:ring-stone-600 focus-visible:ring-offset-2 rounded-none"
           style={{
             transformOrigin: PIN_ORIGIN,
             padding: "5% 4.5% 18% 4.5%",
@@ -197,7 +198,7 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
               Click to shuffle ({activeIndex + 1}/{images.length})
             </div>
           )}
-        </motion.button>
+        </motion.div>
 
         {/* ANCHORED PIN - Outside the moving card so it stays fixed */}
         <div className="pointer-events-none absolute left-1/2 top-[3.8%] z-[20] -translate-x-1/2 md:top-[6%]">

@@ -124,7 +124,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
   return (
     <>
       <div className="relative z-20 mb-8 lg:hidden">
-        <div className={`relative z-10 px-5 ${isExpanded ? "pb-8 pt-7" : "pb-4 pt-4"}`}>
+        <div className="relative z-10 px-5 pb-4 pt-4">
           <button
             type="button"
             onClick={() => setIsExpanded((prev) => !prev)}
@@ -180,7 +180,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.22, ease: "easeOut" }}
-                className="overflow-hidden pt-5"
+                className="overflow-hidden pt-5 pb-4"
               >
                 {details}
               </motion.div>
@@ -267,7 +267,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
               </div>
             </div>
 
-            <motion.div animate={{ opacity: isExpanded ? 1 : 0.35 }} className="transition-opacity duration-300">
+            <motion.div animate={{ opacity: isExpanded ? 1 : 0.35 }} transition={{ duration: 0.3, ease: "easeOut" }}>
               {details}
             </motion.div>
           </div>

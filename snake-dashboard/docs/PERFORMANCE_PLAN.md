@@ -45,9 +45,9 @@ Currently there is no `@next/bundle-analyzer` configured, so actual gzipped bund
 
 ---
 
-## Priority 1 — Immediate (High Impact, Low Effort)
+## Priority 1 — Immediate (High Impact, Low Effort) ✅ DONE
 
-### 1.1 Add Bundle Analyzer
+### 1.1 Add Bundle Analyzer ✅
 
 ```bash
 bun add -D @next/bundle-analyzer
@@ -62,7 +62,7 @@ export default withBundleAnalyzer({ enabled: process.env.ANALYZE === 'true' })(n
 Run: `ANALYZE=true bun run build`
 This reveals actual chunk sizes per route before doing any optimization.
 
-### 1.2 Lazy-Load the Phylogeny Tree
+### 1.2 Lazy-Load the Phylogeny Tree ✅
 
 The `/phylogeny` page imports D3 and processes all snake taxonomy. Use `dynamic()` in `app/phylogeny/page.tsx`:
 
@@ -72,7 +72,7 @@ const HyperbolicTreeWrapper = dynamic(() => import('@/components/Phylogeny/Hyper
 
 D3 does not run server-side and the hyperbolic tree requires browser APIs. This also removes D3 from the main JS bundle.
 
-### 1.3 Lazy-Load DistributionMap
+### 1.3 Lazy-Load DistributionMap ✅
 
 The map is only visible on snake detail pages and only when range data is available. Lazy-load it:
 
@@ -82,7 +82,7 @@ const DistributionMap = dynamic(() => import('@/components/DistributionMap'), { 
 
 This removes react-simple-maps from the initial JS payload.
 
-### 1.4 Lazy-Load PaperAppBackground
+### 1.4 Lazy-Load PaperAppBackground ✅
 
 The shader background is decorative. Lazy-load with `ssr: false`:
 
@@ -116,7 +116,7 @@ Audit all `<img>` tags in components. Replace with `next/image`:
 
 `next/image` provides: lazy loading, `sizes` prop for responsive images, automatic format negotiation (WebP when browser supports), and layout shift prevention via `width`/`height`.
 
-### 2.3 Optimize D3 Imports
+### 2.3 Optimize D3 Imports ✅
 
 Instead of `import * as d3 from 'd3'`, import only the modules used in each component:
 
@@ -131,7 +131,7 @@ import { line, arc } from 'd3-shape'
 
 Run the bundle analyzer first to confirm which D3 modules actually account for the most weight.
 
-### 2.4 Split Snake Data by Route
+### 2.4 Split Snake Data by Route ✅
 
 Instead of importing all 125+ snakes in every page, expose data through route-level loaders:
 
@@ -216,15 +216,15 @@ When Next.js 15 + React Compiler becomes stable, evaluate enabling it for automa
 
 ## Quick Wins Checklist
 
-- [ ] Install `@next/bundle-analyzer` and run to get baseline
-- [ ] `dynamic()` import HyperbolicTreeWrapper in phylogeny page
-- [ ] `dynamic()` import DistributionMap in snake detail page
-- [ ] `dynamic()` import PaperAppBackground in home page
+- [x] Install `@next/bundle-analyzer` and run to get baseline
+- [x] `dynamic()` import HyperbolicTreeWrapper in phylogeny page
+- [x] `dynamic()` import DistributionMap in snake detail page
+- [x] `dynamic()` import PaperAppBackground in home page
 - [ ] Audit `<img>` vs `next/image` usage in SnakeCard, detail page header
 - [ ] Add `sizes` prop to `next/image` calls
 - [ ] Add WebP output to `scripts/imageProcessing.ts`
-- [ ] Add Cache-Control headers for static GeoJSON in `next.config.mjs`
-- [ ] Create `getSnakeSummaries()` to slim down home page JS payload
+- [x] Add Cache-Control headers for static GeoJSON in `next.config.mjs`
+- [x] Create `getSnakeSummaries()` to slim down home page JS payload
 - [ ] Add `@vercel/speed-insights` to layout for production monitoring
 
 ---

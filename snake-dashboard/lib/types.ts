@@ -178,3 +178,18 @@ export interface SnakeDatabase {
   totalSnakes: number;
   snakes: Snake[];
 }
+
+/** Minimal snake data needed for the search/home UI — excludes heavy fields like distribution geometry, symptoms, clinical data, etc. */
+export interface SnakeSummary {
+  id: string;
+  commonName: string;
+  scientificName: string;
+  otherCommonNames?: string[];
+  family: string;
+  genus: string;
+  continent: Snake["continent"];
+  dangerScore: number;
+  venomClassification: Snake["venomClassification"];
+  venomTypes?: VenomType[];
+  venomPotency?: Pick<VenomPotency, "ld50" | "ld50Normalized">;
+}

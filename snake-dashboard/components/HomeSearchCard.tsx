@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAllSnakes, isVenomous } from "@/lib/snakeData";
+import { isVenomous } from "@/lib/snakeData";
 import { searchSnakes, sortSnakes, type SortOption } from "@/lib/searchUtils";
 import { SearchBar } from "@/components/SearchBar";
 import { Kbd } from "@/components/ui/kbd";
-import type { Snake } from "@/lib/types";
+import type { SnakeSummary } from "@/lib/types";
 
 /** Light background + dark text for small tags (search & rankings only) */
-function getClassificationTag(venomClassification: Snake["venomClassification"]) {
+function getClassificationTag(venomClassification: SnakeSummary["venomClassification"]) {
   switch (venomClassification) {
     case "Highly Venomous":
       return { label: "Highly Venomous", bg: "#FFDADA", text: "#B22222" };
@@ -34,12 +34,12 @@ function SnakeListItem({
   onSelectSnake,
   getSnakeHref,
 }: {
-  snake: Snake;
+  snake: SnakeSummary;
   isActive: boolean;
   keyboardPriority: boolean;
   onHover?: () => void;
   onSelectSnake?: () => void;
-  getSnakeHref?: (snake: Snake) => string;
+  getSnakeHref?: (snake: SnakeSummary) => string;
 }) {
   const venomous = isVenomous(snake.venomClassification);
   const classification = getClassificationTag(snake.venomClassification);
@@ -91,13 +91,14 @@ function SnakeListItem({
 
 type HomeSearchCardProps = {
   inputId: string;
+  snakes: SnakeSummary[];
   onSelectSnake?: () => void;
   /** When set (e.g. on phylogeny page), used for Link href and keyboard nav instead of /snakes/:id */
-  getSnakeHref?: (snake: Snake) => string;
+  getSnakeHref?: (snake: SnakeSummary) => string;
   className?: string;
 };
 
-function getGroupHeading(snake: Snake, sortBy: SortOption) {
+function getGroupHeading(snake: SnakeSummary, sortBy: SortOption) {
   switch (sortBy) {
     case "venomType":
       return snake.venomTypes?.[0] ?? "No venom type";
@@ -113,6 +114,7 @@ function getGroupHeading(snake: Snake, sortBy: SortOption) {
 
 export function HomeSearchCard({
   inputId,
+  snakes,
   onSelectSnake,
   getSnakeHref,
   className = "bg-white rounded-2xl shadow-md overflow-hidden flex flex-col w-full",
@@ -124,11 +126,10 @@ export function HomeSearchCard({
   const [isKeyboardNavigating, setIsKeyboardNavigating] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const allSnakes = getAllSnakes();
   const filteredSnakes = useMemo(() => {
-    const result = searchQuery ? searchSnakes(allSnakes, searchQuery) : allSnakes;
+    const result = searchQuery ? searchSnakes(snakes, searchQuery) : snakes;
     return sortSnakes(result, sortBy);
-  }, [allSnakes, searchQuery, sortBy]);
+  }, [snakes, searchQuery, sortBy]);
   const effectiveActiveIndex =
     filteredSnakes.length === 0 || activeIndex < 0
       ? -1
@@ -137,7 +138,7 @@ export function HomeSearchCard({
   const groupedSnakes = useMemo(() => {
     if (sortBy === "rank" || sortBy === "alphabetical") return null;
 
-    const groups: Array<{ heading: string; items: Array<{ snake: Snake; index: number }> }> = [];
+    const groups: Array<{ heading: string; items: Array<{ snake: SnakeSummary; index: number }> }> = [];
     let currentHeading = "";
 
     filteredSnakes.forEach((snake, index) => {

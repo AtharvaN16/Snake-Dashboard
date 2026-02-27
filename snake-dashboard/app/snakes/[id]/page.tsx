@@ -12,7 +12,7 @@ import { ClinicalSymptomsCard } from "@/components/ClinicalSymptomsCard";
 import { DangerScoreCard } from "@/components/DangerScoreCard";
 import { ImageCandidatePicker } from "@/components/ImageCandidatePicker";
 import Link from "next/link";
-import { DistributionMap } from "@/components/DistributionMap";
+import { DynamicDistributionMap as DistributionMap } from "@/components/DynamicDistributionMap";
 import { Kbd } from "@/components/ui/kbd";
 import { SnakeDetailMobileHeader } from "@/components/SnakeDetailMobileHeader";
 

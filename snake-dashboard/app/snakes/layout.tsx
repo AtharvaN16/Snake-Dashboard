@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { getSnakeById } from "@/lib/snakeData";
-import { DistributionMap } from "@/components/DistributionMap";
+import { DynamicDistributionMap as DistributionMap } from "@/components/DynamicDistributionMap";
 
 export default function SnakesLayout({ children }: { children: React.ReactNode }) {
   const params = useParams();

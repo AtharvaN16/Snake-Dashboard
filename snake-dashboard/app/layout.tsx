@@ -4,6 +4,7 @@ import { KeyboardShortcuts } from "@/components/KeyboardShortcuts";
 import { PaperAppBackground } from "@/components/PaperAppBackground";
 import { SearchModal } from "@/components/SearchModal";
 import { SearchModalProvider } from "@/contexts/SearchModalContext";
+import { getSnakeSummaries } from "@/lib/snakeData";
 import "./globals.css";
 
 const pangramSans = localFont({
@@ -43,6 +44,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const snakes = getSnakeSummaries();
   return (
     <html lang="en">
       <body className={`${pangramSans.variable} ${pangramCompressed.variable} ${pangramSlim.variable} ${pangramCompact.variable} relative font-sans antialiased`}>
@@ -50,7 +52,7 @@ export default function RootLayout({
         <SearchModalProvider>
           <div className="relative z-10">
             <KeyboardShortcuts />
-            <SearchModal />
+            <SearchModal snakes={snakes} />
             {children}
           </div>
         </SearchModalProvider>

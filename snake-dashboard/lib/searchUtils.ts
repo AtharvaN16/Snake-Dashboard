@@ -1,5 +1,5 @@
 import Fuse from "fuse.js";
-import type { Snake } from "./types";
+import type { Snake, SnakeSummary } from "./types";
 
 const fuseOptions = {
   keys: [
@@ -15,14 +15,14 @@ const fuseOptions = {
 };
 
 /**
- * Search snakes using fuzzy matching
+ * Search snakes using fuzzy matching. Accepts full Snake or SnakeSummary arrays.
  */
-export function searchSnakes(snakes: Snake[], query: string): Snake[] {
+export function searchSnakes<T extends SnakeSummary>(snakes: T[], query: string): T[] {
   if (!query || query.trim() === "") return snakes;
-  
+
   const fuse = new Fuse(snakes, fuseOptions);
   const results = fuse.search(query);
-  
+
   return results.map((result) => result.item);
 }
 
@@ -38,7 +38,7 @@ export type SortOption =
   | "alphabetical"
   | "potency";
 
-export function sortSnakes(snakes: Snake[], sortBy: SortOption): Snake[] {
+export function sortSnakes<T extends SnakeSummary>(snakes: T[], sortBy: SortOption): T[] {
   const sorted = [...snakes];
   const classificationOrder: Record<Snake["venomClassification"], number> = {
     "Highly Venomous": 0,
@@ -48,8 +48,8 @@ export function sortSnakes(snakes: Snake[], sortBy: SortOption): Snake[] {
     "Non-venomous": 4,
   };
 
-  const getPrimaryVenomType = (snake: Snake) => snake.venomTypes?.[0] ?? "No venom type";
-  const getPrimaryRegion = (snake: Snake) => snake.continent;
+  const getPrimaryVenomType = (snake: SnakeSummary) => snake.venomTypes?.[0] ?? "No venom type";
+  const getPrimaryRegion = (snake: SnakeSummary) => snake.continent;
   
   switch (sortBy) {
     case "default":
