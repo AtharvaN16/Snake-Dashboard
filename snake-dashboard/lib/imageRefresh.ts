@@ -67,9 +67,27 @@ export async function searchAndDownloadCandidates(
   const snake = getSnakeById(snakeId);
   if (!snake) throw new Error("Snake not found");
 
-  const result = await searchSnakeImagesAllSources(snake.scientificName);
-  if (result.combined.length === 0) {
-    throw new Error("No images found from any source");
+  console.log(`[imageRefresh] Searching for ${snake.scientificName} and ${snake.commonName}...`);
+  
+  // Run both searches in parallel for maximum results
+  const [sciResult, commonResult] = await Promise.all([
+    searchSnakeImagesAllSources(snake.scientificName),
+    snake.commonName ? searchSnakeImagesAllSources(snake.commonName) : Promise.resolve({ combined: [] })
+  ]);
+
+  // Combine and deduplicate by image URL
+  const allCandidates = [...sciResult.combined, ...(commonResult as any).combined];
+  const deduped = new Map<string, any>();
+  for (const c of allCandidates) {
+    if (!deduped.has(c.url) || c.score > deduped.get(c.url).score) {
+      deduped.set(c.url, c);
+    }
+  }
+
+  const combined = Array.from(deduped.values()).sort((a, b) => b.score - a.score);
+
+  if (combined.length === 0) {
+    throw new Error("No images found for scientific or common name");
   }
 
   // Clean previous candidates
@@ -77,8 +95,8 @@ export async function searchAndDownloadCandidates(
   try { await fs.rm(dir, { recursive: true, force: true }); } catch { /* ok */ }
   await fs.mkdir(dir, { recursive: true });
 
-  const maxCandidates = 12;
-  const toDownload = result.combined.slice(0, maxCandidates);
+  const maxCandidates = 30;
+  const toDownload = combined.slice(0, maxCandidates);
 
   // Download all candidates in parallel
   const results = await Promise.allSettled(

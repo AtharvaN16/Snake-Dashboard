@@ -10,10 +10,11 @@ import { getIntrinsicWeights } from "@/lib/dangerScore";
 import { VENOM_TYPE_CHIP } from "@/components/VenomTypeChip";
 import { RegionPills } from "@/components/RegionPills";
 import { Kbd } from "@/components/ui/kbd";
+import { Button } from "@/components/ui/button";
 import { DangerScoreInfoBox } from "@/components/DangerScoreInfoBox";
-import { RankEditControls } from "@/components/RankEditControls";
+import { RankEditPanel } from "@/components/RankEditPanel";
 import { SearchNewSnake } from "@/components/SearchNewSnake";
-import { Pencil, Check, Plus } from "lucide-react";
+import { Pencil, Check, Plus, RotateCcw } from "lucide-react";
 import type { Continent, Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
@@ -24,7 +25,7 @@ function isNonSnake(item: Rankable): item is NonSnake {
 }
 
 const COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px] gap-x-1 lg:grid-cols-[48px_140px_minmax(200px,1fr)_120px_100px_190px] lg:gap-x-3";
-const EDIT_COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px_120px] gap-x-1 lg:grid-cols-[48px_140px_minmax(180px,1fr)_120px_100px_140px_130px] lg:gap-x-3";
+const EDIT_COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px_80px] gap-x-1 lg:grid-cols-[48px_140px_minmax(180px,1fr)_120px_100px_140px_100px] lg:gap-x-3";
 const INTRINSIC_WEIGHTS = getIntrinsicWeights();
 
 function getRankDisplay(rank: number): { numeral: string; color: string } {
@@ -62,9 +63,11 @@ function formatLD50(val: number | undefined): string {
 }
 
 function RankTableRow({
-  item, rank, viewMode, priority, editMode, onRefresh,
+  item, rank, viewMode, priority, editMode, onRefresh, onSelect, isSelected,
 }: {
   item: Rankable; rank: number; viewMode: ViewMode; priority?: boolean; editMode?: boolean; onRefresh?: () => void;
+  onSelect?: (id: string | null) => void;
+  isSelected?: boolean;
 }) {
   const { numeral, color: rankColor } = getRankDisplay(rank);
   const isNS = isNonSnake(item);
@@ -79,7 +82,7 @@ function RankTableRow({
   const gridCols = editMode ? EDIT_COLS : COLS;
 
   const RowContent = (
-    <div className={`grid ${gridCols} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px]`}>
+    <div className={`grid ${gridCols} border-b border-stone-100 last:border-0 group transition-all duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px] ${isSelected ? "bg-stone-100/80 ring-1 ring-inset ring-stone-200" : ""}`}>
       {/* Rank */}
       <div className="hidden items-center justify-center py-4 min-h-[88px] lg:flex">
         <span className="font-mono text-[13px] font-bold" style={{ color: rankColor }}>
@@ -199,15 +202,24 @@ function RankTableRow({
         )}
       </div>
 
-      {/* Edit Controls */}
+      {/* Edit Trigger */}
       {editMode && !isNS && (
-        <RankEditControls snakeId={snake!.id} onRefresh={onRefresh!} />
+        <div className="flex items-center px-4">
+          <Button 
+            variant={isSelected ? "default" : "outline"} 
+            size="sm" 
+            className="h-8 w-full text-[10px] uppercase font-bold tracking-wider"
+            onClick={() => onSelect?.(isSelected ? null : snake!.id)}
+          >
+            {isSelected ? "Editing..." : "Edit"}
+          </Button>
+        </div>
       )}
     </div>
   );
 
   if (isNS || editMode) {
-    return <div title={isNS ? nonSnake!.description : undefined}>{RowContent}</div>;
+    return RowContent;
   }
 
   return (
@@ -227,17 +239,71 @@ function RankPageInner() {
   const [showOnlySnakes, setShowOnlySnakes] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [selectedEditId, setSelectedEditId] = useState<string | null>(null);
+  const [draftSnake, setDraftSnake] = useState<Snake | null>(null);
   const isDev = process.env.NODE_ENV === "development";
 
   const [allSnakes, setAllSnakes] = useState<Snake[]>(() => getAllSnakes());
   const [allNonSnakes, setAllNonSnakes] = useState<NonSnake[]>(() => getNonSnakes());
 
+  const fetchLatestSnakes = useCallback(async () => {
+    if (!isDev) return;
+    try {
+      const res = await fetch("/api/snakes");
+      if (res.ok) {
+        const data = await res.json();
+        setAllSnakes(data);
+      }
+    } catch (e) {
+      console.error("Failed to fetch latest snakes:", e);
+    }
+  }, [isDev]);
+
+  useEffect(() => {
+    if (isDev) {
+      fetchLatestSnakes();
+    }
+  }, [isDev, fetchLatestSnakes]);
+
+  const selectedSnake = useMemo(() => {
+    if (!selectedEditId) return null;
+    if (draftSnake && draftSnake.id === selectedEditId) return draftSnake;
+    return allSnakes.find(s => s.id === selectedEditId);
+  }, [selectedEditId, allSnakes, draftSnake]);
+
   const refreshData = useCallback(() => {
-    // In dev, we can try to re-fetch or just reload if data is static in JS
-    // For now, let's just trigger a component refresh by re-calling getters if they weren't cached
-    // Since getAllSnakes() reads from the imported JSON, we might need a full page reload or an API
-    window.location.reload(); 
-  }, []);
+    fetchLatestSnakes();
+  }, [fetchLatestSnakes]);
+
+  const setRegion = useCallback((region: Continent | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (region) {
+      params.set("region", region);
+    } else {
+      params.delete("region");
+    }
+    const query = params.toString();
+    router.push(query ? `/rank?${query}` : "/rank");
+  }, [searchParams, router]);
+
+  // Sync selectedEditId with URL snakeId if in edit mode
+  useEffect(() => {
+    if (editMode && focusSnakeId && !selectedEditId) {
+      setSelectedEditId(focusSnakeId);
+    }
+  }, [editMode, focusSnakeId, selectedEditId]);
+
+  const handleSelect = useCallback((id: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (id) {
+      params.set("snakeId", id);
+    } else {
+      params.delete("snakeId");
+      setDraftSnake(null);
+    }
+    router.push(`/rank?${params.toString()}`, { scroll: false });
+    setSelectedEditId(id);
+  }, [searchParams, router]);
 
   const uniqueContinents = useMemo(
     () => Array.from(new Set(allSnakes.flatMap((s) => s.continents))).sort(),
@@ -309,17 +375,6 @@ function RankPageInner() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [switchView]);
-
-  function setRegion(region: Continent | null) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (region) {
-      params.set("region", region);
-    } else {
-      params.delete("region");
-    }
-    const query = params.toString();
-    router.push(query ? `/rank?${query}` : "/rank");
-  }
 
   return (
     <div className="min-h-screen py-8 px-2 sm:px-6 md:px-10 lg:px-[68px] pb-14">
@@ -432,67 +487,92 @@ function RankPageInner() {
           continents={uniqueContinents}
           singleColumn
         />
-        {isDev && (
-          <Button
-            variant={editMode ? "default" : "outline"}
-            size="sm"
-            onClick={() => setEditMode(!editMode)}
-            className="h-8 gap-2 bg-white text-stone-700 border-stone-200 hover:bg-stone-50 shadow-sm"
-          >
-            {editMode ? (
-              <>
-                <Check className="w-4 h-4" />
-                Done
-              </>
-            ) : (
-              <>
-                <Pencil className="w-4 h-4" />
-                Edit
-              </>
-            )}
-          </Button>
-        )}
+        <div className="flex gap-2">
+          {regionParam && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setRegion(null)}
+              className="h-8 gap-2 bg-white text-stone-500 border-stone-200 hover:bg-stone-50 shadow-sm"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              Clear filters
+            </Button>
+          )}
+          {isDev && (
+            <Button
+              variant={editMode ? "default" : "outline"}
+              size="sm"
+              onClick={() => {
+                setEditMode(!editMode);
+                if (editMode) setSelectedEditId(null);
+              }}
+              className="h-8 gap-2 bg-white text-stone-700 border-stone-200 hover:bg-stone-50 shadow-sm"
+            >
+              {editMode ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  Done
+                </>
+              ) : (
+                <>
+                  <Pencil className="w-4 h-4" />
+                  Edit
+                </>
+              )}
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Table */}
-      <div className={`fixed inset-x-0 bottom-0 top-[210px] z-10 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.12)] border-t border-stone-200 sm:relative sm:inset-auto sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:rounded-2xl sm:border sm:shadow-md sm:max-h-none sm:overflow-y-visible ${editMode ? "sm:max-w-6xl" : ""}`}>
-          <div className="h-full overflow-y-auto sm:h-auto sm:overflow-y-visible">
-            {editMode && (
-              <div className="p-4 border-b border-stone-100 bg-stone-50/30">
-                 <SearchNewSnake onAdded={refreshData} />
+      <div className={`flex gap-6 max-w-[1600px] mx-auto transition-all duration-500 ${editMode && selectedEditId ? "sm:mr-[50%]" : ""}`}>
+        <div className={`fixed inset-x-0 bottom-0 top-[210px] z-10 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.12)] border-t border-stone-200 sm:relative sm:inset-auto sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:rounded-2xl sm:border sm:shadow-md sm:max-h-none sm:overflow-y-visible transition-all duration-500 ${editMode ? "sm:max-w-5xl" : ""} ${editMode && selectedEditId ? "sm:max-w-full" : ""}`}>
+            <div className="h-full overflow-y-auto sm:h-auto sm:overflow-y-visible">
+              {editMode && (
+                <div className="p-4 border-b border-stone-100 bg-stone-50/30">
+                  <SearchNewSnake 
+                    onAdded={refreshData} 
+                    onDraftCreated={(draft) => {
+                      setDraftSnake(draft);
+                      setSelectedEditId(draft.id);
+                    }}
+                  />
+                </div>
+              )}
+
+              <div className={`grid ${editMode ? EDIT_COLS : COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white sm:rounded-t-2xl`}>
+              <div className="hidden px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center lg:block lg:px-4 lg:py-3">#</div>
+              <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 text-center lg:px-4 lg:py-3 lg:text-[10px]">Photo</div>
+              <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">Species</div>
+              <div className="hidden px-2 py-1 text-[10px] font-bold tracking-wider text-stone-400 lg:block lg:px-4 lg:py-3">Family</div>
+              <div className="hidden px-2 py-1 text-[10px] font-bold tracking-wider text-stone-400 lg:block lg:px-4 lg:py-3">Region</div>
+              <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">
+                {viewMode === "danger" ? (
+                  <>
+                    <span className="lg:hidden">Danger score</span>
+                    <span className="hidden lg:inline">Intrinsic → Final</span>
+                  </>
+                ) : "LD₅₀ (mg/kg)"}
               </div>
-            )}
-
-            <div className={`grid ${editMode ? EDIT_COLS : COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white sm:rounded-t-2xl`}>
-            <div className="hidden px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center lg:block lg:px-4 lg:py-3">#</div>
-            <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 text-center lg:px-4 lg:py-3 lg:text-[10px]">Photo</div>
-            <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">Species</div>
-            <div className="hidden px-2 py-1 text-[10px] font-bold tracking-wider text-stone-400 lg:block lg:px-4 lg:py-3">Family</div>
-            <div className="hidden px-2 py-1 text-[10px] font-bold tracking-wider text-stone-400 lg:block lg:px-4 lg:py-3">Region</div>
-            <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">
-              {viewMode === "danger" ? (
-                <>
-                  <span className="lg:hidden">Danger score</span>
-                  <span className="hidden lg:inline">Intrinsic → Final</span>
-                </>
-              ) : "LD₅₀ (mg/kg)"}
+              {editMode && (
+                <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 text-center lg:px-4 lg:py-3 lg:text-[10px]">Action</div>
+              )}
             </div>
-            {editMode && (
-              <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">Admin</div>
-            )}
-          </div>
 
-          {rankedItems.map((item, index) => (
-            <RankTableRow
-              key={item.id}
-              item={item}
-              rank={index + 1}
-              viewMode={viewMode}
-              priority={index < 8}
-              editMode={editMode}
-              onRefresh={refreshData}
-            />
-          ))}
+            {rankedItems.map((item, index) => (
+              <RankTableRow
+                key={item.id}
+                item={item}
+                rank={index + 1}
+                viewMode={viewMode}
+                priority={index < 8}
+                editMode={editMode}
+                onRefresh={refreshData}
+                onSelect={handleSelect}
+                isSelected={selectedEditId === item.id}
+              />
+            ))}
 
           {/* Mobile-only: other venomous species toggle above table content (potency view) */}
           <div className="px-3 py-2 flex justify-end border-t border-stone-100 bg-white lg:hidden">
@@ -517,6 +597,7 @@ function RankPageInner() {
             )}
           </div>
         </div>
+      </div>
       </div>
 
       {/* Other venomous species toggle - bottom right (potency view only, desktop) */}
@@ -561,6 +642,14 @@ function RankPageInner() {
 
       {showInfo && (
         <DangerScoreInfoBox onClose={() => setShowInfo(false)} />
+      )}
+
+      {editMode && selectedSnake && (
+        <RankEditPanel 
+          snake={selectedSnake} 
+          onClose={() => handleSelect(null)} 
+          onRefresh={refreshData} 
+        />
       )}
     </div>
   );

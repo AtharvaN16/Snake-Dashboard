@@ -491,12 +491,6 @@
     "taxonName": "Morelia spilota",
     "status": "matched"
   },
-  "diamond-python": {
-    "scientificName": "Morelia spilota spilota",
-    "taxonId": 50238,
-    "taxonName": "Morelia spilota",
-    "status": "matched"
-  },
   "olive-python": {
     "scientificName": "Liasis olivaceus",
     "taxonId": 32194,
@@ -641,12 +635,6 @@
     "taxonName": "Natrix tessellata",
     "status": "matched"
   },
-  "european-rat-snake": {
-    "scientificName": "Zamenis longissimus",
-    "taxonId": 74009,
-    "taxonName": "Zamenis longissimus",
-    "status": "matched"
-  },
   "four-lined-snake": {
     "scientificName": "Elaphe quatuorlineata",
     "taxonId": 30237,
@@ -682,12 +670,6 @@
     "taxonId": 539399,
     "taxonName": "Boa imperator",
     "status": "matched"
-  },
-  "bullsnake": {
-    "scientificName": "Pituophis catenifer sayi",
-    "taxonId": 60347,
-    "taxonName": "Pituophis catenifer sayi",
-    "status": "no-geojson"
   },
   "king-snake": {
     "scientificName": "Lampropeltis californiae",
@@ -808,12 +790,6 @@
     "taxonId": 32167,
     "taxonName": "Morelia bredli",
     "status": "no-geojson"
-  },
-  "emerald-tree-python": {
-    "scientificName": "Morelia viridis",
-    "taxonId": 1048277,
-    "taxonName": "Morelia viridis",
-    "status": "matched"
   },
   "green-tree-python": {
     "scientificName": "Morelia viridis",

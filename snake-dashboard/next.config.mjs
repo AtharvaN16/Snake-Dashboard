@@ -14,6 +14,12 @@ const nextConfig = {
         hostname: 'images.unsplash.com',
       }
     ],
+    localPatterns: [
+      {
+        pathname: '/images/snakes/**',
+        search: '',
+      },
+    ],
   },
   async headers() {
     return [

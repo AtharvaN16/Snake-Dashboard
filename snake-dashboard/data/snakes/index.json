@@ -8711,65 +8711,10 @@
       },
       "continents": [
         "Oceania"
-      ]
-    },
-    {
-      "id": "diamond-python",
-      "commonName": "Diamond Python",
-      "scientificName": "Morelia spilota spilota",
-      "family": "Pythonidae",
-      "genus": "Morelia",
-      "dangerScore": 5,
-      "dangerRank": "83/144",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Southeastern Australia"
-        ],
-        "habitat": "Forests, woodland",
-        "coordinates": [
-          {
-            "lat": -33,
-            "lng": 151
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/diamond-python/primary.jpg",
-        "thumbnail": "/images/snakes/diamond-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "LiquidGhoul",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Morelia_spilota_head.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "Subspecies of carpet python. Black with yellow spots.",
-      "maxLength": {
-        "value": 3,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
       ],
-      "constrictor": true,
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "dangerScoreComponents": {
-        "clinicalScore": 0,
-        "potencyScore": 0,
-        "yieldScore": 0,
-        "lethalityScore": 0,
-        "encounterScore": 40,
-        "speedScore": 40
-      },
-      "continents": [
-        "Oceania"
+      "alsoKnownAs": [
+        "Diamond Python",
+        "Morelia spilota spilota"
       ]
     },
     {
@@ -10301,6 +10246,9 @@
       ],
       "continents": [
         "Europe"
+      ],
+      "alsoKnownAs": [
+        "European Rat Snake"
       ]
     },
     {
@@ -10353,57 +10301,6 @@
       "continents": [
         "Europe",
         "Asia"
-      ]
-    },
-    {
-      "id": "european-rat-snake",
-      "commonName": "European Rat Snake",
-      "scientificName": "Zamenis longissimus",
-      "family": "Colubridae",
-      "genus": "Zamenis",
-      "dangerScore": 0,
-      "dangerRank": "108/144",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "Europe"
-        ],
-        "habitat": "Forests, farmland",
-        "coordinates": [
-          {
-            "lat": 48,
-            "lng": 10
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/european-rat-snake/primary.jpg",
-        "thumbnail": "/images/snakes/european-rat-snake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "FelixReimann",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zamenis_longissimus.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        }
-      },
-      "description": "Large, non-venomous. Good climber. Eats rodents and birds.",
-      "maxLength": {
-        "value": 2.2,
-        "unit": "m"
-      },
-      "diet": [
-        "rodents",
-        "birds",
-        "eggs"
-      ],
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continents": [
-        "Europe"
       ]
     },
     {
@@ -10755,60 +10652,6 @@
       ],
       "continents": [
         "North America"
-      ]
-    },
-    {
-      "id": "bullsnake",
-      "commonName": "Bullsnake",
-      "scientificName": "Pituophis catenifer sayi",
-      "family": "Colubridae",
-      "genus": "Pituophis",
-      "dangerScore": 0,
-      "dangerRank": "115/144",
-      "venomClassification": "Non-venomous",
-      "humanEncounterChance": "Moderate",
-      "distribution": {
-        "regions": [
-          "Central United States"
-        ],
-        "habitat": "Prairies, grasslands",
-        "coordinates": [
-          {
-            "lat": 40,
-            "lng": -100
-          }
-        ]
-      },
-      "images": {
-        "primary": "/images/snakes/bullsnake/primary.jpg",
-        "thumbnail": "/images/snakes/bullsnake/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Rick Farwell",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pituophis_catenifer_sayi_174206522.jpg",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-        }
-      },
-      "description": "Large, hisses loudly when threatened. Eats rodents.",
-      "maxLength": {
-        "value": 2.3,
-        "unit": "m"
-      },
-      "diet": [
-        "rodents",
-        "birds",
-        "eggs"
-      ],
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continents": [
-        "North America"
-      ],
-      "otherCommonNames": [
-        "Gopher Snake"
       ]
     },
     {
@@ -11394,6 +11237,10 @@
       ],
       "continents": [
         "North America"
+      ],
+      "alsoKnownAs": [
+        "Bullsnake",
+        "Pituophis catenifer sayi"
       ]
     },
     {
@@ -11953,52 +11800,6 @@
       ]
     },
     {
-      "id": "emerald-tree-python",
-      "commonName": "Emerald Tree Python",
-      "scientificName": "Morelia viridis",
-      "family": "Pythonidae",
-      "genus": "Morelia",
-      "humanEncounterChance": "Low",
-      "distribution": {
-        "regions": [
-          "New Guinea",
-          "Northern Australia"
-        ],
-        "habitat": "Rainforest canopy"
-      },
-      "description": "Highly recognizable arboreal python and classic zoological species.",
-      "maxLength": {
-        "value": 2,
-        "unit": "m"
-      },
-      "diet": [
-        "mammals",
-        "birds"
-      ],
-      "constrictor": true,
-      "dangerScore": 0,
-      "dangerRank": "136/144",
-      "venomClassification": "Non-venomous",
-      "images": {
-        "primary": "/images/snakes/emerald-tree-python/primary.jpg",
-        "thumbnail": "/images/snakes/emerald-tree-python/thumbnail.jpg",
-        "attribution": {
-          "photographer": "Edward Bell",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/35774069",
-          "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
-        }
-      },
-      "sources": [
-        "Reptile Database",
-        "Wikipedia"
-      ],
-      "continents": [
-        "Oceania"
-      ]
-    },
-    {
       "id": "green-tree-python",
       "commonName": "Green Tree Python",
       "scientificName": "Morelia viridis",
@@ -12048,6 +11849,9 @@
       ],
       "continents": [
         "Oceania"
+      ],
+      "alsoKnownAs": [
+        "Emerald Tree Python"
       ]
     },
     {

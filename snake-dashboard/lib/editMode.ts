@@ -26,9 +26,18 @@ async function getManualEdits(): Promise<ManualEdits> {
 
 export async function deleteSnake(id: string) {
   await atomicJsonUpdate<ManualEdits>(MAN_EDITS_PATH, (data) => {
+    // Add to deleted list for main database
     if (!data.deletedIds) data.deletedIds = [];
     if (!data.deletedIds.includes(id)) {
       data.deletedIds.push(id);
+    }
+    // Remove from draft list if it exists
+    if (data.addedSnakes) {
+      data.addedSnakes = data.addedSnakes.filter(s => s.id !== id);
+    }
+    // Remove field overrides
+    if (data.fieldOverrides) {
+      delete data.fieldOverrides[id];
     }
     return data;
   }, { deletedIds: [], fieldOverrides: {}, addedSnakes: [] });

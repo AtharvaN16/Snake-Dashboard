@@ -1906,8 +1906,13 @@ function pickPreserved(prev: Record<string, unknown> | undefined): Record<string
 const withPreserved = enriched.map((s: any) => {
   const prev = existingById.get(s.id) as Record<string, unknown> | undefined;
   const preserved = pickPreserved(prev);
-  if (Object.keys(preserved).length === 0) return s;
-  return { ...s, ...preserved };
+  const manualFields = (manualEdits.fieldOverrides as any)?.[s.id] || {};
+  
+  return { 
+    ...s, 
+    ...preserved,
+    ...manualFields // Re-apply manual fields to ensure they override anything preserved from existing JSON
+  };
 });
 
 const normalizedClinical = withPreserved.map((s: any) => normalizeClinicalSymptoms(s));
