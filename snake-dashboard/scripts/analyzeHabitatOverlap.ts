@@ -31,13 +31,10 @@ function habitatsOverlap(snake1: Snake, snake2: Snake): boolean {
     if (regions2.has(region)) return true;
   }
   
-  // Check continent/subregion overlap
-  if (snake1.continent === snake2.continent) {
-    const sub1 = new Set(snake1.subregions.map(s => s.toLowerCase()));
-    const sub2 = new Set(snake2.subregions.map(s => s.toLowerCase()));
-    for (const sub of sub1) {
-      if (sub2.has(sub)) return true;
-    }
+  // Check continent overlap
+  const continents1 = new Set(snake1.continents.map(c => c.toLowerCase()));
+  for (const c of snake2.continents) {
+    if (continents1.has(c.toLowerCase())) return true;
   }
   
   return false;

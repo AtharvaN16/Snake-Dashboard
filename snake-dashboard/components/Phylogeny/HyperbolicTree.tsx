@@ -34,7 +34,7 @@ import taxonomyDescriptions from "@/data/taxonomy_descriptions.json";
 import { TaxonomyInfoBox } from "./TaxonomyInfoBox";
 import { RegionPills } from "@/components/RegionPills";
 import { getAllSnakes } from "@/lib/snakeData";
-import type { Snake } from "@/lib/types";
+import type { Continent, Snake } from "@/lib/types";
 
 // Accessibility: colors darkened/saturated for contrast on light background while preserving intent
 const venomClassificationColors: Record<Snake['venomClassification'], string> = {
@@ -66,10 +66,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const resetViewRef = useRef<(() => void) | null>(null);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [venomSubs, setVenomSubs] = useState<VenomSubModes>({ classification: false, potency: false, yield: false });
-  const [selectedRegion, setSelectedRegion] = useState<Snake["continent"] | null>(null);
-  const selectedRegionRef = useRef<Snake["continent"] | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<Continent | null>(null);
+  const selectedRegionRef = useRef<Continent | null>(null);
   selectedRegionRef.current = selectedRegion;
-  const applyRegionFilterRef = useRef<((region: Snake["continent"] | null) => void) | null>(null);
+  const applyRegionFilterRef = useRef<((region: Continent | null) => void) | null>(null);
   // colorMode is derived: any active venom sub → 'venom', otherwise 'family'
   const colorMode: 'family' | 'venom' = (venomSubs.classification || venomSubs.potency || venomSubs.yield) ? 'venom' : 'family';
   colorModeRef.current = colorMode;
@@ -84,7 +84,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
   const uniqueContinents = useMemo(() => {
     const snakes = getAllSnakes();
-    return Array.from(new Set(snakes.map((s) => s.continent))).sort();
+    return Array.from(new Set(snakes.flatMap((s) => s.continents))).sort();
   }, []);
 
   const handleTaxonomyNodeClick = (node: HierarchyPointNode<HierarchyNode> | null) => {
@@ -550,7 +550,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         router.replace("/phylogeny");
       },
       getSelectedRegion: () => selectedRegionRef.current,
-      getContinentForSpeciesId: (id) => snakeMap.get(id)?.continent,
+      getContinentForSpeciesId: (id) => snakeMap.get(id)?.continents,
     });
     updateSpeciesVisibility = interactions.updateSpeciesVisibility;
     applyRegionFilterRef.current = interactions.applyRegionFilter;

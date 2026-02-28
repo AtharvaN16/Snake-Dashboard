@@ -86,7 +86,7 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
   , [allVenomousSnakes]);
 
   const uniqueRegions = useMemo(() =>
-    [...new Set(allVenomousSnakes.map(s => s.continent))].sort()
+    [...new Set(allVenomousSnakes.flatMap(s => s.continents))].sort()
   , [allVenomousSnakes]);
 
   const potencyPercentile = useMemo(() => {
@@ -245,7 +245,7 @@ export function VenomPotencyChart({ currentSnake, medianLD50 }: VenomPotencyChar
       // Family/region filter applies to display only, not simulation
       const snakeData = allSimData.filter(d => {
         if (filterFamily && d.snake.family !== filterFamily) return false;
-        if (filterRegion && d.snake.continent !== filterRegion) return false;
+        if (filterRegion && !d.snake.continents.includes(filterRegion as import("@/lib/types").Continent)) return false;
         return true;
       });
 

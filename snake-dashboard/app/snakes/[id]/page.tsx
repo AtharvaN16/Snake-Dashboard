@@ -296,17 +296,17 @@ export default async function SnakeDetailPage({
                       className="inline-flex flex-wrap items-center"
                       style={{ gap: "16px" }}
                     >
-                      {(snake.continent || snake.distribution?.regions?.length) ? (
+                      {(snake.continents.length > 0 || snake.distribution?.regions?.length) ? (
                         <>
                           <Link
-                            href={`/rank?region=${encodeURIComponent(snake.continent ?? snake.distribution?.regions?.[0] ?? "")}`}
+                            href={`/rank?region=${encodeURIComponent(snake.continents[0] ?? snake.distribution?.regions?.[0] ?? "")}`}
                             className="underline hover:text-stone-900 transition-colors"
                             style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.7)" }}
                           >
-                            {snake.continent ?? snake.distribution?.regions?.[0]}
+                            {snake.continents.join(", ") || snake.distribution?.regions?.[0]}
                           </Link>
                           <span style={{ fontWeight: 400, color: "rgba(0, 0, 0, 0.3)" }}>
-                            {(Array.isArray(snake.subregions) ? snake.subregions : snake.distribution?.regions)?.join(", ") ?? ""}
+                            {snake.distribution?.regions?.join(", ") ?? ""}
                           </span>
                         </>
                       ) : null}

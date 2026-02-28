@@ -49,7 +49,7 @@ export function sortSnakes<T extends SnakeSummary>(snakes: T[], sortBy: SortOpti
   };
 
   const getPrimaryVenomType = (snake: SnakeSummary) => snake.venomTypes?.[0] ?? "No venom type";
-  const getPrimaryRegion = (snake: SnakeSummary) => snake.continent;
+  const getPrimaryRegion = (snake: SnakeSummary) => snake.continents[0] ?? "";
   
   switch (sortBy) {
     case "default":

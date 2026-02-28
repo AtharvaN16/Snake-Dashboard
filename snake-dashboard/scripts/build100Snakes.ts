@@ -1586,12 +1586,12 @@ const withScores = snakesWithNormalizedImages.map((s: any) =>
 );
 const ranked = rankSnakes(withScores as Snake[]);
 
-// ─── Enrich: continent, subregions, misidentification, fatalitySummary, symptoms, otherCommonNames ───
+// ─── Enrich: continents, misidentification, fatalitySummary, symptoms, otherCommonNames ───
 // This step runs on every build. Do not edit data/snakes/index.json by hand — run `bun run data:build`
 // to regenerate. When adding a new snake: 1) add venomous()/nonvenomous() in newSnakes or moreSnakes;
 // 2) if venomous, add to clinicalFixes (fatality rate, severity); 3) if rarely fatal, add to rarelyFatalIds below;
 // 4) if commonly confused, add to data/commonly-misidentified.json; 5) for one primary alias only, add to otherCommonNamesMap.
-function inferContinent(regions: string[]): Snake["continent"] {
+function inferContinent(regions: string[]): Snake["continents"][number] {
   if (!regions?.length) return "North America";
   const r = regions.join(" ").toLowerCase();
   if (r.includes("united states") || r.includes("mexico") || r.includes("canada") || r.includes("central america") || r.includes("north america")) return "North America";
@@ -1623,12 +1623,10 @@ const rarelyFatalIds = new Set([
 
 const enriched = ranked.map((s: any) => {
   const regions = s.distribution?.regions ?? [];
-  const continent = s.continent ?? inferContinent(regions);
-  const subregions = Array.isArray(s.subregions) && s.subregions.length > 0 ? s.subregions : regions;
+  const continents = Array.isArray(s.continents) && s.continents.length > 0 ? s.continents : [inferContinent(regions)];
   const out = {
     ...s,
-    continent,
-    subregions,
+    continents,
     ...(misidentificationMappings[s.id] ? {
       commonlyMisidentifiedAs: misidentificationMappings[s.id],
       misidentificationRisk: "high" as const,

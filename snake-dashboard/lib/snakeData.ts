@@ -1,4 +1,4 @@
-import type { Snake, SnakeDatabase, SnakeSummary } from "./types";
+import type { Continent, Snake, SnakeDatabase, SnakeSummary } from "./types";
 import snakesData from "@/data/snakes/index.json";
 
 /**
@@ -22,7 +22,7 @@ export function getSnakeSummaries(): SnakeSummary[] {
     otherCommonNames: s.otherCommonNames,
     family: s.family,
     genus: s.genus,
-    continent: s.continent,
+    continents: s.continents,
     dangerScore: s.dangerScore,
     venomClassification: s.venomClassification,
     venomTypes: s.venomTypes,
@@ -112,10 +112,10 @@ export function filterByVenomClassification(
  */
 export function filterByContinent(
   snakes: Snake[],
-  continent: "all" | Snake["continent"]
+  continent: "all" | Continent
 ): Snake[] {
   if (continent === "all") return snakes;
-  return snakes.filter((snake) => snake.continent === continent);
+  return snakes.filter((snake) => snake.continents.includes(continent));
 }
 
 /**
@@ -181,12 +181,12 @@ export function getAllFamilies(): string[] {
 /**
  * Get unique continents from all snakes
  */
-export function getAllContinents(): Snake["continent"][] {
+export function getAllContinents(): Continent[] {
   const snakes = getAllSnakes();
-  const continents = new Set<Snake["continent"]>();
+  const continents = new Set<Continent>();
 
   snakes.forEach((snake) => {
-    continents.add(snake.continent);
+    snake.continents.forEach((c) => continents.add(c));
   });
 
   return Array.from(continents).sort();

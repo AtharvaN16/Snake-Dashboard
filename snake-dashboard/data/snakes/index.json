@@ -93,11 +93,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
       "commonlyMisidentifiedAs": [
         "common-sand-boa",
         "indian-python"
@@ -120,7 +115,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "coastal-taipan",
@@ -214,11 +212,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Oceania",
-      "subregions": [
-        "Northern Australia",
-        "New Guinea"
-      ],
       "symptoms": {
         "localEffects": [
           "Headache",
@@ -236,7 +229,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "tiger-snake",
@@ -329,11 +325,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Oceania",
-      "subregions": [
-        "Southern Australia",
-        "Tasmania"
-      ],
       "symptoms": {
         "localEffects": [
           "Local pain",
@@ -353,6 +344,9 @@
       },
       "commonlyMisidentifiedAs": [
         "eastern-brown-snake"
+      ],
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -442,10 +436,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Oceania",
-      "subregions": [
-        "Philippines"
-      ],
       "symptoms": {
         "localEffects": [
           "Blurred vision",
@@ -464,6 +454,9 @@
       },
       "commonlyMisidentifiedAs": [
         "monocled-cobra"
+      ],
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -533,11 +526,6 @@
         "Australian Reptile Park",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Central Australia",
-        "Queensland"
-      ],
       "accolades": [
         "Most Potent Venom"
       ],
@@ -579,7 +567,10 @@
         "Kidney Damage",
         "Systemic Bleeding"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "puff-adder",
@@ -671,11 +662,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Africa",
-        "Arabian Peninsula"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -696,7 +682,10 @@
       "commonlyMisidentifiedAs": [
         "night-adder"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "indian-cobra",
@@ -786,10 +775,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "South Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -809,7 +794,10 @@
       "commonlyMisidentifiedAs": [
         "asian-rat-snake"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "monocled-cobra",
@@ -817,11 +805,6 @@
       "scientificName": "Naja kaouthia",
       "family": "Elapidae",
       "genus": "Naja",
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
       "dangerScore": 80,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "High",
@@ -906,7 +889,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "death-adder",
@@ -994,10 +980,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Oceania",
-      "subregions": [
-        "Australia"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -1012,7 +994,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "black-mamba",
@@ -1107,10 +1092,6 @@
         "African Snakebite Institute",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
       "commonlyMisidentifiedAs": [
         "green-mamba"
       ],
@@ -1122,7 +1103,10 @@
         "whoCategory": 1,
         "severity": "Life-threatening"
       },
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "south-american-rattlesnake",
@@ -1130,12 +1114,6 @@
       "scientificName": "Crotalus durissus",
       "family": "Viperidae",
       "genus": "Crotalus",
-      "continent": "South America",
-      "subregions": [
-        "Brazil",
-        "Bolivia",
-        "Paraguay"
-      ],
       "dangerScore": 73,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
@@ -1215,7 +1193,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "South America"
+      ]
     },
     {
       "id": "cape-cobra",
@@ -1325,10 +1306,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Southern Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -1347,6 +1324,9 @@
       },
       "commonlyMisidentifiedAs": [
         "egyptian-cobra"
+      ],
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -1415,11 +1395,6 @@
         "Australian Venom Research Unit",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Eastern Australia",
-        "New Guinea"
-      ],
       "commonlyMisidentifiedAs": [
         "tiger-snake"
       ],
@@ -1456,7 +1431,10 @@
         "Kidney Damage",
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "king-cobra",
@@ -1524,11 +1502,6 @@
         "Indian Snake Bite Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
       "commonlyMisidentifiedAs": [
         "indian-cobra"
       ],
@@ -1567,7 +1540,10 @@
         "Paralysis",
         "Cardiovascular Collapse"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "forest-cobra",
@@ -1658,11 +1634,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Central Africa",
-        "West Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -1678,7 +1649,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "common-krait",
@@ -1686,10 +1660,6 @@
       "scientificName": "Bungarus caeruleus",
       "family": "Elapidae",
       "genus": "Bungarus",
-      "continent": "Asia",
-      "subregions": [
-        "Indian Subcontinent"
-      ],
       "dangerScore": 69,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "High",
@@ -1790,7 +1760,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "egyptian-cobra",
@@ -1892,11 +1865,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "North Africa",
-        "Arabian Peninsula"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -1914,6 +1882,9 @@
       },
       "commonlyMisidentifiedAs": [
         "cape-cobra"
+      ],
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -2003,10 +1974,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "West Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -2022,7 +1989,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "saw-scaled-viper",
@@ -2115,12 +2085,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Middle East",
-        "North Africa",
-        "South Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Local pain",
@@ -2140,6 +2104,9 @@
       },
       "commonlyMisidentifiedAs": [
         "sand-boa"
+      ],
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -2233,11 +2200,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Central America",
-        "Northern South America"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -2261,7 +2223,11 @@
       "commonlyMisidentifiedAs": [
         "cantil"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "North America",
+        "South America"
+      ]
     },
     {
       "id": "blue-krait",
@@ -2349,10 +2315,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Minimal pain",
@@ -2368,7 +2330,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "eastern-diamondback",
@@ -2459,10 +2424,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -2482,6 +2443,9 @@
       },
       "commonlyMisidentifiedAs": [
         "timber-rattlesnake"
+      ],
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -2574,11 +2538,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Southern Africa",
-        "East Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -2596,7 +2555,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "western-diamondback",
@@ -2688,11 +2650,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Southwestern United States",
-        "Mexico"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -2712,6 +2669,9 @@
       },
       "commonlyMisidentifiedAs": [
         "timber-rattlesnake"
+      ],
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -2720,11 +2680,6 @@
       "scientificName": "Hydrophis schistosus",
       "family": "Elapidae",
       "genus": "Hydrophis",
-      "continent": "Oceania",
-      "subregions": [
-        "Indian Ocean",
-        "Southeast Asia"
-      ],
       "dangerScore": 57,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
@@ -2825,7 +2780,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "bushmaster",
@@ -2916,10 +2874,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "South America",
-      "subregions": [
-        "South America"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -2939,6 +2893,9 @@
       },
       "commonlyMisidentifiedAs": [
         "fer-de-lance"
+      ],
+      "continents": [
+        "South America"
       ]
     },
     {
@@ -3029,11 +2986,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "East Asia",
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Mild pain",
@@ -3053,7 +3005,10 @@
       "commonlyMisidentifiedAs": [
         "asian-rat-snake"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "green-mamba",
@@ -3061,10 +3016,6 @@
       "scientificName": "Dendroaspis angusticeps",
       "family": "Elapidae",
       "genus": "Dendroaspis",
-      "continent": "Africa",
-      "subregions": [
-        "East Africa"
-      ],
       "dangerScore": 53,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
@@ -3147,7 +3098,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "boomslang",
@@ -3237,10 +3191,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Rear fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Headache",
@@ -3260,6 +3210,9 @@
       },
       "commonlyMisidentifiedAs": [
         "boomslang-southern"
+      ],
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -3268,10 +3221,6 @@
       "scientificName": "Naja sputatrix",
       "family": "Elapidae",
       "genus": "Naja",
-      "continent": "Asia",
-      "subregions": [
-        "Indonesia"
-      ],
       "dangerScore": 50,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
@@ -3355,7 +3304,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "gaboon-viper",
@@ -3424,11 +3376,6 @@
         "African Snakebite Institute",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa",
-        "Central Africa"
-      ],
       "commonlyMisidentifiedAs": [
         "puff-adder"
       ],
@@ -3469,7 +3416,10 @@
         "Shock",
         "Kidney Damage"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "banded-krait",
@@ -3477,10 +3427,6 @@
       "scientificName": "Bungarus fasciatus",
       "family": "Elapidae",
       "genus": "Bungarus",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "dangerScore": 49,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
@@ -3564,7 +3510,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "black-necked-spitting-cobra",
@@ -3653,10 +3602,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe eye pain",
@@ -3674,6 +3619,9 @@
       },
       "commonlyMisidentifiedAs": [
         "monocled-cobra"
+      ],
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -3786,11 +3734,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Southwestern United States",
-        "Mexico"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -3810,6 +3753,9 @@
       },
       "commonlyMisidentifiedAs": [
         "western-diamondback"
+      ],
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -3902,11 +3848,6 @@
         "severity": "Severe"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Central Africa",
-        "West Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -3924,7 +3865,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "mulga-snake",
@@ -3935,10 +3879,6 @@
       ],
       "family": "Elapidae",
       "genus": "Pseudechis",
-      "continent": "Oceania",
-      "subregions": [
-        "Australia"
-      ],
       "dangerScore": 45,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
@@ -4021,7 +3961,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "lowlands-copperhead",
@@ -4110,11 +4053,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Oceania",
-      "subregions": [
-        "Southeastern Australia",
-        "Tasmania"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -4129,7 +4067,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "yellow-bellied-sea-snake",
@@ -4137,11 +4078,6 @@
       "scientificName": "Hydrophis platurus",
       "family": "Elapidae",
       "genus": "Hydrophis",
-      "continent": "Oceania",
-      "subregions": [
-        "Pacific Ocean",
-        "Indian Ocean"
-      ],
       "dangerScore": 44,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Low",
@@ -4225,7 +4161,13 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Asia",
+        "Oceania",
+        "North America",
+        "South America"
+      ]
     },
     {
       "id": "timber-rattlesnake",
@@ -4233,10 +4175,6 @@
       "scientificName": "Crotalus horridus",
       "family": "Viperidae",
       "genus": "Crotalus",
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
-      ],
       "dangerScore": 42,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
@@ -4320,7 +4258,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "mangshan-pit-viper",
@@ -4410,10 +4351,6 @@
         "severity": "Severe"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southern China"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -4430,7 +4367,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "rinkhals",
@@ -4521,10 +4461,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Southern Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Local pain",
@@ -4542,7 +4478,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "egyptian-viper",
@@ -4550,10 +4489,6 @@
       "scientificName": "Cerastes cerastes",
       "family": "Viperidae",
       "genus": "Cerastes",
-      "continent": "Africa",
-      "subregions": [
-        "North Africa"
-      ],
       "dangerScore": 38,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "Moderate",
@@ -4633,7 +4568,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "dugite",
@@ -4641,10 +4579,6 @@
       "scientificName": "Pseudonaja affinis",
       "family": "Elapidae",
       "genus": "Pseudonaja",
-      "continent": "Oceania",
-      "subregions": [
-        "Western Australia"
-      ],
       "dangerScore": 38,
       "venomClassification": "Highly Venomous",
       "humanEncounterChance": "High",
@@ -4727,7 +4661,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Fixed front fangs"
+      "fangType": "Fixed front fangs",
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "belchers-sea-snake",
@@ -4818,11 +4755,6 @@
         "severity": "Life-threatening"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Indian Ocean",
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Often painless bite",
@@ -4839,7 +4771,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "banded-sea-krait",
@@ -4931,12 +4866,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Oceania",
-      "subregions": [
-        "Indo-Pacific",
-        "Southeast Asia",
-        "Oceania"
-      ],
       "symptoms": {
         "localEffects": [
           "Mild pain",
@@ -4953,7 +4882,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "prairie-rattlesnake",
@@ -4961,11 +4893,6 @@
       "scientificName": "Crotalus viridis",
       "family": "Viperidae",
       "genus": "Crotalus",
-      "continent": "North America",
-      "subregions": [
-        "Great Plains",
-        "Western United States"
-      ],
       "dangerScore": 36,
       "venomClassification": "Venomous",
       "humanEncounterChance": "High",
@@ -5049,7 +4976,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "malayan-pit-viper",
@@ -5140,10 +5070,6 @@
         "severity": "Severe"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -5160,7 +5086,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "jararaca",
@@ -5168,12 +5097,6 @@
       "scientificName": "Bothrops jararaca",
       "family": "Viperidae",
       "genus": "Bothrops",
-      "continent": "South America",
-      "subregions": [
-        "Brazil",
-        "Paraguay",
-        "Argentina"
-      ],
       "dangerScore": 34,
       "venomClassification": "Venomous",
       "humanEncounterChance": "High",
@@ -5215,11 +5138,11 @@
         "primary": "/images/snakes/jararaca/primary.jpg",
         "thumbnail": "/images/snakes/jararaca/thumbnail.jpg",
         "attribution": {
-          "photographer": "Reinaldo Oliveira Elias",
-          "source": "iNaturalist",
-          "sourceUrl": "https://www.inaturalist.org/observations/257466664",
+          "photographer": "João D'Andretta",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_jararaca_-_Jo%C3%A3o_D%27Andretta_-_362746720.jpeg",
           "license": "CC BY 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
         }
       },
       "sources": [
@@ -5258,7 +5181,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "South America"
+      ]
     },
     {
       "id": "cantil",
@@ -5347,11 +5273,6 @@
         "severity": "Severe"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Mexico",
-        "Central America"
-      ],
       "symptoms": {
         "localEffects": [
           "Severe pain",
@@ -5367,7 +5288,10 @@
         "muscle": [],
         "gastrointestinal": []
       },
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "twig-snake",
@@ -5467,10 +5391,6 @@
         "severity": "Severe"
       },
       "fangType": "Rear fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Minimal pain",
@@ -5486,7 +5406,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "massasauga",
@@ -5494,11 +5417,6 @@
       "scientificName": "Sistrurus catenatus",
       "family": "Viperidae",
       "genus": "Sistrurus",
-      "continent": "North America",
-      "subregions": [
-        "Great Lakes",
-        "Midwest"
-      ],
       "dangerScore": 31,
       "venomClassification": "Venomous",
       "humanEncounterChance": "Moderate",
@@ -5611,7 +5529,10 @@
       "causesOfDeath": [
         "Rarely Fatal"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "japanese-mamushi",
@@ -5703,11 +5624,6 @@
         "severity": "Moderate"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Japan",
-        "East Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -5724,7 +5640,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "red-bellied-black-snake",
@@ -5816,10 +5735,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Oceania",
-      "subregions": [
-        "Eastern Australia"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -5838,6 +5753,9 @@
       },
       "commonlyMisidentifiedAs": [
         "tiger-snake"
+      ],
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -5947,10 +5865,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -5967,7 +5881,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "cottonmouth",
@@ -6086,10 +6003,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
       "commonlyMisidentifiedAs": [
         "copperhead",
         "water-snake"
@@ -6113,7 +6026,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "coral-snake",
@@ -6202,10 +6118,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
-      ],
       "commonlyMisidentifiedAs": [
         "milk-snake"
       ],
@@ -6225,7 +6137,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "sidewinder",
@@ -6312,11 +6227,6 @@
         "severity": "Moderate"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Southwestern United States",
-        "Northwestern Mexico"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -6331,7 +6241,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "texas-coral-snake",
@@ -6446,11 +6359,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Southern United States",
-        "Mexico"
-      ],
       "symptoms": {
         "localEffects": [
           "Minimal pain",
@@ -6464,7 +6372,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "stiletto-snake",
@@ -6574,13 +6485,11 @@
         "Wikipedia",
         "African Snakebite Institute"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Southern Africa",
-        "East Africa"
-      ],
       "dataQuality": "measured",
-      "fangType": "Movable front fangs"
+      "fangType": "Movable front fangs",
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "white-lipped-viper",
@@ -6668,10 +6577,6 @@
         "severity": "Moderate"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -6686,7 +6591,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "nose-horned-viper",
@@ -6694,11 +6602,6 @@
       "scientificName": "Vipera ammodytes",
       "family": "Viperidae",
       "genus": "Vipera",
-      "continent": "Europe",
-      "subregions": [
-        "Balkans",
-        "Southern Europe"
-      ],
       "dangerScore": 23,
       "venomClassification": "Venomous",
       "humanEncounterChance": "Moderate",
@@ -6782,7 +6685,10 @@
       "causesOfDeath": [
         "Rarely Fatal"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "Europe"
+      ]
     },
     {
       "id": "asp-viper",
@@ -6790,10 +6696,6 @@
       "scientificName": "Vipera aspis",
       "family": "Viperidae",
       "genus": "Vipera",
-      "continent": "Europe",
-      "subregions": [
-        "Southern Europe"
-      ],
       "dangerScore": 20,
       "venomClassification": "Venomous",
       "humanEncounterChance": "Moderate",
@@ -6876,7 +6778,10 @@
       "causesOfDeath": [
         "Rarely Fatal"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "Europe"
+      ]
     },
     {
       "id": "indian-coral-snake",
@@ -6962,10 +6867,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "South Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Minimal pain",
@@ -6979,7 +6880,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "keelback",
@@ -7069,10 +6973,6 @@
         "severity": "Severe"
       },
       "fangType": "Rear fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -7090,7 +6990,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "common-adder",
@@ -7098,11 +7001,6 @@
       "scientificName": "Vipera berus",
       "family": "Viperidae",
       "genus": "Vipera",
-      "continent": "Europe",
-      "subregions": [
-        "Northern Europe",
-        "Central Europe"
-      ],
       "dangerScore": 19,
       "venomClassification": "Venomous",
       "humanEncounterChance": "Moderate",
@@ -7185,7 +7083,11 @@
       "causesOfDeath": [
         "Rarely Fatal"
       ],
-      "fangType": "Hinged front fangs"
+      "fangType": "Hinged front fangs",
+      "continents": [
+        "Europe",
+        "Asia"
+      ]
     },
     {
       "id": "rock-rattlesnake",
@@ -7300,11 +7202,6 @@
         "severity": "Moderate"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Southwestern United States",
-        "Mexico"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -7318,7 +7215,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "banded-malayan-coral-snake",
@@ -7416,10 +7316,6 @@
         "severity": "Severe"
       },
       "fangType": "Fixed front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Minimal pain",
@@ -7433,7 +7329,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "night-adder",
@@ -7520,10 +7419,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -7542,7 +7437,10 @@
       "commonlyMisidentifiedAs": [
         "puff-adder"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "Africa"
+      ]
     },
     {
       "id": "eyelash-viper",
@@ -7659,11 +7557,6 @@
         "severity": "Moderate"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Central America",
-        "South America"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -7678,7 +7571,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "false-water-cobra",
@@ -7766,10 +7662,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Rear fangs",
-      "continent": "South America",
-      "subregions": [
-        "South America"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -7785,7 +7677,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "South America"
+      ]
     },
     {
       "id": "copperhead",
@@ -7896,10 +7791,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Hinged front fangs",
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
-      ],
       "commonlyMisidentifiedAs": [
         "cottonmouth",
         "water-snake"
@@ -7924,7 +7815,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "waglers-pit-viper",
@@ -8010,10 +7904,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Hinged front fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Pain",
@@ -8027,7 +7917,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "african-rock-python",
@@ -8085,9 +7978,8 @@
         "encounterScore": 20,
         "speedScore": 40
       },
-      "continent": "Africa",
-      "subregions": [
-        "Sub-Saharan Africa"
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -8146,10 +8038,8 @@
         "encounterScore": 40,
         "speedScore": 40
       },
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia",
-        "Florida (introduced)"
+      "continents": [
+        "Asia"
       ]
     },
     {
@@ -8207,9 +8097,8 @@
         "encounterScore": 20,
         "speedScore": 40
       },
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
+      "continents": [
+        "Asia"
       ]
     },
     {
@@ -8290,12 +8179,6 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Central America",
-        "South America",
-        "Mexico"
-      ],
       "dangerScoreComponents": {
         "clinicalScore": 0,
         "potencyScore": 0,
@@ -8303,7 +8186,10 @@
         "lethalityScore": 0,
         "encounterScore": 40,
         "speedScore": 40
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "amethystine-python",
@@ -8362,11 +8248,8 @@
         "encounterScore": 20,
         "speedScore": 40
       },
-      "continent": "Oceania",
-      "subregions": [
-        "Australia",
-        "Indonesia",
-        "Papua New Guinea"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -8425,10 +8308,8 @@
         "encounterScore": 40,
         "speedScore": 40
       },
-      "continent": "Oceania",
-      "subregions": [
-        "Australia",
-        "New Guinea"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -8486,9 +8367,8 @@
         "encounterScore": 40,
         "speedScore": 40
       },
-      "continent": "Oceania",
-      "subregions": [
-        "Southeastern Australia"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -8546,9 +8426,8 @@
         "encounterScore": 20,
         "speedScore": 40
       },
-      "continent": "Oceania",
-      "subregions": [
-        "Australia"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -8607,10 +8486,8 @@
         "encounterScore": 20,
         "speedScore": 40
       },
-      "continent": "Oceania",
-      "subregions": [
-        "Australia",
-        "New Guinea"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -8670,8 +8547,7 @@
         "encounterScore": 20,
         "speedScore": 40
       },
-      "continent": "South America",
-      "subregions": [
+      "continents": [
         "South America"
       ]
     },
@@ -8731,8 +8607,7 @@
         "encounterScore": 20,
         "speedScore": 40
       },
-      "continent": "South America",
-      "subregions": [
+      "continents": [
         "South America"
       ]
     },
@@ -8795,9 +8670,8 @@
         "encounterScore": 40,
         "speedScore": 40
       },
-      "continent": "Asia",
-      "subregions": [
-        "South Asia"
+      "continents": [
+        "Asia"
       ]
     },
     {
@@ -8885,12 +8759,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Rear fangs",
-      "continent": "Oceania",
-      "subregions": [
-        "Australia",
-        "Papua New Guinea",
-        "Guam"
-      ],
       "symptoms": {
         "localEffects": [
           "Mild local effects"
@@ -8903,7 +8771,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Oceania"
+      ]
     },
     {
       "id": "garter-snake",
@@ -8956,11 +8827,10 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
+      "fangType": "Rear fangs",
+      "continents": [
         "North America"
-      ],
-      "fangType": "Rear fangs"
+      ]
     },
     {
       "id": "hognose-eastern",
@@ -9008,9 +8878,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -9097,10 +8966,8 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Rear fangs",
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
+      "continents": [
+        "Asia"
       ]
     },
     {
@@ -9178,8 +9045,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
+      "continents": [
         "North America"
       ]
     },
@@ -9228,9 +9094,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -9318,10 +9183,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Rear fangs",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "symptoms": {
         "localEffects": [
           "Local pain",
@@ -9336,7 +9197,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "western-hognose",
@@ -9444,11 +9308,6 @@
         "fatalitySummary": "Rarely Fatal"
       },
       "fangType": "Rear fangs",
-      "continent": "North America",
-      "subregions": [
-        "Central United States",
-        "Mexico"
-      ],
       "symptoms": {
         "localEffects": [
           "Mild swelling",
@@ -9463,7 +9322,10 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "asian-vine-snake",
@@ -9471,10 +9333,6 @@
       "scientificName": "Ahaetulla prasina",
       "family": "Colubridae",
       "genus": "Ahaetulla",
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
-      ],
       "dangerScore": 0,
       "venomClassification": "Mildly Venomous",
       "humanEncounterChance": "Moderate",
@@ -9552,7 +9410,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Rear fangs"
+      "fangType": "Rear fangs",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "european-cat-snake",
@@ -9560,10 +9421,6 @@
       "scientificName": "Telescopus fallax",
       "family": "Colubridae",
       "genus": "Telescopus",
-      "continent": "Europe",
-      "subregions": [
-        "Mediterranean"
-      ],
       "dangerScore": 0,
       "venomClassification": "Mildly Venomous",
       "humanEncounterChance": "Low",
@@ -9641,7 +9498,10 @@
       "causesOfDeath": [
         "Respiratory Failure"
       ],
-      "fangType": "Rear fangs"
+      "fangType": "Rear fangs",
+      "continents": [
+        "Europe"
+      ]
     },
     {
       "id": "ball-python",
@@ -9691,10 +9551,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "West Africa",
-        "Central Africa"
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -9744,9 +9602,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "Madagascar"
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -9795,13 +9652,12 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Africa",
-      "subregions": [
-        "East Africa"
-      ],
       "commonlyMisidentifiedAs": [
         "russells-viper",
         "saw-scaled-viper"
+      ],
+      "continents": [
+        "Africa"
       ]
     },
     {
@@ -9852,16 +9708,14 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "South Asia",
-        "Southeast Asia"
-      ],
       "commonlyMisidentifiedAs": [
         "indian-cobra",
         "monocled-cobra"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "Asia"
+      ]
     },
     {
       "id": "blood-python",
@@ -9910,9 +9764,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
+      "continents": [
+        "Asia"
       ]
     },
     {
@@ -9962,14 +9815,13 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Americas"
-      ],
       "commonlyMisidentifiedAs": [
         "coral-snake"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "paradise-flying-snake",
@@ -10017,9 +9869,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Asia",
-      "subregions": [
-        "Southeast Asia"
+      "continents": [
+        "Asia"
       ]
     },
     {
@@ -10069,10 +9920,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Europe",
-      "subregions": [
-        "Southern Europe",
-        "Western Asia"
+      "continents": [
+        "Europe"
       ]
     },
     {
@@ -10122,10 +9971,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Europe",
-      "subregions": [
-        "Europe",
-        "Asia"
+      "continents": [
+        "Europe"
       ]
     },
     {
@@ -10175,8 +10022,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Europe",
-      "subregions": [
+      "continents": [
         "Europe"
       ]
     },
@@ -10226,9 +10072,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Europe",
-      "subregions": [
-        "Southern Europe"
+      "continents": [
+        "Europe"
       ]
     },
     {
@@ -10278,10 +10123,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Europe",
-      "subregions": [
-        "Europe",
-        "Western Asia"
+      "continents": [
+        "Europe"
       ]
     },
     {
@@ -10359,9 +10202,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Europe",
-      "subregions": [
-        "Mediterranean"
+      "continents": [
+        "Europe"
       ]
     },
     {
@@ -10410,8 +10252,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Europe",
-      "subregions": [
+      "continents": [
         "Europe"
       ]
     },
@@ -10482,14 +10323,13 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
-      ],
       "commonlyMisidentifiedAs": [
         "black-racer"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "boa-imperator",
@@ -10497,11 +10337,6 @@
       "scientificName": "Boa imperator",
       "family": "Boidae",
       "genus": "Boa",
-      "continent": "North America",
-      "subregions": [
-        "Central America",
-        "Mexico"
-      ],
       "humanEncounterChance": "Moderate",
       "distribution": {
         "regions": [
@@ -10537,6 +10372,9 @@
       "sources": [
         "Reptile Database",
         "Wikipedia"
+      ],
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -10586,12 +10424,11 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Central United States"
-      ],
       "otherCommonNames": [
         "Gopher Snake"
+      ],
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -10642,10 +10479,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Western United States",
-        "Mexico"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -10714,10 +10549,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Central America",
-        "South America"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -10767,9 +10600,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -10819,9 +10651,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "South America",
-      "subregions": [
-        "Caribbean",
+      "continents": [
         "South America"
       ]
     },
@@ -10872,9 +10702,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern North America"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -10925,9 +10754,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11004,9 +10832,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern North America"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11055,9 +10882,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11134,9 +10960,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Central United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11186,9 +11011,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Western North America"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11237,9 +11061,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11288,9 +11111,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Central United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11339,9 +11161,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11390,14 +11211,13 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern North America"
-      ],
       "commonlyMisidentifiedAs": [
         "cottonmouth"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "North America"
+      ]
     },
     {
       "id": "red-bellied-snake",
@@ -11457,9 +11277,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Eastern North America"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11510,10 +11329,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southwestern United States",
-        "Mexico"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11562,9 +11379,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Southeastern United States"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11626,9 +11442,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "Western North America"
+      "continents": [
+        "North America"
       ]
     },
     {
@@ -11677,8 +11492,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
+      "continents": [
         "North America"
       ]
     },
@@ -11741,9 +11555,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Central Australia"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -11752,11 +11565,6 @@
       "scientificName": "Morelia viridis",
       "family": "Pythonidae",
       "genus": "Morelia",
-      "continent": "Oceania",
-      "subregions": [
-        "New Guinea",
-        "Northern Australia"
-      ],
       "humanEncounterChance": "Low",
       "distribution": {
         "regions": [
@@ -11792,6 +11600,9 @@
       "sources": [
         "Reptile Database",
         "Wikipedia"
+      ],
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -11843,11 +11654,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Australia",
-        "New Guinea",
-        "Indonesia"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -11896,9 +11704,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Western Australia"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -11976,9 +11783,8 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "Oceania",
-      "subregions": [
-        "Australia"
+      "continents": [
+        "Oceania"
       ]
     },
     {
@@ -12040,8 +11846,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "South America",
-      "subregions": [
+      "continents": [
         "South America"
       ]
     },
@@ -12092,8 +11897,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "South America",
-      "subregions": [
+      "continents": [
         "South America"
       ]
     },
@@ -12172,8 +11976,7 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "South America",
-      "subregions": [
+      "continents": [
         "South America"
       ]
     },
@@ -12187,10 +11990,6 @@
       ],
       "family": "Typhlopidae",
       "genus": "Indotyphlops",
-      "continent": "Asia",
-      "subregions": [
-        "Cosmopolitan (Global)"
-      ],
       "dangerScore": 0,
       "dangerRank": "139/140",
       "venomClassification": "Non-venomous",
@@ -12253,6 +12052,9 @@
       "diet": [
         "Ant eggs",
         "Termite larvae"
+      ],
+      "continents": [
+        "Asia"
       ]
     },
     {
@@ -12304,14 +12106,13 @@
         "Reptile Database",
         "Wikipedia"
       ],
-      "continent": "North America",
-      "subregions": [
-        "North America"
-      ],
       "commonlyMisidentifiedAs": [
         "black-rat-snake"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "continents": [
+        "North America"
+      ]
     }
   ]
 }

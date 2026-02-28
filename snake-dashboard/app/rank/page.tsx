@@ -11,7 +11,7 @@ import { VENOM_TYPE_CHIP } from "@/components/VenomTypeChip";
 import { RegionPills } from "@/components/RegionPills";
 import { Kbd } from "@/components/ui/kbd";
 import { DangerScoreInfoBox } from "@/components/DangerScoreInfoBox";
-import type { Snake } from "@/lib/types";
+import type { Continent, Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
 type Rankable = Snake | NonSnake;
@@ -136,7 +136,7 @@ function RankTableRow({
       {/* Region */}
       <div className="hidden items-center px-4 py-3 min-w-0 lg:flex">
         <span className="text-[10px] font-medium text-stone-400 truncate">
-          {item.continent}
+          {isNS ? nonSnake?.continent : snake?.continents[0]}
         </span>
       </div>
 
@@ -219,7 +219,7 @@ function RankPageInner() {
   const allSnakes = getAllSnakes();
   const [allNonSnakes, setAllNonSnakes] = useState<NonSnake[]>(() => getNonSnakes());
   const uniqueContinents = useMemo(
-    () => Array.from(new Set(allSnakes.map((s) => s.continent))).sort(),
+    () => Array.from(new Set(allSnakes.flatMap((s) => s.continents))).sort(),
     [allSnakes]
   );
 
@@ -233,7 +233,7 @@ function RankPageInner() {
   }, []);
 
   const filteredSnakes = useMemo(() => {
-    if (regionParam) return filterByContinent(allSnakes, regionParam as Snake["continent"]);
+    if (regionParam) return filterByContinent(allSnakes, regionParam as Continent);
     return allSnakes;
   }, [allSnakes, regionParam]);
 
@@ -289,7 +289,7 @@ function RankPageInner() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [switchView]);
 
-  function setRegion(region: Snake["continent"] | null) {
+  function setRegion(region: Continent | null) {
     const params = new URLSearchParams(searchParams.toString());
     if (region) {
       params.set("region", region);
@@ -406,7 +406,7 @@ function RankPageInner() {
       {/* Region pills - top right, dropdown animates downward like taxonomy page */}
       <div className="fixed top-4 right-4 z-20 flex flex-col items-end lg:right-6">
         <RegionPills
-          selectedRegion={regionParam as Snake["continent"] | null}
+          selectedRegion={regionParam as Continent | null}
           onChange={setRegion}
           continents={uniqueContinents}
           singleColumn

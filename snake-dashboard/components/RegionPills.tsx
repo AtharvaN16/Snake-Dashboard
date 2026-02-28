@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import type { Snake } from "@/lib/types";
+import type { Continent } from "@/lib/types";
 
 interface RegionPillsProps {
-  selectedRegion: Snake["continent"] | null;
-  onChange: (region: Snake["continent"] | null) => void;
-  continents: Snake["continent"][];
+  selectedRegion: Continent | null;
+  onChange: (region: Continent | null) => void;
+  continents: Continent[];
   /** When true, pills expand in a single column (e.g. phylogeny overlay). Default false = wrap. */
   singleColumn?: boolean;
 }

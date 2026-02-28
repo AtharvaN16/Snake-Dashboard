@@ -89,6 +89,15 @@ export type FangType =
   | "Rear fangs"
   | "Movable front fangs";
 
+export type Continent =
+  | "Africa"
+  | "Asia"
+  | "Europe"
+  | "North America"
+  | "South America"
+  | "Oceania"
+  | "Antarctica";
+
 export interface Snake {
   id: string;
   commonName: string;
@@ -96,15 +105,8 @@ export interface Snake {
   otherCommonNames?: string[];
   family: string;
   genus: string;
-  continent:
-    | "Africa"
-    | "Asia"
-    | "Europe"
-    | "North America"
-    | "South America"
-    | "Oceania"
-    | "Antarctica";
-  subregions: string[];
+  continents: Continent[];
+  countries?: string[];
   
   // Danger scoring
   dangerScore: number;
@@ -187,7 +189,7 @@ export interface SnakeSummary {
   otherCommonNames?: string[];
   family: string;
   genus: string;
-  continent: Snake["continent"];
+  continents: Continent[];
   dangerScore: number;
   venomClassification: Snake["venomClassification"];
   venomTypes?: VenomType[];

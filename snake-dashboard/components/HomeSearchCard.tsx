@@ -103,7 +103,7 @@ function getGroupHeading(snake: SnakeSummary, sortBy: SortOption) {
     case "venomType":
       return snake.venomTypes?.[0] ?? "No venom type";
     case "region":
-      return snake.continent;
+      return snake.continents[0] ?? "";
     case "family":
       return snake.family;
     case "default":

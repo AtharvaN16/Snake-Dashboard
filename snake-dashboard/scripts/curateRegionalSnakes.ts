@@ -42,7 +42,7 @@ function inferContinent(regions: string[]): Continent {
 function baseVenomous(
   snake: Omit<SnakeRecord, "venomClassification"> & {
     continent: Continent;
-    subregions: string[];
+    subregions?: string[];
     venomClassification: "Highly Venomous" | "Moderately Venomous" | "Mildly Venomous";
     dangerScore: number;
     venomTypes?: string[];
@@ -80,7 +80,7 @@ function baseVenomous(
 function baseNonVenomous(
   snake: Omit<SnakeRecord, "venomClassification"> & {
     continent: Continent;
-    subregions: string[];
+    subregions?: string[];
     dangerScore?: number;
     constrictor?: boolean;
     maxLength?: { value: number; unit: "cm" | "m" };
@@ -144,8 +144,8 @@ function main() {
 
   const normalizedExisting = raw.snakes.map((snake) => {
     const regions = snake.distribution?.regions ?? [];
-    const continent = (snake as SnakeRecord & { continent?: Continent }).continent ?? inferContinent(regions);
-    const subregions = (snake as SnakeRecord & { subregions?: string[] }).subregions ?? regions;
+    const existingContinents = (snake as SnakeRecord & { continents?: Continent[] }).continents;
+    const continents = existingContinents ?? [inferContinent(regions)];
     const symptoms = (snake as SnakeRecord & { symptomsProgression?: Record<string, unknown> }).symptomsProgression;
     const normalizedSymptoms =
       symptoms &&
@@ -162,8 +162,7 @@ function main() {
 
     return {
       ...snake,
-      continent,
-      subregions,
+      continents,
       ...(normalizedSymptoms && { symptomsProgression: normalizedSymptoms }),
     };
   });
@@ -175,7 +174,9 @@ function main() {
   });
 
   const snakes = Array.from(byId.values()).sort((a, b) => {
-    const c = String(a.continent).localeCompare(String(b.continent));
+    const aCont = String((a as SnakeRecord & { continents?: string[] }).continents?.[0] ?? "");
+    const bCont = String((b as SnakeRecord & { continents?: string[] }).continents?.[0] ?? "");
+    const c = aCont.localeCompare(bCont);
     if (c !== 0) return c;
     return a.commonName.localeCompare(b.commonName);
   });
@@ -187,7 +188,7 @@ function main() {
   };
 
   writeFileSync(DATA_PATH, JSON.stringify(out, null, 2));
-  console.log(`Curated ${snakes.length} snakes with continent + subregions.`);
+  console.log(`Curated ${snakes.length} snakes with continents[].`);
 }
 
 main();

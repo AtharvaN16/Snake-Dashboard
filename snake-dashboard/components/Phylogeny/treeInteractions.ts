@@ -6,7 +6,7 @@ import { zoomIdentity } from "d3-zoom";
 import type { ZoomBehavior } from "d3-zoom";
 import { easeCubicInOut, easeCubicOut } from "d3-ease";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
-import type { Snake } from "@/lib/types";
+import type { Continent, Snake } from "@/lib/types";
 import { BLOOM_BASE_DELAY, BLOOM_DURATION } from "./treeConstants";
 import { radialPoint } from "./treeGeometry";
 import { nodeRadius, computeNodeFill, getNodeHoverStyle } from "./treeNodeStyles";
@@ -39,14 +39,14 @@ export interface ChartContext {
   onTaxonomyNodeClick?: (node: HierarchyPointNode<HierarchyNode> | null) => void;
   onResetView?: () => void;
   /** Current selected region (getter so clearHighlight always uses latest value, not stale closure). */
-  getSelectedRegion: () => Snake["continent"] | null;
-  getContinentForSpeciesId: (id: string) => Snake["continent"] | undefined;
+  getSelectedRegion: () => Continent | null;
+  getContinentForSpeciesId: (id: string) => Continent[] | undefined;
 }
 
 export function setupInteractions(ctx: ChartContext): {
   cleanup: () => void;
   updateSpeciesVisibility: (scale: number) => void;
-  applyRegionFilter: (region: Snake["continent"] | null) => void;
+  applyRegionFilter: (region: Continent | null) => void;
   applyVenomFade: (nodes: Set<HierarchyPointNode<HierarchyNode>> | null) => void;
   refreshNodePositions: () => void;
   resetView: () => void;
@@ -265,7 +265,7 @@ export function setupInteractions(ctx: ChartContext): {
     updateSpeciesVisibility(currentZoom);
   }
 
-  function highlightPathsForRegion(region: Snake["continent"] | null) {
+  function highlightPathsForRegion(region: Continent | null) {
     if (region == null) {
       regionHighlightPathNodes = null;
       if (searchHighlightNode) {
@@ -287,7 +287,7 @@ export function setupInteractions(ctx: ChartContext): {
     const pathUnion = new Set<D3HierarchyNode<HierarchyNode>>();
     for (const n of allNodes) {
       if (!isSpecies(n) || !n.data.id) continue;
-      if (getContinentForSpeciesId(n.data.id) !== region) continue;
+      if (!getContinentForSpeciesId(n.data.id)?.includes(region)) continue;
       const ancestors = nodeToAncestors.get(n);
       if (ancestors) ancestors.forEach((a) => pathUnion.add(a));
       pathUnion.add(n);
@@ -683,7 +683,7 @@ export function setupInteractions(ctx: ChartContext): {
       clearAllHighlightsAndState();
     },
     updateSpeciesVisibility,
-    applyRegionFilter: (region: Snake["continent"] | null) => highlightPathsForRegion(region),
+    applyRegionFilter: (region: Continent | null) => highlightPathsForRegion(region),
     applyVenomFade,
     refreshNodePositions,
     resetView: resetToDefault,
