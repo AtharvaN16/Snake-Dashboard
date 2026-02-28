@@ -135,14 +135,14 @@ function RankTableRow({
 
       {/* Family */}
       <div className="hidden items-center px-4 py-3 min-w-0 lg:flex">
-        <span className="text-[10px] font-medium text-stone-400 truncate">
+        <span className="text-[12px] font-medium text-stone-400 truncate">
           {item.family}
         </span>
       </div>
 
       {/* Region */}
       <div className="hidden items-center px-4 py-3 min-w-0 lg:flex">
-        <span className="text-[10px] font-medium text-stone-400 truncate">
+        <span className="text-[12px] font-medium text-stone-400 truncate">
           {isNS ? nonSnake?.continent : snake?.continents[0]}
         </span>
       </div>
@@ -177,7 +177,7 @@ function RankTableRow({
                   </div>
                   <div className="flex items-center justify-between text-[10px] font-mono tabular-nums text-stone-500">
                     <span>I {intrinsicScore.toFixed(1)}</span>
-                    <span className="text-[11px] font-extrabold" style={{ color: scoreColor }}>
+                    <span className="text-[14px] font-extrabold" style={{ color: scoreColor }}>
                       F {finalScore}
                     </span>
                   </div>
