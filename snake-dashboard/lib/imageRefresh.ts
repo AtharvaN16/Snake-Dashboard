@@ -3,6 +3,7 @@ import { join, dirname } from "path";
 import sharp from "sharp";
 import { getSnakeById } from "@/lib/snakeData";
 import { atomicJsonUpdate } from "@/lib/atomicJson";
+import type { Snake } from "@/lib/types";
 import {
   searchSnakeImagesAllSources,
   downloadImage,
