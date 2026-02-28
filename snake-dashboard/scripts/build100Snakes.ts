@@ -214,7 +214,7 @@ const newSnakes = [
       crit: ["Respiratory failure", "Death"],
     },
     "High",
-    ["Southern Australia", "Tasmania"],
+    ["Southeastern Australia", "Tasmania"],
     "Wetlands, creeks, coastal heath",
     [-37.8, 145],
     "Highly variable in color. Responsible for many bites in southern Australia. Antivenom widely available.",
@@ -1080,7 +1080,7 @@ const newSnakes = [
       crit: ["Respiratory failure rare"],
     },
     "Low",
-    ["Southern United States", "Mexico"],
+    ["Southwestern United States", "Mexico"],
     "Scrubland, woodland",
     [29, -99],
     "Similar to eastern coral. Secretive. Small fangs limit venom delivery.",
@@ -1199,7 +1199,7 @@ const moreSnakes = [
   nonvenomous("sand-boa", "Kenyan Sand Boa", "Eryx colubrinus", "Boidae", "Eryx", "Low", ["East Africa"], "Arid regions, sandy soil", [-1, 37], "Burrowing boa. Popular pet. Docile.", { maxLength: [0.8, "m"], diet: ["rodents"], constrictor: true }),
   nonvenomous("yellow-anaconda", "Yellow Anaconda", "Eunectes notaeus", "Boidae", "Eunectes", "Low", ["South America"], "Wetlands, marshes", [-25, -58], "Smaller than green anaconda. Semi-aquatic.", { maxLength: [4.2, "m"], diet: ["mammals", "birds", "reptiles"], constrictor: true }),
   nonvenomous("blood-python", "Blood Python", "Python brongersmai", "Pythonidae", "Python", "Low", ["Southeast Asia"], "Swamps, marshes", [5, 102], "Heavy-bodied. Variable red coloration. Sometimes aggressive.", { maxLength: [2.5, "m"], diet: ["mammals", "birds"], constrictor: true }),
-  nonvenomous("green-tree-python", "Green Tree Python", "Morelia viridis", "Pythonidae", "Morelia", "Low", ["Australia", "New Guinea", "Indonesia"], "Rainforest canopy", [-5, 140], "Arboreal. Neonates are yellow or red. Popular pet.", { maxLength: [2, "m"], diet: ["mammals", "reptiles"], constrictor: true }),
+  nonvenomous("green-tree-python", "Green Tree Python", "Morelia viridis", "Pythonidae", "Morelia", "Low", ["Australia", "New Guinea"], "Rainforest canopy", [-5, 140], "Arboreal. Neonates are yellow or red. Popular pet.", { maxLength: [2, "m"], diet: ["mammals", "reptiles"], constrictor: true }),
   nonvenomous("indigo-snake", "Eastern Indigo Snake", "Drymarchon couperi", "Colubridae", "Drymarchon", "Low", ["Southeastern United States"], "Scrubland, flatwoods", [30, -83], "Longest native US snake. Non-venomous. Federally threatened.", { maxLength: [2.6, "m"], diet: ["mammals", "birds", "reptiles", "other snakes"] }),
   nonvenomous("black-racer", "Northern Black Racer", "Coluber constrictor", "Colubridae", "Coluber", "High", ["North America"], "Fields, meadows, woodlands, suburban yards", [38, -80], "Extremely fast, diurnal snake known for its 'periscoping' behavior. While the scientific name suggests constriction, it typically pins prey down rather than using true constriction.", { maxLength: [1.5, "m"], diet: ["rodents", "frogs", "lizards", "insects", "other snakes"] }),
   nonvenomous("black-rat-snake", "Black Rat Snake", "Pantherophis obsoletus", "Colubridae", "Pantherophis", "High", ["Eastern United States"], "Forests, farmland, suburbs", [38, -88], "Excellent climber. Eats rodents. Often found in barns.", { maxLength: [2.5, "m"], diet: ["rodents", "birds", "eggs"] }),
@@ -1217,14 +1217,14 @@ const moreSnakes = [
   nonvenomous("european-rat-snake", "European Rat Snake", "Zamenis longissimus", "Colubridae", "Zamenis", "Low", ["Europe"], "Forests, farmland", [48, 10], "Large, non-venomous. Good climber. Eats rodents and birds.", { maxLength: [2.2, "m"], diet: ["rodents", "birds", "eggs"] }),
   nonvenomous("aesculapian-snake", "Aesculapian Snake", "Zamenis longissimus", "Colubridae", "Zamenis", "Low", ["Southern Europe", "Western Asia"], "Forests, rocky slopes", [45, 15], "Symbol of medicine. Agile climber. Harmless.", { maxLength: [2, "m"], diet: ["rodents", "birds"] }),
   nonvenomous("grass-snake", "Grass Snake", "Natrix natrix", "Colubridae", "Natrix", "High", ["Europe", "Western Asia"], "Wetlands, grasslands", [52, 10], "Most common snake in Europe. Plays dead when threatened.", { maxLength: [1.5, "m"], diet: ["amphibians", "fish"] }),
-  nonvenomous("dice-snake", "Dice Snake", "Natrix tessellata", "Colubridae", "Natrix", "Moderate", ["Europe", "Asia"], "Rivers, lakes", [45, 15], "Semi-aquatic. Olive with dark spots. Harmless.", { maxLength: [1.3, "m"], diet: ["fish", "amphibians"] }),
+  nonvenomous("dice-snake", "Dice Snake", "Natrix tessellata", "Colubridae", "Natrix", "Moderate", ["Europe", "Western Asia"], "Rivers, lakes", [45, 15], "Semi-aquatic. Olive with dark spots. Harmless.", { maxLength: [1.3, "m"], diet: ["fish", "amphibians"] }),
   nonvenomous("asian-rat-snake", "Asian Rat Snake", "Ptyas mucosa", "Colubridae", "Ptyas", "Moderate", ["South Asia", "Southeast Asia"], "Forests, farmland, urban", [20, 77], "Long, fast. Often seen in villages. Eats rodents.", { maxLength: [3.7, "m"], diet: ["rodents", "birds", "other snakes"] }),
   nonvenomous("paradise-flying-snake", "Paradise Flying Snake", "Chrysopelea paradise", "Colubridae", "Chrysopelea", "Low", ["Southeast Asia"], "Forests", [5, 102], "Glides between trees. Mildly venomous but harmless to humans.", { maxLength: [1.2, "m"], diet: ["lizards", "birds"] }),
   // Additional snakes to reach 100
   nonvenomous("dumerils-boa", "Dumeril's Boa", "Acrantophis dumerili", "Boidae", "Acrantophis", "Low", ["Madagascar"], "Dry forests", [-20, 47], "Endemic to Madagascar. Heavily collected for pet trade.", { maxLength: [2.1, "m"], diet: ["mammals", "birds"], constrictor: true }),
   nonvenomous("amazon-tree-boa", "Amazon Tree Boa", "Corallus hortulana", "Boidae", "Corallus", "Low", ["South America"], "Rainforest canopy", [-5, -60], "Arboreal. Variable coloration. Nocturnal hunter.", { maxLength: [2, "m"], diet: ["mammals", "birds"], constrictor: true }),
   nonvenomous("woma-python", "Woma Python", "Aspidites ramsayi", "Pythonidae", "Aspidites", "Low", ["Australia"], "Arid regions, scrubland", [-25, 125], "Eats other reptiles. No heat-sensing pits. Threatened.", { maxLength: [2.5, "m"], diet: ["reptiles", "mammals"], constrictor: true }),
-  nonvenomous("amethystine-python", "Amethystine Python", "Simalia amethistina", "Pythonidae", "Simalia", "Low", ["Australia", "Indonesia", "Papua New Guinea"], "Rainforests", [-15, 145], "One of the six largest snakes. Iridescent scales.", { maxLength: [5.5, "m"], diet: ["mammals", "birds"], constrictor: true }),
+  nonvenomous("amethystine-python", "Amethystine Python", "Simalia amethistina", "Pythonidae", "Simalia", "Low", ["Australia", "New Guinea"], "Rainforests", [-15, 145], "One of the six largest snakes. Iridescent scales.", { maxLength: [5.5, "m"], diet: ["mammals", "birds"], constrictor: true }),
   nonvenomous("olive-python", "Olive Python", "Liasis olivaceus", "Pythonidae", "Liasis", "Low", ["Australia"], "Rivers, gorges", [-18, 126], "Australia's second largest snake. Semi-aquatic.", { maxLength: [4, "m"], diet: ["mammals", "birds"], constrictor: true }),
   nonvenomous("rubber-boa", "Rubber Boa", "Charina bottae", "Boidae", "Charina", "Low", ["Western North America"], "Forests, meadows", [45, -122], "Small, docile. Looks like rubber. Rarely bites.", { maxLength: [0.8, "m"], diet: ["rodents", "reptiles"], constrictor: true }),
   nonvenomous("diamond-python", "Diamond Python", "Morelia spilota spilota", "Pythonidae", "Morelia", "Moderate", ["Southeastern Australia"], "Forests, woodland", [-33, 151], "Subspecies of carpet python. Black with yellow spots.", { maxLength: [3, "m"], diet: ["mammals", "birds"], constrictor: true }),
@@ -1381,7 +1381,7 @@ const moreSnakes = [
       crit: ["Severe systemic envenoming is uncommon"],
     },
     "Moderate",
-    ["Southwestern United States", "Northwestern Mexico"],
+    ["Southwestern United States", "Mexico"],
     "Sandy deserts, dunes, arid scrub",
     [34, -114],
     "Desert rattlesnake known for sidewinding locomotion; bites are painful but often less severe than larger rattlesnakes.",
@@ -1478,11 +1478,107 @@ const moreSnakes = [
       crit: ["Hemorrhage", "Shock in severe untreated bites"],
     },
     "Low",
-    ["Southern China"],
+    ["East Asia"],
     "Montane evergreen forests",
     [25, 113],
     "Rare, large pit viper endemic to China and well known among herpetologists for its striking camouflage.",
     "Venomous"
+  ),
+  venomous(
+    "common-lancehead",
+    "Common Lancehead",
+    "Bothrops atrox",
+    "Viperidae",
+    "Bothrops",
+    85,
+    "15/100",
+    { ld50: 1.1, range: "0.8-1.5", method: "IV" },
+    { dry: 100, qual: "High" },
+    ["Hemotoxic", "Cytotoxic"],
+    "Quick",
+    {
+      short: ["Pain", "Swelling", "Bleeding"],
+      prog: ["Coagulopathy", "Tissue necrosis"],
+      crit: ["Hemorrhage", "Renal failure"],
+    },
+    "High",
+    ["South America"],
+    "Rainforests, forests, agricultural areas",
+    [-1, -60],
+    "Most common cause of snakebite in the Amazon region. Highly adaptable and prolific.",
+    "Highly Venomous"
+  ),
+  venomous(
+    "brazilian-lancehead",
+    "Brazilian Lancehead",
+    "Bothrops moojeni",
+    "Viperidae",
+    "Bothrops",
+    88,
+    "12/100",
+    { ld50: 1.2, range: "0.9-1.6", method: "IV" },
+    { dry: 200, qual: "High" },
+    ["Hemotoxic", "Cytotoxic"],
+    "Quick",
+    {
+      short: ["Severe pain", "Rapid swelling", "Ecchymosis"],
+      prog: ["Coagulopathy", "Extensive necrosis"],
+      crit: ["Shock", "Renal failure"],
+    },
+    "High",
+    ["South America"],
+    "Cerrado, gallery forests, agricultural areas",
+    [-15, -47],
+    "Large and aggressive pit viper from central Brazil. Responsible for many serious bites.",
+    "Highly Venomous"
+  ),
+  venomous(
+    "urutu",
+    "Urutu",
+    "Bothrops alternatus",
+    "Viperidae",
+    "Bothrops",
+    84,
+    "18/100",
+    { ld50: 1.3, range: "1.0-1.8", method: "IV" },
+    { dry: 150, qual: "High" },
+    ["Hemotoxic", "Cytotoxic"],
+    "Quick",
+    {
+      short: ["Severe pain", "Swelling", "Blisters"],
+      prog: ["Tissue destruction", "Coagulopathy"],
+      crit: ["Hemorrhage", "Compartment syndrome"],
+    },
+    "Moderate",
+    ["Southern South America"],
+    "Swamps, marshes, grasslands",
+    [-29, -57],
+    "Famous for its cross-shaped markings and extremely painful, necrotic bites. Found in southern Brazil, Argentina, and Paraguay.",
+    "Highly Venomous"
+  ),
+  venomous(
+    "south-american-coral-snake",
+    "South American Coral Snake",
+    "Micrurus frontalis",
+    "Elapidae",
+    "Micrurus",
+    75,
+    "25/100",
+    { ld50: 0.15, range: "0.1-0.2", method: "IV" },
+    { dry: 15, qual: "Low" },
+    ["Neurotoxic"],
+    "Slow",
+    {
+      short: ["Minimal local pain", "Numbness"],
+      prog: ["Ptosis", "Bulbar paralysis"],
+      crit: ["Respiratory failure", "General paralysis"],
+    },
+    "Low",
+    ["Southern South America"],
+    "Open grasslands, pastures, and woodland margins",
+    [-24, -55],
+    "Highly venomous coral snake with classic tri-color bands. Secretive but extremely dangerous if it bites.",
+    "Highly Venomous"
   ),
 ];
 
@@ -1647,16 +1743,6 @@ const enriched = ranked.map((s: any) => {
       fatalitySummary: "Rarely Fatal" as const,
     };
   }
-  if (s.venomClassification !== "Non-venomous" && s.symptomsProgression && !s.symptoms) {
-    const sp = s.symptomsProgression;
-    out.symptoms = {
-      localEffects: sp.short ?? [],
-      neurological: sp.prog ?? [],
-      blood: sp.crit ?? [],
-      muscle: [],
-      gastrointestinal: [],
-    };
-  }
   return out;
 });
 
@@ -1667,6 +1753,7 @@ const PRESERVED_FIELDS_FROM_EXISTING = [
   "firstAidInfo", "behaviorNotes", "conservationStatus", "accolades", "causesOfDeath",
   "dataQuality", "maxLength", "diet", "constrictor", "fangType",
   "otherCommonNames", "commonlyMisidentifiedAs", "misidentificationRisk",
+  "countries", "continents",
 ] as const;
 function pickPreserved(prev: Record<string, unknown> | undefined): Record<string, unknown> {
   if (!prev) return {};

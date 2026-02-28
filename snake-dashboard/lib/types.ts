@@ -40,9 +40,14 @@ export interface DangerScoreComponents {
 }
 
 export interface SymptomsProgression {
-  shortTerm: string[];
-  progressive: string[];
-  critical: string[];
+  /** Canonical shape used by build scripts */
+  short?: string[];
+  prog?: string[];
+  crit?: string[];
+  /** Backward-compatible aliases used by some scripts */
+  shortTerm?: string[];
+  progressive?: string[];
+  critical?: string[];
 }
 
 /** Range geometry (RFC 7946 GeoJSON). When present, used to draw the distribution overlay. */
@@ -130,6 +135,7 @@ export interface Snake {
   clinicalData?: ClinicalData;
 
   // Medical information (optional for non-venomous)
+  symptomsProgression?: SymptomsProgression;
   symptoms?: {
     localEffects?: string[];
     neurological?: string[];

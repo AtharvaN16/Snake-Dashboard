@@ -78,19 +78,7 @@ export default async function SnakeDetailPage({
     ...galleryWithAttribution.map((item) => item.attr || snake.images.attribution),
   ];
 
-  // Use symptoms if present; otherwise derive from symptomsProgression for venomous snakes
-  const sp = (snake as { symptomsProgression?: { shortTerm?: string[]; progressive?: string[]; critical?: string[] } }).symptomsProgression;
-  const symptomsForDisplay =
-    snake.symptoms ??
-    (venomous && sp
-      ? {
-          localEffects: sp.shortTerm ?? [],
-          neurological: sp.progressive ?? [],
-          blood: sp.critical ?? [],
-          muscle: [] as string[],
-          gastrointestinal: [] as string[],
-        }
-      : undefined);
+  const symptomsForDisplay = snake.symptoms;
 
   // Resolve confused snakes for the misidentification warning banner
   const confusedSnakesData =
@@ -462,6 +450,7 @@ export default async function SnakeDetailPage({
       {venomous && (
         <ClinicalSymptomsCard
           symptoms={symptomsForDisplay ?? {}}
+          symptomsProgression={snake.symptomsProgression}
           causesOfDeath={snake.causesOfDeath}
           clinicalData={snake.clinicalData}
         />

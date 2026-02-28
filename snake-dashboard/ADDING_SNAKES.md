@@ -19,8 +19,7 @@ Add an object to the `snakes` array in **`data/snakes/index.json`**.
 | `scientificName` | string | `"Atractaspis bibronii"` |
 | `family` | string | `"Atractaspididae"` |
 | `genus` | string | `"Atractaspis"` |
-| `continent` | enum | `"Africa"` |
-| `subregions` | string[] | `["Sub-Saharan Africa"]` |
+| `continents` | `Continent[]` | `["Africa"]` |
 | `venomClassification` | enum | `"Venomous"` |
 | `humanEncounterChance` | enum | `"Moderate"` |
 | `dangerScore` | number (0-100) | `38` |
@@ -86,8 +85,52 @@ Composite score is calculated by `lib/dangerScore.ts` with weights:
   "habitat": "Savanna, grassland, sandy soils",
   "coordinates": [{ "lat": -25, "lng": 28 }],
   "rangeGeoJsonPath": "/geojson/ranges/stiletto-snake.json"
-}
+},
+"continents": ["Africa"],
+"countries": ["South Africa", "Namibia", "Zimbabwe"]
 ```
+
+#### `continents` — required
+
+An array of one or more values from the canonical `Continent` type:
+
+```
+"Africa" | "Asia" | "Europe" | "North America" | "South America" | "Oceania" | "Antarctica"
+```
+
+Most snakes have one continent. Wide-ranging species get multiple — e.g. `["North America", "South America"]` for a snake found in both. This field drives the region filter on the home and rank pages.
+
+#### `distribution.regions` — canonical vocabulary
+
+`distribution.regions` is a display field (shown on the detail page). It must only use strings from the canonical list below. **Do not put country names here** — they belong in `countries[]` instead.
+
+**Canonical region strings:**
+
+| Continent | Allowed strings |
+|---|---|
+| Africa | `North Africa`, `West Africa`, `Central Africa`, `East Africa`, `Southern Africa`, `Sub-Saharan Africa`, `Madagascar` |
+| Asia | `South Asia`, `Southeast Asia`, `East Asia`, `Central Asia`, `Western Asia`, `Middle East`, `Arabian Peninsula`, `Indian Ocean`, `Indo-Pacific` |
+| Europe | `Western Europe`, `Southern Europe`, `Central Europe`, `Northern Europe`, `Mediterranean` |
+| Americas | `North America`, `Central America`, `South America`, `Northern South America`, `Southern South America`, `Caribbean`, `Eastern United States`, `Southeastern United States`, `Southwestern United States`, `Western United States`, `Central United States`, `Eastern North America`, `Western North America`, `Mexico` |
+| Oceania | `Australia`, `Northern Australia`, `Eastern Australia`, `Southeastern Australia`, `Western Australia`, `Central Australia`, `New Guinea`, `Tasmania`, `Pacific Ocean` |
+| Multi-region | `Balkans`, `Great Plains`, `Great Lakes`, `Midwest`, `Mediterranean` |
+
+A few notes:
+- `Mexico` is allowed as its own region — it's meaningfully distinct from Central America or the US Southwest.
+- Australian state-level strings (`Queensland`, `Western Australia`, `Tasmania`) are allowed for species with narrow endemic ranges.
+- Sea snakes that range across an ocean basin use `Indo-Pacific`, `Indian Ocean`, or `Pacific Ocean` as appropriate.
+- Do not use continent names (`"Asia"`, `"Africa"`) as region strings — that's circular. Use a subregion.
+- Do not add `"Florida (introduced)"`, `"Guam"`, `"Cosmopolitan (Global)"` or similar special cases. Introduced populations are not part of native distribution.
+
+#### `countries` — optional, curated
+
+Add only when you are confident in the data. Country names go here, not in `distribution.regions`:
+
+```json
+"countries": ["India", "Pakistan", "Bangladesh", "Sri Lanka"]
+```
+
+This field is not shown in the UI yet and is not used by search. It's groundwork for a future "most dangerous in [country]" filter. Populate it for high-value species: US rattlesnakes, Indian Big Four, Australian taipans/browns, Brazilian lanceheads. Don't batch-assign — each entry needs human review.
 
 #### Range Maps (GeoJSON)
 
@@ -181,18 +224,18 @@ bun run images:validate
 
 **Important:** The build script **overwrites** `data/snakes/index.json`. It merges existing data with `newSnakes` / `moreSnakes` (last occurrence wins per snake id), then **enriches** every snake with:
 
-- `continent` and `subregions` (from `distribution.regions` when missing)
+- `continents` (inferred from `distribution.regions` when not explicitly set)
 - `commonlyMisidentifiedAs` and `misidentificationRisk` (from `data/commonly-misidentified.json`)
-- `fatalitySummary: "Rarely Fatal"` (when untreated fatality rate is very low, or snake is in the rarely-fatal list)
+- `fatalitySummary: “Rarely Fatal”` (when untreated fatality rate is very low, or snake is in the rarely-fatal list)
 - `symptoms` (from `symptomsProgression` for venomous snakes when missing)
 - `otherCommonNames` (only for snakes in the build’s `otherCommonNamesMap` — kept to one snake for “Also known as”)
 
 **To avoid losing this extra info in the future:**
 
-- Do **not** edit `data/snakes/index.json` by hand for fields that the build derives (continent, subregions, misidentification, fatalitySummary, symptoms, otherCommonNames). Those come from the build.
+- Do **not** edit `data/snakes/index.json` by hand for fields that the build derives (continents, misidentification, fatalitySummary, symptoms, otherCommonNames). Those come from the build.
 - Always run `bun run data:build` after changing the build script or the source data (e.g. `commonly-misidentified.json`).
 
-**If extra info is missing (e.g. Region, Rarely Fatal, Also known as, Symptoms, Commonly misidentified):**
+**If extra info is missing (e.g. Rarely Fatal, Also known as, Symptoms, Commonly misidentified):**
 
 - Run `bun run data:build` once. The enrichment step re-applies to all snakes and rewrites the JSON. Your dev server will then serve the updated data (refresh the detail page).
 
@@ -232,8 +275,8 @@ If you add a new snake in `scripts/build100Snakes.ts` (in `newSnakes` or `moreSn
 4. **Also known as**  
    Only one snake should show “Also known as” (to keep the UI minimal). To give that snake an alias, add it to the `otherCommonNamesMap` in the enrichment section (e.g. `"copperhead": ["Highland Moccasin"]`). Use a single primary alias.
 
-5. **Region (continent / subregions)**  
-   Ensure the snake’s `distribution.regions` is set in its `venomous()` or `nonvenomous()` call. The build infers `continent` and `subregions` from `distribution.regions` when they are missing.
+5. **Region**
+   Set `distribution.regions` using canonical region strings only (see **Distribution → canonical vocabulary** above). Set `continents` explicitly — the build will infer it from `distribution.regions` if missing, but the inference is single-continent only. For wide-ranging species that span multiple continents, set `continents` explicitly in the snake definition.
 
 6. **Symptoms**  
    For venomous snakes, the build maps `symptomsProgression` (short / prog / crit) to `symptoms` automatically. Provide `symptomsProgression` in the `venomous()` call.
@@ -271,8 +314,8 @@ There is a matching comment in `scripts/build100Snakes.ts` above `PRESERVED_FIEL
 
 | Handled by build (overwritten or added) | Preserved from existing JSON when present |
 |----------------------------------------|-------------------------------------------|
-| dangerScore, dangerRank, dangerScoreComponents, venomClassification, venomPotency, venomYield, venomTypes, venomSpeed, symptomsProgression, distribution, description, sources, humanEncounterChance | firstAidInfo, behaviorNotes, conservationStatus, accolades, causesOfDeath, dataQuality, maxLength, diet, constrictor |
-| continent, subregions, commonlyMisidentifiedAs, misidentificationRisk, otherCommonNames, clinicalData, fatalitySummary, symptoms (from symptomsProgression) | images.gallery, images.galleryAttributions |
+| dangerScore, dangerRank, dangerScoreComponents, venomClassification, venomPotency, venomYield, venomTypes, venomSpeed, symptomsProgression, distribution, description, sources, humanEncounterChance | firstAidInfo, behaviorNotes, conservationStatus, accolades, causesOfDeath, dataQuality, maxLength, diet, constrictor, **countries** |
+| continents (inferred if not set), commonlyMisidentifiedAs, misidentificationRisk, otherCommonNames, clinicalData, fatalitySummary, symptoms (from symptomsProgression) | images.gallery, images.galleryAttributions |
 | images.primary, images.thumbnail, images.attribution (from filesystem) | (any new optional field you add to PRESERVED_FIELDS_FROM_EXISTING) |
 
 ---

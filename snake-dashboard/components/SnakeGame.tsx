@@ -239,12 +239,18 @@ export function SnakeGame({
     return segments;
   }, []);
 
-  const spawnNewItems = useCallback((currentSnake: Point[], currentScore: number, shouldRotateWall: boolean) => {
+  const spawnNewItems = useCallback((currentSnake: Point[], currentScore: number, shouldRotateWall: boolean, currentDirection: Point) => {
     // Wall logic: rotate only on 50pt milestones after 100
     if (currentScore >= 100) {
       if (shouldRotateWall || !activeWall) {
+        const sideInFront =
+          currentDirection.y === -1 ? "top" :
+          currentDirection.y === 1 ? "bottom" :
+          currentDirection.x === -1 ? "left" :
+          currentDirection.x === 1 ? "right" : null;
         const sides = ["top", "bottom", "left", "right"];
         const validSides = sides.filter(side => {
+          if (side === sideInFront) return false;
           const segments = getWallSegments({ side, type: "lethal" });
           return !segments.some(seg => currentSnake.some(s => s.x === seg.x && s.y === seg.y));
         });
@@ -320,7 +326,7 @@ export function SnakeGame({
     setSlowDownBlock(null);
     setActiveWall(null);
     setFloatingScores([]);
-    spawnNewItems(initialSnake, 0, true);
+    spawnNewItems(initialSnake, 0, true, { x: 0, y: -1 });
   };
 
   const moveSnake = useCallback(() => {
@@ -381,7 +387,7 @@ export function SnakeGame({
         const newMilestone = Math.floor(newScore / 50);
         setScore(newScore);
         // rotate hazards every food, rotate wall every 50 points after 100
-        spawnNewItems(newSnake, newScore, newMilestone > oldMilestone);
+        spawnNewItems(newSnake, newScore, newMilestone > oldMilestone, nextDir);
       } else {
         const dangerIndex = dangerBlocks.findIndex(d => d.x === newHead.x && d.y === newHead.y);
         const hitSlow = slowDownBlock?.x === newHead.x && slowDownBlock?.y === newHead.y;

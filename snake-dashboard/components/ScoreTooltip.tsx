@@ -39,7 +39,7 @@ function useIsMobile() {
 
 function ScoreTooltipContent({ rows }: { rows: TooltipRow[] }) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1.5 text-left">
       {rows.map((row, i) => {
         switch (row.type) {
           case "spacer":
@@ -56,15 +56,13 @@ function ScoreTooltipContent({ rows }: { rows: TooltipRow[] }) {
             );
           case "section":
             return (
-              <div key={i} className="mt-0.5 flex items-center gap-2 pt-1.5">
-                <div className="h-px flex-1 bg-stone-100" />
+              <div key={i} className="mt-0.5 border-t border-stone-100 pt-1.5">
                 <span
                   style={{ fontFamily: COMPRESSED }}
                   className="whitespace-nowrap text-[8px] font-black uppercase tracking-widest text-stone-400"
                 >
                   {row.text}
                 </span>
-                <div className="h-px flex-1 bg-stone-100" />
               </div>
             );
           case "desc":
