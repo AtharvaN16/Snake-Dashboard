@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { isVenomous } from "@/lib/snakeData";
 import { searchSnakes, sortSnakes, type SortOption } from "@/lib/searchUtils";
 import { SearchBar } from "@/components/SearchBar";
 import { Kbd } from "@/components/ui/kbd";
@@ -41,7 +40,6 @@ function SnakeListItem({
   onSelectSnake?: () => void;
   getSnakeHref?: (snake: SnakeSummary) => string;
 }) {
-  const venomous = isVenomous(snake.venomClassification);
   const classification = getClassificationTag(snake.venomClassification);
   const href = getSnakeHref ? getSnakeHref(snake) : `/snakes/${snake.id}`;
   return (
@@ -64,11 +62,7 @@ function SnakeListItem({
           >
             {snake.commonName}
           </span>
-          <span
-            className={`hidden truncate text-xs sm:inline sm:text-sm ${
-              venomous ? "text-stone-400" : "text-stone-500"
-            }`}
-          >
+          <span className="hidden truncate text-xs text-stone-400 sm:inline sm:text-sm">
             {snake.scientificName}
           </span>
         </div>
