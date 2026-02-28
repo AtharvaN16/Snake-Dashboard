@@ -1,6 +1,4 @@
 import { notFound } from "next/navigation";
-import { existsSync } from "fs";
-import { join } from "path";
 import {
   getSnakeById,
   getAllSnakes,
@@ -64,13 +62,11 @@ export default async function SnakeDetailPage({
       ? "#B9E948"
       : "#CCCCCC";
 
-  const galleryWithAttribution = (snake.images?.gallery ?? [])
-    .map((imgSrc, idx) => ({
-      imgSrc,
-      idx,
-      attr: snake.images?.galleryAttributions?.[idx],
-    }))
-    .filter(({ imgSrc }) => existsSync(join(process.cwd(), "public", imgSrc.replace(/^\//, ""))));
+  const galleryWithAttribution = (snake.images?.gallery ?? []).map((imgSrc, idx) => ({
+    imgSrc,
+    idx,
+    attr: snake.images?.galleryAttributions?.[idx],
+  }));
   const galleryImages = galleryWithAttribution.map((item) => item.imgSrc);
   const polaroidImages = [snake.images.primary, ...galleryImages].map(src => `${src}?t=${Date.now()}`);
   const polaroidAttributions = [

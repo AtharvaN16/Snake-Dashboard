@@ -1,4 +1,4 @@
-import { promises as fs } from "fs";
+import { existsSync, promises as fs } from "fs";
 import { join, dirname } from "path";
 import sharp from "sharp";
 import { getSnakeById } from "@/lib/snakeData";

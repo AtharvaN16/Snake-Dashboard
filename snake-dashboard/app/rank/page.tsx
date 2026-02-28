@@ -13,8 +13,7 @@ import { Kbd } from "@/components/ui/kbd";
 import { Button } from "@/components/ui/button";
 import { DangerScoreInfoBox } from "@/components/DangerScoreInfoBox";
 import { RankEditPanel } from "@/components/RankEditPanel";
-import { SearchNewSnake } from "@/components/SearchNewSnake";
-import { Pencil, Check, Plus, RotateCcw } from "lucide-react";
+import { Pencil, Check, RotateCcw } from "lucide-react";
 import type { Continent, Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
@@ -224,7 +223,6 @@ function RankPageInner() {
   const [showInfo, setShowInfo] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedEditId, setSelectedEditId] = useState<string | null>(null);
-  const [draftSnake, setDraftSnake] = useState<Snake | null>(null);
   const isDev = process.env.NODE_ENV === "development";
 
   const [allSnakes, setAllSnakes] = useState<Snake[]>(() => getAllSnakes());
@@ -251,9 +249,8 @@ function RankPageInner() {
 
   const selectedSnake = useMemo(() => {
     if (!selectedEditId) return null;
-    if (draftSnake && draftSnake.id === selectedEditId) return draftSnake;
     return allSnakes.find(s => s.id === selectedEditId);
-  }, [selectedEditId, allSnakes, draftSnake]);
+  }, [selectedEditId, allSnakes]);
 
   const refreshData = useCallback(() => {
     fetchLatestSnakes();
@@ -283,7 +280,6 @@ function RankPageInner() {
       params.set("snakeId", id);
     } else {
       params.delete("snakeId");
-      setDraftSnake(null);
     }
     router.push(`/rank?${params.toString()}`, { scroll: false });
     setSelectedEditId(id);
