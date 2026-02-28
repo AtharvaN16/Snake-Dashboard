@@ -95,7 +95,7 @@ function RankTableRow({
         {imageUrl ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
-            src={`${imageUrl}?t=${Date.now()}`}
+            src={imageUrl}
             alt={item.commonName}
             className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.06]"
           />
