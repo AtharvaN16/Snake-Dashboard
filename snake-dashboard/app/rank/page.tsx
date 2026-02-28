@@ -25,7 +25,6 @@ function isNonSnake(item: Rankable): item is NonSnake {
 }
 
 const COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px] gap-x-1 lg:grid-cols-[48px_140px_minmax(200px,1fr)_120px_100px_190px] lg:gap-x-3";
-const EDIT_COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px_80px] gap-x-1 lg:grid-cols-[48px_140px_minmax(180px,1fr)_120px_100px_140px_100px] lg:gap-x-3";
 const INTRINSIC_WEIGHTS = getIntrinsicWeights();
 
 function getRankDisplay(rank: number): { numeral: string; color: string } {
@@ -79,10 +78,11 @@ function RankTableRow({
   const intrinsicScore = snake ? getIntrinsicScore(snake) : null;
   const finalScore = snake?.dangerScore;
 
-  const gridCols = editMode ? EDIT_COLS : COLS;
-
   const RowContent = (
-    <div className={`grid ${gridCols} border-b border-stone-100 last:border-0 group transition-all duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px] ${isSelected ? "bg-stone-100/80 ring-1 ring-inset ring-stone-200" : ""}`}>
+    <div 
+      onClick={() => editMode && !isNS ? onSelect?.(isSelected ? null : snake!.id) : null}
+      className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-all duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px] ${isSelected ? "bg-stone-100/80 ring-1 ring-inset ring-stone-200 cursor-default" : editMode && !isNS ? "cursor-pointer" : ""}`}
+    >
       {/* Rank */}
       <div className="hidden items-center justify-center py-4 min-h-[88px] lg:flex">
         <span className="font-mono text-[13px] font-bold" style={{ color: rankColor }}>
@@ -93,13 +93,11 @@ function RankTableRow({
       {/* Photo */}
       <div className="relative self-stretch overflow-hidden bg-stone-100 min-h-[72px] lg:min-h-[88px]">
         {imageUrl ? (
-          <Image
-            src={imageUrl}
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={`${imageUrl}?t=${Date.now()}`}
             alt={item.commonName}
-            fill
-            priority={priority}
-            className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.06]"
-            sizes="140px"
+            className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.06]"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-stone-50">
@@ -179,7 +177,7 @@ function RankTableRow({
                   </div>
                   <div className="flex items-center justify-between text-[10px] font-mono tabular-nums text-stone-500">
                     <span>I {intrinsicScore.toFixed(1)}</span>
-                    <span className="font-bold" style={{ color: scoreColor }}>
+                    <span className="text-[11px] font-extrabold" style={{ color: scoreColor }}>
                       F {finalScore}
                     </span>
                   </div>
@@ -201,20 +199,6 @@ function RankTableRow({
           </div>
         )}
       </div>
-
-      {/* Edit Trigger */}
-      {editMode && !isNS && (
-        <div className="flex items-center px-4">
-          <Button 
-            variant={isSelected ? "default" : "outline"} 
-            size="sm" 
-            className="h-8 w-full text-[10px] uppercase font-bold tracking-wider"
-            onClick={() => onSelect?.(isSelected ? null : snake!.id)}
-          >
-            {isSelected ? "Editing..." : "Edit"}
-          </Button>
-        </div>
-      )}
     </div>
   );
 
@@ -507,7 +491,11 @@ function RankPageInner() {
                 setEditMode(!editMode);
                 if (editMode) setSelectedEditId(null);
               }}
-              className="h-8 gap-2 bg-white text-stone-700 border-stone-200 hover:bg-stone-50 shadow-sm"
+              className={`h-8 gap-2 shadow-sm transition-all duration-300 ${
+                editMode 
+                  ? "bg-stone-900 text-white border-stone-900 ring-4 ring-stone-900/10" 
+                  : "bg-white text-stone-700 border-stone-200 hover:bg-stone-50"
+              }`}
             >
               {editMode ? (
                 <>
@@ -526,22 +514,10 @@ function RankPageInner() {
       </div>
 
       {/* Table */}
-      <div className={`flex gap-6 max-w-[1600px] mx-auto transition-all duration-500 ${editMode && selectedEditId ? "sm:mr-[50%]" : ""}`}>
-        <div className={`fixed inset-x-0 bottom-0 top-[210px] z-10 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.12)] border-t border-stone-200 sm:relative sm:inset-auto sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:rounded-2xl sm:border sm:shadow-md sm:max-h-none sm:overflow-y-visible transition-all duration-500 ${editMode ? "sm:max-w-5xl" : ""} ${editMode && selectedEditId ? "sm:max-w-full" : ""}`}>
+      <div className="flex gap-6 max-w-[1600px] mx-auto transition-all duration-500">
+        <div className="fixed inset-x-0 bottom-0 top-[210px] z-10 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.12)] border-t border-stone-200 sm:relative sm:inset-auto sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:rounded-2xl sm:border sm:shadow-md sm:max-h-none sm:overflow-y-visible transition-all duration-500">
             <div className="h-full overflow-y-auto sm:h-auto sm:overflow-y-visible">
-              {editMode && (
-                <div className="p-4 border-b border-stone-100 bg-stone-50/30">
-                  <SearchNewSnake 
-                    onAdded={refreshData} 
-                    onDraftCreated={(draft) => {
-                      setDraftSnake(draft);
-                      setSelectedEditId(draft.id);
-                    }}
-                  />
-                </div>
-              )}
-
-              <div className={`grid ${editMode ? EDIT_COLS : COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white sm:rounded-t-2xl`}>
+              <div className={`grid ${COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white sm:rounded-t-2xl`}>
               <div className="hidden px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center lg:block lg:px-4 lg:py-3">#</div>
               <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 text-center lg:px-4 lg:py-3 lg:text-[10px]">Photo</div>
               <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">Species</div>
@@ -555,9 +531,6 @@ function RankPageInner() {
                   </>
                 ) : "LD₅₀ (mg/kg)"}
               </div>
-              {editMode && (
-                <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 text-center lg:px-4 lg:py-3 lg:text-[10px]">Action</div>
-              )}
             </div>
 
             {rankedItems.map((item, index) => (

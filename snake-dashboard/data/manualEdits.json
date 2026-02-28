@@ -1,27 +1,8 @@
 {
-  "deletedIds": [],
+  "deletedIds": [
+    "naja-atra",
+    "rough-green-snake"
+  ],
   "fieldOverrides": {},
-  "addedSnakes": [
-    {
-      "id": "naja-atra",
-      "commonName": "Chinese cobra",
-      "scientificName": "Naja atra",
-      "family": "TBD",
-      "genus": "Naja",
-      "dangerScore": 0,
-      "venomClassification": "Venomous",
-      "humanEncounterChance": "Low",
-      "description": "The Chinese cobra, also called the Taiwan cobra, is a species of cobra in the family Elapidae, found mostly in southern China and a couple of neighboring nations and islands. It is one of the most prevalent venomous snakes in China, which has caused many snakebite incidents to humans.",
-      "distribution": {
-        "regions": [
-          "TBD"
-        ],
-        "habitat": "TBD"
-      },
-      "continents": [
-        "Asia"
-      ],
-      "isDraft": true
-    }
-  ]
+  "addedSnakes": []
 }

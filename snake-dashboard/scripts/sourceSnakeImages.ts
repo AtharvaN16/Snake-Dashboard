@@ -161,18 +161,32 @@ export async function searchINaturalist(
     const taxonQuery = encodeURIComponent(scientificName);
     const taxonUrl = `https://api.inaturalist.org/v1/taxa?q=${taxonQuery}&rank=species`;
     
-    const taxonResponse = await fetch(taxonUrl, {
-      headers: {
-        "User-Agent": "SnakeDashboard/1.0 (Educational Project)",
-      },
-    });
+    let taxonResponse;
+    try {
+      taxonResponse = await fetch(taxonUrl, {
+        headers: {
+          "User-Agent": "SnakeDashboard/1.0 (Educational Project)",
+        },
+      });
+    } catch (e) {
+      console.error(`[iNaturalist] Taxon fetch failed for "${scientificName}":`, e);
+      return candidates;
+    }
+
+    if (!taxonResponse.ok) {
+      console.error(`[iNaturalist] API error ${taxonResponse.status} for "${scientificName}"`);
+      return candidates;
+    }
+
     const taxonData = await taxonResponse.json();
 
     if (!taxonData.results || taxonData.results.length === 0) {
+      console.log(`[iNaturalist] No taxon match for "${scientificName}"`);
       return candidates;
     }
 
     const taxonId = taxonData.results[0].id;
+    console.log(`[iNaturalist] Matched taxon "${taxonData.results[0].name}" (ID: ${taxonId})`);
 
     // Get observations with photos
     const obsUrl = `https://api.inaturalist.org/v1/observations?taxon_id=${taxonId}&quality_grade=research&photos=true&per_page=20&order=desc&order_by=votes`;
@@ -185,8 +199,11 @@ export async function searchINaturalist(
     const obsData = await obsResponse.json();
 
     if (!obsData.results) {
+      console.log(`[iNaturalist] No observations found for taxon ${taxonId}`);
       return candidates;
     }
+
+    console.log(`[iNaturalist] Found ${obsData.results.length} observations for taxon ${taxonId}`);
 
     for (const obs of obsData.results) {
       if (!obs.photos || obs.photos.length === 0) continue;
@@ -198,7 +215,10 @@ export async function searchINaturalist(
       
       // Accept open + non-commercial licenses (educational project)
       const acceptableLicenses = ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"];
-      if (!acceptableLicenses.includes(license.toLowerCase())) continue;
+      if (!acceptableLicenses.includes(license.toLowerCase())) {
+        // console.log(`[iNaturalist] Skipping photo with license: ${license}`);
+        continue;
+      }
 
       // Use large size
       const url = photo.url.replace("square", "large");
@@ -382,13 +402,15 @@ export async function searchSnakeImages(
 export async function searchSnakeImagesAllSources(
   scientificName: string
 ): Promise<SourceSearchResult> {
-  console.log(`Searching all sources for ${scientificName}...`);
+  console.log(`[sourceSnakeImages] Searching all sources for: "${scientificName}"`);
 
   const [wikimedia, iNaturalist, gbif] = await Promise.all([
     searchWikimediaCommons(scientificName),
     searchINaturalist(scientificName),
     searchGBIF(scientificName),
   ]);
+
+  console.log(`[sourceSnakeImages] Raw results for "${scientificName}": Wiki=${wikimedia.length}, iNat=${iNaturalist.length}, GBIF=${gbif.length}`);
 
   const deduped = new Map<string, ImageCandidate>();
   for (const candidate of [...wikimedia, ...iNaturalist, ...gbif]) {
@@ -401,7 +423,7 @@ export async function searchSnakeImagesAllSources(
   const combined = Array.from(deduped.values()).sort((a, b) => b.score - a.score);
 
   console.log(
-    `✓ Source candidates — Wikimedia: ${wikimedia.length}, iNaturalist: ${iNaturalist.length}, GBIF: ${gbif.length}, combined: ${combined.length}`
+    `✓ Combined results for "${scientificName}": ${combined.length} unique candidates`
   );
 
   return { wikimedia, iNaturalist, gbif, combined };

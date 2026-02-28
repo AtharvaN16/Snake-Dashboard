@@ -72,7 +72,7 @@ export default async function SnakeDetailPage({
     }))
     .filter(({ imgSrc }) => existsSync(join(process.cwd(), "public", imgSrc.replace(/^\//, ""))));
   const galleryImages = galleryWithAttribution.map((item) => item.imgSrc);
-  const polaroidImages = [snake.images.primary, ...galleryImages];
+  const polaroidImages = [snake.images.primary, ...galleryImages].map(src => `${src}?t=${Date.now()}`);
   const polaroidAttributions = [
     snake.images.attribution,
     ...galleryWithAttribution.map((item) => item.attr || snake.images.attribution),

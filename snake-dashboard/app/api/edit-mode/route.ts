@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { deleteSnake, updateSnakeFields, addSnakeManual } from "@/lib/editMode";
-import { generateDescription, generateAKA, generateMisidentificationRisk } from "@/lib/snakeGenerator";
+import { generateDescription, generateAKA, generateMisidentificationRisk, enrichSnakeData } from "@/lib/snakeGenerator";
 import { generateRangeMap } from "@/lib/rangeGenerator";
 
 export async function POST(request: Request) {
@@ -23,6 +23,28 @@ export async function POST(request: Request) {
       case "add":
         await addSnakeManual(data);
         return NextResponse.json({ success: true });
+      case "enrich":
+        console.log(`[Research Agent] Deep research started for: ${id}`);
+        // 1. Data research (LD50, medical, taxonomy)
+        const enriched = await enrichSnakeData(id);
+        
+        // 2. Range map research (Automated fetching)
+        let rangeMapPath = null;
+        try {
+          const rangeResult = await generateRangeMap(id);
+          if (rangeResult.success) rangeMapPath = rangeResult.path;
+        } catch (e) {
+          console.warn("[Research Agent] Range map generation skipped/failed:", e);
+        }
+
+        const finalEnrichment = {
+          ...enriched,
+          ...(rangeMapPath ? { distribution: { regions: enriched.continents || [], habitat: "TBD", rangeGeoJsonPath: rangeMapPath } } : {})
+        };
+
+        // Save immediately
+        await updateSnakeFields(id, finalEnrichment);
+        return NextResponse.json({ success: true, data: finalEnrichment });
       case "generateDescription":
         const desc = await generateDescription(id);
         return NextResponse.json({ success: true, description: desc });

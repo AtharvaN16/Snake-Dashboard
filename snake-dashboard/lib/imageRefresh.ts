@@ -62,21 +62,36 @@ export async function getCandidates(snakeId: string): Promise<CandidateEntry[]> 
 // ---------------------------------------------------------------------------
 
 export async function searchAndDownloadCandidates(
-  snakeId: string
+  snakeId: string,
+  providedSnake?: Snake
 ): Promise<CandidateEntry[]> {
-  const snake = getSnakeById(snakeId);
-  if (!snake) throw new Error("Snake not found");
+  const snake = providedSnake || getSnakeById(snakeId);
+  if (!snake) throw new Error(`Snake not found: ${snakeId}`);
 
   console.log(`[imageRefresh] Searching for ${snake.scientificName} and ${snake.commonName}...`);
   
-  // Run both searches in parallel for maximum results
+  // Helper to run search safely without throwing
+  const safeSearch = async (query: string) => {
+    try {
+      return await searchSnakeImagesAllSources(query);
+    } catch (e) {
+      console.error(`[imageRefresh] Search failed for "${query}":`, e);
+      return { wikimedia: [], iNaturalist: [], gbif: [], combined: [] };
+    }
+  };
+
+  // Run both searches in parallel
   const [sciResult, commonResult] = await Promise.all([
-    searchSnakeImagesAllSources(snake.scientificName),
-    snake.commonName ? searchSnakeImagesAllSources(snake.commonName) : Promise.resolve({ combined: [] })
+    safeSearch(snake.scientificName),
+    snake.commonName ? safeSearch(snake.commonName) : Promise.resolve({ combined: [] })
   ]);
 
   // Combine and deduplicate by image URL
-  const allCandidates = [...sciResult.combined, ...(commonResult as any).combined];
+  const allCandidates = [...(sciResult as any).combined, ...(commonResult as any).combined];
+  if (allCandidates.length === 0) {
+    throw new Error(`No images found for "${snake.scientificName}" or "${snake.commonName}" across Wikimedia, iNaturalist, or GBIF.`);
+  }
+
   const deduped = new Map<string, any>();
   for (const c of allCandidates) {
     if (!deduped.has(c.url) || c.score > deduped.get(c.url).score) {
@@ -85,10 +100,6 @@ export async function searchAndDownloadCandidates(
   }
 
   const combined = Array.from(deduped.values()).sort((a, b) => b.score - a.score);
-
-  if (combined.length === 0) {
-    throw new Error("No images found for scientific or common name");
-  }
 
   // Clean previous candidates
   const dir = candidatesDir(snakeId);
@@ -467,6 +478,69 @@ export async function deleteGalleryImage(
   }
 
   await syncGalleryMetadataFromIndex(snakeId);
+}
+
+export async function demotePrimaryToGallery(snakeId: string): Promise<void> {
+  const sd = snakeDir(snakeId);
+  const primaryPath = join(sd, "primary.jpg");
+  const originalPath = join(sd, "original.jpg");
+  const attributionPath = join(sd, "attribution.json");
+
+  const primaryExists = existsSync(primaryPath);
+  if (!primaryExists) throw new Error("Primary image not found");
+
+  // 1. Read the current primary attribution
+  let primaryAttribution: ImageAttribution;
+  try {
+    const attrRaw = await fs.readFile(attributionPath, "utf-8");
+    primaryAttribution = JSON.parse(attrRaw) as ImageAttribution;
+  } catch {
+    primaryAttribution = { source: "Unknown", license: "Unknown", sourceUrl: "", licenseUrl: "" };
+  }
+
+  // 2. Read primary file into buffer
+  const imageBuffer = await fs.readFile(existsSync(originalPath) ? originalPath : primaryPath);
+
+  // 3. Move to gallery folder
+  const galleryDir = join(sd, "gallery");
+  await fs.mkdir(galleryDir, { recursive: true });
+  const files = await fs.readdir(galleryDir);
+  const nums = files.filter(f => /^\d+\.jpg$/.test(f)).map(f => parseInt(f, 10));
+  const nextNum = nums.length > 0 ? Math.max(...nums) + 1 : 1;
+  const publicPath = `/images/snakes/${snakeId}/gallery/${nextNum}.jpg`;
+
+  const galleryBuf = await sharp(imageBuffer)
+    .resize(800, 600, { fit: "cover", position: "center" })
+    .jpeg({ quality: 85 })
+    .toBuffer();
+
+  await atomicWrite(join(galleryDir, `${nextNum}.jpg`), galleryBuf);
+
+  // 4. Update index.json (Add to gallery, clear primary)
+  await atomicJsonUpdate<SnakeData>(DATA_PATH, (data) => {
+    const snake = data.snakes.find((s) => s.id === snakeId);
+    if (snake && snake.images) {
+      if (!snake.images.gallery) snake.images.gallery = [];
+      if (!snake.images.galleryAttributions) snake.images.galleryAttributions = [];
+      
+      snake.images.gallery.push(publicPath);
+      snake.images.galleryAttributions.push(primaryAttribution);
+      
+      // Clear primary fields in the data
+      snake.images.primary = "";
+      snake.images.thumbnail = "";
+    }
+    return data;
+  });
+
+  // 5. Delete primary files from disk
+  await fs.unlink(primaryPath).catch(() => {});
+  if (existsSync(originalPath)) await fs.unlink(originalPath).catch(() => {});
+  await fs.unlink(join(sd, "thumbnail.jpg")).catch(() => {});
+  await fs.unlink(attributionPath).catch(() => {});
+
+  await syncGalleryMetadataFromIndex(snakeId);
+  console.log(`[demote-primary] ${snakeId}: moved primary to gallery/${nextNum}.jpg`);
 }
 
 // ---------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { useSearchModal } from "@/contexts/SearchModalContext";
 import { HomeSearchCard } from "@/components/HomeSearchCard";
@@ -12,13 +12,28 @@ interface SearchModalProps {
   snakes: SnakeSummary[];
 }
 
-export function SearchModal({ snakes }: SearchModalProps) {
+export function SearchModal({ snakes: initialSnakes }: SearchModalProps) {
   const pathname = usePathname();
   const { isOpen, closeModal } = useSearchModal();
+  const [liveSnakes, setLiveSnakes] = useState<SnakeSummary[] | null>(null);
+  const isDev = process.env.NODE_ENV === "development";
+
   const isPhylogeny = pathname === "/phylogeny";
   const getSnakeHref = isPhylogeny
     ? (snake: SnakeSummary) => `/phylogeny?snakeId=${snake.id}`
     : undefined;
+
+  // In dev mode, fetch fresh data when the modal opens
+  useEffect(() => {
+    if (isOpen && isDev) {
+      fetch("/api/snakes")
+        .then(res => res.ok ? res.json() : [])
+        .then(data => setLiveSnakes(data))
+        .catch(err => console.error("SearchModal live fetch failed:", err));
+    }
+  }, [isOpen, isDev]);
+
+  const displaySnakes = liveSnakes || initialSnakes;
 
   useEffect(() => {
     if (isOpen) {
@@ -49,7 +64,7 @@ export function SearchModal({ snakes }: SearchModalProps) {
       >
         <HomeSearchCard
           inputId={MODAL_SEARCH_INPUT_ID}
-          snakes={snakes}
+          snakes={displaySnakes}
           onSelectSnake={closeModal}
           getSnakeHref={getSnakeHref}
           className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-xl"

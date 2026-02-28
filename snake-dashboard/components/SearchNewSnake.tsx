@@ -40,10 +40,27 @@ export function SearchNewSnake({ onAdded, onDraftCreated }: SearchNewSnakeProps)
       const wikiData = await wikiRes.json();
       console.log("[SearchNewSnake] Wikipedia data received:", wikiData.title);
       
+      // If the user typed a common name, Wikipedia usually has the scientific name in its metadata
+      // or we use the 'title' which is often the preferred common name.
       const commonName = wikiData.title || cleanQuery;
-      const scientificName = searchTitle;
+      
+      // Try to extract scientific name from the description or title if cleanQuery was common
+      let scientificName = searchTitle;
+      
+      // Detect if cleanQuery was likely a common name (no two-word Latin structure)
+      const isLikelyCommon = !cleanQuery.includes(" ") || cleanQuery.split(" ").some(w => w.length > 1 && !/^[A-Z]/.test(w[0]));
+      
+      // Wikipedia API provides 'displaytitle' which often contains italics for scientific names
+      if (wikiData.displaytitle && wikiData.displaytitle.includes("<i>")) {
+        const match = wikiData.displaytitle.match(/<i>(.*?)<\/i>/);
+        if (match) {
+          scientificName = match[1];
+          console.log("[SearchNewSnake] Extracted scientific name from displaytitle:", scientificName);
+        }
+      }
+
       const description = wikiData.extract || "";
-      const id = cleanQuery.toLowerCase().replace(/ /g, "-");
+      const id = scientificName.toLowerCase().replace(/ /g, "-").replace(/[^a-z-]/g, "");
 
       setStatus(`Found ${commonName}. Saving draft...`);
 

@@ -1,0 +1,28 @@
+[
+  {
+    "index": 6,
+    "src": "/images/snakes/black-necked-spitting-cobra/candidates/thumb-6.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Lucy Keith-Diagne",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Naja_nigricollis_171755750.jpg",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+    }
+  },
+  {
+    "index": 8,
+    "src": "/images/snakes/black-necked-spitting-cobra/candidates/thumb-8.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "RatioTile",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black-necked_spitting_cobra.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  }
+]

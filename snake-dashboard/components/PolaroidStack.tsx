@@ -125,13 +125,11 @@ export function PolaroidStack({ images, caption, attributions }: PolaroidStackPr
                 transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={images[activeIndex]}
                   alt={caption}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 90vw, 420px"
-                  priority
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </motion.div>
             </AnimatePresence>

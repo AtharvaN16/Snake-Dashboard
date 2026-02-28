@@ -1,0 +1,80 @@
+[
+  {
+    "index": 1,
+    "src": "/images/snakes/mangrove-snake/candidates/thumb-1.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Daniel Kopeček",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boiga_dendrophila_Captive03.jpg",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+    }
+  },
+  {
+    "index": 15,
+    "src": "/images/snakes/mangrove-snake/candidates/thumb-15.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Bernard DUPONT from FRANCE",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mangrove_Snake_(Boiga_dendrophila_annectens)_(8082908158).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "index": 26,
+    "src": "/images/snakes/mangrove-snake/candidates/thumb-26.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Andreas Manz",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6130483367",
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  },
+  {
+    "index": 27,
+    "src": "/images/snakes/mangrove-snake/candidates/thumb-27.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "RF",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6130550708",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 28,
+    "src": "/images/snakes/mangrove-snake/candidates/thumb-28.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "jaysond",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6130815599",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 29,
+    "src": "/images/snakes/mangrove-snake/candidates/thumb-29.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Nicole L.",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6131296418",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  }
+]

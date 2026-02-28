@@ -1,0 +1,67 @@
+[
+  {
+    "index": 3,
+    "src": "/images/snakes/cat-eyed-snake/candidates/thumb-3.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Bernard DUPONT from FRANCE",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Northern_Cat-eyed_Snake_(Leptodeira_septentrionalis)_(36833526086).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "index": 4,
+    "src": "/images/snakes/cat-eyed-snake/candidates/thumb-4.jpg",
+    "source": "Wikimedia Commons",
+    "score": 90,
+    "attribution": {
+      "photographer": "Bernard DUPONT from FRANCE",
+      "source": "Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Northern_Cat-eyed_Snake_(Leptodeira_septentrionalis)_(36850345752).jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "index": 27,
+    "src": "/images/snakes/cat-eyed-snake/candidates/thumb-27.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "delmer jonathan",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6130760688",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 28,
+    "src": "/images/snakes/cat-eyed-snake/candidates/thumb-28.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Carlos Villaseñor Torres",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6131230539",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 29,
+    "src": "/images/snakes/cat-eyed-snake/candidates/thumb-29.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Eugenio Aramoni",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/6131341961",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  }
+]

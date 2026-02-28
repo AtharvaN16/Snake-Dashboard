@@ -1,41 +1,15 @@
 [
   {
-    "index": 0,
-    "src": "/images/snakes/black-mamba/candidates/thumb-0.jpg",
+    "index": 4,
+    "src": "/images/snakes/black-mamba/candidates/thumb-4.jpg",
     "source": "Wikimedia Commons",
     "score": 90,
     "attribution": {
       "photographer": "Bernard DUPONT from FRANCE",
       "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_(6002481884).jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_juvenile_(under_2m...)_(33465444846).jpg",
       "license": "CC BY-SA 2.0",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-    }
-  },
-  {
-    "index": 2,
-    "src": "/images/snakes/black-mamba/candidates/thumb-2.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "Bernard DUPONT from FRANCE",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Black_Mamba_(Dendroaspis_polylepis)_(6002570110).jpg",
-      "license": "CC BY-SA 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-    }
-  },
-  {
-    "index": 5,
-    "src": "/images/snakes/black-mamba/candidates/thumb-5.jpg",
-    "source": "Wikimedia Commons",
-    "score": 90,
-    "attribution": {
-      "photographer": "Missvain",
-      "source": "Wikimedia Commons",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dendroaspis_polylepis_at_the_Indianapolis_Zoo_-_June_2022_-_Sarah_Stierch.jpg",
-      "license": "CC BY 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
     }
   },
   {
@@ -86,6 +60,240 @@
       "photographer": "alisamba",
       "source": "GBIF",
       "sourceUrl": "https://www.gbif.org/occurrence/6159527798",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 12,
+    "src": "/images/snakes/black-mamba/candidates/thumb-12.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Benoit Knox",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5008170458",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 13,
+    "src": "/images/snakes/black-mamba/candidates/thumb-13.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Heinrich Human",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5036999907",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 14,
+    "src": "/images/snakes/black-mamba/candidates/thumb-14.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Johnny Giese",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5062958152",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 15,
+    "src": "/images/snakes/black-mamba/candidates/thumb-15.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Courtney Hundermark",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5069904236",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 16,
+    "src": "/images/snakes/black-mamba/candidates/thumb-16.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "brianrode",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5063919722",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 17,
+    "src": "/images/snakes/black-mamba/candidates/thumb-17.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Marc Cronje",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5087179854",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 18,
+    "src": "/images/snakes/black-mamba/candidates/thumb-18.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "GLENN STOCKIL",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5087681388",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 19,
+    "src": "/images/snakes/black-mamba/candidates/thumb-19.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "lucystofberg",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5134655044",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 20,
+    "src": "/images/snakes/black-mamba/candidates/thumb-20.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Vincent Egan",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5088178782",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 21,
+    "src": "/images/snakes/black-mamba/candidates/thumb-21.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "angusrobertmason",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5134521555",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 22,
+    "src": "/images/snakes/black-mamba/candidates/thumb-22.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Richard McKibbin",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5153701966",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 23,
+    "src": "/images/snakes/black-mamba/candidates/thumb-23.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Megan Fisher",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5153612555",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 24,
+    "src": "/images/snakes/black-mamba/candidates/thumb-24.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "garzu",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5168513731",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 25,
+    "src": "/images/snakes/black-mamba/candidates/thumb-25.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Allister Starke",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5176715666",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 26,
+    "src": "/images/snakes/black-mamba/candidates/thumb-26.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Julien Ueda",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5230916233",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 27,
+    "src": "/images/snakes/black-mamba/candidates/thumb-27.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "samuel-peta",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5281986765",
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  },
+  {
+    "index": 28,
+    "src": "/images/snakes/black-mamba/candidates/thumb-28.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "Robert Taylor",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5291875205",
+      "license": "http://creativecommons.org/licenses/by/4.0/",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  {
+    "index": 29,
+    "src": "/images/snakes/black-mamba/candidates/thumb-29.jpg",
+    "source": "GBIF",
+    "score": 70,
+    "attribution": {
+      "photographer": "marynvdlaarse",
+      "source": "GBIF",
+      "sourceUrl": "https://www.gbif.org/occurrence/5760485022",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/",
       "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
     }

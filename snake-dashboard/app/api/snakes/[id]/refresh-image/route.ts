@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
-import { getSnakeById } from "@/lib/snakeData";
+import { getAllSnakesMerged } from "@/lib/snakeDataServer";
 
-type Action = "search" | "set-primary" | "add-to-gallery" | "delete" | "commit" | "delete-gallery" | "promote-to-primary";
+type Action = "search" | "set-primary" | "add-to-gallery" | "delete" | "commit" | "delete-gallery" | "promote-to-primary" | "demote-primary";
 type Selection = { role: "primary" | "gallery"; candidateIndex: number };
+
+function getSnakeByIdMerged(id: string) {
+  const snakes = getAllSnakesMerged();
+  return snakes.find(s => s.id === id);
+}
 
 /**
  * POST — Unified action endpoint.
@@ -25,6 +30,7 @@ export async function POST(
     commitSelections,
     deleteGalleryImage,
     promoteGalleryToPrimary,
+    demotePrimaryToGallery,
   } = await import("@/lib/imageRefresh");
 
   let body: { action?: Action; candidateIndex?: number; selections?: Selection[]; imagePath?: string };
@@ -39,7 +45,8 @@ export async function POST(
   try {
     switch (action) {
       case "search": {
-        const candidates = await searchAndDownloadCandidates(id);
+        const snake = getSnakeByIdMerged(id);
+        const candidates = await searchAndDownloadCandidates(id, snake);
         return NextResponse.json({ success: true, candidates });
       }
 
@@ -91,9 +98,14 @@ export async function POST(
         return NextResponse.json({ success: true });
       }
 
+      case "demote-primary": {
+        await demotePrimaryToGallery(id);
+        return NextResponse.json({ success: true });
+      }
+
       default:
         return NextResponse.json(
-          { error: `Unknown action: ${action}. Use: search, set-primary, add-to-gallery, delete, commit, delete-gallery, promote-to-primary` },
+          { error: `Unknown action: ${action}. Use: search, set-primary, add-to-gallery, delete, commit, delete-gallery, promote-to-primary, demote-primary` },
           { status: 400 }
         );
     }
@@ -119,7 +131,7 @@ export async function GET(
     const { id } = await params;
     const { getCandidates } = await import("@/lib/imageRefresh");
     const candidates = await getCandidates(id);
-    const snake = getSnakeById(id);
+    const snake = getSnakeByIdMerged(id);
 
     return NextResponse.json({
       candidates,

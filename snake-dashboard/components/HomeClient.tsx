@@ -87,9 +87,9 @@ export function HomeClient({ snakes }: HomeClientProps) {
           </nav>
       )}
 
-      {/* Main Content Area - Mobile: top band (links + logo with gap) + bottom 70% (search); Desktop: bottom-aligned with 80px footer margin */}
-      <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none lg:justify-end lg:pb-[92px]">
-        <div className="flex flex-col h-full w-full max-w-2xl pointer-events-auto lg:h-auto">
+      {/* Main Content Area - Mobile: top band (links + logo with gap) + bottom 70% (search); Desktop: fixed top offset with flexible search height */}
+      <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none lg:justify-start lg:pt-[120px] lg:pb-[92px]">
+        <div className="flex flex-col h-full w-full max-w-2xl pointer-events-auto lg:gap-8">
           {/* Mobile: top section - links, vertical gap, then logo */}
           {!isPlaying && !isGameOver && (
             <div className="lg:hidden flex shrink-0 flex-col items-center gap-6 pt-4 pb-3 sm:pt-5 sm:pb-4">
@@ -120,7 +120,7 @@ export function HomeClient({ snakes }: HomeClientProps) {
 
           {/* Desktop Logo & Title - Centered above search */}
           {!isPlaying && !isGameOver && (
-            <div className="hidden lg:flex flex-col items-center mb-8">
+            <div className="hidden lg:flex flex-col items-center">
               <Image
                 src="/images/logo.png"
                 alt="Snake Logo"
@@ -135,9 +135,9 @@ export function HomeClient({ snakes }: HomeClientProps) {
             </div>
           )}
 
-          {/* Search Card - Mobile: fixed 70vh at bottom; Desktop: fixed 540px height, list scrolls inside */}
+          {/* Search Card - Mobile: fixed 70vh at bottom; Desktop: min 540px height that grows with viewport up to a max, list scrolls inside */}
           {!isPlaying && !isGameOver && (
-            <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-0 lg:h-[540px] lg:min-h-0 lg:w-full">
+            <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-0 lg:flex-1 lg:min-h-[540px] lg:max-h-[720px] lg:h-auto lg:w-full">
               <HomeSearchCard
                 inputId="main-search"
                 snakes={snakes}

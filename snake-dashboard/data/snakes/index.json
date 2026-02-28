@@ -1948,11 +1948,11 @@
         "primary": "/images/snakes/carpet-viper/primary.jpg",
         "thumbnail": "/images/snakes/carpet-viper/thumbnail.jpg",
         "attribution": {
-          "photographer": "Dr. Raju Kasambe",
-          "source": "Wikimedia Commons",
-          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saw-scaled_Viper_Echis_carinatus_by_Dr._Raju_Kasambe_DSCN8792_(1).jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+          "photographer": "malikibio",
+          "source": "GBIF",
+          "sourceUrl": "https://www.gbif.org/occurrence/3961372194",
+          "license": "http://creativecommons.org/licenses/by-nc/4.0/",
+          "licenseUrl": "http://creativecommons.org/licenses/by-nc/4.0/"
         }
       },
       "description": "Major cause of snakebites in West Africa. Antivenom shortage in region.",

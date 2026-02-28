@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { RefreshCw, Star, ExternalLink, X, Check, Edit2, Trash2 } from "lucide-react";
+import { RefreshCw, Star, ExternalLink, X, Check, Edit2, Trash2, Image as ImageIcon, Loader2 } from "lucide-react";
 
 interface CandidateEntry {
   index: number;
@@ -57,11 +57,15 @@ function useRefreshAction(snakeId: string) {
 export function ImageCandidatePicker({ 
   snakeId, 
   embedded = false, 
-  onClose 
+  onClose,
+  onSelectionsChange,
+  submitTrigger
 }: { 
   snakeId: string; 
   embedded?: boolean;
   onClose?: () => void;
+  onSelectionsChange?: (count: number) => void;
+  submitTrigger?: { current: (() => Promise<void>) | null };
 }) {
   const [candidates, setCandidates] = useState<CandidateEntry[]>([]);
   const [currentImages, setCurrentImages] = useState<SnakeImages | null>(null);
@@ -74,9 +78,45 @@ export function ImageCandidatePicker({
   const [open, setOpen] = useState(embedded);
   const [editOpen, setEditOpen] = useState(false);
 
-  if (process.env.NODE_ENV === "production") return null;
-
   const callAction = useRefreshAction(snakeId);
+
+  const handleCommit = async () => {
+    if (selections.size === 0) return;
+    setCommitting(true);
+    setError(null);
+
+    const selArray = Array.from(selections.entries()).map(
+      ([candidateIndex, role]) => ({ candidateIndex, role })
+    );
+
+    try {
+      await callAction("commit", { selections: selArray });
+      if (onClose) {
+        setTimeout(() => {
+          setCommitting(false);
+          setSelections(new Map());
+          onClose();
+        }, 500);
+      } else {
+        setTimeout(() => window.location.reload(), 300);
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Network error");
+      setCommitting(false);
+    }
+  };
+
+  // Sync selections count to parent
+  useEffect(() => {
+    onSelectionsChange?.(selections.size);
+  }, [selections, onSelectionsChange]);
+
+  // Expose commit function to parent
+  useEffect(() => {
+    if (submitTrigger) {
+      submitTrigger.current = handleCommit;
+    }
+  }, [submitTrigger, handleCommit]);
 
   const handleSearch = async () => {
     setOpen(true);
@@ -153,6 +193,19 @@ export function ImageCandidatePicker({
     }
   };
 
+  const handleDemotePrimary = async () => {
+    if (!confirm("Move the primary image to the gallery? It will no longer be the main photo.")) return;
+    setPromoting("primary"); // use as a loading flag
+    try {
+      await callAction("demote-primary");
+      if (onClose) onClose();
+      else window.location.reload();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Demotion failed");
+      setPromoting(null);
+    }
+  };
+
   const toggleGallery = useCallback((index: number) => {
     setSelections((prev) => {
       const next = new Map(prev);
@@ -179,32 +232,6 @@ export function ImageCandidatePicker({
       return next;
     });
   }, []);
-
-  const handleCommit = async () => {
-    if (selections.size === 0) return;
-    setCommitting(true);
-    setError(null);
-
-    const selArray = Array.from(selections.entries()).map(
-      ([candidateIndex, role]) => ({ candidateIndex, role })
-    );
-
-    try {
-      await callAction("commit", { selections: selArray });
-      if (onClose) {
-        setTimeout(() => {
-          setCommitting(false);
-          setSelections(new Map());
-          onClose();
-        }, 500);
-      } else {
-        setTimeout(() => window.location.reload(), 300);
-      }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Network error");
-      setCommitting(false);
-    }
-  };
 
   const handleCloseInternal = () => {
     if (onClose && !embedded) onClose();
@@ -243,41 +270,96 @@ export function ImageCandidatePicker({
 
   // Expanded state — Gallery Editor
   if (editOpen) {
+    const allGallery = currentImages?.gallery || [];
+    const primary = currentImages?.primary;
+
     return (
       <div className={`${embedded ? "" : "relative z-20 max-w-[760px] mb-6"}`}>
         <div className={`rounded-xl bg-white p-4 ${embedded ? "" : "border border-stone-200 shadow-sm"}`}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-bold text-stone-700">Manage existing gallery</h3>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-sm font-bold text-stone-700 flex items-center gap-2">
+              <ImageIcon className="w-4 h-4 text-stone-400" />
+              Manage Gallery
+            </h3>
             <div className="flex items-center gap-2">
-               <button onClick={() => setEditOpen(false)} className="text-[10px] font-bold text-stone-400 uppercase hover:text-stone-600 mr-2">Back to Search</button>
-               <button onClick={handleCloseInternal} className="p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded transition-colors">
-                 <X className="w-4 h-4" />
-               </button>
+               <button onClick={() => setEditOpen(false)} className="text-[10px] font-bold text-stone-400 uppercase hover:text-stone-600 px-2 py-1">Back to Search</button>
+               {!embedded && (
+                 <button onClick={handleCloseInternal} className="p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded transition-colors">
+                   <X className="w-4 h-4" />
+                 </button>
+               )}
             </div>
           </div>
           
           {error && <p className="text-xs text-red-500 mb-3">{error}</p>}
           
-          {currentImages?.gallery && currentImages.gallery.length > 0 ? (
-            <div className={`grid gap-3 ${embedded ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4"}`}>
-              {currentImages.gallery.map((path, idx) => (
-                <div key={path} className="group relative aspect-[4/3] rounded-lg border border-stone-200 bg-stone-50 overflow-hidden">
-                  <img src={`${path}?t=${Date.now()}`} alt="" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                  <div className="absolute top-1.5 right-1.5 flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => handlePromoteToPrimary(path)} disabled={promoting === path} className="p-1.5 rounded-md bg-white/90 text-amber-500 shadow-sm hover:bg-amber-500 hover:text-white transition-all disabled:opacity-50">
-                      <Star className={`w-3.5 h-3.5 ${promoting === path ? "animate-spin" : ""}`} />
+          <div className="space-y-6">
+            {/* Primary Section */}
+            {primary && (
+              <div className="space-y-2">
+                <span className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">Current Primary</span>
+                <div className="relative aspect-[16/9] rounded-lg border-2 border-amber-400 bg-stone-50 overflow-hidden group">
+                  <img src={`${primary}?t=${Date.now()}`} alt="" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                    <div className="bg-amber-400 text-white px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-white" /> PRIMARY
+                    </div>
+                    <button 
+                      onClick={handleDemotePrimary}
+                      disabled={promoting === "primary"}
+                      className="p-2 rounded-full bg-white text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-lg"
+                      title="Move to Gallery"
+                    >
+                      <ImageIcon className={`w-5 h-5 ${promoting === "primary" ? "animate-spin" : ""}`} />
                     </button>
-                    <button onClick={() => handleDeleteGallery(path)} disabled={deleting === path} className="p-1.5 rounded-md bg-white/90 text-red-500 shadow-sm hover:bg-red-500 hover:text-white transition-all disabled:opacity-50">
-                      <Trash2 className={`w-3.5 h-3.5 ${deleting === path ? "animate-pulse" : ""}`} />
+                    <button 
+                      onClick={() => handleDeleteGallery(primary)} 
+                      disabled={deleting === primary}
+                      className="p-2 rounded-full bg-white text-red-600 hover:bg-red-600 hover:text-white transition-all shadow-lg"
+                      title="Delete image file"
+                    >
+                      <Trash2 className={`w-5 h-5 ${deleting === primary ? "animate-pulse" : ""}`} />
                     </button>
                   </div>
                 </div>
-              ))}
+              </div>
+            )}
+
+            {/* Gallery Grid */}
+            <div className="space-y-2 border-t border-stone-100 pt-4">
+              <span className="text-[9px] font-bold text-stone-400 uppercase tracking-wider">Additional Photos ({allGallery.length})</span>
+              {allGallery.length > 0 ? (
+                <div className={`grid gap-2 ${embedded ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4"}`}>
+                  {allGallery.map((path) => (
+                    <div key={path} className="group relative aspect-square rounded-lg border border-stone-200 bg-stone-50 overflow-hidden">
+                      <img src={`${path}?t=${Date.now()}`} alt="" className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors" />
+                      <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button 
+                          onClick={() => handlePromoteToPrimary(path)} 
+                          disabled={promoting === path} 
+                          className="p-1.5 rounded-md bg-white text-amber-500 shadow-md hover:bg-amber-500 hover:text-white transition-all"
+                          title="Set as Primary"
+                        >
+                          <Star className={`w-4 h-4 ${promoting === path ? "animate-spin" : ""}`} />
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteGallery(path)} 
+                          disabled={deleting === path} 
+                          className="p-1.5 rounded-md bg-white text-red-500 shadow-md hover:bg-red-500 hover:text-white transition-all"
+                          title="Delete from Gallery"
+                        >
+                          <Trash2 className={`w-4 h-4 ${deleting === path ? "animate-pulse" : ""}`} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[11px] text-stone-400 py-4 text-center italic">No additional images.</p>
+              )}
             </div>
-          ) : (
-            <p className="text-xs text-stone-400 py-6 text-center italic">No gallery images found.</p>
-          )}
+          </div>
         </div>
       </div>
     );
@@ -301,17 +383,22 @@ export function ImageCandidatePicker({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={handleCommit} disabled={selections.size === 0 || committing} className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors disabled:opacity-40">
-              <Check className="w-3.5 h-3.5" />
-              {committing ? "Saving..." : selections.size > 0 ? `Apply ${selections.size} selections` : "Select images"}
-            </button>
-            <button onClick={handleSearch} disabled={searching || committing} className="p-2 text-stone-500 bg-stone-100 hover:bg-stone-200 rounded-lg transition-colors">
+            <button onClick={handleSearch} disabled={searching || committing} className="flex-1 inline-flex items-center justify-center gap-2 p-2 text-stone-500 bg-stone-100 hover:bg-stone-200 rounded-lg transition-colors font-bold text-[10px] uppercase">
               <RefreshCw className={`w-4 h-4 ${searching ? "animate-spin" : ""}`} />
+              Re-search Sources
             </button>
             <button onClick={handleEditOpen} disabled={committing} className="p-2 text-stone-500 bg-stone-100 hover:bg-stone-200 rounded-lg transition-colors" title="Edit existing gallery">
               <Edit2 className="w-4 h-4" />
             </button>
           </div>
+          
+          <div className="bg-amber-50 border border-amber-100 rounded-md p-2 flex items-start gap-2">
+            <Star className="w-3 h-3 text-amber-500 mt-0.5" />
+            <p className="text-[10px] text-amber-800 leading-tight">
+              <strong>Tip:</strong> Click the main image to add to <strong>Gallery</strong>. Click the <strong>Star</strong> icon to set the <strong>Primary</strong> photo.
+            </p>
+          </div>
+
           {error && <span className="text-[10px] text-red-500 font-medium">{error}</span>}
         </div>
 
@@ -333,6 +420,11 @@ export function ImageCandidatePicker({
                       <span className={`text-[8px] font-bold px-1 py-0.5 rounded shadow-sm ${SOURCE_COLORS[c.source] || "bg-stone-200 text-stone-600"}`}>
                         {c.source === "Wikimedia Commons" ? "Wiki" : c.source}
                       </span>
+                      {c.score > 0 && (
+                        <span className="text-[8px] font-bold px-1 py-0.5 rounded shadow-sm bg-stone-900/80 text-white flex items-center gap-0.5 backdrop-blur-sm">
+                          {Math.round(c.score)}
+                        </span>
+                      )}
                     </div>
                     <button onClick={(e) => { e.stopPropagation(); togglePrimary(c.index); }} className={`absolute bottom-1 right-1 p-1.5 rounded-md transition-colors ${isPrimary ? "bg-amber-500 text-white shadow-md" : "bg-black/40 text-white hover:bg-amber-500"}`}>
                       <Star className={`w-3.5 h-3.5 ${isPrimary ? "fill-white" : ""}`} />
