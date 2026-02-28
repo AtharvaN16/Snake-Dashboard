@@ -1589,14 +1589,22 @@ const existingById = new Map<string, Record<string, unknown>>(
   (existing.snakes ?? []).map((s: any) => [s.id, s])
 );
 
+// Load manual edits
+const manualEditsPath = join(__dirname, "../data/manualEdits.json");
+let manualEdits = { deletedIds: [] as string[], addedSnakes: [] as any[], fieldOverrides: {} as any };
+if (existsSync(manualEditsPath)) {
+  manualEdits = JSON.parse(readFileSync(manualEditsPath, "utf-8"));
+}
+
 // Use all new venomous snakes (fixed ids already)
 const allNew = fixedSnakes;
 
 // Remove duplicate/erroneous entries; later entries override earlier (so updated definitions in allNew/moreSnakes win)
 const removedSnakeIds = new Set<string>([
   "boomslang-southern",
+  ...(manualEdits.deletedIds || []),
 ]);
-const combined = [...existing.snakes, ...allNew, ...moreSnakes].filter(
+const combined = [...existing.snakes, ...allNew, ...moreSnakes, ...(manualEdits.addedSnakes || [])].filter(
   (s: any) => !removedSnakeIds.has(s.id)
 );
 const byId = new Map<string, unknown>();
@@ -1717,9 +1725,139 @@ const rarelyFatalIds = new Set([
   "copperhead", "cottonmouth", "waglers-pit-viper", "night-adder", "common-adder", "massasauga", "red-bellied-black-snake",
 ]);
 
+type SymptomBuckets = NonNullable<Snake["symptoms"]>;
+
+function addUnique(list: string[], value: string): void {
+  if (!value || list.includes(value)) return;
+  list.push(value);
+}
+
+function normalizeTerm(input: string): string {
+  return input.trim().toLowerCase().replace(/[;.,]+$/g, "");
+}
+
+function classifySymptom(term: string): { category: keyof SymptomBuckets; label: string } | null {
+  const t = normalizeTerm(term);
+  if (!t || t === "n/a" || t === "rare" || t === "rare systemic" || t === "rare death") return null;
+  if (t.includes("death")) return null;
+
+  if (/(nausea|vomit)/.test(t)) return { category: "gastrointestinal", label: "Nausea or vomiting" };
+  if (/(abdominal|belly|cramp)/.test(t)) return { category: "gastrointestinal", label: "Abdominal pain or cramps" };
+
+  if (/(respiratory failure|difficulty breathing|respiratory depression|respiratory compromise|breathing)/.test(t)) {
+    return { category: "neurological", label: "Difficulty breathing" };
+  }
+  if (/(paralysis|bulbar|descending paralysis|generalized paralysis|general paralysis)/.test(t)) {
+    return { category: "neurological", label: "Paralysis" };
+  }
+  if (/(ptosis|drooping eyelid)/.test(t)) return { category: "neurological", label: "Drooping eyelids" };
+  if (/(difficulty speaking|difficulty swallowing|speaking\/swallowing|swallow)/.test(t)) {
+    return { category: "neurological", label: "Trouble speaking or swallowing" };
+  }
+  if (/(numb|tingling|neurotoxicity)/.test(t)) return { category: "neurological", label: "Numbness or tingling" };
+  if (/(dizz|vertigo)/.test(t)) return { category: "neurological", label: "Dizziness" };
+  if (/(blurred vision|vision)/.test(t)) return { category: "neurological", label: "Blurred vision" };
+  if (/(headache)/.test(t)) return { category: "neurological", label: "Headache" };
+  if (/(weakness|drows)/.test(t)) return { category: "neurological", label: "Weakness or drowsiness" };
+
+  if (/(coagul|clotting disorder|clotting)/.test(t)) return { category: "blood", label: "Coagulopathy" };
+  if (/(internal bleeding|hemorrhage|haemorrhage|systemic bleeding|bleeding)/.test(t)) {
+    return { category: "blood", label: "Internal bleeding" };
+  }
+  if (/(hypotension|low blood pressure)/.test(t)) return { category: "blood", label: "Low blood pressure" };
+  if (/(shock)/.test(t)) return { category: "blood", label: "Circulatory shock" };
+
+  if (/(rhabdomyolysis|muscle pain|muscle aches|myalgia|muscle)/.test(t)) {
+    return { category: "muscle", label: "Muscle breakdown" };
+  }
+  if (/(dark urine)/.test(t)) return { category: "muscle", label: "Dark urine" };
+  if (/(renal|kidney)/.test(t)) return { category: "muscle", label: "Kidney failure" };
+
+  if (/(ocular|eye pain|blindness|irritation).*spit/.test(t)) {
+    return { category: "localEffects", label: "Severe eye irritation (from spit)" };
+  }
+  if (/(compartment syndrome)/.test(t)) return { category: "localEffects", label: "Severe limb swelling and pressure" };
+  if (/(necrosis)/.test(t)) return { category: "localEffects", label: "Necrosis" };
+  if (/(tissue damage|tissue destruction|tissue injury|gangrene)/.test(t)) return { category: "localEffects", label: "Tissue damage" };
+  if (/(blister)/.test(t)) return { category: "localEffects", label: "Blistering" };
+  if (/(ecchymosis|bruis)/.test(t)) return { category: "localEffects", label: "Bruising" };
+  if (/(swelling)/.test(t)) return { category: "localEffects", label: "Swelling" };
+  if (/(pain|local)/.test(t)) return { category: "localEffects", label: "Pain at bite site" };
+
+  return null;
+}
+
+function inferCauseOfDeath(term: string): string | null {
+  const t = normalizeTerm(term);
+  if (!t || t === "rarely fatal" || t === "rare" || t === "rare death") return null;
+  if (/(respirat|breathing|paralysis|bulbar)/.test(t)) return "Respiratory failure";
+  if (/(hemorrhage|haemorrhage|internal bleeding|systemic bleeding|coagul|bleeding)/.test(t)) return "Massive internal bleeding";
+  if (/(shock|hypotension|cardiovascular collapse|cardiac arrest|circulatory)/.test(t)) {
+    return "Circulatory shock";
+  }
+  if (/(renal|kidney)/.test(t)) return "Kidney failure";
+  if (/(organ failure)/.test(t)) return "Multi-organ failure";
+  return null;
+}
+
+function getProgressionTerms(snake: Record<string, unknown>): string[] {
+  const sp = snake.symptomsProgression as Record<string, unknown> | undefined;
+  if (!sp) return [];
+  const short = Array.isArray(sp.short) ? sp.short : Array.isArray(sp.shortTerm) ? sp.shortTerm : [];
+  const prog = Array.isArray(sp.prog) ? sp.prog : Array.isArray(sp.progressive) ? sp.progressive : [];
+  const crit = Array.isArray(sp.crit) ? sp.crit : Array.isArray(sp.critical) ? sp.critical : [];
+  return [...short, ...prog, ...crit].map((v) => String(v));
+}
+
+function normalizeClinicalSymptoms(snake: Record<string, unknown>): Record<string, unknown> {
+  if (snake.venomClassification === "Non-venomous") return snake;
+
+  const symptoms = (snake.symptoms ?? {}) as Record<string, unknown>;
+  const symptomTerms = [
+    ...(["localEffects", "neurological", "blood", "muscle", "gastrointestinal"] as const)
+      .flatMap((k) => (Array.isArray(symptoms[k]) ? symptoms[k] : []))
+      .map((v) => String(v)),
+    ...getProgressionTerms(snake),
+  ];
+  if (symptomTerms.length === 0) return snake;
+
+  const normalizedSymptoms: SymptomBuckets = {
+    localEffects: [],
+    neurological: [],
+    blood: [],
+    muscle: [],
+    gastrointestinal: [],
+  };
+  for (const raw of symptomTerms) {
+    const classified = classifySymptom(raw);
+    if (!classified) continue;
+    addUnique(normalizedSymptoms[classified.category], classified.label);
+  }
+
+  const causeTerms = [
+    ...symptomTerms,
+    ...(Array.isArray(snake.causesOfDeath) ? snake.causesOfDeath.map((v) => String(v)) : []),
+  ];
+  const normalizedCauses: string[] = [];
+  for (const raw of causeTerms) {
+    const cause = inferCauseOfDeath(raw);
+    if (!cause) continue;
+    addUnique(normalizedCauses, cause);
+  }
+
+  const out = { ...snake, symptoms: normalizedSymptoms };
+  if (normalizedCauses.length > 0) {
+    (out as { causesOfDeath?: string[] }).causesOfDeath = normalizedCauses;
+  } else {
+    delete (out as { causesOfDeath?: string[] }).causesOfDeath;
+  }
+  return out;
+}
+
 const enriched = ranked.map((s: any) => {
   const regions = s.distribution?.regions ?? [];
   const continents = Array.isArray(s.continents) && s.continents.length > 0 ? s.continents : [inferContinent(regions)];
+  const manualFields = (manualEdits.fieldOverrides as any)?.[s.id] || {};
   const out = {
     ...s,
     continents,
@@ -1728,6 +1866,7 @@ const enriched = ranked.map((s: any) => {
       misidentificationRisk: "high" as const,
     } : {}),
     ...(otherCommonNamesMap[s.id] ? { otherCommonNames: otherCommonNamesMap[s.id] } : {}),
+    ...manualFields,
   };
   // Rarely Fatal: from clinicalData (high < 2%) or explicit rarelyFatalIds
   const rate = out.clinicalData?.untreatedFatalityRate;
@@ -1771,10 +1910,12 @@ const withPreserved = enriched.map((s: any) => {
   return { ...s, ...preserved };
 });
 
+const normalizedClinical = withPreserved.map((s: any) => normalizeClinicalSymptoms(s));
+
 const out = {
   lastUpdated: new Date().toISOString().split("T")[0],
-  totalSnakes: withPreserved.length,
-  snakes: withPreserved,
+  totalSnakes: normalizedClinical.length,
+  snakes: normalizedClinical,
 };
 
 writeFileSync(join(__dirname, "../data/snakes/index.json"), JSON.stringify(out, null, 2));

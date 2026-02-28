@@ -146,6 +146,7 @@ Snakes added via the build script only get `distribution.regions`, `habitat`, an
 To show a distribution overlay on the map, provide a GeoJSON file:
 
 1.  **Locate/Generate GeoJSON**: 
+    - **Note: AI should handle range additions for the user.** If you are the user, ask the AI to find and fetch the range GeoJSON for the new snake.
     - Use authoritative sources like IUCN or GARD (see `scripts/README-RANGE-MAPS.md`).
     - Or fetch from iNaturalist using scientific name matches: `bun run scripts/fetchINatRangeGeojsons.ts`.
 2.  **Save File**: Place the file in `public/geojson/ranges/<snake-id>.json`.

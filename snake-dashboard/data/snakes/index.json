@@ -101,22 +101,25 @@
         "indian-python"
       ],
       "misidentificationRisk": "high",
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Kidney failure",
+        "Circulatory shock"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
-          "Swelling",
-          "Bleeding"
+          "Pain at bite site",
+          "Swelling"
         ],
-        "neurological": [
-          "Coagulopathy",
-          "Renal failure",
-          "Shock"
-        ],
+        "neurological": [],
         "blood": [
           "Internal bleeding",
-          "Death"
+          "Coagulopathy",
+          "Circulatory shock"
         ],
-        "muscle": [],
+        "muscle": [
+          "Kidney failure"
+        ],
         "gastrointestinal": []
       }
     },
@@ -215,23 +218,28 @@
       "continents": [
         "Oceania"
       ],
+      "causesOfDeath": [
+        "Respiratory failure",
+        "Massive internal bleeding",
+        "Kidney failure"
+      ],
       "symptoms": {
-        "localEffects": [
-          "Headache",
-          "Nausea",
-          "Abdominal pain"
-        ],
+        "localEffects": [],
         "neurological": [
+          "Headache",
           "Paralysis",
-          "Coagulopathy",
-          "Renal damage"
+          "Difficulty breathing"
         ],
         "blood": [
-          "Respiratory failure",
-          "Death without treatment"
+          "Coagulopathy"
         ],
-        "muscle": [],
-        "gastrointestinal": []
+        "muscle": [
+          "Kidney failure"
+        ],
+        "gastrointestinal": [
+          "Nausea or vomiting",
+          "Abdominal pain or cramps"
+        ]
       }
     },
     {
@@ -328,26 +336,28 @@
       "continents": [
         "Oceania"
       ],
+      "causesOfDeath": [
+        "Respiratory failure",
+        "Massive internal bleeding"
+      ],
+      "commonlyMisidentifiedAs": [
+        "eastern-brown-snake"
+      ],
       "symptoms": {
         "localEffects": [
-          "Local pain",
-          "Tingling",
-          "Sweating"
+          "Pain at bite site"
         ],
         "neurological": [
+          "Numbness or tingling",
           "Paralysis",
-          "Coagulopathy"
+          "Difficulty breathing"
         ],
         "blood": [
-          "Respiratory failure",
-          "Death"
+          "Coagulopathy"
         ],
         "muscle": [],
         "gastrointestinal": []
-      },
-      "commonlyMisidentifiedAs": [
-        "eastern-brown-snake"
-      ]
+      }
     },
     {
       "id": "philippine-cobra",
@@ -439,25 +449,24 @@
       "continents": [
         "Asia"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Blurred vision",
-          "Drowsiness",
-          "Difficulty breathing"
-        ],
-        "neurological": [
-          "Paralysis"
-        ],
-        "blood": [
-          "Respiratory failure",
-          "Death within 1 hour"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "commonlyMisidentifiedAs": [
         "monocled-cobra"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [],
+        "neurological": [
+          "Blurred vision",
+          "Weakness or drowsiness",
+          "Difficulty breathing",
+          "Paralysis"
+        ],
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "inland-taipan",
@@ -539,33 +548,32 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Ptosis (Drooping Eyelids)",
-          "Blurred Vision",
-          "Difficulty Speaking/Swallowing",
-          "Dizziness / Vertigo",
+          "Drooping eyelids",
+          "Blurred vision",
+          "Trouble speaking or swallowing",
+          "Dizziness",
           "Paralysis",
-          "Respiratory Failure"
-        ],
-        "muscle": [
-          "Kidney Damage"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting",
-          "Abdominal Pain"
+          "Difficulty breathing"
         ],
         "blood": [
-          "Clotting Disorder"
+          "Coagulopathy"
+        ],
+        "muscle": [
+          "Kidney failure"
+        ],
+        "gastrointestinal": [
+          "Nausea or vomiting",
+          "Abdominal pain or cramps"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis",
-        "Cardiovascular Collapse",
-        "Kidney Damage",
-        "Systemic Bleeding"
+        "Respiratory failure",
+        "Massive internal bleeding",
+        "Kidney failure",
+        "Circulatory shock"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -665,27 +673,29 @@
       "continents": [
         "Africa"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Severe pain",
-          "Swelling",
-          "Blisters"
-        ],
-        "neurological": [
-          "Necrosis",
-          "Coagulopathy"
-        ],
-        "blood": [
-          "Shock",
-          "Death"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Circulatory shock"
+      ],
       "commonlyMisidentifiedAs": [
         "night-adder"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling",
+          "Blistering",
+          "Necrosis"
+        ],
+        "neurological": [],
+        "blood": [
+          "Coagulopathy",
+          "Circulatory shock"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "indian-cobra",
@@ -778,26 +788,28 @@
       "continents": [
         "Asia"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Pain",
-          "Swelling",
-          "Drowsiness"
-        ],
-        "neurological": [
-          "Paralysis",
-          "Ptosis"
-        ],
-        "blood": [
-          "Respiratory failure"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "commonlyMisidentifiedAs": [
         "asian-rat-snake"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling"
+        ],
+        "neurological": [
+          "Weakness or drowsiness",
+          "Paralysis",
+          "Drooping eyelids",
+          "Difficulty breathing"
+        ],
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "monocled-cobra",
@@ -871,23 +883,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -983,18 +991,19 @@
       "continents": [
         "Oceania"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Numbness",
-          "Paralysis onset"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Progressive paralysis"
+          "Numbness or tingling",
+          "Paralysis",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure"
-        ],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -1035,32 +1044,27 @@
       "venomSpeed": "Extremely quick",
       "symptoms": {
         "localEffects": [
-          "Mild Pain",
+          "Pain at bite site",
           "Swelling"
         ],
         "neurological": [
-          "Ptosis (Drooping Eyelids)",
-          "Difficulty Speaking/Swallowing",
-          "Dizziness / Vertigo",
-          "Muscle Weakness",
+          "Drooping eyelids",
+          "Trouble speaking or swallowing",
+          "Dizziness",
+          "Weakness or drowsiness",
           "Paralysis",
-          "Respiratory Failure"
+          "Difficulty breathing"
         ],
+        "blood": [],
+        "muscle": [],
         "gastrointestinal": [
-          "Nausea / Vomiting",
-          "Abdominal Pain"
-        ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+          "Nausea or vomiting",
+          "Abdominal pain or cramps"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis",
-        "Cardiovascular Collapse"
+        "Respiratory failure",
+        "Circulatory shock"
       ],
       "humanEncounterChance": "Moderate",
       "distribution": {
@@ -1175,23 +1179,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -1309,25 +1309,26 @@
       "continents": [
         "Africa"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Pain",
-          "Ptosis",
-          "Drowsiness"
-        ],
-        "neurological": [
-          "Paralysis"
-        ],
-        "blood": [
-          "Respiratory failure",
-          "Death within 1-10 hours"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "commonlyMisidentifiedAs": [
         "egyptian-cobra"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site"
+        ],
+        "neurological": [
+          "Drooping eyelids",
+          "Weakness or drowsiness",
+          "Paralysis",
+          "Difficulty breathing"
+        ],
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "eastern-brown-snake",
@@ -1408,28 +1409,28 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "blood": [
-          "Systemic Bleeding",
-          "Clotting Disorder"
-        ],
-        "muscle": [
-          "Kidney Damage"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting",
-          "Abdominal Pain"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
+        ],
+        "blood": [
+          "Internal bleeding",
+          "Coagulopathy"
+        ],
+        "muscle": [
+          "Kidney failure"
+        ],
+        "gastrointestinal": [
+          "Nausea or vomiting",
+          "Abdominal pain or cramps"
         ]
       },
       "causesOfDeath": [
-        "Systemic Bleeding",
-        "Cardiovascular Collapse",
-        "Kidney Damage",
-        "Respiratory Failure"
+        "Respiratory failure",
+        "Massive internal bleeding",
+        "Kidney failure",
+        "Circulatory shock"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -1515,30 +1516,22 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Blurred Vision",
-          "Difficulty Speaking/Swallowing",
-          "Dizziness / Vertigo",
+          "Blurred vision",
+          "Trouble speaking or swallowing",
+          "Dizziness",
           "Paralysis",
-          "Respiratory Failure"
+          "Difficulty breathing"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
       },
       "causesOfDeath": [
-        "Respiratory Failure",
-        "Paralysis",
-        "Cardiovascular Collapse"
+        "Respiratory failure",
+        "Circulatory shock"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -1637,19 +1630,21 @@
       "continents": [
         "Africa"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
+          "Pain at bite site",
           "Swelling",
-          "Numbness"
-        ],
-        "neurological": [
-          "Paralysis",
           "Necrosis"
         ],
-        "blood": [
-          "Respiratory failure"
+        "neurological": [
+          "Numbness or tingling",
+          "Paralysis",
+          "Difficulty breathing"
         ],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -1738,24 +1733,20 @@
       },
       "symptoms": {
         "localEffects": [
-          "Mild Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting",
-          "Abdominal Pain"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting",
+          "Abdominal pain or cramps"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -1871,24 +1862,26 @@
       "continents": [
         "Africa"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Pain",
-          "Swelling",
-          "Drowsiness"
-        ],
-        "neurological": [
-          "Paralysis"
-        ],
-        "blood": [
-          "Respiratory failure"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "commonlyMisidentifiedAs": [
         "cape-cobra"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling"
+        ],
+        "neurological": [
+          "Weakness or drowsiness",
+          "Paralysis",
+          "Difficulty breathing"
+        ],
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "carpet-viper",
@@ -1980,20 +1973,23 @@
       "continents": [
         "Africa"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Kidney failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling",
-          "Bleeding"
+          "Pain at bite site",
+          "Swelling"
         ],
-        "neurological": [
-          "Coagulopathy",
-          "Renal damage"
-        ],
+        "neurological": [],
         "blood": [
-          "Death"
+          "Internal bleeding",
+          "Coagulopathy"
         ],
-        "muscle": [],
+        "muscle": [
+          "Kidney failure"
+        ],
         "gastrointestinal": []
       }
     },
@@ -2092,26 +2088,28 @@
         "Africa",
         "Asia"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Local pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "neurological": [
-          "Coagulopathy",
-          "Renal damage"
-        ],
-        "blood": [
-          "Hemorrhage",
-          "Death"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Kidney failure"
+      ],
       "commonlyMisidentifiedAs": [
         "sand-boa"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling"
+        ],
+        "neurological": [],
+        "blood": [
+          "Internal bleeding",
+          "Coagulopathy"
+        ],
+        "muscle": [
+          "Kidney failure"
+        ],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "brazilian-lancehead",
@@ -2179,9 +2177,11 @@
         "primary": "/images/snakes/brazilian-lancehead/primary.jpg",
         "thumbnail": "/images/snakes/brazilian-lancehead/thumbnail.jpg",
         "attribution": {
-          "source": "Placeholder",
-          "license": "CC BY 4.0",
-          "url": "https://placeholder.com"
+          "photographer": "Miguelrangeljr",
+          "source": "Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bothrops_moojeni_Instituto_Butant%C3%A3.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
         }
       },
       "description": "Large and aggressive pit viper from central Brazil. Responsible for many serious bites.",
@@ -2201,21 +2201,26 @@
       "continents": [
         "South America"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Circulatory shock",
+        "Kidney failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
-          "Rapid swelling",
-          "Ecchymosis"
+          "Pain at bite site",
+          "Swelling",
+          "Bruising",
+          "Necrosis"
         ],
-        "neurological": [
-          "Coagulopathy",
-          "Extensive necrosis"
-        ],
+        "neurological": [],
         "blood": [
-          "Shock",
-          "Renal failure"
+          "Coagulopathy",
+          "Circulatory shock"
         ],
-        "muscle": [],
+        "muscle": [
+          "Kidney failure"
+        ],
         "gastrointestinal": []
       }
     },
@@ -2314,30 +2319,32 @@
         "North America",
         "South America"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Severe pain",
-          "Swelling",
-          "Bleeding"
-        ],
-        "neurological": [
-          "Necrosis",
-          "Coagulopathy"
-        ],
-        "blood": [
-          "Shock",
-          "Death"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Circulatory shock"
+      ],
       "otherCommonNames": [
         "Terciopelo"
       ],
       "commonlyMisidentifiedAs": [
         "cantil"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling",
+          "Necrosis"
+        ],
+        "neurological": [],
+        "blood": [
+          "Internal bleeding",
+          "Coagulopathy",
+          "Circulatory shock"
+        ],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "blue-krait",
@@ -2428,21 +2435,23 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Minimal pain",
-          "Abdominal cramps",
-          "Ptosis"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Descending paralysis"
+          "Drooping eyelids",
+          "Paralysis",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure",
-          "Death without ventilation"
-        ],
+        "blood": [],
         "muscle": [],
-        "gastrointestinal": []
+        "gastrointestinal": [
+          "Abdominal pain or cramps"
+        ]
       }
     },
     {
@@ -2537,26 +2546,29 @@
       "continents": [
         "North America"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Circulatory shock",
+        "Multi-organ failure"
+      ],
+      "commonlyMisidentifiedAs": [
+        "timber-rattlesnake"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
+          "Pain at bite site",
           "Swelling",
-          "Bruising"
+          "Bruising",
+          "Tissue damage"
         ],
-        "neurological": [
-          "Tissue damage",
-          "Coagulopathy"
-        ],
+        "neurological": [],
         "blood": [
-          "Shock",
-          "Organ failure"
+          "Coagulopathy",
+          "Circulatory shock"
         ],
         "muscle": [],
         "gastrointestinal": []
-      },
-      "commonlyMisidentifiedAs": [
-        "timber-rattlesnake"
-      ]
+      }
     },
     {
       "id": "mozambique-spitting-cobra",
@@ -2651,23 +2663,26 @@
       "continents": [
         "Africa"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
+          "Pain at bite site",
           "Swelling",
-          "Ocular pain from spit"
+          "Severe eye irritation (from spit)",
+          "Tissue damage",
+          "Severe limb swelling and pressure"
         ],
         "neurological": [
-          "Progressive tissue injury",
-          "Ptosis",
-          "Nausea"
+          "Drooping eyelids",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Compartment syndrome",
-          "Respiratory failure in severe cases"
-        ],
+        "blood": [],
         "muscle": [],
-        "gastrointestinal": []
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
       }
     },
     {
@@ -2763,26 +2778,28 @@
       "continents": [
         "North America"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Circulatory shock"
+      ],
+      "commonlyMisidentifiedAs": [
+        "timber-rattlesnake"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
+          "Pain at bite site",
           "Swelling",
-          "Bleeding"
+          "Tissue damage"
         ],
-        "neurological": [
-          "Tissue damage",
-          "Coagulopathy"
-        ],
+        "neurological": [],
         "blood": [
-          "Shock",
-          "Death"
+          "Internal bleeding",
+          "Coagulopathy",
+          "Circulatory shock"
         ],
         "muscle": [],
         "gastrointestinal": []
-      },
-      "commonlyMisidentifiedAs": [
-        "timber-rattlesnake"
-      ]
+      }
     },
     {
       "id": "beaked-sea-snake",
@@ -2871,23 +2888,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -2987,26 +3000,27 @@
       "continents": [
         "South America"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Severe pain",
-          "Swelling",
-          "Vomiting"
-        ],
-        "neurological": [
-          "Hypotension",
-          "Bradycardia"
-        ],
-        "blood": [
-          "Shock",
-          "Death"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Circulatory shock"
+      ],
       "commonlyMisidentifiedAs": [
         "fer-de-lance"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling"
+        ],
+        "neurological": [],
+        "blood": [
+          "Low blood pressure",
+          "Circulatory shock"
+        ],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
+      }
     },
     {
       "id": "common-lancehead",
@@ -3098,21 +3112,24 @@
       "continents": [
         "South America"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Kidney failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
+          "Pain at bite site",
           "Swelling",
-          "Bleeding"
+          "Necrosis"
         ],
-        "neurological": [
-          "Coagulopathy",
-          "Tissue necrosis"
-        ],
+        "neurological": [],
         "blood": [
-          "Hemorrhage",
-          "Renal failure"
+          "Internal bleeding",
+          "Coagulopathy"
         ],
-        "muscle": [],
+        "muscle": [
+          "Kidney failure"
+        ],
         "gastrointestinal": []
       }
     },
@@ -3207,26 +3224,27 @@
       "continents": [
         "Asia"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Mild pain",
-          "Numbness"
-        ],
-        "neurological": [
-          "Progressive paralysis",
-          "Ptosis"
-        ],
-        "blood": [
-          "Respiratory failure",
-          "Death"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "commonlyMisidentifiedAs": [
         "asian-rat-snake"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site"
+        ],
+        "neurological": [
+          "Numbness or tingling",
+          "Paralysis",
+          "Drooping eyelids",
+          "Difficulty breathing"
+        ],
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "green-mamba",
@@ -3298,23 +3316,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -3412,26 +3426,27 @@
       "continents": [
         "Africa"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
+      "commonlyMisidentifiedAs": [
+        "boomslang-southern"
+      ],
       "symptoms": {
-        "localEffects": [
-          "Headache",
-          "Nausea",
-          "Drowsiness"
-        ],
+        "localEffects": [],
         "neurological": [
+          "Headache",
+          "Weakness or drowsiness"
+        ],
+        "blood": [
           "Internal bleeding",
           "Coagulopathy"
         ],
-        "blood": [
-          "Death from hemorrhage",
-          "Delayed 24-48 hours"
-        ],
         "muscle": [],
-        "gastrointestinal": []
-      },
-      "commonlyMisidentifiedAs": [
-        "boomslang-southern"
-      ]
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
+      }
     },
     {
       "id": "javan-spitting-cobra",
@@ -3504,23 +3519,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -3607,32 +3618,27 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Extreme Pain",
+          "Pain at bite site",
           "Swelling",
           "Bruising",
           "Blistering",
-          "Tissue Necrosis"
+          "Tissue damage"
         ],
+        "neurological": [],
         "blood": [
-          "Systemic Bleeding",
-          "Shock",
-          "Clotting Disorder"
+          "Internal bleeding",
+          "Circulatory shock",
+          "Coagulopathy"
         ],
         "muscle": [
-          "Kidney Damage"
+          "Kidney failure"
         ],
-        "neurological": [
-          "N/A"
-        ],
-        "gastrointestinal": [
-          "N/A"
-        ]
+        "gastrointestinal": []
       },
       "causesOfDeath": [
-        "Systemic Bleeding",
-        "Shock",
-        "Kidney Damage"
+        "Massive internal bleeding",
+        "Circulatory shock",
+        "Kidney failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -3710,23 +3716,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -3823,24 +3825,20 @@
       "continents": [
         "Africa"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Severe eye pain",
-          "Blindness if sprayed",
-          "Local necrosis"
-        ],
-        "neurological": [
-          "Tissue damage"
-        ],
-        "blood": [
-          "Permanent eye damage if not flushed"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
       "commonlyMisidentifiedAs": [
         "monocled-cobra"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Necrosis",
+          "Tissue damage"
+        ],
+        "neurological": [],
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "mojave-rattlesnake",
@@ -3955,26 +3953,25 @@
       "continents": [
         "North America"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Pain",
-          "Weakness",
-          "Difficulty breathing"
-        ],
-        "neurological": [
-          "Paralysis",
-          "Respiratory depression"
-        ],
-        "blood": [
-          "Respiratory failure",
-          "Death"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "commonlyMisidentifiedAs": [
         "western-diamondback"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site"
+        ],
+        "neurological": [
+          "Weakness or drowsiness",
+          "Difficulty breathing",
+          "Paralysis"
+        ],
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "rhinoceros-viper",
@@ -4069,20 +4066,23 @@
       "continents": [
         "Africa"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Circulatory shock"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
-          "Rapid swelling",
-          "Blistering"
+          "Pain at bite site",
+          "Swelling",
+          "Blistering",
+          "Necrosis"
         ],
-        "neurological": [
-          "Coagulopathy",
-          "Tissue necrosis",
-          "Hypotension"
-        ],
+        "neurological": [],
         "blood": [
-          "Hemorrhage",
-          "Shock"
+          "Coagulopathy",
+          "Low blood pressure",
+          "Internal bleeding",
+          "Circulatory shock"
         ],
         "muscle": [],
         "gastrointestinal": []
@@ -4161,23 +4161,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -4274,20 +4270,22 @@
       "continents": [
         "Oceania"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling",
-          "Nausea"
+          "Pain at bite site",
+          "Swelling"
         ],
-        "neurological": [
+        "neurological": [],
+        "blood": [
           "Coagulopathy"
         ],
-        "blood": [
-          "Rare death"
-        ],
         "muscle": [],
-        "gastrointestinal": []
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
       }
     },
     {
@@ -4360,23 +4358,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -4476,19 +4470,21 @@
       "continents": [
         "South America"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
+          "Pain at bite site",
           "Swelling",
-          "Blisters"
+          "Blistering",
+          "Tissue damage",
+          "Severe limb swelling and pressure"
         ],
-        "neurological": [
-          "Tissue destruction",
-          "Coagulopathy"
-        ],
+        "neurological": [],
         "blood": [
-          "Hemorrhage",
-          "Compartment syndrome"
+          "Coagulopathy",
+          "Internal bleeding"
         ],
         "muscle": [],
         "gastrointestinal": []
@@ -4582,19 +4578,20 @@
       "continents": [
         "South America"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Minimal local pain",
-          "Numbness"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Ptosis",
-          "Bulbar paralysis"
+          "Numbness or tingling",
+          "Drooping eyelids",
+          "Paralysis",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure",
-          "General paralysis"
-        ],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -4670,23 +4667,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -4784,19 +4777,21 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Circulatory shock"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
+          "Pain at bite site",
           "Swelling",
-          "Bleeding"
+          "Tissue damage"
         ],
-        "neurological": [
-          "Coagulopathy",
-          "Progressive tissue injury"
-        ],
+        "neurological": [],
         "blood": [
-          "Hemorrhage",
-          "Shock in severe untreated bites"
+          "Internal bleeding",
+          "Coagulopathy",
+          "Circulatory shock"
         ],
         "muscle": [],
         "gastrointestinal": []
@@ -4894,23 +4889,26 @@
       "continents": [
         "Africa"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Local pain",
+          "Pain at bite site",
           "Swelling",
-          "Ocular irritation from spit"
+          "Severe eye irritation (from spit)",
+          "Tissue damage",
+          "Necrosis"
         ],
         "neurological": [
-          "Neurotoxicity",
-          "Tissue damage",
-          "Vomiting"
+          "Numbness or tingling",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory compromise",
-          "Severe tissue necrosis"
-        ],
+        "blood": [],
         "muscle": [],
-        "gastrointestinal": []
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
       }
     },
     {
@@ -4980,23 +4978,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -5073,23 +5067,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Fixed front fangs",
       "continents": [
@@ -5188,21 +5178,24 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Respiratory failure",
+        "Kidney failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Often painless bite",
-          "Mild weakness"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Myalgia",
+          "Weakness or drowsiness",
           "Paralysis",
+          "Difficulty breathing"
+        ],
+        "blood": [],
+        "muscle": [
+          "Muscle breakdown",
           "Dark urine"
         ],
-        "blood": [
-          "Respiratory failure",
-          "Rhabdomyolysis with renal injury"
-        ],
-        "muscle": [],
         "gastrointestinal": []
       }
     },
@@ -5300,21 +5293,22 @@
         "Asia",
         "Oceania"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Mild pain",
-          "Weakness",
-          "Muscle aches"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Generalized paralysis",
-          "Myotoxic injury"
+          "Weakness or drowsiness",
+          "Paralysis",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure",
-          "Rhabdomyolysis complications"
+        "blood": [],
+        "muscle": [
+          "Muscle breakdown"
         ],
-        "muscle": [],
         "gastrointestinal": []
       }
     },
@@ -5389,23 +5383,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -5504,19 +5494,20 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
+          "Pain at bite site",
           "Swelling",
-          "Blisters"
-        ],
-        "neurological": [
+          "Blistering",
           "Necrosis",
-          "Coagulopathy"
+          "Tissue damage"
         ],
+        "neurological": [],
         "blood": [
-          "Gangrene",
-          "Death"
+          "Coagulopathy"
         ],
         "muscle": [],
         "gastrointestinal": []
@@ -5592,23 +5583,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -5710,22 +5697,23 @@
       "continents": [
         "North America"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
+      "misidentificationRisk": "high",
       "symptoms": {
         "localEffects": [
-          "Severe pain",
+          "Pain at bite site",
           "Swelling",
-          "Bleeding"
-        ],
-        "neurological": [
           "Necrosis"
         ],
+        "neurological": [],
         "blood": [
-          "Rare death"
+          "Internal bleeding"
         ],
         "muscle": [],
         "gastrointestinal": []
-      },
-      "misidentificationRisk": "high"
+      }
     },
     {
       "id": "twig-snake",
@@ -5828,21 +5816,22 @@
       "continents": [
         "Africa"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "symptoms": {
         "localEffects": [
-          "Minimal pain",
-          "Nausea"
+          "Pain at bite site"
         ],
-        "neurological": [
-          "Coagulopathy",
-          "Bleeding"
-        ],
+        "neurological": [],
         "blood": [
-          "Hemorrhage",
-          "Death; no antivenom"
+          "Coagulopathy",
+          "Internal bleeding"
         ],
         "muscle": [],
-        "gastrointestinal": []
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
       }
     },
     {
@@ -5945,23 +5934,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Rarely Fatal"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -6061,26 +6046,31 @@
       "continents": [
         "Asia"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Pain",
-          "Swelling",
-          "Nausea"
-        ],
-        "neurological": [
-          "Coagulopathy",
-          "Renal damage"
-        ],
-        "blood": [
-          "Shock",
-          "Death"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Kidney failure",
+        "Circulatory shock"
+      ],
       "countries": [
         "Japan"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling"
+        ],
+        "neurological": [],
+        "blood": [
+          "Coagulopathy",
+          "Circulatory shock"
+        ],
+        "muscle": [
+          "Kidney failure"
+        ],
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
+      }
     },
     {
       "id": "red-bellied-black-snake",
@@ -6175,25 +6165,26 @@
       "continents": [
         "Oceania"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Pain",
-          "Swelling",
-          "Nausea"
-        ],
-        "neurological": [
-          "Coagulopathy",
-          "Myolysis"
-        ],
-        "blood": [
-          "Rare death"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "commonlyMisidentifiedAs": [
         "tiger-snake"
-      ]
+      ],
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling"
+        ],
+        "neurological": [],
+        "blood": [
+          "Coagulopathy"
+        ],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
+      }
     },
     {
       "id": "blue-malayan-coral-snake",
@@ -6305,20 +6296,20 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling",
-          "Numbness"
+          "Pain at bite site",
+          "Swelling"
         ],
         "neurological": [
+          "Numbness or tingling",
           "Paralysis",
-          "Respiratory depression"
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure",
-          "Rare death"
-        ],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -6451,18 +6442,19 @@
       "otherCommonNames": [
         "Water Moccasin"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "symptoms": {
         "localEffects": [
-          "Severe pain",
+          "Pain at bite site",
           "Swelling",
-          "Tissue damage"
+          "Tissue damage",
+          "Necrosis"
         ],
-        "neurological": [
-          "Necrosis",
-          "Coagulopathy rarely"
-        ],
+        "neurological": [],
         "blood": [
-          "Rare death"
+          "Coagulopathy"
         ],
         "muscle": [],
         "gastrointestinal": []
@@ -6562,19 +6554,19 @@
         "milk-snake"
       ],
       "misidentificationRisk": "high",
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Minimal pain",
-          "Numbness"
+          "Pain at bite site"
         ],
         "neurological": [
+          "Numbness or tingling",
           "Paralysis",
-          "Respiratory depression"
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure",
-          "Death rare due to small yield"
-        ],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -6667,17 +6659,18 @@
       "continents": [
         "North America"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling"
+          "Pain at bite site",
+          "Swelling",
+          "Bruising"
         ],
-        "neurological": [
-          "Ecchymosis",
-          "Coagulopathy in moderate cases"
-        ],
+        "neurological": [],
         "blood": [
-          "Severe systemic envenoming is uncommon"
+          "Coagulopathy"
         ],
         "muscle": [],
         "gastrointestinal": []
@@ -6799,17 +6792,19 @@
       "continents": [
         "North America"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Minimal pain",
-          "Numbness"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Paralysis"
+          "Numbness or tingling",
+          "Paralysis",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure rare"
-        ],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -6894,27 +6889,17 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain",
+          "Pain at bite site",
           "Swelling",
-          "Necrosis",
-          "Tissue Damage"
+          "Tissue damage"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "neurological": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
-        ],
+        "neurological": [],
+        "blood": [],
+        "muscle": [],
         "gastrointestinal": [
-          "Nausea"
+          "Nausea or vomiting"
         ]
       },
-      "causesOfDeath": [
-        "Rarely Fatal"
-      ],
       "firstAidInfo": "No specific antivenom widely available. Treat symptomatically — clean wound, manage pain, monitor for tissue necrosis. Surgical debridement may be required for severe necrosis. Seek medical attention promptly.",
       "sources": [
         "WHO",
@@ -7017,17 +7002,18 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
+          "Pain at bite site",
           "Swelling",
-          "Bleeding"
+          "Necrosis"
         ],
-        "neurological": [
-          "Local necrosis"
-        ],
+        "neurological": [],
         "blood": [
-          "Rare"
+          "Internal bleeding"
         ],
         "muscle": [],
         "gastrointestinal": []
@@ -7104,23 +7090,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Rarely Fatal"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -7197,23 +7179,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Rarely Fatal"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -7307,17 +7285,19 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Minimal pain",
-          "Numbness"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Paralysis"
+          "Numbness or tingling",
+          "Paralysis",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure rare"
-        ],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -7413,22 +7393,23 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding",
+        "Kidney failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling",
-          "Bleeding"
+          "Pain at bite site",
+          "Swelling"
         ],
-        "neurological": [
-          "Coagulopathy",
-          "Defibrinogenation"
-        ],
+        "neurological": [],
         "blood": [
-          "Severe hemorrhage",
-          "Renal failure",
-          "Death rare but documented"
+          "Internal bleeding",
+          "Coagulopathy"
         ],
-        "muscle": [],
+        "muscle": [
+          "Kidney failure"
+        ],
         "gastrointestinal": []
       }
     },
@@ -7503,23 +7484,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Rarely Fatal"
+        "Respiratory failure"
       ],
       "fangType": "Hinged front fangs",
       "continents": [
@@ -7645,15 +7622,12 @@
       ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling"
-        ],
-        "neurological": [
+          "Pain at bite site",
+          "Swelling",
           "Tissue damage"
         ],
-        "blood": [
-          "Rare death"
-        ],
+        "neurological": [],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -7757,17 +7731,19 @@
       "continents": [
         "Asia"
       ],
+      "causesOfDeath": [
+        "Respiratory failure"
+      ],
       "symptoms": {
         "localEffects": [
-          "Minimal pain",
-          "Numbness"
+          "Pain at bite site"
         ],
         "neurological": [
-          "Paralysis"
+          "Numbness or tingling",
+          "Paralysis",
+          "Difficulty breathing"
         ],
-        "blood": [
-          "Respiratory failure rare"
-        ],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -7860,25 +7836,22 @@
       "continents": [
         "Africa"
       ],
-      "symptoms": {
-        "localEffects": [
-          "Pain",
-          "Swelling",
-          "Blisters"
-        ],
-        "neurological": [
-          "Local necrosis"
-        ],
-        "blood": [
-          "Rare systemic"
-        ],
-        "muscle": [],
-        "gastrointestinal": []
-      },
       "commonlyMisidentifiedAs": [
         "puff-adder"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "symptoms": {
+        "localEffects": [
+          "Pain at bite site",
+          "Swelling",
+          "Blistering",
+          "Necrosis"
+        ],
+        "neurological": [],
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": []
+      }
     },
     {
       "id": "eyelash-viper",
@@ -8001,16 +7974,13 @@
       ],
       "symptoms": {
         "localEffects": [
-          "Pain",
+          "Pain at bite site",
           "Swelling",
-          "Blisters"
+          "Blistering",
+          "Necrosis"
         ],
-        "neurological": [
-          "Local necrosis"
-        ],
-        "blood": [
-          "Rare systemic"
-        ],
+        "neurological": [],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -8104,18 +8074,17 @@
       "continents": [
         "South America"
       ],
+      "causesOfDeath": [
+        "Massive internal bleeding"
+      ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling",
-          "Local bleeding"
+          "Pain at bite site",
+          "Swelling"
         ],
-        "neurological": [
-          "Extended edema",
-          "Regional tissue irritation"
-        ],
+        "neurological": [],
         "blood": [
-          "Systemic severe effects are rare"
+          "Internal bleeding"
         ],
         "muscle": [],
         "gastrointestinal": []
@@ -8243,20 +8212,16 @@
       ],
       "symptoms": {
         "localEffects": [
-          "Pain",
+          "Pain at bite site",
           "Swelling",
-          "Nausea"
+          "Tissue damage"
         ],
-        "neurological": [
-          "Tissue damage",
-          "Rare systemic effects"
-        ],
-        "blood": [
-          "Rare death",
-          "Antivenom rarely needed"
-        ],
+        "neurological": [],
+        "blood": [],
         "muscle": [],
-        "gastrointestinal": []
+        "gastrointestinal": [
+          "Nausea or vomiting"
+        ]
       }
     },
     {
@@ -8348,15 +8313,12 @@
       ],
       "symptoms": {
         "localEffects": [
-          "Pain",
-          "Swelling"
+          "Pain at bite site",
+          "Swelling",
+          "Tissue damage"
         ],
-        "neurological": [
-          "Local tissue damage"
-        ],
-        "blood": [
-          "Rare"
-        ],
+        "neurological": [],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -8644,8 +8606,7 @@
       "distribution": {
         "regions": [
           "Australia",
-          "Indonesia",
-          "Papua New Guinea"
+          "New Guinea"
         ],
         "habitat": "Rainforests",
         "coordinates": [
@@ -9204,14 +9165,10 @@
       ],
       "symptoms": {
         "localEffects": [
-          "Mild local effects"
+          "Pain at bite site"
         ],
-        "neurological": [
-          "Rare"
-        ],
-        "blood": [
-          "Not dangerous to adults"
-        ],
+        "neurological": [],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -9628,16 +9585,12 @@
       ],
       "symptoms": {
         "localEffects": [
-          "Local pain",
+          "Pain at bite site",
           "Swelling",
-          "Mild necrosis"
+          "Necrosis"
         ],
-        "neurological": [
-          "Rare systemic"
-        ],
-        "blood": [
-          "Essentially not life-threatening"
-        ],
+        "neurological": [],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -9753,16 +9706,10 @@
       ],
       "symptoms": {
         "localEffects": [
-          "Mild swelling",
-          "Itching",
-          "Rare allergic reaction"
+          "Swelling"
         ],
-        "neurological": [
-          "Rare"
-        ],
-        "blood": [
-          "Essentially harmless to humans"
-        ],
+        "neurological": [],
+        "blood": [],
         "muscle": [],
         "gastrointestinal": []
       }
@@ -9832,23 +9779,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Rear fangs",
       "continents": [
@@ -9920,23 +9863,19 @@
       },
       "symptoms": {
         "localEffects": [
-          "Pain"
-        ],
-        "gastrointestinal": [
-          "Nausea / Vomiting"
+          "Pain at bite site"
         ],
         "neurological": [
           "Paralysis"
         ],
-        "blood": [
-          "N/A"
-        ],
-        "muscle": [
-          "N/A"
+        "blood": [],
+        "muscle": [],
+        "gastrointestinal": [
+          "Nausea or vomiting"
         ]
       },
       "causesOfDeath": [
-        "Respiratory Failure"
+        "Respiratory failure"
       ],
       "fangType": "Rear fangs",
       "continents": [
@@ -10377,7 +10316,7 @@
       "distribution": {
         "regions": [
           "Europe",
-          "Asia"
+          "Western Asia"
         ],
         "habitat": "Rivers, lakes",
         "coordinates": [
@@ -11913,6 +11852,9 @@
       "images": {
         "primary": "/images/snakes/smooth-green-snake/primary.jpg",
         "thumbnail": "/images/snakes/smooth-green-snake/thumbnail.jpg",
+        "gallery": [
+          "/images/snakes/smooth-green-snake/gallery/1.jpg"
+        ],
         "attribution": {
           "photographer": "Don F Becker",
           "source": "Wikimedia Commons",
@@ -11920,9 +11862,6 @@
           "license": "CC0",
           "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
         },
-        "gallery": [
-          "/images/snakes/smooth-green-snake/gallery/1.jpg"
-        ],
         "galleryAttributions": [
           {
             "photographer": "Kristof Zyskowski &amp; Yulia Bereshpolova",
@@ -12072,8 +12011,7 @@
       "distribution": {
         "regions": [
           "Australia",
-          "New Guinea",
-          "Indonesia"
+          "New Guinea"
         ],
         "habitat": "Rainforest canopy",
         "coordinates": [

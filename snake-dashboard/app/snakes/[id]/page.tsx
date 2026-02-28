@@ -167,7 +167,7 @@ export default async function SnakeDetailPage({
                   >
                     {classificationLabel}
                   </span>
-                  {(snake.clinicalData?.fatalitySummary === "Rarely Fatal" || snake.causesOfDeath?.includes("Rarely Fatal")) && (
+                  {snake.clinicalData?.fatalitySummary === "Rarely Fatal" && (
                     <span
                       className="inline-flex"
                       style={{
@@ -450,7 +450,6 @@ export default async function SnakeDetailPage({
       {venomous && (
         <ClinicalSymptomsCard
           symptoms={symptomsForDisplay ?? {}}
-          symptomsProgression={snake.symptomsProgression}
           causesOfDeath={snake.causesOfDeath}
           clinicalData={snake.clinicalData}
         />

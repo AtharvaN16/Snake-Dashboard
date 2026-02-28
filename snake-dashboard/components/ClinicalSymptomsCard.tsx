@@ -3,7 +3,7 @@
 import { useState, useMemo, memo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import type { Snake, ClinicalData, SymptomsProgression } from "@/lib/types";
+import type { Snake, ClinicalData } from "@/lib/types";
 import { calculateClinicalScore } from "@/lib/dangerScore";
 import { ScoreTooltip, type TooltipRow } from "./ScoreTooltip";
 
@@ -11,7 +11,6 @@ type SymptomsMap = NonNullable<Snake["symptoms"]>;
 
 interface ClinicalSymptomsCardProps {
   symptoms: SymptomsMap;
-  symptomsProgression?: SymptomsProgression;
   causesOfDeath?: string[];
   clinicalData?: ClinicalData;
 }
@@ -23,12 +22,6 @@ const KEY_LABELS: Record<string, string> = {
   muscle: "Muscle",
   gastrointestinal: "Gastrointestinal",
 };
-const PROGRESSION_LABELS: Array<{ key: keyof SymptomsProgression; label: string }> = [
-  { key: "short", label: "Short-term" },
-  { key: "prog", label: "Progressive" },
-  { key: "crit", label: "Critical" },
-];
-
 const CONTENT_H = 850;
 const CARD_H = CONTENT_H;
 const EASE = [0.32, 0.72, 0, 1] as const;
@@ -38,7 +31,6 @@ const COMPACT = "var(--font-pangram-compact), system-ui, sans-serif";
 
 const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({
   symptoms,
-  symptomsProgression,
   causesOfDeath,
   clinicalData,
 }: ClinicalSymptomsCardProps) {
@@ -59,25 +51,7 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({
     return items;
   }, [symptoms, causesOfDeath]);
 
-  const progressionSections = useMemo(() => {
-    type Section = { label: string; values: string[] };
-    if (!symptomsProgression) return [] as Section[];
-    const short = symptomsProgression.short ?? symptomsProgression.shortTerm ?? [];
-    const progressive = symptomsProgression.prog ?? symptomsProgression.progressive ?? [];
-    const critical = symptomsProgression.crit ?? symptomsProgression.critical ?? [];
-    const normalized: Record<string, string[]> = {
-      short,
-      prog: progressive,
-      crit: critical,
-    };
-    return PROGRESSION_LABELS.flatMap(({ key, label }) => {
-      const values = normalized[key] ?? [];
-      if (!Array.isArray(values) || values.length === 0 || (values.length === 1 && values[0] === "N/A")) return [];
-      return [{ label, values }];
-    });
-  }, [symptomsProgression]);
-
-  if (bodySystemSections.length === 0 && progressionSections.length === 0 && !clinicalData) return null;
+  if (bodySystemSections.length === 0 && !clinicalData) return null;
 
   const clinicalHeader = clinicalData && (() => {
     const clinicalScore = calculateClinicalScore(clinicalData);
@@ -178,55 +152,6 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({
             </p>
           </div>
         ))}
-
-        {progressionSections.length > 0 && (
-          <>
-            <div className="border-b border-dashed border-stone-300" />
-            <div className="flex flex-col gap-1">
-              <span
-                style={{
-                  fontFamily: COMPRESSED,
-                  fontWeight: 800,
-                  fontSize: "20px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                  color: "#2c2c2c",
-                }}
-              >
-                Progression Timeline
-              </span>
-            </div>
-            {progressionSections.map((section, i) => (
-              <div key={`progression-${i}`} className="flex flex-col gap-1">
-                <span
-                  style={{
-                    fontFamily: COMPRESSED,
-                    fontWeight: 800,
-                    fontSize: "17px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    color: "#44403c",
-                  }}
-                >
-                  {section.label}
-                </span>
-                <p
-                  style={{
-                    fontFamily: COMPACT,
-                    fontWeight: 400,
-                    fontSize: "14px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    color: "#555",
-                    lineHeight: "1.4",
-                  }}
-                >
-                  {section.values.join(", ")}
-                </p>
-              </div>
-            ))}
-          </>
-        )}
       </div>
     </>
   );

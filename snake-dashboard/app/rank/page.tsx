@@ -11,6 +11,9 @@ import { VENOM_TYPE_CHIP } from "@/components/VenomTypeChip";
 import { RegionPills } from "@/components/RegionPills";
 import { Kbd } from "@/components/ui/kbd";
 import { DangerScoreInfoBox } from "@/components/DangerScoreInfoBox";
+import { RankEditControls } from "@/components/RankEditControls";
+import { SearchNewSnake } from "@/components/SearchNewSnake";
+import { Pencil, Check, Plus } from "lucide-react";
 import type { Continent, Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
@@ -21,6 +24,7 @@ function isNonSnake(item: Rankable): item is NonSnake {
 }
 
 const COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px] gap-x-1 lg:grid-cols-[48px_140px_minmax(200px,1fr)_120px_100px_190px] lg:gap-x-3";
+const EDIT_COLS = "w-full grid-cols-[88px_minmax(84px,1fr)_72px_120px] gap-x-1 lg:grid-cols-[48px_140px_minmax(180px,1fr)_120px_100px_140px_130px] lg:gap-x-3";
 const INTRINSIC_WEIGHTS = getIntrinsicWeights();
 
 function getRankDisplay(rank: number): { numeral: string; color: string } {
@@ -58,9 +62,9 @@ function formatLD50(val: number | undefined): string {
 }
 
 function RankTableRow({
-  item, rank, viewMode, priority,
+  item, rank, viewMode, priority, editMode, onRefresh,
 }: {
-  item: Rankable; rank: number; viewMode: ViewMode; priority?: boolean;
+  item: Rankable; rank: number; viewMode: ViewMode; priority?: boolean; editMode?: boolean; onRefresh?: () => void;
 }) {
   const { numeral, color: rankColor } = getRankDisplay(rank);
   const isNS = isNonSnake(item);
@@ -72,8 +76,10 @@ function RankTableRow({
   const intrinsicScore = snake ? getIntrinsicScore(snake) : null;
   const finalScore = snake?.dangerScore;
 
+  const gridCols = editMode ? EDIT_COLS : COLS;
+
   const RowContent = (
-    <div className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px]`}>
+    <div className={`grid ${gridCols} border-b border-stone-100 last:border-0 group transition-colors duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px]`}>
       {/* Rank */}
       <div className="hidden items-center justify-center py-4 min-h-[88px] lg:flex">
         <span className="font-mono text-[13px] font-bold" style={{ color: rankColor }}>
@@ -192,11 +198,16 @@ function RankTableRow({
           </div>
         )}
       </div>
+
+      {/* Edit Controls */}
+      {editMode && !isNS && (
+        <RankEditControls snakeId={snake!.id} onRefresh={onRefresh!} />
+      )}
     </div>
   );
 
-  if (isNS) {
-    return <div title={nonSnake!.description}>{RowContent}</div>;
+  if (isNS || editMode) {
+    return <div title={isNS ? nonSnake!.description : undefined}>{RowContent}</div>;
   }
 
   return (
@@ -215,9 +226,19 @@ function RankPageInner() {
   const [viewMode, setViewMode] = useState<ViewMode>(viewParam === "potency" ? "potency" : "danger");
   const [showOnlySnakes, setShowOnlySnakes] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const isDev = process.env.NODE_ENV === "development";
 
-  const allSnakes = getAllSnakes();
+  const [allSnakes, setAllSnakes] = useState<Snake[]>(() => getAllSnakes());
   const [allNonSnakes, setAllNonSnakes] = useState<NonSnake[]>(() => getNonSnakes());
+
+  const refreshData = useCallback(() => {
+    // In dev, we can try to re-fetch or just reload if data is static in JS
+    // For now, let's just trigger a component refresh by re-calling getters if they weren't cached
+    // Since getAllSnakes() reads from the imported JSON, we might need a full page reload or an API
+    window.location.reload(); 
+  }, []);
+
   const uniqueContinents = useMemo(
     () => Array.from(new Set(allSnakes.flatMap((s) => s.continents))).sort(),
     [allSnakes]
@@ -404,19 +425,45 @@ function RankPageInner() {
       </div>
 
       {/* Region pills - top right, dropdown animates downward like taxonomy page */}
-      <div className="fixed top-4 right-4 z-20 flex flex-col items-end lg:right-6">
+      <div className="fixed top-4 right-4 z-20 flex flex-col items-end gap-2 lg:right-6">
         <RegionPills
           selectedRegion={regionParam as Continent | null}
           onChange={setRegion}
           continents={uniqueContinents}
           singleColumn
         />
+        {isDev && (
+          <Button
+            variant={editMode ? "default" : "outline"}
+            size="sm"
+            onClick={() => setEditMode(!editMode)}
+            className="h-8 gap-2 bg-white text-stone-700 border-stone-200 hover:bg-stone-50 shadow-sm"
+          >
+            {editMode ? (
+              <>
+                <Check className="w-4 h-4" />
+                Done
+              </>
+            ) : (
+              <>
+                <Pencil className="w-4 h-4" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
 
       {/* Table */}
-      <div className="fixed inset-x-0 bottom-0 top-[210px] z-10 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.12)] border-t border-stone-200 sm:relative sm:inset-auto sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:rounded-2xl sm:border sm:shadow-md sm:max-h-none sm:overflow-y-visible">
+      <div className={`fixed inset-x-0 bottom-0 top-[210px] z-10 bg-white shadow-[0_-8px_30px_rgb(0,0,0,0.12)] border-t border-stone-200 sm:relative sm:inset-auto sm:mx-auto sm:mt-0 sm:w-full sm:max-w-4xl sm:rounded-2xl sm:border sm:shadow-md sm:max-h-none sm:overflow-y-visible ${editMode ? "sm:max-w-6xl" : ""}`}>
           <div className="h-full overflow-y-auto sm:h-auto sm:overflow-y-visible">
-            <div className={`grid ${COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white sm:rounded-t-2xl`}>
+            {editMode && (
+              <div className="p-4 border-b border-stone-100 bg-stone-50/30">
+                 <SearchNewSnake onAdded={refreshData} />
+              </div>
+            )}
+
+            <div className={`grid ${editMode ? EDIT_COLS : COLS} border-b-2 border-stone-200/60 sticky top-0 z-10 bg-white sm:rounded-t-2xl`}>
             <div className="hidden px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 text-center lg:block lg:px-4 lg:py-3">#</div>
             <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 text-center lg:px-4 lg:py-3 lg:text-[10px]">Photo</div>
             <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">Species</div>
@@ -430,6 +477,9 @@ function RankPageInner() {
                 </>
               ) : "LD₅₀ (mg/kg)"}
             </div>
+            {editMode && (
+              <div className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-stone-400 lg:px-4 lg:py-3 lg:text-[10px]">Admin</div>
+            )}
           </div>
 
           {rankedItems.map((item, index) => (
@@ -439,6 +489,8 @@ function RankPageInner() {
               rank={index + 1}
               viewMode={viewMode}
               priority={index < 8}
+              editMode={editMode}
+              onRefresh={refreshData}
             />
           ))}
 
