@@ -323,11 +323,21 @@ function RankPageInner() {
 
   useEffect(() => {
     if (!focusSnakeId) return;
-    const el = document.getElementById(`rank-row-${focusSnakeId}`);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-    el.classList.add("ring-2", "ring-stone-400", "bg-stone-50");
-    const t = setTimeout(() => el.classList.remove("ring-2", "ring-stone-400", "bg-stone-50"), 2500);
+    const linkEl = document.getElementById(`rank-row-${focusSnakeId}`);
+    if (!linkEl) return;
+
+    const rowEl = linkEl.querySelector<HTMLDivElement>(".group");
+    const imgEl = linkEl.querySelector<HTMLImageElement>("img");
+
+    linkEl.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    rowEl?.classList.add("bg-stone-900/10");
+    imgEl?.classList.add("scale-[1.06]");
+
+    const t = setTimeout(() => {
+      rowEl?.classList.remove("bg-stone-900/10");
+      imgEl?.classList.remove("scale-[1.06]");
+    }, 1600);
     return () => clearTimeout(t);
   }, [focusSnakeId, rankedItems]);
 

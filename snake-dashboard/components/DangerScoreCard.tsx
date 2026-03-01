@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, memo, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Snake } from "@/lib/types";
 import {
@@ -23,6 +24,7 @@ interface DangerScoreCardProps {
 }
 
 const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: DangerScoreCardProps) {
+  const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { intrinsicExact, speedMod, encounterMod, deliveryMod } = useMemo(() => {
@@ -234,7 +236,17 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
               >
                 Danger Score
               </h2>
-              <div className="text-[12px] font-black text-stone-400 uppercase tracking-widest">RANK {snake.dangerRank}</div>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  router.push(`/rank?view=danger&snakeId=${snake.id}`);
+                }}
+                className="mt-0.5 inline-flex items-center gap-1 rounded-sm px-2 py-0.5 text-[12px] font-black uppercase tracking-widest text-stone-400 hover:text-stone-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-100"
+                aria-label={`View danger rankings position for ${snake.commonName}`}
+              >
+                <span>Rank {snake.dangerRank}</span>
+              </button>
             </div>
 
             <div className="flex flex-col items-center mb-8">
