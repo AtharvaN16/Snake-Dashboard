@@ -13,7 +13,7 @@ import { Kbd } from "@/components/ui/kbd";
 import { Button } from "@/components/ui/button";
 import { DangerScoreInfoBox } from "@/components/DangerScoreInfoBox";
 import { RankEditPanel } from "@/components/RankEditPanel";
-import { Pencil, Check, RotateCcw } from "lucide-react";
+import { Pencil, Check } from "lucide-react";
 import type { Continent, Snake } from "@/lib/types";
 
 type ViewMode = "danger" | "potency";
@@ -468,17 +468,6 @@ function RankPageInner() {
           singleColumn
         />
         <div className="flex gap-2">
-          {regionParam && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setRegion(null)}
-              className="h-8 gap-2 bg-white text-stone-500 border-stone-200 hover:bg-stone-50 shadow-sm"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              Clear filters
-            </Button>
-          )}
           {isDev && (
             <Button
               variant={editMode ? "default" : "outline"}

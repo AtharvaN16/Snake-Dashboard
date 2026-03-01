@@ -35,15 +35,7 @@ import { TaxonomyInfoBox } from "./TaxonomyInfoBox";
 import { RegionPills } from "@/components/RegionPills";
 import { getAllSnakes } from "@/lib/snakeData";
 import type { Continent, Snake } from "@/lib/types";
-
-// Accessibility: colors darkened/saturated for contrast on light background while preserving intent
-const venomClassificationColors: Record<Snake['venomClassification'], string> = {
-  "Highly Venomous": "#D94A4A",
-  "Venomous": "#E8925A",
-  "Moderately Venomous": "#D4C43D",
-  "Mildly Venomous": "#8FB830",
-  "Non-venomous": "#E5E5E5", // Super faded so non-venomous nodes recede visually
-};
+import { venomClassificationColors } from "./venomLegendConfig";
 
 export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const router = useRouter();
@@ -863,7 +855,10 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         Reset View
       </button>
       <div className="hidden lg:block">
-        <TreeLegend />
+        <TreeLegend
+          mode={colorMode === "venom" ? "venom" : "taxonomy"}
+          venomSubs={venomSubs}
+        />
       </div>
     </div>
   );

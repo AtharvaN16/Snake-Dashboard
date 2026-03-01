@@ -21,6 +21,7 @@ interface HomeClientProps {
 export function HomeClient({ snakes }: HomeClientProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isShortDesktopViewport, setIsShortDesktopViewport] = useState(false);
 
   // Strictly disable scrolling on the body for the home page
   useEffect(() => {
@@ -37,6 +38,19 @@ export function HomeClient({ snakes }: HomeClientProps) {
       document.body.style.width = "";
       document.body.style.height = "";
     };
+  }, []);
+
+  useEffect(() => {
+    const updateViewportFlags = () => {
+      if (typeof window === "undefined") return;
+      const isDesktop = window.innerWidth >= 1024;
+      const isShort = window.innerHeight < 820;
+      setIsShortDesktopViewport(isDesktop && isShort);
+    };
+
+    updateViewportFlags();
+    window.addEventListener("resize", updateViewportFlags);
+    return () => window.removeEventListener("resize", updateViewportFlags);
   }, []);
 
   return (
@@ -118,9 +132,9 @@ export function HomeClient({ snakes }: HomeClientProps) {
             </div>
           )}
 
-          {/* Desktop Logo & Title - Centered above search with compact spacing */}
+          {/* Desktop Logo & Title - Centered above search with tighter spacing */}
           {!isPlaying && !isGameOver && (
-            <div className="hidden lg:flex flex-col items-center lg:mb-4">
+            <div className="hidden lg:flex flex-col items-center">
               <Image
                 src="/images/logo.png"
                 alt="Snake Logo"
@@ -135,9 +149,17 @@ export function HomeClient({ snakes }: HomeClientProps) {
             </div>
           )}
 
-          {/* Search Card - Mobile: fixed 70vh at bottom; Desktop: clamped height that grows slightly on taller screens while leaving footer gap */}
+          {/* Search Card - Mobile: fixed 70vh at bottom; Desktop: clamped height that grows slightly on taller screens while leaving footer gap.
+              On shorter desktop viewports (< 820px tall), use a more compact height to give the footer extra breathing room. */}
           {!isPlaying && !isGameOver && (
-            <div className="mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-4 lg:flex-none lg:h-[clamp(480px,56dvh,680px)] lg:w-full lg:min-h-0 lg:max-h-none">
+            <div
+              className={[
+                "mt-auto flex h-[70vh] min-h-[70vh] w-full shrink-0 flex-col lg:mt-3 lg:flex-none lg:w-full lg:min-h-0 lg:max-h-none",
+                isShortDesktopViewport
+                  ? "lg:h-[clamp(480px,56dvh,680px)]"
+                  : "lg:h-[clamp(520px,60dvh,720px)]",
+              ].join(" ")}
+            >
               <HomeSearchCard
                 inputId="main-search"
                 snakes={snakes}
