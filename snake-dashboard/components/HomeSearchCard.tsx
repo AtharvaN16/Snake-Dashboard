@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { searchSnakes, sortSnakes, type SortOption } from "@/lib/searchUtils";
@@ -25,6 +26,45 @@ function getClassificationTag(venomClassification: SnakeSummary["venomClassifica
   }
 }
 
+function highlightMatch(text: string, query: string): ReactNode {
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) return text;
+
+  const lowerText = text.toLowerCase();
+  const lowerQuery = trimmedQuery.toLowerCase();
+
+  const segments: ReactNode[] = [];
+  let currentIndex = 0;
+  let matchIndex = lowerText.indexOf(lowerQuery);
+
+  while (matchIndex !== -1) {
+    if (matchIndex > currentIndex) {
+      segments.push(text.slice(currentIndex, matchIndex));
+    }
+
+    const matchEnd = matchIndex + lowerQuery.length;
+    const matchText = text.slice(matchIndex, matchEnd);
+
+    segments.push(
+      <span
+        key={`${matchIndex}-${matchEnd}`}
+        className="bg-yellow-100"
+      >
+        {matchText}
+      </span>
+    );
+
+    currentIndex = matchEnd;
+    matchIndex = lowerText.indexOf(lowerQuery, currentIndex);
+  }
+
+  if (currentIndex < text.length) {
+    segments.push(text.slice(currentIndex));
+  }
+
+  return segments.length > 0 ? segments : text;
+}
+
 function SnakeListItem({
   snake,
   isActive,
@@ -32,6 +72,7 @@ function SnakeListItem({
   onHover,
   onSelectSnake,
   getSnakeHref,
+  query,
 }: {
   snake: SnakeSummary;
   isActive: boolean;
@@ -39,6 +80,7 @@ function SnakeListItem({
   onHover?: () => void;
   onSelectSnake?: () => void;
   getSnakeHref?: (snake: SnakeSummary) => string;
+  query: string;
 }) {
   const classification = getClassificationTag(snake.venomClassification);
   const href = getSnakeHref ? getSnakeHref(snake) : `/snakes/${snake.id}`;
@@ -60,10 +102,10 @@ function SnakeListItem({
               isActive ? "text-stone-700" : "text-[#2c2c2c] group-hover:text-stone-700"
             }`}
           >
-            {snake.commonName}
+            {highlightMatch(snake.commonName, query)}
           </span>
           <span className="hidden truncate text-xs text-stone-400 sm:inline sm:text-sm">
-            {snake.scientificName}
+            {highlightMatch(snake.scientificName, query)}
           </span>
         </div>
 
@@ -314,6 +356,7 @@ export function HomeSearchCard({
                 }}
                 onSelectSnake={onSelectSnake}
                 getSnakeHref={getSnakeHref}
+                query={searchQuery}
               />
             </div>
           ))
@@ -335,6 +378,7 @@ export function HomeSearchCard({
                     }}
                     onSelectSnake={onSelectSnake}
                     getSnakeHref={getSnakeHref}
+                    query={searchQuery}
                   />
                 </div>
               ))}

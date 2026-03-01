@@ -3,8 +3,8 @@ import type { Snake, SnakeSummary } from "./types";
 
 const fuseOptions = {
   keys: [
-    { name: "commonName", weight: 2 },
-    { name: "otherCommonNames", weight: 2 },
+    { name: "commonName", weight: 4 },
+    { name: "otherCommonNames", weight: 3 },
     { name: "scientificName", weight: 1.5 },
     { name: "family", weight: 0.5 },
     { name: "genus", weight: 0.5 },
