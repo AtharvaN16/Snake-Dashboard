@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback, Suspense } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -321,10 +321,14 @@ function RankPageInner() {
     return [...filteredSnakes].sort((a, b) => b.dangerScore - a.dangerScore);
   }, [filteredSnakes, allNonSnakes, viewMode, showOnlySnakes, regionParam]);
 
+  const hasFocusedOnceRef = useRef(false);
+
   useEffect(() => {
-    if (!focusSnakeId) return;
+    if (!focusSnakeId || hasFocusedOnceRef.current) return;
     const linkEl = document.getElementById(`rank-row-${focusSnakeId}`);
     if (!linkEl) return;
+
+    hasFocusedOnceRef.current = true;
 
     const rowEl = linkEl.querySelector<HTMLDivElement>(".group");
     const imgEl = linkEl.querySelector<HTMLImageElement>("img");
