@@ -157,7 +157,7 @@ export function HomeSearchCard({
 }: HomeSearchCardProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<SortOption>("alphabetical");
+  const [sortBy, setSortBy] = useState<SortOption>("popular");
   const [activeIndex, setActiveIndex] = useState(-1);
   const [isKeyboardNavigating, setIsKeyboardNavigating] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
@@ -324,8 +324,8 @@ export function HomeSearchCard({
               backgroundSize: '1.25em 1.25em',
             }}
           >
-            <option value="alphabetical">Default (A-Z)</option>
-            <option value="popular">Popularity</option>
+            <option value="popular">Popular</option>
+            <option value="alphabetical">(A-Z)</option>
             <option value="rank">Danger level</option>
             <option value="venomType">Venom type</option>
             <option value="region">Region</option>

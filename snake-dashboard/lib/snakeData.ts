@@ -30,6 +30,7 @@ export function getSnakeSummaries(): SnakeSummary[] {
       ? { ld50: s.venomPotency.ld50, ld50Normalized: s.venomPotency.ld50Normalized }
       : undefined,
     disposition: s.disposition,
+    popularity: s.popularity,
   }));
 }
 
