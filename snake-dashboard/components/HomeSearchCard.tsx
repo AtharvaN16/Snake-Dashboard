@@ -163,8 +163,8 @@ export function HomeSearchCard({
   const listRef = useRef<HTMLDivElement>(null);
 
   const filteredSnakes = useMemo(() => {
-    const result = searchQuery ? searchSnakes(snakes, searchQuery) : snakes;
-    return sortSnakes(result, sortBy);
+    if (searchQuery) return searchSnakes(snakes, searchQuery);
+    return sortSnakes(snakes, sortBy);
   }, [snakes, searchQuery, sortBy]);
   const effectiveActiveIndex =
     filteredSnakes.length === 0 || activeIndex < 0
