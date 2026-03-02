@@ -172,7 +172,7 @@ export function HomeSearchCard({
       : Math.min(activeIndex, filteredSnakes.length - 1);
 
   const groupedSnakes = useMemo(() => {
-    if (sortBy === "rank" || sortBy === "alphabetical") return null;
+    if (sortBy === "rank" || sortBy === "alphabetical" || sortBy === "popular") return null;
 
     const groups: Array<{ heading: string; items: Array<{ snake: SnakeSummary; index: number }> }> = [];
     let currentHeading = "";
@@ -325,6 +325,7 @@ export function HomeSearchCard({
             }}
           >
             <option value="alphabetical">Default (A-Z)</option>
+            <option value="popular">Popularity</option>
             <option value="rank">Danger level</option>
             <option value="venomType">Venom type</option>
             <option value="region">Region</option>
@@ -343,7 +344,7 @@ export function HomeSearchCard({
           <div className="px-6 py-10 text-center text-xs text-stone-500 sm:py-12 sm:text-sm">
             No snakes found matching your search.
           </div>
-        ) : sortBy === "rank" || sortBy === "alphabetical" || !groupedSnakes ? (
+        ) : sortBy === "rank" || sortBy === "alphabetical" || sortBy === "popular" || !groupedSnakes ? (
           filteredSnakes.map((snake, index) => (
             <div key={snake.id} data-snake-index={index}>
               <SnakeListItem

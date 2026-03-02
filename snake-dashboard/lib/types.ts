@@ -184,6 +184,9 @@ export interface Snake {
   /** Special distinctions for display */
   accolades?: string[];
 
+  /** Wikipedia page views / prominence (computed) */
+  popularity?: number;
+
   // For non-venomous / constrictors
   maxLength?: { value: number; unit: "cm" | "m" };
   diet?: string[];
@@ -210,4 +213,5 @@ export interface SnakeSummary {
   venomTypes?: VenomType[];
   venomPotency?: Pick<VenomPotency, "ld50" | "ld50Normalized">;
   disposition?: SnakeDisposition;
+  popularity?: number;
 }

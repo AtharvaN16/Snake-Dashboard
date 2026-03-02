@@ -36,7 +36,8 @@ export type SortOption =
   | "family"
   | "rank"
   | "alphabetical"
-  | "potency";
+  | "potency"
+  | "popular";
 
 export function sortSnakes<T extends SnakeSummary>(snakes: T[], sortBy: SortOption): T[] {
   const sorted = [...snakes];
@@ -84,6 +85,14 @@ export function sortSnakes<T extends SnakeSummary>(snakes: T[], sortBy: SortOpti
       return sorted.sort((a, b) =>
         a.commonName.localeCompare(b.commonName)
       );
+    
+    case "popular":
+      return sorted.sort((a, b) => {
+        const aPop = a.popularity ?? 0;
+        const bPop = b.popularity ?? 0;
+        if (bPop !== aPop) return bPop - aPop;
+        return a.commonName.localeCompare(b.commonName);
+      });
     
     case "family":
       return sorted.sort((a, b) => {

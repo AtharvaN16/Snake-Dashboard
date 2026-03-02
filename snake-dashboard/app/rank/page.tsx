@@ -61,11 +61,12 @@ function formatLD50(val: number | undefined): string {
 }
 
 function RankTableRow({
-  item, rank, viewMode, priority, editMode, onRefresh, onSelect, isSelected,
+  item, rank, viewMode, priority, editMode, onRefresh, onSelect, isSelected, isHighlighted,
 }: {
   item: Rankable; rank: number; viewMode: ViewMode; priority?: boolean; editMode?: boolean; onRefresh?: () => void;
   onSelect?: (id: string | null) => void;
   isSelected?: boolean;
+  isHighlighted?: boolean;
 }) {
   const { numeral, color: rankColor } = getRankDisplay(rank);
   const isNS = isNonSnake(item);
@@ -80,7 +81,15 @@ function RankTableRow({
   const RowContent = (
     <div 
       onClick={() => editMode && !isNS ? onSelect?.(isSelected ? null : snake!.id) : null}
-      className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-all duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px] ${isSelected ? "bg-stone-100/80 ring-1 ring-inset ring-stone-200 cursor-default" : editMode && !isNS ? "cursor-pointer" : ""}`}
+      className={`grid ${COLS} border-b border-stone-100 last:border-0 group transition-all duration-150 min-h-[72px] hover:bg-stone-50/80 lg:min-h-[88px] ${
+        isSelected 
+          ? "bg-stone-100/80 ring-1 ring-inset ring-stone-200 cursor-default" 
+          : isHighlighted 
+            ? "bg-stone-900/10 cursor-default"
+            : editMode && !isNS 
+              ? "cursor-pointer" 
+              : ""
+      }`}
     >
       {/* Rank */}
       <div className="hidden items-center justify-center py-4 min-h-[88px] lg:flex">
@@ -96,7 +105,9 @@ function RankTableRow({
           <img
             src={imageUrl}
             alt={item.commonName}
-            className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.06]"
+            className={`absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.06] ${
+              isHighlighted ? "scale-[1.06]" : ""
+            }`}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-stone-50">
@@ -223,6 +234,7 @@ function RankPageInner() {
   const [showInfo, setShowInfo] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedEditId, setSelectedEditId] = useState<string | null>(null);
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const isDev = process.env.NODE_ENV === "development";
 
   const [allSnakes, setAllSnakes] = useState<Snake[]>(() => getAllSnakes());
@@ -321,27 +333,28 @@ function RankPageInner() {
     return [...filteredSnakes].sort((a, b) => b.dangerScore - a.dangerScore);
   }, [filteredSnakes, allNonSnakes, viewMode, showOnlySnakes, regionParam]);
 
-  const hasFocusedOnceRef = useRef(false);
+  const scrolledToIdRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!focusSnakeId || hasFocusedOnceRef.current) return;
+    if (!focusSnakeId) return;
+    
+    // If we've already scrolled to this specific snakeId, don't do it again
+    // unless the focusSnakeId changes to something else
+    if (scrolledToIdRef.current === focusSnakeId) return;
+
     const linkEl = document.getElementById(`rank-row-${focusSnakeId}`);
     if (!linkEl) return;
 
-    hasFocusedOnceRef.current = true;
-
-    const rowEl = linkEl.querySelector<HTMLDivElement>(".group");
-    const imgEl = linkEl.querySelector<HTMLImageElement>("img");
-
+    // Record success
+    scrolledToIdRef.current = focusSnakeId;
+    
     linkEl.scrollIntoView({ behavior: "smooth", block: "center" });
 
-    rowEl?.classList.add("bg-stone-900/10");
-    imgEl?.classList.add("scale-[1.06]");
-
+    setHighlightedId(focusSnakeId);
     const t = setTimeout(() => {
-      rowEl?.classList.remove("bg-stone-900/10");
-      imgEl?.classList.remove("scale-[1.06]");
+      setHighlightedId(null);
     }, 1600);
+    
     return () => clearTimeout(t);
   }, [focusSnakeId, rankedItems]);
 
@@ -543,6 +556,7 @@ function RankPageInner() {
                 onRefresh={refreshData}
                 onSelect={handleSelect}
                 isSelected={selectedEditId === item.id}
+                isHighlighted={highlightedId === item.id}
               />
             ))}
 

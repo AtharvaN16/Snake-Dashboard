@@ -122,7 +122,8 @@
           "Kidney failure"
         ],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 981
     },
     {
       "id": "coastal-taipan",
@@ -242,7 +243,8 @@
           "Nausea or vomiting",
           "Abdominal pain or cramps"
         ]
-      }
+      },
+      "popularity": 413
     },
     {
       "id": "tiger-snake",
@@ -360,7 +362,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 172
     },
     {
       "id": "philippine-cobra",
@@ -470,7 +473,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 278
     },
     {
       "id": "inland-taipan",
@@ -584,7 +588,8 @@
       "continents": [
         "Oceania"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 362
     },
     {
       "id": "monocled-cobra",
@@ -677,7 +682,8 @@
       "continents": [
         "Asia"
       ],
-      "disposition": "Defensive"
+      "disposition": "Defensive",
+      "popularity": 410
     },
     {
       "id": "indian-cobra",
@@ -792,7 +798,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 767
     },
     {
       "id": "puff-adder",
@@ -910,7 +917,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 1657
     },
     {
       "id": "black-mamba",
@@ -1016,7 +1024,8 @@
       "continents": [
         "Africa"
       ],
-      "disposition": "Aggressive"
+      "disposition": "Aggressive",
+      "popularity": 541
     },
     {
       "id": "death-adder",
@@ -1123,7 +1132,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 382
     },
     {
       "id": "eastern-brown-snake",
@@ -1232,7 +1242,8 @@
       "continents": [
         "Oceania"
       ],
-      "disposition": "Aggressive"
+      "disposition": "Aggressive",
+      "popularity": 597
     },
     {
       "id": "south-american-rattlesnake",
@@ -1320,7 +1331,8 @@
       "continents": [
         "South America"
       ],
-      "disposition": "Defensive"
+      "disposition": "Defensive",
+      "popularity": 2510
     },
     {
       "id": "cape-cobra",
@@ -1453,7 +1465,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 272
     },
     {
       "id": "king-cobra",
@@ -1556,7 +1569,8 @@
       "continents": [
         "Asia"
       ],
-      "disposition": "Defensive"
+      "disposition": "Defensive",
+      "popularity": 539
     },
     {
       "id": "forest-cobra",
@@ -1668,7 +1682,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 336
     },
     {
       "id": "common-krait",
@@ -1780,7 +1795,8 @@
         "Bangladesh",
         "Sri Lanka"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 734
     },
     {
       "id": "egyptian-cobra",
@@ -1905,7 +1921,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 275
     },
     {
       "id": "carpet-viper",
@@ -2016,7 +2033,8 @@
           "Kidney failure"
         ],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 1606
     },
     {
       "id": "saw-scaled-viper",
@@ -2135,7 +2153,8 @@
           "Kidney failure"
         ],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 6623
     },
     {
       "id": "brazilian-lancehead",
@@ -2249,7 +2268,8 @@
           "Kidney failure"
         ],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 456
     },
     {
       "id": "fer-de-lance",
@@ -2372,7 +2392,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 15295
     },
     {
       "id": "blue-krait",
@@ -2481,7 +2502,8 @@
         "gastrointestinal": [
           "Abdominal pain or cramps"
         ]
-      }
+      },
+      "popularity": 2438
     },
     {
       "id": "eastern-diamondback",
@@ -2598,7 +2620,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 673
     },
     {
       "id": "mozambique-spitting-cobra",
@@ -2714,7 +2737,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 263
     },
     {
       "id": "green-mamba",
@@ -2805,7 +2829,8 @@
       "continents": [
         "Africa"
       ],
-      "disposition": "Aggressive"
+      "disposition": "Aggressive",
+      "popularity": 513
     },
     {
       "id": "western-diamondback",
@@ -2922,7 +2947,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 1057
     },
     {
       "id": "bushmaster",
@@ -3037,7 +3063,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 4477
     },
     {
       "id": "common-lancehead",
@@ -3149,7 +3176,8 @@
           "Kidney failure"
         ],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 4753
     },
     {
       "id": "beaked-sea-snake",
@@ -3258,7 +3286,8 @@
         "Asia",
         "Oceania"
       ],
-      "disposition": "Docile"
+      "disposition": "Docile",
+      "popularity": 2537
     },
     {
       "id": "many-banded-krait",
@@ -3372,7 +3401,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 176
     },
     {
       "id": "javan-spitting-cobra",
@@ -3464,7 +3494,8 @@
       "continents": [
         "Asia"
       ],
-      "disposition": "Defensive"
+      "disposition": "Defensive",
+      "popularity": 292
     },
     {
       "id": "boomslang",
@@ -3578,7 +3609,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 166
     },
     {
       "id": "banded-krait",
@@ -3670,7 +3702,8 @@
       "continents": [
         "Asia"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 377
     },
     {
       "id": "black-necked-spitting-cobra",
@@ -3776,7 +3809,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 385
     },
     {
       "id": "mojave-rattlesnake",
@@ -3910,7 +3944,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 3638
     },
     {
       "id": "gaboon-viper",
@@ -4019,7 +4054,8 @@
       "continents": [
         "Africa"
       ],
-      "disposition": "Docile"
+      "disposition": "Docile",
+      "popularity": 706
     },
     {
       "id": "rhinoceros-viper",
@@ -4135,7 +4171,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 5217
     },
     {
       "id": "mulga-snake",
@@ -4229,7 +4266,8 @@
       "continents": [
         "Oceania"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 785
     },
     {
       "id": "lowlands-copperhead",
@@ -4338,7 +4376,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 110
     },
     {
       "id": "timber-rattlesnake",
@@ -4430,7 +4469,8 @@
       "continents": [
         "North America"
       ],
-      "disposition": "Defensive"
+      "disposition": "Defensive",
+      "popularity": 679
     },
     {
       "id": "urutu",
@@ -4541,7 +4581,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 2587
     },
     {
       "id": "south-american-coral-snake",
@@ -4648,7 +4689,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 305
     },
     {
       "id": "yellow-bellied-sea-snake",
@@ -4742,7 +4784,8 @@
         "North America",
         "South America"
       ],
-      "disposition": "Docile"
+      "disposition": "Docile",
+      "popularity": 368
     },
     {
       "id": "rinkhals",
@@ -4857,7 +4900,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 63
     },
     {
       "id": "mangshan-pit-viper",
@@ -4969,7 +5013,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 2694
     },
     {
       "id": "egyptian-viper",
@@ -5057,7 +5102,8 @@
       "continents": [
         "Africa"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 4251
     },
     {
       "id": "dugite",
@@ -5148,7 +5194,8 @@
       "continents": [
         "Oceania"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 176
     },
     {
       "id": "prairie-rattlesnake",
@@ -5240,7 +5287,8 @@
       "continents": [
         "North America"
       ],
-      "disposition": "Defensive"
+      "disposition": "Defensive",
+      "popularity": 3899
     },
     {
       "id": "belchers-sea-snake",
@@ -5354,7 +5402,8 @@
           "Dark urine"
         ],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 3508
     },
     {
       "id": "banded-sea-krait",
@@ -5468,7 +5517,8 @@
           "Muscle breakdown"
         ],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 1415
     },
     {
       "id": "malayan-pit-viper",
@@ -5580,7 +5630,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 135
     },
     {
       "id": "cantil",
@@ -5689,7 +5740,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 1249
     },
     {
       "id": "jararaca",
@@ -5785,7 +5837,8 @@
         "Paraguay",
         "Argentina"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 4484
     },
     {
       "id": "twig-snake",
@@ -5905,7 +5958,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 214
     },
     {
       "id": "massasauga",
@@ -6026,7 +6080,8 @@
       "continents": [
         "North America"
       ],
-      "disposition": "Defensive"
+      "disposition": "Defensive",
+      "popularity": 573
     },
     {
       "id": "japanese-mamushi",
@@ -6146,7 +6201,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 303
     },
     {
       "id": "red-bellied-black-snake",
@@ -6261,7 +6317,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 302
     },
     {
       "id": "blue-malayan-coral-snake",
@@ -6390,7 +6447,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 2422
     },
     {
       "id": "cottonmouth",
@@ -6537,7 +6595,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 24314
     },
     {
       "id": "coral-snake",
@@ -6649,7 +6708,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 3631
     },
     {
       "id": "sidewinder",
@@ -6755,7 +6815,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 5915
     },
     {
       "id": "texas-coral-snake",
@@ -6889,7 +6950,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 348
     },
     {
       "id": "stiletto-snake",
@@ -6995,7 +7057,8 @@
       "continents": [
         "Africa"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 1402
     },
     {
       "id": "white-lipped-viper",
@@ -7102,7 +7165,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 2312
     },
     {
       "id": "nose-horned-viper",
@@ -7194,7 +7258,8 @@
       "continents": [
         "Europe"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 4161
     },
     {
       "id": "asp-viper",
@@ -7285,7 +7350,8 @@
       "continents": [
         "Europe"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 3217
     },
     {
       "id": "rock-rattlesnake",
@@ -7414,7 +7480,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 796
     },
     {
       "id": "indian-coral-snake",
@@ -7519,7 +7586,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 373
     },
     {
       "id": "keelback",
@@ -7631,7 +7699,8 @@
           "Kidney failure"
         ],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 2078
     },
     {
       "id": "common-adder",
@@ -7724,7 +7793,8 @@
         "Europe",
         "Asia"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 3839
     },
     {
       "id": "banded-malayan-coral-snake",
@@ -7841,7 +7911,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 588
     },
     {
       "id": "night-adder",
@@ -7947,7 +8018,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 1612
     },
     {
       "id": "eyelash-viper",
@@ -8080,7 +8152,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 3658
     },
     {
       "id": "false-water-cobra",
@@ -8186,7 +8259,8 @@
         ],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 3595
     },
     {
       "id": "copperhead",
@@ -8321,7 +8395,8 @@
         "gastrointestinal": [
           "Nausea or vomiting"
         ]
-      }
+      },
+      "popularity": 2964
     },
     {
       "id": "waglers-pit-viper",
@@ -8421,7 +8496,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 2117
     },
     {
       "id": "african-rock-python",
@@ -8482,7 +8558,8 @@
       },
       "continents": [
         "Africa"
-      ]
+      ],
+      "popularity": 272
     },
     {
       "id": "burmese-python",
@@ -8543,7 +8620,8 @@
       },
       "continents": [
         "Asia"
-      ]
+      ],
+      "popularity": 246
     },
     {
       "id": "reticulated-python",
@@ -8603,7 +8681,8 @@
       },
       "continents": [
         "Asia"
-      ]
+      ],
+      "popularity": 198
     },
     {
       "id": "boa-constrictor",
@@ -8696,7 +8775,8 @@
         "North America",
         "South America"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 22719
     },
     {
       "id": "amethystine-python",
@@ -8757,7 +8837,8 @@
       },
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 55
     },
     {
       "id": "carpet-python",
@@ -8818,7 +8899,8 @@
       },
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 6371
     },
     {
       "id": "olive-python",
@@ -8878,7 +8960,8 @@
       },
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 149
     },
     {
       "id": "scrub-python",
@@ -8939,7 +9022,8 @@
       },
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 404
     },
     {
       "id": "green-anaconda",
@@ -9001,7 +9085,8 @@
       },
       "continents": [
         "South America"
-      ]
+      ],
+      "popularity": 886
     },
     {
       "id": "yellow-anaconda",
@@ -9062,7 +9147,8 @@
       },
       "continents": [
         "South America"
-      ]
+      ],
+      "popularity": 141
     },
     {
       "id": "indian-python",
@@ -9126,7 +9212,8 @@
       ],
       "otherCommonNames": [
         "Indian Python"
-      ]
+      ],
+      "popularity": 783
     },
     {
       "id": "diamond-python",
@@ -9186,7 +9273,8 @@
       },
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 1384
     },
     {
       "id": "brown-tree-snake",
@@ -9285,7 +9373,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 280
     },
     {
       "id": "garter-snake",
@@ -9342,7 +9431,8 @@
       "continents": [
         "North America"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 448
     },
     {
       "id": "hognose-eastern",
@@ -9392,7 +9482,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 451
     },
     {
       "id": "green-vine-snake",
@@ -9481,7 +9572,8 @@
       "fangType": "Rear fangs",
       "continents": [
         "Asia"
-      ]
+      ],
+      "popularity": 3575
     },
     {
       "id": "ringneck-snake",
@@ -9560,7 +9652,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 304
     },
     {
       "id": "southern-hognose",
@@ -9609,7 +9702,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 193
     },
     {
       "id": "mangrove-snake",
@@ -9710,7 +9804,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 3263
     },
     {
       "id": "western-hognose",
@@ -9830,7 +9925,8 @@
         "blood": [],
         "muscle": [],
         "gastrointestinal": []
-      }
+      },
+      "popularity": 274
     },
     {
       "id": "asian-vine-snake",
@@ -9916,7 +10012,8 @@
       "continents": [
         "Asia"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 2338
     },
     {
       "id": "european-cat-snake",
@@ -10002,7 +10099,8 @@
       "continents": [
         "Europe"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 153
     },
     {
       "id": "ball-python",
@@ -10055,7 +10153,8 @@
       "continents": [
         "Africa"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 318
     },
     {
       "id": "dumerils-boa",
@@ -10106,7 +10205,8 @@
       ],
       "continents": [
         "Africa"
-      ]
+      ],
+      "popularity": 766
     },
     {
       "id": "sand-boa",
@@ -10160,7 +10260,8 @@
       "commonlyMisidentifiedAs": [
         "russells-viper",
         "saw-scaled-viper"
-      ]
+      ],
+      "popularity": 1361
     },
     {
       "id": "asian-rat-snake",
@@ -10217,7 +10318,8 @@
         "indian-cobra",
         "monocled-cobra"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "popularity": 590
     },
     {
       "id": "blood-python",
@@ -10268,7 +10370,8 @@
       ],
       "continents": [
         "Asia"
-      ]
+      ],
+      "popularity": 1906
     },
     {
       "id": "milk-snake",
@@ -10323,7 +10426,8 @@
       "commonlyMisidentifiedAs": [
         "coral-snake"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "popularity": 572
     },
     {
       "id": "paradise-flying-snake",
@@ -10373,7 +10477,8 @@
       ],
       "continents": [
         "Asia"
-      ]
+      ],
+      "popularity": 0
     },
     {
       "id": "aesculapian-snake",
@@ -10424,7 +10529,8 @@
       ],
       "continents": [
         "Europe"
-      ]
+      ],
+      "popularity": 136
     },
     {
       "id": "dice-snake",
@@ -10476,7 +10582,8 @@
       "continents": [
         "Europe",
         "Asia"
-      ]
+      ],
+      "popularity": 116
     },
     {
       "id": "four-lined-snake",
@@ -10526,7 +10633,8 @@
       ],
       "continents": [
         "Europe"
-      ]
+      ],
+      "popularity": 202
     },
     {
       "id": "grass-snake",
@@ -10577,7 +10685,8 @@
       ],
       "continents": [
         "Europe"
-      ]
+      ],
+      "popularity": 496
     },
     {
       "id": "montpellier-snake",
@@ -10656,7 +10765,8 @@
       ],
       "continents": [
         "Europe"
-      ]
+      ],
+      "popularity": 1541
     },
     {
       "id": "smooth-snake",
@@ -10706,7 +10816,8 @@
       ],
       "continents": [
         "Europe"
-      ]
+      ],
+      "popularity": 676
     },
     {
       "id": "black-rat-snake",
@@ -10781,7 +10892,8 @@
       "commonlyMisidentifiedAs": [
         "black-racer"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "popularity": 3857
     },
     {
       "id": "boa-imperator",
@@ -10828,7 +10940,8 @@
       "continents": [
         "North America"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 3503
     },
     {
       "id": "king-snake",
@@ -10880,7 +10993,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 98
     },
     {
       "id": "cat-eyed-snake",
@@ -10951,7 +11065,8 @@
       "continents": [
         "North America",
         "South America"
-      ]
+      ],
+      "popularity": 350
     },
     {
       "id": "corn-snake",
@@ -11003,7 +11118,8 @@
       "continents": [
         "North America"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 203
     },
     {
       "id": "cuban-tree-snake",
@@ -11054,7 +11170,8 @@
       ],
       "continents": [
         "South America"
-      ]
+      ],
+      "popularity": 355
     },
     {
       "id": "brown-snake",
@@ -11105,7 +11222,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 367
     },
     {
       "id": "indigo-snake",
@@ -11157,7 +11275,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 244
     },
     {
       "id": "ribbon-snake",
@@ -11235,7 +11354,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 1073
     },
     {
       "id": "worm-snake",
@@ -11285,7 +11405,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 556
     },
     {
       "id": "fox-snake",
@@ -11363,7 +11484,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 589
     },
     {
       "id": "gopher-snake",
@@ -11414,7 +11536,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 2387
     },
     {
       "id": "gray-rat-snake",
@@ -11464,7 +11587,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 95
     },
     {
       "id": "western-rat-snake",
@@ -11514,7 +11638,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 612
     },
     {
       "id": "pine-snake",
@@ -11564,7 +11689,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 1959
     },
     {
       "id": "water-snake",
@@ -11618,7 +11744,8 @@
       "commonlyMisidentifiedAs": [
         "cottonmouth"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "popularity": 223
     },
     {
       "id": "red-bellied-snake",
@@ -11680,7 +11807,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 1239
     },
     {
       "id": "rosy-boa",
@@ -11732,7 +11860,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 229
     },
     {
       "id": "rubber-boa",
@@ -11795,7 +11924,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 175
     },
     {
       "id": "smooth-green-snake",
@@ -11857,7 +11987,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 151
     },
     {
       "id": "centralian-carpet-python",
@@ -11920,7 +12051,8 @@
       ],
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 1281
     },
     {
       "id": "green-tree-python",
@@ -11972,7 +12104,8 @@
       ],
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 267
     },
     {
       "id": "rough-scaled-python",
@@ -12022,7 +12155,8 @@
       ],
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 144
     },
     {
       "id": "woma-python",
@@ -12101,7 +12235,8 @@
       ],
       "continents": [
         "Oceania"
-      ]
+      ],
+      "popularity": 97
     },
     {
       "id": "amazon-tree-boa",
@@ -12164,7 +12299,8 @@
       ],
       "continents": [
         "South America"
-      ]
+      ],
+      "popularity": 904
     },
     {
       "id": "rainbow-boa",
@@ -12215,7 +12351,8 @@
       ],
       "continents": [
         "South America"
-      ]
+      ],
+      "popularity": 223
     },
     {
       "id": "emerald-tree-boa",
@@ -12294,7 +12431,8 @@
       ],
       "continents": [
         "South America"
-      ]
+      ],
+      "popularity": 227
     },
     {
       "id": "brahminy-blind-snake",
@@ -12376,7 +12514,8 @@
         "Asia",
         "Africa"
       ],
-      "disposition": "Neutral"
+      "disposition": "Neutral",
+      "popularity": 6508
     },
     {
       "id": "black-racer",
@@ -12433,7 +12572,8 @@
       "commonlyMisidentifiedAs": [
         "black-rat-snake"
       ],
-      "misidentificationRisk": "high"
+      "misidentificationRisk": "high",
+      "popularity": 756
     },
     {
       "id": "bullsnake",
@@ -12484,7 +12624,8 @@
       ],
       "continents": [
         "North America"
-      ]
+      ],
+      "popularity": 54
     },
     {
       "id": "european-rat-snake",
@@ -12535,7 +12676,8 @@
       ],
       "continents": [
         "Europe"
-      ]
+      ],
+      "popularity": 136
     }
   ]
 }
