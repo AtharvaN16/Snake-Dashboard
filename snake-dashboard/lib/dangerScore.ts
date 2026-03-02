@@ -127,6 +127,23 @@ export function calculateSpeedScore(
 }
 
 /**
+ * Disposition score from snake behavior. More aggressive = more dangerous.
+ */
+export function calculateDispositionScore(
+  disposition: Snake["disposition"] | undefined
+): number {
+  if (!disposition) return 50; // Neutral baseline
+  const map: Record<NonNullable<Snake["disposition"]>, number> = {
+    Aggressive: 100,
+    Defensive: 75,
+    Neutral: 50,
+    Docile: 25,
+    Placid: 0,
+  };
+  return map[disposition] ?? 50;
+}
+
+/**
  * Clinical severity score from untreated fatality rate and WHO category.
  * Uses the midpoint of the CFR range on a square-root scale (compresses
  * the top end so 20% CFR still scores meaningfully vs 100%).
@@ -167,7 +184,8 @@ export function calculateClinicalScore(clinical: ClinicalData): number {
  * - Clinical (45%): real-world outcome data (CFR + WHO importance).
  *   The ground truth, but imprecise due to broad estimate ranges.
  *
- * Speed and Encounter are multiplicative modifiers, not additive components.
+ * Speed, Encounter, and Delivery are multiplicative modifiers, not additive components.
+ * Disposition is folded into the encounter score rather than applied as a separate multiplier.
  */
 export const INTRINSIC_WEIGHTS = {
   lethalityScore: 0.55,
@@ -177,17 +195,17 @@ export const INTRINSIC_WEIGHTS = {
 /**
  * Speed base floor for the multiplicative model.
  * A snake with "Slow" venom retains this fraction of its intrinsic score.
- * At 0.9, speed swings the final score by about ±10%.
+ * Slow (20) → ×0.94, Quick (55) → ×1.01, Extremely Quick (90) → ×1.08.
  * This ensures that speed acts as a "risk multiplier": fast venom makes
  * a deadly snake more dangerous, but it doesn't make a harmless snake dangerous.
  */
 export const SPEED_BASE = 0.9;
 
 /**
- * Encounter base floor for the multiplicative model.
- * A snake that is rarely encountered retains this fraction of its
- * intrinsic score. At 0.70, encounter acts as a significant "shy" penalty,
- * while high encounter rates provide up to a 10% boost.
+ * Encounter base floor and span for the multiplicative model.
+ * After folding disposition in, effectiveEncounterScore ranges [0, 100]:
+ *   encounterMod = ENCOUNTER_BASE + ENCOUNTER_SPAN × (effectiveEncounterScore / 100)
+ * Range: 0.70× (Placid + Low) to 1.10× (Aggressive + Very High).
  */
 export const ENCOUNTER_BASE = 0.70;
 export const ENCOUNTER_SPAN = 0.40;
@@ -195,16 +213,20 @@ export const ENCOUNTER_SPAN = 0.40;
 /**
  * Multiplicative composite danger score.
  *
- * Model: dangerScore = (intrinsic × speedModifier) × encounterModifier × deliveryModifier
+ * Model: dangerScore = baseIntrinsic × speedModifier × encounterModifier × deliveryModifier
  *
  * Where:
- *   intrinsic = 0.55×lethality + 0.45×clinical
- *   speedModifier = 0.90 + (0.2 × (speedScore / 100)) [±10%]
- *   encounterModifier = 0.70 + (0.40 × (encounterScore / 100)) [0.7x to 1.1x]
- *   deliveryModifier = 0.5 if rear-fanged AND not highly venomous; 1.0 otherwise.
+ *   baseIntrinsic       = 0.55×lethality + 0.45×clinical
+ *   speedModifier       = 0.90 + 0.20 × (speedScore / 100)
+ *   effectiveEncounter  = clamp(encounterScore + dispositionAdjustment, 0, 100)
+ *   encounterModifier   = 0.70 + 0.40 × (effectiveEncounterScore / 100) [0.70× to 1.10×]
+ *   deliveryModifier    = 0.5 if rear-fanged AND not highly venomous; 1.0 otherwise.
  *
- * All three act as scaling modifiers: they can amplify or diminish danger that
- * already exists but cannot create it.
+ * Disposition is folded into the encounter score: aggressive snakes boost their
+ * effective encounter rate; docile/placid snakes reduce it. This captures the
+ * "given you meet it, will it bite?" probability without a separate compounding multiplier.
+ *
+ * The score has no upper cap — it is a relative index, not a percentage.
  */
 export function calculateDangerScore(
   components: DangerScoreComponents,
@@ -215,10 +237,11 @@ export function calculateDangerScore(
     components.clinicalScore * INTRINSIC_WEIGHTS.clinicalScore;
 
   const speedModifier = getSpeedModifier(components.speedScore);
-  const encounterModifier = getEncounterModifier(components.encounterScore);
+  const effectiveEncounterScore = getEffectiveEncounterScore(components.encounterScore, components.dispositionScore);
+  const encounterModifier = getEncounterModifier(effectiveEncounterScore);
 
   const score = baseIntrinsic * speedModifier * encounterModifier * deliveryModifier;
-  return Math.round(Math.max(0, Math.min(100, score)));
+  return Math.round(Math.max(0, score));
 }
 
 /**
@@ -248,9 +271,32 @@ export function getEncounterModifier(encounterScore: number): number {
 }
 
 /**
+ * Folds disposition into the encounter score rather than applying it as a
+ * separate multiplier. Disposition adjusts how likely a snake is to bite
+ * when encountered — "given you meet it, will it strike?"
+ *
+ * Adjustment scale is asymmetric (0.4 below neutral, 0.3 above) so that
+ * extremely passive snakes are meaningfully moderated without over-rewarding aggression.
+ *
+ * Resulting adjustments at each disposition label:
+ *   Aggressive (100) → +15   Defensive (75) → +7.5
+ *   Neutral (50)     →   0   Docile (25)    → −10   Placid (0) → −20
+ *
+ * The effective encounter score is clamped to [0, 100], which also makes
+ * the encounter modifier's full range [0.70, 1.10] reachable in practice:
+ *   Aggressive + Very High → effectiveScore 100 → encounterMod 1.10
+ *   Placid + Low           → effectiveScore   0 → encounterMod 0.70
+ */
+export function getEffectiveEncounterScore(encounterScore: number, dispositionScore: number): number {
+  const scale = dispositionScore >= 50 ? 0.3 : 0.4;
+  const adjustment = (dispositionScore - 50) * scale;
+  return Math.max(0, Math.min(100, encounterScore + adjustment));
+}
+
+/**
  * Returns rounded contribution values for danger score display (e.g. tooltips).
- * Matches the waterfall chart: lethality + clinical, then speed, delivery, and encounter adjustments.
- * encounter/speed/delivery are the adjustment amounts; negative shows as reduction in UI.
+ * Waterfall order: lethality + clinical → speed adjustment → delivery adjustment → encounter adjustment.
+ * Disposition is folded into encounter and not shown as a separate step.
  */
 export function getDangerScoreBreakdown(
   components: DangerScoreComponents,
@@ -260,25 +306,26 @@ export function getDangerScoreBreakdown(
   const weights = getIntrinsicWeights();
   const lethality = Math.round(components.lethalityScore * weights.lethalityScore);
   const clinical = Math.round(components.clinicalScore * weights.clinicalScore);
-  
+
   const base = lethality + clinical;
   const speedMod = getSpeedModifier(components.speedScore);
-  const encounterMod = getEncounterModifier(components.encounterScore);
-  
+  const effectiveEncounterScore = getEffectiveEncounterScore(components.encounterScore, components.dispositionScore);
+  const encounterMod = getEncounterModifier(effectiveEncounterScore);
+
   const speedEffect = Math.round(base * (speedMod - 1));
   const afterSpeed = base + speedEffect;
-  
+
   const deliveryEffect = Math.round(afterSpeed * (deliveryModifier - 1));
   const afterDelivery = afterSpeed + deliveryEffect;
-  
+
   const encounterEffect = Math.round(afterDelivery * (encounterMod - 1));
-  
-  return { 
-    lethality, 
-    clinical, 
-    speed: speedEffect, 
+
+  return {
+    lethality,
+    clinical,
+    speed: speedEffect,
     delivery: deliveryEffect,
-    encounter: encounterEffect 
+    encounter: encounterEffect
   };
 }
 
@@ -376,6 +423,7 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     const components: DangerScoreComponents = {
       clinicalScore: 0, potencyScore: 0, yieldScore: 0,
       lethalityScore: 0, encounterScore: 20, speedScore: 0,
+      dispositionScore: 50,
     };
     return {
       ...snake,
@@ -389,6 +437,7 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
   // 3. Components
   const encounterScore = calculateEncounterScore(snake.humanEncounterChance);
   const speedScore = calculateSpeedScore(snake.venomSpeed);
+  const dispositionScore = calculateDispositionScore(snake.disposition);
 
   // 3a. Potency (Normalize to SC equivalent)
   let potencyScore = 0;
@@ -437,6 +486,7 @@ export function computeDangerScoreForSnake(snake: Snake): Snake {
     lethalityScore,
     encounterScore,
     speedScore,
+    dispositionScore,
   };
 
   // 4. Derive Labels & Modifiers

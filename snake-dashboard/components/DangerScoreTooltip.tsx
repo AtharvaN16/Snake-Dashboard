@@ -19,7 +19,7 @@ const TOOLTIP_CONTENT = (
       <strong>Speed & Delivery Modifiers</strong> — scales danger by how quickly symptoms progress and fang efficiency (e.g. rear-fanged snakes requiring "chewing")
     </p>
     <p className="mt-1.5 text-xs text-stone-600 leading-relaxed">
-      <strong>Encounter Modifier</strong> — scales final score by frequency of human encounters (×0.6 to ×1.0)
+      <strong>Encounter Modifier</strong> — scales final score by frequency of human encounters combined with temperament. Aggressive snakes increase their effective encounter rate; docile or placid snakes reduce it. Range: ×0.70 (placid + rare) to ×1.10 (aggressive + very common).
     </p>
   </div>
 );

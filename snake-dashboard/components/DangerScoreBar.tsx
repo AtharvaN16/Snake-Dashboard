@@ -22,7 +22,7 @@ export function DangerScoreBar({
       {showLabel && (
         <div className="flex justify-between mb-2 text-sm">
           <span className="font-medium">Danger Score</span>
-          <span className="font-bold">{score}/100</span>
+          <span className="font-bold">{score}</span>
         </div>
       )}
       <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
@@ -31,7 +31,7 @@ export function DangerScoreBar({
             "absolute top-0 left-0 h-full bg-gradient-to-r transition-all duration-500",
             gradientColor
           )}
-          style={{ width: `${score}%` }}
+          style={{ width: `${Math.min(100, score)}%` }}
         />
       </div>
     </div>

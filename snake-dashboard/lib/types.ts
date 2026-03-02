@@ -37,6 +37,7 @@ export interface DangerScoreComponents {
   lethalityScore: number;
   encounterScore: number;
   speedScore: number;
+  dispositionScore: number;
 }
 
 export interface SymptomsProgression {
@@ -88,6 +89,13 @@ export type VenomType =
 
 export type VenomSpeed = "Extremely quick" | "Quick" | "Slow";
 
+export type SnakeDisposition =
+  | "Aggressive"
+  | "Defensive"
+  | "Neutral"
+  | "Docile"
+  | "Placid";
+
 export type FangType =
   | "Fixed front fangs"
   | "Hinged front fangs"
@@ -129,6 +137,7 @@ export interface Snake {
   venomYield?: VenomYield;
   venomTypes?: VenomType[];
   venomSpeed?: VenomSpeed;
+  disposition?: SnakeDisposition;
   fangType?: FangType;
 
   // Clinical outcome data (venomous only)
@@ -200,4 +209,5 @@ export interface SnakeSummary {
   venomClassification: Snake["venomClassification"];
   venomTypes?: VenomType[];
   venomPotency?: Pick<VenomPotency, "ld50" | "ld50Normalized">;
+  disposition?: SnakeDisposition;
 }

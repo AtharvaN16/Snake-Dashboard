@@ -247,6 +247,87 @@ Key improvements in Version 6:
 - **Inland Taipan Moderation:** Moved from #1 down to #5, reflecting that while ultra-lethal, its remote habitat lowers its immediate public risk.
 - **Fatality Gap Preservation:** Separating fatality and morbidity ensures a 100% CFR snake (Mamba) correctly outranks lower-fatality necrotic snakes in the clinical sub-score.
 
+## Version 7: The Behavioral Risk Model (Current)
+
+The final piece of the puzzle was **temperament**. Two snakes with identical lethality, speed, and encounter rates can pose different risks if one is extremely docile (like many sea snakes) and the other is famously aggressive (like the Black Mamba).
+
+### The Disposition Modifier
+
+We introduced a fourth multiplicative modifier: **Disposition**. This captures the qualitative behavior of the snake when encountering a human.
+
+- **Aggressive (1.2x):** Actively defends territory or strikes with minimal provocation when cornered (e.g., Black Mamba, Coastal Taipan).
+- **Defensive (1.1x):** Quick to display (hooding, rattling) and strike if approached (e.g., most Cobras, Rattlesnakes).
+- **Neutral (1.0x):** Typical flight-first behavior; no modification.
+- **Docile (0.8x):** Reluctant to bite even when handled (e.g., Ball Pythons, some Sea Snakes).
+- **Placid (0.7x):** Extremely shy or non-reactive to human presence (e.g., Dubois' Sea Snake).
+
+### Calibrated Composite Formula (v7)
+
+```
+baseIntrinsic  = 0.55 × lethality + 0.45 × clinicalScore
+speedMod       = 0.90 + 0.20 × (speedScore / 100)        [0.9x to 1.1x]
+dispositionMod = mapping(Aggressive: 1.2, ..., Placid: 0.7)
+deliveryMod    = 0.50 if (rear-fanged AND not highly venomous); else 1.0
+encounterMod   = 0.70 + 0.40 × (encounterScore / 100)     [0.7x to 1.1x]
+
+dangerScore = round((((baseIntrinsic × speedMod) × dispositionMod) × deliveryMod) × encounterMod)
+```
+
+## Version 8: Folded Disposition and Uncapped Score
+
+Two structural refinements addressed compounding modifier issues and an artificial score ceiling.
+
+### The Compounding Problem
+
+In Version 7, four independent multipliers (speed, disposition, delivery, encounter) stacked sequentially. Each modifier applied to the result of all previous ones, meaning a negative modifier (e.g., Placid at 0.7×) reduced the base that all subsequent positive modifiers acted on. A placid, rarely-encountered snake with high lethality would have its score suppressed far beyond what either factor alone would justify.
+
+The root cause was that **disposition and encounter were measuring the same underlying dimension** — the probability that an encounter results in a bite. Keeping them as separate multipliers caused them to compound when they should have combined.
+
+### Disposition Folded Into Encounter
+
+Disposition now adjusts the **effective encounter score** before the encounter modifier is computed, rather than applying as a separate multiplier:
+
+```
+dispositionAdjustment = (dispositionScore − 50) × scale
+  where scale = 0.3 if dispositionScore ≥ 50 (above neutral)
+                0.4 if dispositionScore < 50  (below neutral, asymmetric)
+
+effectiveEncounterScore = clamp(encounterScore + dispositionAdjustment, 0, 100)
+encounterMod = 0.70 + 0.40 × (effectiveEncounterScore / 100)
+```
+
+Resulting adjustments by label:
+
+| Disposition | Adjustment | Example (Moderate encounter, score 40) |
+|---|---|---|
+| Aggressive | +15 | effectiveScore 55 → encounterMod 0.92 |
+| Defensive | +7.5 | effectiveScore 47.5 → encounterMod 0.89 |
+| Neutral | 0 | effectiveScore 40 → encounterMod 0.86 |
+| Docile | −10 | effectiveScore 30 → encounterMod 0.82 |
+| Placid | −20 | effectiveScore 20 → encounterMod 0.78 |
+
+This also resolves the **unreachable extremes** from Version 7: an Aggressive + Very High encounter snake now reaches an effective score of 100 (encounterMod 1.10), and a Placid + Low encounter snake reaches 0 (encounterMod 0.70) — the full claimed range is now achievable.
+
+### Uncapped Final Score
+
+The `Math.min(100, score)` ceiling was removed. The score is a **relative index**, not a percentage. Snakes scoring above 100 are at the extreme top of the distribution; the number is meaningful as a ranking signal, not as a literal fraction of some maximum danger.
+
+Scores above 100 are rare — they require top-quartile lethality, high clinical severity, fast venom, high encounter, and aggressive temperament simultaneously. The removal prevents artificial clustering at the ceiling and makes the spread between the top-ranked snakes more informative.
+
+### Updated Formula (v8)
+
+```
+baseIntrinsic      = 0.55 × lethalityScore + 0.45 × clinicalScore
+speedMod           = 0.90 + 0.20 × (speedScore / 100)
+effectiveEncounter = clamp(encounterScore + dispositionAdjustment, 0, 100)
+encounterMod       = 0.70 + 0.40 × (effectiveEncounter / 100)  [0.70× to 1.10×]
+deliveryMod        = 0.50 if (rear-fanged AND not highly venomous); else 1.0
+
+dangerScore = round(baseIntrinsic × speedMod × encounterMod × deliveryMod)
+```
+
+---
+
 ## What We Learned
 
 1. **Risk Multipliers vs. Danger Sources.** Factors that amplify existing danger (speed, encounter, delivery) should be multipliers. 
@@ -280,20 +361,24 @@ This means the `lethalityScore` for neurotoxic elapids may be systematically und
 
 ```
 // Individual component scores (each 0–100)
-lethalityScore = log-scaled lethal doses per bite for 70kg human
-                 = log-scaled(yield_mg / (LD50_SC × 70))
-                 bounds: [0.01, 30] → [0, 100]
-clinicalScore  = sqrt-scaled midpoint CFR + morbidity + WHO bonus
-                 bonuses: Life-threatening (+20), Severe (+10), Moderate (+5)
-                 WHO: Cat 1 (+10), Cat 2 (+5)
-speedScore     = qualitative mapping (Extremely quick → 90, Quick → 55, Slow → 20)
-encounterScore = qualitative mapping (Low → 20, Moderate → 40, High → 65, Very High → 85)
+lethalityScore   = log-scaled lethal doses per bite for 70kg human
+                   = log-scaled(yield_mg / (LD50_SC × 70))
+                   bounds: [0.01, 30] → [0, 100]
+clinicalScore    = sqrt-scaled midpoint CFR + morbidity + WHO bonus
+                   bonuses: Life-threatening (+20), Severe (+10), Moderate (+5)
+                   WHO: Cat 1 (+10), Cat 2 (+5)
+speedScore       = qualitative mapping (Extremely quick → 90, Quick → 55, Slow → 20)
+dispositionScore = qualitative mapping (Aggressive → 100, Defensive → 75, Neutral → 50, Docile → 25, Placid → 0)
+encounterScore   = qualitative mapping (Low → 20, Moderate → 40, High → 65, Very High → 85)
 
-// Composite score
-baseIntrinsic = 0.55 × lethalityScore + 0.45 × clinicalScore
-speedMod      = 0.90 + 0.20 × (speedScore / 100)
-deliveryMod   = 0.50 if (rear-fanged AND not highly venomous); else 1.0
-encounterMod  = 0.70 + 0.40 × (encounterScore / 100)
+// Composite score (v8)
+baseIntrinsic      = 0.55 × lethalityScore + 0.45 × clinicalScore
+speedMod           = 0.90 + 0.20 × (speedScore / 100)
+dispositionAdj     = (dispositionScore − 50) × (0.3 if dispositionScore ≥ 50 else 0.4)
+effectiveEncounter = clamp(encounterScore + dispositionAdj, 0, 100)
+encounterMod       = 0.70 + 0.40 × (effectiveEncounter / 100)   // range [0.70, 1.10]
+deliveryMod        = 0.50 if (rear-fanged AND not highly venomous); else 1.0
 
-dangerScore = round(((baseIntrinsic × speedMod) × deliveryMod) × encounterMod)
+dangerScore = round(baseIntrinsic × speedMod × encounterMod × deliveryMod)
+// No upper cap — score is a relative index, not a percentage
 ```

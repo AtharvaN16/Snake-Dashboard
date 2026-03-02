@@ -8,6 +8,7 @@ import {
   getIntrinsicWeights,
   getSpeedModifier,
   getEncounterModifier,
+  getEffectiveEncounterScore,
   getDeliveryModifier,
   deriveVenomClassification,
 } from "@/lib/dangerScore";
@@ -38,11 +39,15 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
       snake.dangerScoreComponents.clinicalScore * weights.clinicalScore;
 
     const venomClass = deriveVenomClassification(snake.dangerScoreComponents, snake.clinicalData);
+    const effectiveEncounterScore = getEffectiveEncounterScore(
+      snake.dangerScoreComponents.encounterScore,
+      snake.dangerScoreComponents.dispositionScore
+    );
 
     return {
       intrinsicExact: intrinsic,
       speedMod: getSpeedModifier(snake.dangerScoreComponents.speedScore),
-      encounterMod: getEncounterModifier(snake.dangerScoreComponents.encounterScore),
+      encounterMod: getEncounterModifier(effectiveEncounterScore),
       deliveryMod: getDeliveryModifier(snake.fangType, venomClass),
     };
   }, [snake]);
@@ -109,7 +114,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
         })}
       </div>
       <p style={{ fontFamily: COMPACT }} className="text-[10px] text-stone-400 leading-snug border-t border-stone-100 pt-1.5">
-        Speed = antivenom window. Delivery = fang efficiency. Encounter = real-world exposure probability.
+        Speed = antivenom window. Delivery = fang efficiency. Encounter = exposure × temperament.
       </p>
 
       <div className="flex justify-between items-baseline gap-3 border-t border-stone-200 pt-2">
@@ -117,7 +122,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
           Score
         </span>
         <span style={{ fontFamily: COMPRESSED }} className="text-[15px] font-black text-stone-900 tabular-nums">
-          {snake.dangerScore}/100
+          {snake.dangerScore}
         </span>
       </div>
     </div>
@@ -164,7 +169,6 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
               >
                 {snake.dangerScore}
               </span>
-              <span className="text-base font-bold text-stone-400">/100</span>
             </div>
             <div
               style={{ fontFamily: COMPACT }}
@@ -262,8 +266,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                 >
                   {snake.dangerScore}
                 </span>
-                <span className="text-base font-bold text-stone-400">/100</span>
-              </div>
+                </div>
               <div
                 style={{
                   fontFamily: COMPACT,
