@@ -557,7 +557,7 @@ async function loadMetadata(snakeId: string): Promise<CandidateEntry[]> {
   }
 }
 
-async function cleanupCandidates(snakeId: string): Promise<void> {
+export async function cleanupCandidates(snakeId: string): Promise<void> {
   const dir = candidatesDir(snakeId);
   try {
     await fs.rm(dir, { recursive: true, force: true });

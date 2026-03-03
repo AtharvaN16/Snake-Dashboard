@@ -57,6 +57,7 @@ export function HomeClient({ snakes }: HomeClientProps) {
     <div className="relative h-dvh w-full px-0 md:px-4 lg:px-[68px] overflow-hidden">
       <PaperAppBackground />
 
+
       {/* Desktop Easter Egg Logo - Top Left */}
       <div className="hidden lg:block absolute left-[68px] top-8 z-20">
         <SnakeGame
@@ -102,7 +103,7 @@ export function HomeClient({ snakes }: HomeClientProps) {
       )}
 
       {/* Main Content Area - Mobile: top band (links + logo with gap) + bottom 70% (search); Desktop: single-screen column above footer */}
-      <div className="relative flex flex-col h-full w-full items-center justify-center z-10 pointer-events-none lg:justify-start lg:pt-12 lg:pb-0">
+      <div className="relative flex flex-col h-full w-full items-center justify-center z-20 pointer-events-none lg:justify-start lg:pt-12 lg:pb-0">
         <div className="flex flex-col h-full w-full max-w-2xl pointer-events-auto lg:gap-8">
           {/* Mobile: top section - links, vertical gap, then logo */}
           {!isPlaying && !isGameOver && (

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAllSnakesMerged } from "@/lib/snakeDataServer";
 
-type Action = "search" | "set-primary" | "add-to-gallery" | "delete" | "commit" | "delete-gallery" | "promote-to-primary" | "demote-primary";
+type Action = "search" | "set-primary" | "add-to-gallery" | "delete" | "commit" | "delete-gallery" | "promote-to-primary" | "demote-primary" | "cleanup";
 type Selection = { role: "primary" | "gallery"; candidateIndex: number };
 
 function getSnakeByIdMerged(id: string) {
@@ -103,9 +103,15 @@ export async function POST(
         return NextResponse.json({ success: true });
       }
 
+      case "cleanup": {
+        const { cleanupCandidates } = await import("@/lib/imageRefresh");
+        await cleanupCandidates(id);
+        return NextResponse.json({ success: true });
+      }
+
       default:
         return NextResponse.json(
-          { error: `Unknown action: ${action}. Use: search, set-primary, add-to-gallery, delete, commit, delete-gallery, promote-to-primary, demote-primary` },
+          { error: `Unknown action: ${action}. Use: search, set-primary, add-to-gallery, delete, commit, delete-gallery, promote-to-primary, demote-primary, cleanup` },
           { status: 400 }
         );
     }

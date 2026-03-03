@@ -233,13 +233,33 @@ export function ImageCandidatePicker({
     });
   }, []);
 
-  const handleCloseInternal = () => {
+  const handleCloseInternal = async () => {
+    // If we have candidates but haven't committed, offer to cleanup
+    if (candidates.length > 0 && !committing) {
+      try {
+        await callAction("cleanup");
+      } catch (e) {
+        console.error("Cleanup failed:", e);
+      }
+    }
+    
     if (onClose && !embedded) onClose();
     setOpen(embedded);
     setEditOpen(false);
     setCandidates([]);
     setSelections(new Map());
     setError(null);
+  };
+
+  const handleDiscard = async () => {
+    setCommitting(true);
+    try {
+      await callAction("cleanup");
+      handleCloseInternal();
+    } catch (e) {
+      setError("Failed to discard candidates");
+      setCommitting(false);
+    }
   };
 
   const primaryCount = Array.from(selections.values()).filter((r) => r === "primary").length;
@@ -375,8 +395,17 @@ export function ImageCandidatePicker({
               {searching ? "Searching..." : `Found ${candidates.length} candidates`}
             </h3>
             <div className="flex items-center gap-2">
+              {!searching && candidates.length > 0 && !embedded && (
+                <button
+                  onClick={handleDiscard}
+                  disabled={committing}
+                  className="text-[10px] font-bold text-red-400 uppercase hover:text-red-600 px-2 py-1 transition-colors disabled:opacity-50"
+                >
+                  Discard and Close
+                </button>
+              )}
               {!embedded && (
-                <button onClick={handleCloseInternal} disabled={committing} className="p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded">
+                <button onClick={handleCloseInternal} disabled={committing} className="p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded transition-colors">
                   <X className="w-4 h-4" />
                 </button>
               )}
