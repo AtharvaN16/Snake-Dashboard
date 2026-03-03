@@ -204,7 +204,7 @@ export function setupInteractions(ctx: ChartContext): {
       );
   }
 
-  const updateSpeciesVisibility = createUpdateSpeciesVisibility({
+  const baseUpdateSpeciesVisibility = createUpdateSpeciesVisibility({
     svg, g, labelsLayer, nodeColor, isSpecies, currentSnakeId, zoomScaleRef,
     getClickFocusNode: () => clickFocusNode,
     getSearchHighlightNode: () => searchHighlightNode,
@@ -215,6 +215,26 @@ export function setupInteractions(ctx: ChartContext): {
     getDimmedOpacity: () => getDimmedOpacity(),
     getRegionFilterActive: () => regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0,
   });
+
+  /** Sync opacity of search/focus labels with the current highlight state. */
+  function syncSpecialLabelsOpacity() {
+    const highlighted = getEffectiveHighlightedNodes();
+    
+    if (searchLabel && searchHighlightNode) {
+      const isVisible = highlighted.has(searchHighlightNode);
+      // Use 0 instead of dimmedNode to completely hide non-active labels during hover/filter
+      searchLabel.transition().duration(200).style("opacity", isVisible ? "1" : "0");
+    }
+    if (focusLabel && clickFocusNode) {
+      const isVisible = highlighted.has(clickFocusNode);
+      focusLabel.transition().duration(200).style("opacity", isVisible ? "1" : "0");
+    }
+  }
+
+  const updateSpeciesVisibility = (scale: number) => {
+    baseUpdateSpeciesVisibility(scale);
+    syncSpecialLabelsOpacity();
+  };
 
   function restoreVenomFade() {
     const vn = venomHighlightPathNodes!;
@@ -320,16 +340,20 @@ export function setupInteractions(ctx: ChartContext): {
   ) {
     const color = currentNodeColor()(node);
     const r = nodeRadius(node);
-    // Use force-adjusted angle/_currentY when available (potency/yield modes shift node positions)
     const nodeY = (node as any)._currentY ?? (node as any).y;
     const nodeX = (node as any)._currentAngle ?? (node as any).x;
     const [px, py] = radialPoint(nodeX, nodeY);
     const k = zoomScaleRef.current;
+    
+    // We want the label to grow slightly as we zoom in, but much slower than the nodes.
+    // At k=1, screen size is ~18px. At k=4, screen size is ~24px.
+    const baseFs = opts?.large ? 20 : 18;
+    const fs = (baseFs * Math.pow(1/k, 0.85));
+    
     const invK = 1 / k;
     const gap = r + (opts?.large ? 28 : 24) * invK;
     const labelG = parent.append("g").attr("class", cls).attr("transform", `translate(${px},${py - gap})`);
-    const baseFs = opts?.large ? 15 : 14;
-    const fs = baseFs * invK, padX = 8 * invK, padY = 5 * invK, rx = 6 * invK;
+    const padX = 8 * invK, padY = 5 * invK, rx = 6 * invK;
     const text = labelG.append("text")
       .attr("text-anchor", "middle").attr("font-size", `${fs}px`).attr("font-weight", "600")
       .attr("fill", "#fff").attr("y", 0).attr("dy", "0.35em").text(node.data.name);

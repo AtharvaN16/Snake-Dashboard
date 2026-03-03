@@ -220,7 +220,9 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
               backgroundSize: "100% 100%",
               backgroundPosition: "center center",
               backgroundRepeat: "no-repeat",
-              filter: "brightness(1.08) saturate(0.7) drop-shadow(0 -20px 50px rgba(0,0,0,0.15))",
+              filter: "drop-shadow(0 -15px 30px rgba(0,0,0,0.12))",
+              WebkitFilter: "drop-shadow(0 -15px 30px rgba(0,0,0,0.12))",
+              transform: "translateZ(0)",
             }}
           />
 

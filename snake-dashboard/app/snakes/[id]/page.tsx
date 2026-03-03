@@ -133,7 +133,7 @@ export default async function SnakeDetailPage({
           {/* Paper background */}
           <div
             aria-hidden
-            className="absolute pointer-events-none select-none hidden bottom-[-120px] left-[-16px] right-0 top-[-24px] lg:block lg:bottom-[-210px] lg:left-[-68px] lg:right-[100px] lg:top-[-52px]"
+            className="absolute pointer-events-none select-none hidden bottom-[-120px] left-[-16px] right-0 top-[-24px] lg:block lg:bottom-[-210px] lg:left-[-68px] lg:right-[100px] lg:top-[-52px] bg-[#fdfbf7]"
             style={{
               backgroundImage: "url('/paper/paper-48.webp')",
               backgroundSize: "cover",

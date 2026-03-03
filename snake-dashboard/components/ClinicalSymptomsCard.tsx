@@ -251,7 +251,9 @@ const ClinicalSymptomsCardComponent = memo(function ClinicalSymptomsCard({
               backgroundSize: "100% auto",
               backgroundPosition: "center top",
               backgroundRepeat: "no-repeat",
-              filter: "drop-shadow(0 -20px 50px rgba(0,0,0,0.22))",
+              filter: "drop-shadow(0 -15px 30px rgba(0,0,0,0.16))",
+              WebkitFilter: "drop-shadow(0 -15px 30px rgba(0,0,0,0.16))",
+              transform: "translateZ(0)",
             }}
           />
 

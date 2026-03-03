@@ -26,11 +26,21 @@ interface VisibilityContext {
 
 /** Ext-label font size by rank — family > genus > species. large=true for snake search highlight. */
 function extLabelSize(rank: string, invK: number, large = false): number {
-  const m = large ? 1.2 : 1;
-  if (rank === "family") return 13 * invK * m;
-  if (rank === "genus") return 11 * invK * m;
-  if (rank === "species") return 9 * invK * m;
-  return 12 * invK * m; // suborder, infraorder, clade
+  const m = large ? 1.25 : 1;
+  let baseFs = 12;
+
+  if (rank === "family") {
+    baseFs = 14;
+  } else if (rank === "genus") {
+    baseFs = 12;
+  } else if (rank === "species") {
+    baseFs = 11;
+  }
+
+  // Slightly non-linear scaling: as we zoom in (invK decreases), the text shrinks 
+  // in local units slower than the zoom factor (Math.pow < 1), 
+  // making it appear slightly larger on screen as you get closer.
+  return baseFs * m * Math.pow(invK, 0.88);
 }
 
 export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {

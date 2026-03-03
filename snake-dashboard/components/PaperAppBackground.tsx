@@ -1,10 +1,27 @@
 "use client";
 
 import { PaperTexture } from "@paper-design/shaders-react";
+import { useEffect, useState } from "react";
 
 export function PaperAppBackground() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // A small delay can help ensure all internal library textures are ready
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 bg-[#f3f3f3]" />
+    );
+  }
+
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#f3f3f3]">
       <PaperTexture
         style={{ width: "100%", height: "100%" }}
         speed={0}
