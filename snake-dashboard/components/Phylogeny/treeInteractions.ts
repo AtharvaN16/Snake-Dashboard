@@ -41,6 +41,8 @@ export interface ChartContext {
   /** Current selected region (getter so clearHighlight always uses latest value, not stale closure). */
   getSelectedRegion: () => Continent | null;
   getContinentForSpeciesId: (id: string) => Continent[] | undefined;
+  /** When provided and returns false, labels are hidden until tree load (e.g. bloom) completes. */
+  getLabelsVisible?: () => boolean;
 }
 
 export function setupInteractions(ctx: ChartContext): {
@@ -56,7 +58,7 @@ export function setupInteractions(ctx: ChartContext): {
     nodeColor, getNodeColor, isSpecies, currentSnakeId, shouldBloom,
     cw, ch, cx, cy, scale0, zoomScaleRef, zoomBehavior,
     getColorMode, onSpeciesClick, onTaxonomyNodeClick, onResetView,
-    getSelectedRegion, getContinentForSpeciesId,
+    getSelectedRegion, getContinentForSpeciesId, getLabelsVisible,
   } = ctx;
 
   const currentNodeColor = () => (getNodeColor?.() ?? nodeColor);
@@ -214,6 +216,7 @@ export function setupInteractions(ctx: ChartContext): {
     getFamilyBranchNodes: () => currentFamilyBranchNodes,
     getDimmedOpacity: () => getDimmedOpacity(),
     getRegionFilterActive: () => regionHighlightPathNodes != null && regionHighlightPathNodes.size > 0,
+    getLabelsVisible,
   });
 
   /** Sync opacity of search/focus labels with the current highlight state. */

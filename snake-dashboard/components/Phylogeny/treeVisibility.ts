@@ -1,10 +1,14 @@
 import { select } from "d3-selection";
 import type { Selection } from "d3-selection";
 import type { HierarchyNode as D3HierarchyNode, HierarchyPointNode, HierarchyLink } from "d3-hierarchy";
+import { easeCubicOut } from "d3-ease";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
 import { SPECIES_ZOOM_THRESHOLD, GENUS_SPECIES_LABEL_ZOOM } from "./treeConstants";
 import { radialPoint } from "./treeGeometry";
 import { nodeRadius, fontSize } from "./treeNodeStyles";
+
+/** Duration for gentle fade-in when labels appear after tree load. */
+const LABEL_FADE_DURATION = 400;
 
 interface VisibilityContext {
   svg: Selection<SVGSVGElement, unknown, null, undefined>;
@@ -22,6 +26,8 @@ interface VisibilityContext {
   getFamilyBranchNodes: () => Set<D3HierarchyNode<HierarchyNode>> | null;
   getDimmedOpacity: () => { node: string; link: number };
   getRegionFilterActive: () => boolean;
+  /** When provided and returns false, labels (in-node + ext) are hidden until tree load completes. */
+  getLabelsVisible?: () => boolean;
 }
 
 /** Ext-label font size by rank — family > genus > species. large=true for snake search highlight. */
@@ -103,6 +109,12 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     const MIN_READABLE_PX = 8;
 
     ctx.labelsLayer.selectAll(".ext-label").remove();
+
+    // Defer all labels until tree load animation has completed (e.g. bloom)
+    if (ctx.getLabelsVisible && !ctx.getLabelsVisible()) {
+      g.selectAll<SVGGElement, HierarchyPointNode<HierarchyNode>>(".node").select("text").attr("opacity", 0);
+      return;
+    }
 
     g.selectAll<SVGGElement, HierarchyPointNode<HierarchyNode>>(".node, .species-node")
       .each(function (nd) {
@@ -186,7 +198,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
           inNodeText.attr("opacity", 0);
           addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { side: !!isDirectChildOfClickedClade }, labelOpacityFor(nd));
         } else {
-          inNodeText.attr("opacity", 1);
+          inNodeText.transition().duration(LABEL_FADE_DURATION).ease(easeCubicOut).attr("opacity", 1);
         }
       });
   };
@@ -245,7 +257,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
       .attr("class", "ext-label")
       .attr("transform", fullTransform)
       .style("pointer-events", "none")
-      .style("opacity", labelOpacity);
+      .style("opacity", 0);
     const extText = extG.append("text")
       .attr("text-anchor", textAnchor)
       .attr("font-size", `${extFs}px`)
@@ -266,5 +278,6 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
       .attr("fill", lightStyle ? "#f8fafc" : "#fff")
       .attr("fill-opacity", 1)
       .attr("opacity", 1);
+    extG.transition().duration(LABEL_FADE_DURATION).ease(easeCubicOut).style("opacity", labelOpacity);
   }
 }

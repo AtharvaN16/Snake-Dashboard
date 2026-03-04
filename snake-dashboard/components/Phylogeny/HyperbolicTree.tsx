@@ -62,6 +62,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const prevVenomSubsRef = useRef<VenomSubModes>({ classification: false, potency: false, yield: false });
   const refreshNodePositionsRef = useRef<(() => void) | null>(null);
   const resetViewRef = useRef<(() => void) | null>(null);
+  const updateSpeciesVisibilityRef = useRef<((k: number) => void) | null>(null);
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [venomSubs, setVenomSubs] = useState<VenomSubModes>({ classification: false, potency: false, yield: false });
   const [selectedRegion, setSelectedRegion] = useState<Continent | null>(null);
@@ -437,7 +438,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       }
     });
 
-    // Labels — only for higher ranks (genus/species labels are unreadable in-node)
+    // Labels — only for higher ranks (genus/species labels are unreadable in-node). Start hidden; shown after load via updateSpeciesVisibility with fade-in.
     nodeSelection
       .filter((d) => d.data.rank !== "genus" && d.data.rank !== "species")
       .append("text")
@@ -445,20 +446,12 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       .attr("font-size", (d) => `${fontSize(d)}px`)
       .attr("font-weight", (d) => fontWeight(d))
       .attr("fill", (d) => nodeColor(d))
-      .attr("opacity", shouldBloom ? 0 : 1)
+      .attr("opacity", 0)
       .text((d) => {
         if (d.data.rank === "infraorder" && (!d.children || d.children.length === 0))
           return `${d.data.name} (blind snakes)`;
         return d.data.name;
       });
-
-    if (shouldBloom) {
-      nodeSelection.selectAll("text")
-        .transition()
-        .delay((_d: unknown, i: number) => BLOOM_BASE_DELAY * allNodes[i].depth + BLOOM_DURATION * 0.5)
-        .duration(BLOOM_DURATION * 0.6).ease(easeCubicOut)
-        .attr("opacity", 1);
-    }
 
     // Tooltips
     nodeSelection.append("title")
@@ -534,16 +527,22 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       },
       getSelectedRegion: () => selectedRegionRef.current,
       getContinentForSpeciesId: (id) => snakeMap.get(id)?.continents,
+      getLabelsVisible: () => hasBloomedRef.current,
     });
     updateSpeciesVisibility = interactions.updateSpeciesVisibility;
+    updateSpeciesVisibilityRef.current = updateSpeciesVisibility;
     applyRegionFilterRef.current = interactions.applyRegionFilter;
     applyVenomFilterRef.current = interactions.applyVenomFade;
     refreshNodePositionsRef.current = interactions.refreshNodePositions;
     resetViewRef.current = interactions.resetView;
     interactions.updateSpeciesVisibility(scale0);
 
+    // When no bloom (e.g. direct link to snake), consider "loaded" on next tick so in-node text stays hidden for one frame then fades in
     const bloomDelay = shouldBloom ? bloomTotalDelay : 0;
-    const bloomTimer = setTimeout(() => { hasBloomedRef.current = true; }, bloomDelay);
+    const bloomTimer = setTimeout(() => {
+      hasBloomedRef.current = true;
+      updateSpeciesVisibilityRef.current?.(zoomScaleRef.current);
+    }, bloomDelay);
 
     return () => {
       if (bloomRafId) cancelAnimationFrame(bloomRafId);
