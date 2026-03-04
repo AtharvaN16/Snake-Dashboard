@@ -6,7 +6,7 @@ import { select } from "d3-selection";
 import type { Selection } from "d3-selection";
 import { hierarchy as buildHierarchy, cluster as buildCluster } from "d3-hierarchy";
 import type { HierarchyNode as D3HierarchyNode, HierarchyPointNode, HierarchyPointLink } from "d3-hierarchy";
-import { linkRadial as buildLinkRadial, line as buildLine, curveCatmullRom } from "d3-shape";
+import { linkRadial as buildLinkRadial } from "d3-shape";
 import { zoom as buildZoom, zoomIdentity } from "d3-zoom";
 import type { ZoomBehavior } from "d3-zoom";
 import { easeCubicOut, easeCubicInOut, easeBackOut } from "d3-ease";
@@ -14,15 +14,21 @@ import { forceSimulation, forceCollide, forceRadial } from "d3-force";
 import type { SimulationNodeDatum } from "d3-force";
 import { interpolateString } from "d3-interpolate";
 import type { HierarchyNode } from "@/lib/snakeTaxonomy";
+import { filterGhostNodes } from "@/lib/snakeTaxonomy";
 import {
   Props,
   RADIUS,
+  INNER_RADIUS,
   BLOOM_BASE_DELAY,
   BLOOM_DURATION,
   MAX_POTENCY_EXTENSION,
   familyColor,
   RANK_COLORS,
+  NAMED_CLADE_COLORS,
+  AGE_MYA,
+  ageColor,
 } from "./treeConstants";
+import { TogglePill } from "./TogglePill";
 import { VenomPills } from "./VenomPills";
 import type { VenomSubModes } from "./VenomPills";
 import { getPotencyExtension, getYieldRadius, getPotencyColor, isVenomous } from "./treeVenomLayout";
@@ -59,6 +65,14 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const [selectedTaxon, setSelectedTaxon] = useState<{name: string, description: string} | null>(null);
   const [venomSubs, setVenomSubs] = useState<VenomSubModes>({ classification: false, potency: false, yield: false });
   const [selectedRegion, setSelectedRegion] = useState<Continent | null>(null);
+  const [showFullTree, setShowFullTree] = useState(false);
+  const [showAge, setShowAge] = useState(false);
+  const showAgeRef = useRef(false);
+  showAgeRef.current = showAge;
+  const showFullTreeRef = useRef(false);
+  showFullTreeRef.current = showFullTree;
+  // Ref to the ghost overlay <g> element — animated by showFullTree useEffect
+  const ghostOverlayGroupRef = useRef<Selection<SVGGElement, unknown, null, undefined> | null>(null);
   const selectedRegionRef = useRef<Continent | null>(null);
   selectedRegionRef.current = selectedRegion;
   const applyRegionFilterRef = useRef<((region: Continent | null) => void) | null>(null);
@@ -98,24 +112,42 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     }
   };
 
-  const hierarchy = useMemo(() => buildHierarchy(rootData), [rootData]);
+  // Layout always uses the filtered tree — ghost nodes never affect real node positions.
+  // Ghost stubs are rendered as a separate overlay on top.
+  const filteredRoot = useMemo(
+    () => filterGhostNodes(rootData) ?? rootData,
+    [rootData],
+  );
+  const hierarchy = useMemo(() => buildHierarchy(filteredRoot), [filteredRoot]);
 
   const isSpecies = (d: D3HierarchyNode<HierarchyNode>) => d.data.rank === "species";
 
   const nodeColor = useCallback((n: D3HierarchyNode<HierarchyNode>): string => {
+    // Ghost nodes always render grey
+    if (n.data.ghost) return "#94a3b8";
+
     if (isSpecies(n) && n.data.id) {
       const snake = snakeMap.get(n.data.id);
-      // Potency wins over classification when active (they're mutually exclusive via VenomPills toggle)
       if (venomSubs.potency) {
         return getPotencyColor(snake?.dangerScoreComponents?.potencyScore ?? 0);
       }
       if (venomSubs.classification && snake?.venomClassification) {
         return venomClassificationColors[snake.venomClassification] ?? "#94a3b8";
       }
-      // yield-only: fall through to family colors (size encodes yield, not color)
     }
+
+    // Age mode: color non-species nodes by estimated divergence age
+    if (showAge && n.data.rank !== "species") {
+      const mya = AGE_MYA[n.data.name];
+      if (mya !== undefined) return ageColor(mya);
+    }
+
     const rank = n.data.rank;
-    if (rank && RANK_COLORS[rank]) return RANK_COLORS[rank];
+    // Named clade colors (each clade gets its own tint)
+    if (rank === "clade") {
+      return NAMED_CLADE_COLORS[n.data.name] ?? RANK_COLORS.clade;
+    }
+    if (!showAge && rank && RANK_COLORS[rank]) return RANK_COLORS[rank];
 
     function familyOf(node: D3HierarchyNode<HierarchyNode>): string | null {
       for (let c: typeof node | null = node; c; c = c.parent)
@@ -124,7 +156,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     }
     const f = familyOf(n);
     return f ? familyColor(f) : "#94a3b8";
-  }, [venomSubs, snakeMap]);
+  }, [venomSubs, snakeMap, showAge]);
   nodeColorRef.current = nodeColor;
 
   useEffect(() => {
@@ -139,15 +171,19 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     const shouldBloom = !hasBloomedRef.current && !currentSnakeId;
 
     // --- Layout (D3 cluster radial) ---
-    // Fragility: layout assumes root has exactly two depth-1 children (Scolecophidia, Alethinophidia),
-    // and depth-2 under Alethinophidia = Henophidia/Caenophidia. New snakes only add leaves; new
-    // families need FAMILY_TO_CLADE in snakeTaxonomy. Names must match (Scolecophidia, Alethinophidia, Henophidia).
+    // Layout assumes root has exactly two depth-1 children (Scolecophidia, Alethinophidia).
+    // New families must be added to the FULL_TOPOLOGY in snakeTaxonomy.ts.
     // Sort so Scolecophidia is first, then Alethinophidia; stable order elsewhere
     const hierarchyCopy = hierarchy.copy();
+    // Explicit child order for Macrostomata: Pythonoidea + Booidea adjacent, Caenophidia last
+    const MACROSTOMATA_ORDER: Record<string, number> = { Pythonoidea: 0, Booidea: 1, Caenophidia: 2 };
     hierarchyCopy.sort((a, b) => {
       if (a.depth === 1) {
         if (a.data.name === "Scolecophidia") return -1;
         if (b.data.name === "Scolecophidia") return 1;
+      }
+      if (a.parent?.data.name === "Macrostomata" && b.parent?.data.name === "Macrostomata") {
+        return (MACROSTOMATA_ORDER[a.data.name] ?? 9) - (MACROSTOMATA_ORDER[b.data.name] ?? 9);
       }
       return (a.data.name || "").localeCompare(b.data.name || "");
     });
@@ -163,16 +199,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         const familyA = a.ancestors().find((n) => (n.data as HierarchyNode).rank === "family");
         const familyB = b.ancestors().find((n) => (n.data as HierarchyNode).rank === "family");
         const inDifferentFamilies = familyA && familyB && familyA !== familyB;
-        // Extra gap between Pythonidae and Boidae under Henophidia so they don't look closer than Viper/Elapids
-        const clade2A = a.ancestors().find((n) => n.depth === 2);
-        const clade2B = b.ancestors().find((n) => n.depth === 2);
-        const underHenophidia = (n: D3HierarchyNode<HierarchyNode>) => (n.data as HierarchyNode).name === "Henophidia";
-        const pythonVsBoa =
-          clade2A && clade2B && underHenophidia(clade2A) && underHenophidia(clade2B) &&
-          familyA && familyB && familyA !== familyB &&
-          ((familyA.data as HierarchyNode).name === "Pythonidae" && (familyB.data as HierarchyNode).name === "Boidae" ||
-           (familyA.data as HierarchyNode).name === "Boidae" && (familyB.data as HierarchyNode).name === "Pythonidae");
-        const raw = base + (inDifferentBranches ? 3 : 0) + (inDifferentFamilies ? 1.5 : 0) + (pythonVsBoa ? 2.2 : 0);
+        const raw = base + (inDifferentBranches ? 3 : 0) + (inDifferentFamilies ? 1.5 : 0);
         // Softer depth falloff so branches stay more open at deeper levels (flower effect)
         const depthFactor = Math.pow(depth, 0.82);
         return raw / depthFactor;
@@ -236,17 +263,30 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         (alethinophidia as any).x = centerBottom;
         (alethinophidia as any).y *= 1.4;
         confineSubtreeToArc(alethinophidia, BOTTOM_ANGLE_START, BOTTOM_ANGLE_END);
-        // Shift Henophidia along the circumference away from Caenophidia (Viper) so it reads as a distinct flower
-        const henophidia = alethinophidia.children?.find((c) => (c.data as HierarchyNode).name === "Henophidia");
-        const HENOPHIDIA_ANGULAR_OFFSET = 0.1; // radians; positive = away from Viper side
-        if (henophidia) {
-          henophidia.descendants().forEach((n) => {
-            (n as any).x += HENOPHIDIA_ANGULAR_OFFSET;
-          });
-        }
       }
     }
 
+    // Populate leaf counts (needed by stroke width formula)
+    root.count();
+
+    // Inner radius offset: scale all non-root y from [0, RADIUS] → [INNER_RADIUS, RADIUS]
+    // This creates a donut shape — branches start at INNER_RADIUS, never converge at a point.
+    root.descendants().slice(1).forEach((node) => {
+      (node as any).y = INNER_RADIUS + ((node as any).y / RADIUS) * (RADIUS - INNER_RADIUS);
+    });
+
+    // Expand outer branches so florets are visibly long.
+    // Natural cluster gap per level ≈ 280 units; targets: family→genus = 3×, genus→species = 2×.
+    const FAMILY_GENUS_EXT = 560;   // 280 + 560 ≈ 3× natural gap
+    const GENUS_SPECIES_EXT = 280;  // 280 + 280 ≈ 2× natural gap
+    root.each((node) => {
+      const rank = node.data.rank;
+      if (rank === "species") {
+        (node as any).y += FAMILY_GENUS_EXT + GENUS_SPECIES_EXT;
+      } else if (rank === "genus") {
+        (node as any).y += FAMILY_GENUS_EXT;
+      }
+    });
 
     const allNodes = root.descendants();
     const allLinks = root.links();
@@ -293,65 +333,20 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     // Benchmark group (rendered behind all nodes) — populated by the venom potency effect
     benchmarkGroupRef.current = g.insert("g", ":first-child") as unknown as Selection<SVGGElement, unknown, SVGGElement, unknown>;
 
-    // --- Links: node centers; magnetic repulsion except for links within a family (family + its child branches) ---
+    // --- Links: smooth radial bezier curves (organic, biological look) ---
     const linkGen = buildLinkRadial<HierarchyPointLink<HierarchyNode>, HierarchyPointNode<HierarchyNode>>()
-      .angle((d) => (d as any).x)
-      .radius((d) => (d as any).y);
-
-    const REPEL_SAMPLES = 24;
-    const REPEL_MARGIN = 12;
-
-    function linkPath(link: HierarchyPointLink<HierarchyNode>): string {
-      const src = link.source as HierarchyPointNode<HierarchyNode>;
-      const tgt = link.target as HierarchyPointNode<HierarchyNode>;
-      const familyOf = (n: D3HierarchyNode<HierarchyNode>) =>
-        n.ancestors().find((a) => (a.data as HierarchyNode).rank === "family");
-      const familySrc = familyOf(src);
-      const familyTgt = familyOf(tgt);
-      const sameFamily = familySrc && familyTgt && familySrc === familyTgt;
-      if (sameFamily) return linkGen(link) ?? "";
-
-      const obstacles = allNodes.filter((n) => n !== src && n !== tgt);
-      if (obstacles.length === 0) return linkGen(link) ?? "";
-
-      const points: [number, number][] = [];
-      for (let i = 0; i <= REPEL_SAMPLES; i++) {
-        const t = i / REPEL_SAMPLES;
-        const angle = src.x + t * (tgt.x - src.x);
-        const r = src.y + t * (tgt.y - src.y);
-        points.push(radialPoint(angle, r));
-      }
-
-      const displaced = points.map((p) => [p[0], p[1]] as [number, number]);
-      for (let i = 1; i < displaced.length; i++) {
-        const p = displaced[i];
-        for (const node of obstacles) {
-          const o = radialPoint((node as any).x, (node as any).y);
-          const dx = p[0] - o[0];
-          const dy = p[1] - o[1];
-          const dist = Math.hypot(dx, dy);
-          const minDist = nodeRadius(node) + REPEL_MARGIN;
-          if (dist < minDist && dist > 1e-6) {
-            const scale = minDist / dist;
-            p[0] = o[0] + dx * scale;
-            p[1] = o[1] + dy * scale;
-          }
-        }
-      }
-
-      const line = buildLine<[number, number]>().curve(curveCatmullRom.alpha(0.5));
-      return line(displaced) ?? "";
-    }
+      .angle((d: any) => (d as any).x)
+      .radius((d: any) => (d as any).y);
 
     const linkSelection = g.append("g").attr("fill", "none")
       .selectAll<SVGPathElement, HierarchyPointLink<HierarchyNode>>("path")
       .data(allLinks).join("path")
       .attr("class", (d) => isSpecies(d.target) ? "link species-link" : "link")
-      .attr("d", linkPath)
+      .attr("d", (d) => linkGen(d) ?? "")
       .attr("stroke", (_d, i) => `url(#link-grad-${i})`)
       .attr("stroke-width", (d) => linkWidth(d.source.depth))
       .attr("stroke-linecap", "round")
-      .attr("stroke-opacity", shouldBloom ? 0 : 0.7);
+      .attr("stroke-opacity", shouldBloom ? 0 : 0.75);
 
     const maxDepth = Math.max(...allNodes.map(n => n.depth));
     const bloomTotalDelay = BLOOM_BASE_DELAY * maxDepth + BLOOM_DURATION;
@@ -427,7 +422,9 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           .attr("stroke", color).attr("stroke-width", Math.max(3, sw)).attr("stroke-linejoin", "round")
           .attr("transform", `rotate(${angleDeg})`) as any;
       } else if (rank === "genus") {
-        const angleDeg = ((d as any).x * 180) / Math.PI - 90;
+        // Rotate so corners (not flat edges) align with the radial branch direction.
+        // x * 180/π maps the node's angular position to the correct diamond orientation.
+        const angleDeg = ((d as any).x * 180) / Math.PI;
         shape = el.append("path").attr("d", diamondPath(r)).attr("fill", fill)
           .attr("stroke", color).attr("stroke-width", Math.max(2, sw)).attr("stroke-linejoin", "miter")
           .attr("transform", `rotate(${angleDeg})`) as any;
@@ -447,6 +444,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     });
 
     // Labels — only for higher ranks (genus/species labels are unreadable in-node)
+    // Minor ghost nodes start hidden; shown only when zoomed in
     nodeSelection
       .filter((d) => d.data.rank !== "genus" && d.data.rank !== "species")
       .append("text")
@@ -475,6 +473,129 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
 
     // Labels layer (after nodes so labels render on top and are never covered by dimmed node circles)
     const labelsLayer = g.append("g").attr("class", "labels-layer");
+
+    // --- Ghost Overlay ---
+    // Ghost nodes are NOT in the cluster layout: real node positions never shift when toggling.
+    // We compute ghost stub positions after layout, fanning out from their nearest real ancestor.
+    {
+      const ghostOverlayGroup = g.append("g").attr("class", "ghost-overlay")
+        .style("pointer-events", "none");
+      ghostOverlayGroupRef.current = ghostOverlayGroup as unknown as Selection<SVGGElement, unknown, null, undefined>;
+
+      // Map real node name → D3 node for position lookup
+      const nodeByName = new Map<string, HierarchyPointNode<HierarchyNode>>();
+      allNodes.forEach(n => nodeByName.set(n.data.name, n));
+
+      // Walk full topology, grouping ghost leaves by their nearest real ancestor
+      type GhostFamilyInfo = { name: string; majorGhost: boolean };
+      const ghostsByParent = new Map<string, GhostFamilyInfo[]>();
+      function collectGhostsByAncestor(node: HierarchyNode, nearestRealName: string) {
+        if (node.ghost) {
+          const list = ghostsByParent.get(nearestRealName) ?? [];
+          list.push({ name: node.name, majorGhost: node.majorGhost ?? false });
+          ghostsByParent.set(nearestRealName, list);
+          return;
+        }
+        const parentName = nodeByName.has(node.name) ? node.name : nearestRealName;
+        for (const child of node.children ?? []) collectGhostsByAncestor(child, parentName);
+      }
+      collectGhostsByAncestor(rootData, "Serpentes");
+
+      // Same smooth bezier generator used for real links
+      const ghostLinkGen = buildLinkRadial<{source: {x: number; y: number}; target: {x: number; y: number}}, {x: number; y: number}>()
+        .angle(d => d.x)
+        .radius(d => d.y);
+
+      // Ghost stubs reach the same outer radius as real species leaves
+      const ANG_GAP = 0.075; // ~4.3 degrees between siblings
+      // Ghost family node size — same circle radius as clade nodes for visual parity
+      const GHOST_R = nodeRadius({ data: { rank: "clade" } } as any);
+
+      ghostsByParent.forEach((ghosts, parentName) => {
+        const parentNode = nodeByName.get(parentName);
+        if (!parentNode) return;
+        const parentAngle = (parentNode as any).x as number;
+        const parentY = (parentNode as any).y as number;
+        const n = ghosts.length;
+        const totalSpan = (n - 1) * ANG_GAP;
+
+        ghosts.forEach((ghost, i) => {
+          const angle = parentAngle - totalSpan / 2 + i * ANG_GAP;
+          // Stub reaches the full outer radius — same depth as real species leaves
+          const stubY = RADIUS;
+
+          const pathD = ghostLinkGen({
+            source: { x: parentAngle, y: parentY },
+            target: { x: angle, y: stubY },
+          }) ?? "";
+
+          ghostOverlayGroup.append("path")
+            .attr("class", "ghost-link-path")
+            .attr("fill", "none")
+            .attr("d", pathD)
+            .attr("stroke", "#94a3b8")
+            .attr("stroke-width", linkWidth((parentNode as any).depth + 1))
+            .attr("stroke-linecap", "round")
+            .attr("stroke-opacity", 0);
+
+          const [nx, ny] = radialPoint(angle, stubY);
+          const stubGroup = ghostOverlayGroup.append("g")
+            .attr("class", `ghost-stub-node${ghost.majorGhost ? " major-ghost-node" : ""}`)
+            .attr("transform", `translate(${nx},${ny})`)
+            .style("opacity", 0)
+            .style("cursor", ghost.majorGhost ? "pointer" : "default");
+
+          stubGroup.append("circle")
+            .attr("r", GHOST_R)
+            .attr("fill", "#e2e8f0")
+            .attr("stroke", "#94a3b8")
+            .attr("stroke-width", 2);
+
+          // Tooltip for all ghost nodes
+          stubGroup.append("title").text(ghost.name);
+
+          // Hover: highlight circle
+          stubGroup
+            .on("mouseenter", function() {
+              select(this).select("circle").attr("stroke", "#64748b").attr("stroke-width", 3);
+            })
+            .on("mouseleave", function() {
+              select(this).select("circle").attr("stroke", "#94a3b8").attr("stroke-width", 2);
+            });
+
+          // Click: open taxonomy info box for all ghost nodes that have descriptions
+          stubGroup.on("click", () => {
+            const descData = (taxonomyDescriptions as Record<string, {name: string; description: string}>)[ghost.name.toLowerCase()];
+            if (descData) setSelectedTaxon(descData);
+          });
+
+          // Label: show family name as ext-label tag
+          const labelText = ghostOverlayGroup.append("text")
+            .attr("class", "ghost-stub-label")
+            .attr("text-anchor", angle < Math.PI ? "start" : "end")
+            .attr("font-size", "11px")
+            .attr("font-weight", "500")
+            .attr("fill", "#64748b")
+            .attr("pointer-events", "none")
+            .style("opacity", 0);
+          // Position label radially outward from node
+          const rot1 = (angle * 180) / Math.PI - 90;
+          const rot2 = angle >= Math.PI ? 180 : 0;
+          const gap = GHOST_R + 14;
+          labelText.attr("transform",
+            `translate(${nx},${ny}) rotate(${rot1}) translate(${gap},0) rotate(${rot2})`
+          ).attr("dy", "0.35em").text(ghost.name.replace("idae", ""));
+        });
+      });
+
+      // Initialize visibility without animation (correct state on SVG rebuild)
+      if (showFullTreeRef.current) {
+        ghostOverlayGroup.style("pointer-events", "auto");
+        ghostOverlayGroup.selectAll(".ghost-link-path").attr("stroke-opacity", 0.45);
+        ghostOverlayGroup.selectAll(".ghost-stub-node").style("opacity", 1);
+        ghostOverlayGroup.selectAll(".ghost-stub-label").style("opacity", 1);
+      }
+    }
 
     g.selectAll<SVGPathElement, HierarchyPointLink<HierarchyNode>>(".species-link")
       .style("transition", "stroke-opacity 0.2s ease");
@@ -571,6 +692,45 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
     }
     applyRegionFilterRef.current?.(selectedRegion);
   }, [selectedRegion]);
+
+  // Animate ghost overlay in/out when Full Tree toggle changes
+  useEffect(() => {
+    const overlay = ghostOverlayGroupRef.current;
+    if (!overlay) return;
+    if (showFullTree) {
+      overlay.style("pointer-events", "auto");
+      // Draw links outward using stroke-dashoffset trick
+      overlay.selectAll<SVGPathElement, unknown>(".ghost-link-path").each(function() {
+        const len = (this as SVGPathElement).getTotalLength();
+        select(this)
+          .attr("stroke-dasharray", len)
+          .attr("stroke-dashoffset", len)
+          .attr("stroke-opacity", 0.45)
+          .transition("ghost-grow").duration(550).ease(easeCubicOut)
+          .attr("stroke-dashoffset", 0);
+      });
+      overlay.selectAll<SVGGElement, unknown>(".ghost-stub-node, .ghost-stub-label")
+        .style("opacity", 0)
+        .transition("ghost-grow").delay(160).duration(450).ease(easeBackOut.overshoot(0.8))
+        .style("opacity", 1);
+    } else {
+      overlay.style("pointer-events", "none");
+      // Retract links
+      overlay.selectAll<SVGPathElement, unknown>(".ghost-link-path").each(function() {
+        const len = (this as SVGPathElement).getTotalLength();
+        select(this)
+          .interrupt("ghost-grow")
+          .attr("stroke-dasharray", len)
+          .transition("ghost-retract").duration(380).ease(easeCubicOut)
+          .attr("stroke-dashoffset", len)
+          .on("end", function() { select(this).attr("stroke-opacity", 0).attr("stroke-dasharray", null).attr("stroke-dashoffset", null); });
+      });
+      overlay.selectAll<SVGGElement, unknown>(".ghost-stub-node, .ghost-stub-label")
+        .interrupt("ghost-grow")
+        .transition("ghost-retract").duration(300).ease(easeCubicOut)
+        .style("opacity", 0);
+    }
+  }, [showFullTree]);
 
   // Effect to update colors when colorMode changes (skip initial mount to avoid killing bloom)
   useEffect(() => {
@@ -843,6 +1003,8 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           continents={uniqueContinents}
           singleColumn
         />
+        <TogglePill label="Lineage Age" active={showAge} onChange={setShowAge} />
+        <TogglePill label="Full Tree" active={showFullTree} onChange={setShowFullTree} />
       </div>
       <p className="absolute bottom-2 left-2 text-xs text-stone-400 pointer-events-none hidden lg:block">
         Drag to pan · Scroll to zoom · Click node to focus ·

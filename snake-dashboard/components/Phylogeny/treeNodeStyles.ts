@@ -11,9 +11,9 @@ export function nodeRadius(d: D3HierarchyNode<HierarchyNode>): number {
     case "infraorder":
       return d.children && d.children.length > 0 ? 140 : 80;
     case "clade":
-      return 110;
+      return 88; // clades > families in visual hierarchy
     case "family":
-      return 80;
+      return 68;
     case "genus":
       return 50;
     case "species":
@@ -55,8 +55,9 @@ export function fontWeight(d: D3HierarchyNode<HierarchyNode>): string {
   }
 }
 
+/** Depth-based branch width — gentle taper so outer florets stay visibly thick. */
 export function linkWidth(depth: number): number {
-  return Math.max(1.5, 40 - depth * 6.5);
+  return Math.max(5, 44 - depth * 3);
 }
 
 /** Compute node fill color — single source of truth for both render and update paths. */

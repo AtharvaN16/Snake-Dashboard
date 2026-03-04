@@ -583,7 +583,7 @@ export function setupInteractions(ctx: ChartContext): {
     const rank = d.data.rank;
     const canZoomCladeOrInfra =
       (rank === "infraorder" || rank === "clade") &&
-      (d.data.name === "Henophidia" || zoomToFitScale(d) >= ZOOM_ABLE_MIN_SCALE);
+      zoomToFitScale(d) >= ZOOM_ABLE_MIN_SCALE;
     const shouldZoom =
       rank === "family" || rank === "genus" || canZoomCladeOrInfra;
     if (shouldZoom) {
@@ -593,7 +593,7 @@ export function setupInteractions(ctx: ChartContext): {
     } else {
       document.body.removeAttribute("data-chart-zoomed");
       const isHigherOrder = rank === "clade" || rank === "infraorder" || rank === "suborder";
-      if (isHigherOrder && d.data.name !== "Henophidia") {
+      if (isHigherOrder) {
         if (focusLabel) focusLabel.remove();
         focusLabel = createLabel(g, d, "focus-label", { large: true });
       } else if (focusLabel) {

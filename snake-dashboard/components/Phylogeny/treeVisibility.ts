@@ -43,6 +43,9 @@ function extLabelSize(rank: string, invK: number, large = false): number {
   return baseFs * m * Math.pow(invK, 0.88);
 }
 
+/** Clade nodes whose labels are hidden by default — shown only on hover (reduce center clutter). */
+const HIDE_LABEL_UNLESS_HOVER = new Set<string>([]);
+
 export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
   const { svg, g, nodeColor, isSpecies, currentSnakeId } = ctx;
 
@@ -78,8 +81,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
     let showLabelsOnFocus = false;
     if (isClickFocused) {
       const rank = clickFocusNode!.data.rank;
-      const isHenophidia = clickFocusNode!.data.name === "Henophidia";
-      if (rank === "family" || rank === "genus" || rank === "species" || isHenophidia) {
+      if (rank === "family" || rank === "genus" || rank === "species" || rank === "clade") {
         showLabelsOnFocus = true;
       }
     }
@@ -146,6 +148,12 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
         // Higher ranks: show ext-label when in-node text is too small
         if (!isHigherRank) return;
 
+        // Clutter-reduction: hide certain intermediate clade labels unless hovered/highlighted
+        if (HIDE_LABEL_UNLESS_HOVER.has(nd.data.name) && !hoverActive && !isClickFocused && !isSearchHighlighted) {
+          inNodeText.attr("opacity", 0);
+          return;
+        }
+
         // When hovering, show ancestor labels for every node in the lineage path
         if (hoverActive && highlightedNodes.has(nd) && !isClickFocused && !isSearchHighlighted) {
           inNodeText.attr("opacity", 0);
@@ -155,26 +163,36 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
 
         const fs = fontSize(nd);
         const screenPx = fs * scale;
-        const isDirectChildOfHenophidia =
-          clickFocusNode?.data.name === "Henophidia" && nd.parent === clickFocusNode;
+        const isDirectChildOfClickedClade =
+          clickFocusNode?.data.rank === "clade" && nd.parent === clickFocusNode;
 
-        // Click-focused higher rank (family, clade, infraorder, suborder): always show light label (Pythonidae, Henophidia, etc.)
+        // Click-focused higher rank: always show light label
         if (nd === clickFocusNode) {
           inNodeText.attr("opacity", 0);
           addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true }, labelOpacityFor(nd));
           return;
         }
 
-        // Family when zoomed in: add light label for other families (Boidae, Pythonidae, etc.)
+        // Family when zoomed in: add light label for other families
         if (rank === "family" && isScaleZoomed) {
           inNodeText.attr("opacity", 0);
           addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true }, labelOpacityFor(nd));
           return;
         }
 
-        if (isDirectChildOfHenophidia || screenPx < MIN_READABLE_PX) {
+        // Minor ghost nodes: show label only when zoomed in
+        const isMinorGhost = nd.data.ghost && !nd.data.majorGhost;
+        if (isMinorGhost) {
+          if (isScaleZoomed) {
+            inNodeText.attr("opacity", 0);
+            addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true, side: true }, labelOpacityFor(nd));
+          }
+          return;
+        }
+
+        if (isDirectChildOfClickedClade || screenPx < MIN_READABLE_PX) {
           inNodeText.attr("opacity", 0);
-          addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { side: !!isDirectChildOfHenophidia }, labelOpacityFor(nd));
+          addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { side: !!isDirectChildOfClickedClade }, labelOpacityFor(nd));
         } else {
           inNodeText.attr("opacity", 1);
         }

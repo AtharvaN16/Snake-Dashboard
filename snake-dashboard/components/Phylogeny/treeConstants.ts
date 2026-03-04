@@ -6,6 +6,8 @@ export interface Props {
 }
 
 export const RADIUS = 2800;
+/** Empty center circle radius — prevents all branches converging at one point (donut shape). */
+export const INNER_RADIUS = 280;
 export const SPECIES_ZOOM_THRESHOLD = 0;
 export const SPECIES_LABEL_ZOOM = 0;
 /** Zoom scale above which genus/species get external labels above nodes */
@@ -46,5 +48,66 @@ export function familyColor(family: string): string {
 export const RANK_COLORS: Record<string, string> = {
   suborder: "#2d3436",   // charcoal
   infraorder: "#6c5ce7", // soft purple
-  clade: "#00b894",      // mint
+  clade: "#00b894",      // mint fallback
 };
+
+/**
+ * Per-clade colors tinted toward the dominant family group they contain.
+ * Makes nested clade relationships visually legible.
+ */
+export const NAMED_CLADE_COLORS: Record<string, string> = {
+  Amerophidia:   "#a0857a",  // warm brown (ancient primitive lineage)
+  Afrophidia:    "#8b9d77",  // muted olive (broad Gondwanan grouping)
+  Uropeltoidea:  "#7a9aa0",  // steel blue (burrowing Asian snakes)
+  Macrostomata:  "#c4956a",  // warm amber (large-mouth snakes)
+  Pythonoidea:   "#dd8452",  // burnt orange → matches Pythonidae
+  Booidea:       "#c44e52",  // muted red   → matches Boidae
+  Caenophidia:   "#00b894",  // teal        → canonical advanced-snake colour
+  Colubroides:   "#1a9e7f",  // deeper teal
+  Colubroidea:   "#4c72b0",  // steel blue  → matches Colubridae
+  Elapoidea:     "#55a868",  // fern green  → matches Elapidae
+};
+
+/** Fraction of RADIUS at which ghost family stubs terminate. */
+export const GHOST_STUB_FRACTION = 0.28;
+
+/**
+ * Estimated divergence ages (MYA) for clades and families.
+ * Sources: Zaher et al. 2019, Hsiang et al. 2015, Pyron et al. 2013.
+ */
+export const AGE_MYA: Record<string, number> = {
+  Serpentes: 150,
+  Scolecophidia: 128,
+  Alethinophidia: 128,
+  Amerophidia: 105,
+  Afrophidia: 105,
+  Uropeltoidea: 88,
+  Macrostomata: 88,
+  Pythonoidea: 78,
+  Booidea: 78,
+  Caenophidia: 62,
+  Colubroides: 52,
+  Colubroidea: 46,
+  Elapoidea: 36,
+  // Families in DB
+  Typhlopidae: 120,
+  Boidae: 90,
+  Pythonidae: 78,
+  Colubridae: 52,
+  Viperidae: 42,
+  Elapidae: 32,
+  Atractaspididae: 32,
+};
+
+export const AGE_OLDEST_MYA = 128;
+export const AGE_NEWEST_MYA = 30;
+
+/** Interpolate between teal (recent) and amber (ancient) by estimated divergence age. */
+export function ageColor(mya: number): string {
+  const t = Math.max(0, Math.min(1, (mya - AGE_NEWEST_MYA) / (AGE_OLDEST_MYA - AGE_NEWEST_MYA)));
+  // teal #0d9488 → amber #d97706
+  const r = Math.round(13 + t * (217 - 13));
+  const g = Math.round(148 + t * (119 - 148));
+  const b = Math.round(136 + t * (6 - 136));
+  return `rgb(${r},${g},${b})`;
+}

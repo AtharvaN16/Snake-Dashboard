@@ -1,141 +1,222 @@
 import type { Snake } from "./types";
 
-/**
- * Node shape used by the phylogeny sunburst (D3 partition).
- * Exported so PhylogenyChart and hierarchy builder can share it.
- */
 export interface HierarchyNode {
   name: string;
   children?: HierarchyNode[];
   value?: number;
   id?: string;
   rank?: string;
+  ghost?: boolean;
+  majorGhost?: boolean;
+}
+
+interface TaxonDef {
+  name: string;
+  rank: string;
+  children?: TaxonDef[];
+  ghost?: boolean;
 }
 
 /**
- * Reference taxonomy: Suborder Serpentes down to family.
- * Based on Reptile Database / modern snake phylogeny.
- * - Scolecophidia: blind snakes (Typhlopidae, Leptotyphlopidae, etc.)
- * - Alethinophidia: all other snakes
- *   - Henophidia (boas, pythons, etc.): Boidae, Pythonidae, ...
- *   - Caenophidia (advanced snakes): Colubridae, Elapidae, Viperidae, ...
+ * Full modern Serpentes topology based on published molecular phylogenies.
+ * Ghost families are included as stubs; shown only when Full Tree toggle is on.
+ * References: Zaher et al. 2019, Pyron et al. 2013, Reynolds et al. 2014.
  */
-const INFRAORDER_SCOLEcOPHIDIA = "Scolecophidia";
-const INFRAORDER_ALETHINOPHIDIA = "Alethinophidia";
-const CLADE_HENOPHIDIA = "Henophidia";
-const CLADE_CAENOPHIDIA = "Caenophidia";
-
-/** Family -> clade (under Alethinophidia). Only families present in our DB are listed. */
-const FAMILY_TO_CLADE: Record<string, string> = {
-  Boidae: CLADE_HENOPHIDIA,
-  Pythonidae: CLADE_HENOPHIDIA,
-  Atractaspididae: CLADE_CAENOPHIDIA,
-  Colubridae: CLADE_CAENOPHIDIA,
-  Elapidae: CLADE_CAENOPHIDIA,
-  Viperidae: CLADE_CAENOPHIDIA,
+const FULL_TOPOLOGY: TaxonDef = {
+  name: "Serpentes",
+  rank: "suborder",
+  children: [
+    {
+      name: "Scolecophidia",
+      rank: "infraorder",
+      children: [
+        { name: "Typhlopidae", rank: "family" },
+        { name: "Leptotyphlopidae", rank: "family", ghost: true },
+        { name: "Gerrhopilidae", rank: "family", ghost: true },
+        { name: "Xenotyphlopidae", rank: "family", ghost: true },
+        { name: "Anomalepididae", rank: "family", ghost: true },
+      ],
+    },
+    {
+      name: "Alethinophidia",
+      rank: "infraorder",
+      children: [
+        {
+          name: "Amerophidia",
+          rank: "clade",
+          children: [
+            { name: "Anilidae", rank: "family", ghost: true },
+            { name: "Tropidophiidae", rank: "family", ghost: true },
+          ],
+        },
+        {
+          name: "Afrophidia",
+          rank: "clade",
+          children: [
+            {
+              name: "Uropeltoidea",
+              rank: "clade",
+              children: [
+                { name: "Uropeltidae", rank: "family", ghost: true },
+                { name: "Anomochilidae", rank: "family", ghost: true },
+                { name: "Cylindrophiidae", rank: "family", ghost: true },
+              ],
+            },
+            {
+              name: "Macrostomata",
+              rank: "clade",
+              children: [
+                {
+                  name: "Pythonoidea",
+                  rank: "clade",
+                  children: [
+                    { name: "Pythonidae", rank: "family" },
+                    { name: "Loxocemidae", rank: "family", ghost: true },
+                    { name: "Xenopeltidae", rank: "family", ghost: true },
+                  ],
+                },
+                {
+                  name: "Booidea",
+                  rank: "clade",
+                  children: [
+                    { name: "Boidae", rank: "family" },
+                    { name: "Calabariidae", rank: "family", ghost: true },
+                    { name: "Candoiidae", rank: "family", ghost: true },
+                    { name: "Charinidae", rank: "family", ghost: true },
+                    { name: "Erycidae", rank: "family", ghost: true },
+                    { name: "Sanziniidae", rank: "family", ghost: true },
+                  ],
+                },
+                {
+                  name: "Caenophidia",
+                  rank: "clade",
+                  children: [
+                    { name: "Acrochordidae", rank: "family", ghost: true },
+                    {
+                      name: "Colubroides",
+                      rank: "clade",
+                      children: [
+                        { name: "Xenodermidae", rank: "family", ghost: true },
+                        { name: "Pareidae", rank: "family", ghost: true },
+                        { name: "Viperidae", rank: "family" },
+                        { name: "Homalopsidae", rank: "family", ghost: true },
+                        {
+                          name: "Colubroidea",
+                          rank: "clade",
+                          children: [
+                            { name: "Colubridae", rank: "family" },
+                            {
+                              name: "Elapoidea",
+                              rank: "clade",
+                              children: [
+                                { name: "Pseudaspididae", rank: "family", ghost: true },
+                                { name: "Lamprophiidae", rank: "family", ghost: true },
+                                { name: "Atractaspididae", rank: "family" },
+                                { name: "Elapidae", rank: "family" },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
 };
 
-/** Fixed order for infraorders and clades for stable layout. */
-const INFRAORDER_ORDER = [INFRAORDER_SCOLEcOPHIDIA, INFRAORDER_ALETHINOPHIDIA];
-const CLADE_ORDER = [CLADE_HENOPHIDIA, CLADE_CAENOPHIDIA];
+/** Ghost families with a taxonomy_descriptions entry — shown with info box on hover. */
+const MAJOR_GHOST_FAMILIES = new Set([
+  "Leptotyphlopidae",
+  "Tropidophiidae",
+  "Xenopeltidae",
+  "Acrochordidae",
+  "Homalopsidae",
+  "Lamprophiidae",
+]);
 
-/**
- * Build the full snake hierarchy from Suborder Serpentes down to species,
- * using the reference taxonomy and attaching the given snakes as leaves.
- */
 export function buildFullSnakeHierarchy(snakes: Snake[]): HierarchyNode {
-  const root: HierarchyNode = {
-    name: "Serpentes",
-    children: [],
-    rank: "suborder",
-  };
-
-  // Scolecophidia
-  const scolecophidia: HierarchyNode = {
-    name: INFRAORDER_SCOLEcOPHIDIA,
-    children: [],
-    rank: "infraorder",
-  };
-  
-  // Families under Scolecophidia
-  const scolecophidiaFamilies = ["Typhlopidae", "Leptotyphlopidae", "Gerrhopilidae", "Xenotyphlopidae", "Anomalepididae"];
-  for (const familyName of scolecophidiaFamilies.sort()) {
-    const familySnakes = snakes.filter((s) => s.family === familyName);
-    if (familySnakes.length > 0) {
-      const familyNode = buildFamilyNode(familyName, familySnakes);
-      scolecophidia.children!.push(familyNode);
-    }
+  const snakesByFamily = new Map<string, Snake[]>();
+  for (const snake of snakes) {
+    const list = snakesByFamily.get(snake.family) ?? [];
+    list.push(snake);
+    snakesByFamily.set(snake.family, list);
   }
-  root.children!.push(scolecophidia);
-
-  // Alethinophidia -> Henophidia + Caenophidia -> families -> genera -> species
-  const alethinophidia: HierarchyNode = {
-    name: INFRAORDER_ALETHINOPHIDIA,
-    children: [],
-    rank: "infraorder",
-  };
-
-  const cladeToFamilies = new Map<string, string[]>();
-  for (const [family, clade] of Object.entries(FAMILY_TO_CLADE)) {
-    if (!cladeToFamilies.has(clade)) {
-      cladeToFamilies.set(clade, []);
-    }
-    cladeToFamilies.get(clade)!.push(family);
-  }
-
-  for (const cladeName of CLADE_ORDER) {
-    const families = cladeToFamilies.get(cladeName) ?? [];
-    if (families.length === 0) continue;
-
-    const cladeNode: HierarchyNode = {
-      name: cladeName,
-      children: [],
-      rank: "clade",
-    };
-
-    for (const familyName of families.sort()) {
-      const familySnakes = snakes.filter((s) => s.family === familyName);
-      const familyNode = buildFamilyNode(familyName, familySnakes);
-      cladeNode.children!.push(familyNode);
-    }
-
-    alethinophidia.children!.push(cladeNode);
-  }
-
-  root.children!.push(alethinophidia);
-
-  return root;
+  return buildNode(FULL_TOPOLOGY, snakesByFamily);
 }
 
-export function buildFamilyNode(familyName: string, familySnakes: Snake[]): HierarchyNode {
-  const familyNode: HierarchyNode = {
-    name: familyName,
-    children: [],
-    rank: "family",
+function buildNode(def: TaxonDef, snakesByFamily: Map<string, Snake[]>): HierarchyNode {
+  const node: HierarchyNode = {
+    name: def.name,
+    rank: def.rank,
+    ghost: def.ghost,
+    majorGhost: def.ghost && MAJOR_GHOST_FAMILIES.has(def.name),
   };
 
+  if (def.rank === "family") {
+    if (def.ghost) {
+      node.value = 0;
+      return node;
+    }
+    const familySnakes = snakesByFamily.get(def.name) ?? [];
+    node.children = buildFamilyChildren(familySnakes);
+    return node;
+  }
+
+  if (def.children) {
+    node.children = def.children.map((child) => buildNode(child, snakesByFamily));
+  }
+  return node;
+}
+
+function buildFamilyChildren(snakes: Snake[]): HierarchyNode[] {
   const genusMap = new Map<string, Snake[]>();
-  for (const snake of familySnakes) {
+  for (const snake of snakes) {
     const list = genusMap.get(snake.genus) ?? [];
     list.push(snake);
     genusMap.set(snake.genus, list);
   }
-
-  const genera = Array.from(genusMap.keys()).sort();
-  for (const genusName of genera) {
+  return Array.from(genusMap.keys()).sort().map((genusName) => {
     const genusSnakes = genusMap.get(genusName)!;
-    const genusNode: HierarchyNode = {
+    return {
       name: genusName,
+      rank: "genus",
       children: genusSnakes.map((s) => ({
         name: s.commonName,
         value: 1,
         id: s.id,
         rank: "species" as const,
       })),
-      rank: "genus",
     };
-    familyNode.children!.push(genusNode);
-  }
+  });
+}
 
-  return familyNode;
+/**
+ * Recursively prunes ghost leaf nodes and any internal nodes that
+ * become empty as a result. Used when Full Tree toggle is off.
+ */
+export function filterGhostNodes(node: HierarchyNode): HierarchyNode | null {
+  if (node.ghost) return null;
+  if (!node.children) return node;
+
+  const filteredChildren = node.children
+    .map(filterGhostNodes)
+    .filter((c): c is HierarchyNode => c !== null && (c.children ? c.children.length > 0 : true));
+
+  if (filteredChildren.length === 0) return null;
+  return { ...node, children: filteredChildren };
+}
+
+/** Build a single family node — used by the snake detail page mini-tree. */
+export function buildFamilyNode(familyName: string, familySnakes: Snake[]): HierarchyNode {
+  return {
+    name: familyName,
+    rank: "family",
+    children: buildFamilyChildren(familySnakes),
+  };
 }

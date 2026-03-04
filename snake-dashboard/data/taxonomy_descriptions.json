@@ -9,15 +9,47 @@
   },
   "alethinophidia": {
     "name": "Alethinophidia",
-    "description": "This infraorder includes all snakes other than the blind snakes. The name means 'true snakes'. This diverse group includes everything from 'primitive' burrowing snakes to the 'advanced' snakes (Caenophidia) with large, flexible jaws (Macrostomata) capable of consuming large prey."
+    "description": "This infraorder includes all snakes other than the blind snakes. The name means 'true snakes'. This diverse group includes everything from primitive burrowing snakes to the advanced snakes (Caenophidia) with large, flexible jaws capable of consuming large prey."
   },
-  "henophidia": {
-    "name": "Henophidia",
-    "description": "A group containing boas, pythons, and other 'primitive' snakes. Most are non-venomous constrictors. Many retain vestigial hind limbs as small spurs. This group includes some of the world's largest snakes."
+  "amerophidia": {
+    "name": "Amerophidia",
+    "description": "A small, ancient clade of South and Central American snakes representing one of the earliest-diverging lineages of Alethinophidia. Includes the pipe snakes (Anilidae) and dwarf boas (Tropidophiidae). Their position as a sister group to all other true snakes makes them important for understanding early snake evolution."
+  },
+  "afrophidia": {
+    "name": "Afrophidia",
+    "description": "A major clade of Alethinophidia that includes most of the world's snake diversity. It encompasses shield-tail snakes, pipe snakes, pythons, boas, and all advanced snakes. The name reflects their likely African or Gondwanan origin, though the group has since spread to every continent except Antarctica."
+  },
+  "uropeltoidea": {
+    "name": "Uropeltoidea",
+    "description": "A superfamily of small, burrowing snakes primarily found in South Asia and Southeast Asia. They include the shield-tail snakes (Uropeltidae), dwarf pipe snakes (Anomochilidae), and Asian pipe snakes (Cylindrophiidae). Many have hardened or keeled tail tips used to plug their burrows against predators."
+  },
+  "macrostomata": {
+    "name": "Macrostomata",
+    "description": "The 'large-mouthed' snakes — a diverse clade defined by highly flexible skulls and jaw ligaments that allow them to swallow prey far larger than their heads. This group includes pythons, boas, and all advanced snakes. The evolution of macrostomate feeding is one of the key innovations in snake evolutionary history."
+  },
+  "pythonoidea": {
+    "name": "Pythonoidea",
+    "description": "A superfamily of Old World constrictors and their close relatives. Includes the true pythons (Pythonidae), the Mexican burrowing python (Loxocemidae), and the iridescent sunbeam snakes (Xenopeltidae). Pythonoids are egg-layers, distinguishing them from most boas, and some of the largest snakes alive today belong to this group."
+  },
+  "booidea": {
+    "name": "Booidea",
+    "description": "A superfamily of constricting snakes found across the Americas, Africa, Europe, and the Pacific. What was once classified as a single family (Boidae) is now understood to be several distinct lineages: sand boas (Erycidae), rosy boas and rubber boas (Charinidae), Calabar boa (Calabariidae), Pacific boas (Candoiidae), and Malagasy boas (Sanziniidae). Most are viviparous."
   },
   "caenophidia": {
     "name": "Caenophidia",
-    "description": "Representing over 80% of all snake species, this is considered the most 'advanced' group of snakes. It includes the families Colubridae, Elapidae, and Viperidae. The evolution of efficient venom delivery systems is a key characteristic of this clade."
+    "description": "Representing over 80% of all living snake species, Caenophidia are the most recently evolved and ecologically diverse snake group. This clade is defined by the loss of a functional left lung and a highly modified skull. It includes the file snakes, vipers, colubrids, elapids, and their relatives. Most of the world's medically important venomous snakes belong here."
+  },
+  "colubroides": {
+    "name": "Colubroides",
+    "description": "The largest grouping within Caenophidia, containing the vast majority of all snake species. This clade includes vipers, water snakes, colubrids, and elapids. A defining evolutionary trend is the progressive development of venom delivery systems — from rear-fanged species to the highly derived front-fanged viperid and elapid lineages."
+  },
+  "colubroidea": {
+    "name": "Colubroidea",
+    "description": "A superfamily within Colubroides that contains the largest radiation of snakes on Earth. It includes the colubrids, the lamprophiids (Africa's most diverse snake family), the elapids, and several smaller families. The colubroid lineage represents the peak of snake diversification, occurring mainly in the last 40 million years."
+  },
+  "elapoidea": {
+    "name": "Elapoidea",
+    "description": "A superfamily that includes the most sophisticated venom delivery systems in snakes. Elapoids include cobras, mambas, and sea snakes (Elapidae), Africa's diverse house snakes and their allies (Lamprophiidae), and the stiletto snakes (Atractaspididae). Many species in this group independently evolved fixed front fangs or uniquely specialised fang structures."
   },
   "colubridae": {
     "name": "Colubridae",
@@ -46,5 +78,29 @@
   "typhlopidae": {
     "name": "Typhlopidae",
     "description": "A family of blind snakes found in most tropical and subtropical regions. They are fossorial (burrowing) snakes with cylindrical bodies, smooth scales, and vestigial eyes that can only detect light. They are often mistaken for earthworms. Their diet consists primarily of the eggs, larvae, and pupae of ants and termites."
+  },
+  "leptotyphlopidae": {
+    "name": "Leptotyphlopidae",
+    "description": "Known as thread snakes or slender blind snakes, this family contains some of the smallest snakes in the world. The Barbados threadsnake (Tetracheilostoma carlae) holds the record for the world's smallest snake, reaching only about 10 cm. Like other blind snakes, they live underground and feed on ant and termite colonies."
+  },
+  "tropidophiidae": {
+    "name": "Tropidophiidae",
+    "description": "The dwarf boas of the Caribbean and South America. These small to medium constrictors are known for an unusual and dramatic defensive behavior: when threatened, some species can rupture blood vessels around their eyes and mouth, bleeding from their face to deter predators. They are viviparous and share several anatomical features with the ancient boa lineage."
+  },
+  "xenopeltidae": {
+    "name": "Xenopeltidae",
+    "description": "The sunbeam snakes of Southeast Asia are renowned for their extraordinary iridescent scales, which produce a brilliant rainbow sheen in sunlight due to microstructured scale surfaces that diffract light. Despite this flashy appearance, they are secretive, burrowing snakes. Their skull anatomy is considered intermediate between primitive and advanced snakes, making them scientifically important."
+  },
+  "acrochordidae": {
+    "name": "Acrochordidae",
+    "description": "The file snakes (or wart snakes) are among the most specialised aquatic snakes on Earth. They are completely aquatic, never leaving the water voluntarily, and their loose, baggy skin covered in tiny granular scales gives them their sandpaper-like texture. They lack the ventral scales used for locomotion on land. Found in coastal waters, estuaries, and rivers across South and Southeast Asia."
+  },
+  "homalopsidae": {
+    "name": "Homalopsidae",
+    "description": "A family of rear-fanged, semi-aquatic to fully aquatic snakes found across South and Southeast Asia. Most are associated with freshwater and brackish environments. Dog-faced water snakes and mudsnakes belong here. Though rear-fanged, most are not considered dangerous to humans. Several species are notable for foraging in mudflats and tidal zones."
+  },
+  "lamprophiidae": {
+    "name": "Lamprophiidae",
+    "description": "Africa's most diverse snake family, with over 300 species spread across sub-Saharan Africa and Madagascar. This family includes the stiletto snakes (formerly Atractaspididae), house snakes, wolf snakes, and many others. Lamprophiids occupy a huge range of ecological niches — burrowing, semi-aquatic, arboreal — and range from completely harmless to dangerously venomous."
   }
 }

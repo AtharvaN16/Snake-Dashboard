@@ -1,5 +1,26 @@
 import { color as d3Color, rgb as d3Rgb } from "d3-color";
 
+/**
+ * Classic phylogenetic elbow path: arc at source radius → radial line to target.
+ * Produces the canonical right-angle branch join used by iTOL and D3 Tree of Life.
+ * Angles are in radians with 0 = top (our tree convention).
+ */
+export function linkStep(
+  srcAngle: number, srcRadius: number,
+  tgtAngle: number, tgtRadius: number,
+): string {
+  const c = (a: number) => Math.cos(a - Math.PI / 2);
+  const s = (a: number) => Math.sin(a - Math.PI / 2);
+  const x0 = srcRadius * c(srcAngle), y0 = srcRadius * s(srcAngle);
+  const x1 = srcRadius * c(tgtAngle), y1 = srcRadius * s(tgtAngle);
+  const x2 = tgtRadius * c(tgtAngle), y2 = tgtRadius * s(tgtAngle);
+  if (Math.abs(tgtAngle - srcAngle) < 1e-6) return `M${x0},${y0}L${x2},${y2}`;
+  const da = tgtAngle - srcAngle;
+  const sweep = da > 0 ? 1 : 0;
+  const largeArc = Math.abs(da) > Math.PI ? 1 : 0;
+  return `M${x0},${y0}A${srcRadius},${srcRadius} 0 ${largeArc} ${sweep} ${x1},${y1}L${x2},${y2}`;
+}
+
 export function radialPoint(angle: number, radius: number): [number, number] {
   return [
     radius * Math.cos(angle - Math.PI / 2),
