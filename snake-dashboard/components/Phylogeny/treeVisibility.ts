@@ -37,10 +37,12 @@ function extLabelSize(rank: string, invK: number, large = false): number {
     baseFs = 11;
   }
 
-  // Slightly non-linear scaling: as we zoom in (invK decreases), the text shrinks 
-  // in local units slower than the zoom factor (Math.pow < 1), 
+  // Slightly non-linear scaling: as we zoom in (invK decreases), the text shrinks
+  // in local units slower than the zoom factor (Math.pow < 1),
   // making it appear slightly larger on screen as you get closer.
-  return baseFs * m * Math.pow(invK, 0.88);
+  // Scale down when large so search/focus path labels don't dominate.
+  const scale = large ? 0.65 : 1;
+  return baseFs * m * Math.pow(invK, 0.88) * scale;
 }
 
 /** Clade nodes whose labels are hidden by default — shown only on hover (reduce center clutter). */
@@ -180,16 +182,6 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
           return;
         }
 
-        // Minor ghost nodes: show label only when zoomed in
-        const isMinorGhost = nd.data.ghost && !nd.data.majorGhost;
-        if (isMinorGhost) {
-          if (isScaleZoomed) {
-            inNodeText.attr("opacity", 0);
-            addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { lightStyle: true, side: true }, labelOpacityFor(nd));
-          }
-          return;
-        }
-
         if (isDirectChildOfClickedClade || screenPx < MIN_READABLE_PX) {
           inNodeText.attr("opacity", 0);
           addExtLabel(ctx.labelsLayer, nd, rank, invK, scale, { side: !!isDirectChildOfClickedClade }, labelOpacityFor(nd));
@@ -258,7 +250,7 @@ export function createUpdateSpeciesVisibility(ctx: VisibilityContext) {
       .attr("text-anchor", textAnchor)
       .attr("font-size", `${extFs}px`)
       .attr("font-weight", "500")
-      .style("font-style", rank === "genus" || rank === "species" ? "italic" : "normal")
+      .style("font-style", rank === "genus" ? "italic" : "normal")
       .attr("fill", nodeColor(nd))
       .attr("y", 0)
       .attr("dy", "0.35em")

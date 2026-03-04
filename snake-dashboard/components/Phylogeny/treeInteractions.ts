@@ -346,9 +346,9 @@ export function setupInteractions(ctx: ChartContext): {
     const k = zoomScaleRef.current;
     
     // We want the label to grow slightly as we zoom in, but much slower than the nodes.
-    // At k=1, screen size is ~18px. At k=4, screen size is ~24px.
-    const baseFs = opts?.large ? 20 : 18;
-    const fs = (baseFs * Math.pow(1/k, 0.85));
+    // Scale down only zoom-in highlight (search/focus); hover label stays full size.
+    const baseFs = opts?.large ? 20 * 0.65 : 18;
+    const fs = baseFs * Math.pow(1 / k, 0.85);
     
     const invK = 1 / k;
     const gap = r + (opts?.large ? 28 : 24) * invK;
@@ -499,7 +499,9 @@ export function setupInteractions(ctx: ChartContext): {
     const [cpx, cpy] = radialPoint(nodeX, nodeY);
     const dist = Math.hypot(mx - cpx, my - cpy);
     const radius = (newNode as any)._currentR ?? nodeRadius(newNode);
-    const threshold = radius + 30;
+    // Scale hover area so small circles remain hoverable at low zoom levels
+    const k = zoomScaleRef.current;
+    const threshold = radius + Math.max(30, 70 / Math.max(k, 0.05));
 
     let finalNode: HierarchyPointNode<HierarchyNode> | null = null;
     if (dist <= threshold) {

@@ -9,9 +9,9 @@ export function nodeRadius(d: D3HierarchyNode<HierarchyNode>): number {
     case "suborder":
       return 220;
     case "infraorder":
-      return d.children && d.children.length > 0 ? 140 : 80;
+      return d.children && d.children.length > 0 ? 165 : 90;
     case "clade":
-      return 88; // clades > families in visual hierarchy
+      return 110; // clades > families in visual hierarchy
     case "family":
       return 68;
     case "genus":
@@ -30,7 +30,7 @@ export function fontSize(d: D3HierarchyNode<HierarchyNode>): number {
     case "infraorder":
       return d.children && d.children.length > 0 ? 36 : 22;
     case "clade":
-      return 32;
+      return 36;
     case "family":
       return 24;
     case "genus":
