@@ -6,7 +6,7 @@ export const venomClassificationColors: Record<Snake["venomClassification"], str
   "Venomous": "#E8925A",
   "Moderately Venomous": "#D4C43D",
   "Mildly Venomous": "#8FB830",
-  "Non-venomous": "#E5E5E5", // Faded so non-venomous nodes recede visually
+  "Non-venomous": "#94a3b8", // Darker gray for better readability while still receding visually
 };
 
 export const venomClassificationOrder: Snake["venomClassification"][] = [

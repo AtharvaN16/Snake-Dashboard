@@ -129,7 +129,7 @@ function VenomLegendBody({ venomSubs }: { venomSubs?: VenomSubModes }) {
                 className="h-2 w-full rounded-full border border-stone-200"
                 style={{
                   background:
-                    "linear-gradient(to right, #ff9a9e, #6a0572)",
+                    "linear-gradient(to right, #ffcc33, #ff4d4d, #6a0572)",
                 }}
               />
               <div className="flex justify-between text-[9px] text-stone-500 font-bold tracking-tighter">
@@ -157,7 +157,7 @@ function VenomLegendBody({ venomSubs }: { venomSubs?: VenomSubModes }) {
                 </span>
               </div>
               <div className="flex flex-col items-center gap-1">
-                <span className="inline-block h-4.5 w-4.5 rounded-full border border-stone-300 bg-stone-200" />
+                <span className="inline-block h-5 w-5 rounded-full border border-stone-300 bg-stone-200" />
                 <span className="text-[9px] text-stone-500 font-bold uppercase tracking-tighter">High</span>
               </div>
             </div>

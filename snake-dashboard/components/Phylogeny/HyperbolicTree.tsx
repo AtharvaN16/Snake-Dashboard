@@ -112,6 +112,12 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
   const nodeColor = useCallback((n: D3HierarchyNode<HierarchyNode>): string => {
     if (isSpecies(n) && n.data.id) {
       const snake = snakeMap.get(n.data.id);
+      
+      // If we are in any venom mode, non-venomous species should always be gray
+      if (colorModeRef.current === 'venom' && !isVenomous(snake)) {
+        return venomClassificationColors["Non-venomous"];
+      }
+
       if (venomSubs.potency) {
         return getPotencyColor(snake?.dangerScoreComponents?.potencyScore ?? 0);
       }
@@ -748,29 +754,37 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
       if (potency) {
         const taipanBaseY = nodeBaseYRef.current.get("inland-taipan") ?? RADIUS;
         const benchmarkR = taipanBaseY + MAX_POTENCY_EXTENSION;
-        // Always recreate to handle toggle on/off/on correctly
-        benchGroup.selectAll(".potency-benchmark-ring").remove();
-        svg.select("defs").select("#potency-ring-fill").remove();
-        // Radial gradient: transparent at center → pink → vivid purple at rim
-        const grad = svg.select("defs").append("radialGradient")
-          .attr("id", "potency-ring-fill")
-          .attr("cx", "0").attr("cy", "0")
+        
+        // Update or create radial gradient
+        let grad = svg.select("defs").select("#potency-ring-fill");
+        if (grad.empty()) {
+          grad = svg.select("defs").append("radialGradient")
+            .attr("id", "potency-ring-fill")
+            .attr("cx", "0").attr("cy", "0")
+            .attr("gradientUnits", "userSpaceOnUse");
+          grad.append("stop").attr("offset", "0%").attr("stop-color", "#6a0572").attr("stop-opacity", 0);
+          grad.append("stop").attr("offset", "72%").attr("stop-color", "#6a0572").attr("stop-opacity", 0);
+          grad.append("stop").attr("offset", "86%").attr("stop-color", "#d966e0").attr("stop-opacity", 0.08);
+          grad.append("stop").attr("offset", "94%").attr("stop-color", "#a01db0").attr("stop-opacity", 0.24);
+          grad.append("stop").attr("offset", "100%").attr("stop-color", "#6a0572").attr("stop-opacity", 0.42);
+        }
+        grad.transition("venom-benchmark").duration(DURATION).ease(ease)
+          .attr("r", benchmarkR);
+
+        // Update or create circle
+        let ring = benchGroup.select(".potency-benchmark-ring");
+        if (ring.empty()) {
+          ring = benchGroup.append("circle")
+            .attr("class", "potency-benchmark-ring")
+            .attr("fill", "url(#potency-ring-fill)")
+            .attr("stroke", "rgba(106, 5, 114, 0.62)")
+            .attr("stroke-width", 2.5)
+            .attr("stroke-dasharray", "12,6")
+            .attr("opacity", 0);
+        }
+        
+        ring.transition("venom-benchmark").duration(DURATION).ease(ease)
           .attr("r", benchmarkR)
-          .attr("gradientUnits", "userSpaceOnUse");
-        grad.append("stop").attr("offset", "0%").attr("stop-color", "#6a0572").attr("stop-opacity", 0);
-        grad.append("stop").attr("offset", "72%").attr("stop-color", "#6a0572").attr("stop-opacity", 0);
-        grad.append("stop").attr("offset", "86%").attr("stop-color", "#d966e0").attr("stop-opacity", 0.08);
-        grad.append("stop").attr("offset", "94%").attr("stop-color", "#a01db0").attr("stop-opacity", 0.24);
-        grad.append("stop").attr("offset", "100%").attr("stop-color", "#6a0572").attr("stop-opacity", 0.42);
-        benchGroup.append("circle")
-          .attr("class", "potency-benchmark-ring")
-          .attr("r", benchmarkR)
-          .attr("fill", "url(#potency-ring-fill)")
-          .attr("stroke", "rgba(106, 5, 114, 0.62)")
-          .attr("stroke-width", 2.5)
-          .attr("stroke-dasharray", "12,6")
-          .attr("opacity", 0)
-          .transition("venom-benchmark").duration(DURATION).ease(ease)
           .attr("opacity", 1);
       } else {
         benchGroup.selectAll<SVGCircleElement, unknown>(".potency-benchmark-ring")
