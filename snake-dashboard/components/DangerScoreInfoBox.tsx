@@ -82,26 +82,26 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
         </div>
 
         {/* 3-Second Summary Card */}
-        <div className="mb-6 p-4 rounded-xl border border-stone-200 bg-stone-100/80 text-xs sm:text-sm space-y-2.5 shadow-xs">
+        <div className="mb-6 p-4 sm:p-5 rounded-xl border border-stone-200 bg-stone-100/80 text-xs sm:text-sm space-y-3 shadow-xs">
           <p className="text-stone-800 font-semibold tracking-tight">
             The most venomous snake isn&apos;t necessarily the most dangerous snake. The model combines:
           </p>
-          <div className="space-y-2 text-xs">
-            <div className="flex items-start gap-2">
+          <div className="space-y-2.5 text-xs">
+            <div className="flex items-start gap-2.5">
               <FlaskConical className="w-4 h-4 text-stone-700 mt-0.5 shrink-0" />
               <div>
                 <span className="font-bold text-stone-900">55% Lethality: </span>
                 <span className="text-stone-600">How much toxic venom a bite can potentially deliver.</span>
               </div>
             </div>
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-2.5">
               <Stethoscope className="w-4 h-4 text-stone-700 mt-0.5 shrink-0" />
               <div>
                 <span className="font-bold text-stone-900">45% Clinical Severity: </span>
                 <span className="text-stone-600">How severe the effects of envenoming can be—even if you survive.</span>
               </div>
             </div>
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-2.5">
               <Globe className="w-4 h-4 text-stone-700 mt-0.5 shrink-0" />
               <div>
                 <span className="font-bold text-stone-900">Real-World Modifiers: </span>
@@ -109,20 +109,20 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
               </div>
             </div>
           </div>
-          <div className="pt-2 border-t border-stone-200 text-[11px] text-stone-500 italic">
+          <div className="pt-2.5 border-t border-stone-200 text-[11px] text-stone-500 italic leading-normal">
             Rather than &quot;Which snake has the most potent venom?&quot;, it asks &quot;How dangerous could a bite from this snake be to a human?&quot;
           </div>
         </div>
 
         {/* Section Accordions */}
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           {/* Section 01: Lethality */}
           <div className={`border rounded-xl transition-all duration-200 overflow-hidden bg-white ${openSections.lethality ? "border-stone-400 shadow-xs" : "border-stone-200"}`}>
             <button
               onClick={() => toggleSection("lethality")}
               className="w-full flex items-center justify-between p-4 text-left font-bold text-sm text-stone-900 hover:bg-stone-50/80 transition-colors"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-stone-100 text-stone-600 border border-stone-200">01</span>
                 <span>Lethality (55%)</span>
               </div>
@@ -140,14 +140,14 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                   transition={{ type: "spring", duration: 0.35, bounce: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="p-4 pt-0 text-xs sm:text-sm text-stone-600 space-y-3 border-t border-stone-100 leading-relaxed">
-                    <p className="font-semibold text-stone-900 pt-3">How much toxic venom can a bite potentially deliver?</p>
+                  <div className="p-4 sm:p-5 text-xs sm:text-sm text-stone-600 space-y-3.5 border-t border-stone-100 leading-relaxed">
+                    <p className="font-semibold text-stone-900">How much toxic venom can a bite potentially deliver?</p>
                     <p>
                       Venom <strong>potency</strong> isn&apos;t the same as the amount of venom a snake can deliver. A snake can have extremely toxic venom but produce very little of it. Another can have less potent venom but deliver a much larger quantity. That&apos;s why we combine <strong>potency + venom yield</strong>.
                     </p>
 
                     {/* Real Example Box */}
-                    <div className="p-3.5 bg-[#f7f5f0] border border-stone-300/70 rounded-lg text-xs space-y-1.5">
+                    <div className="p-4 bg-[#f7f5f0] border border-stone-300/70 rounded-xl text-xs space-y-2">
                       <p className="font-bold text-stone-900">A real example: Eastern Coral Snake vs. Gaboon Viper</p>
                       <p>
                         The Eastern Coral Snake has highly potent venom, but its venom yield is relatively small (~5mg). The Gaboon Viper&apos;s venom is less potent by comparison, but it can produce a very large yield—reported up to around 450 mg.
@@ -157,7 +157,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                       </p>
                     </div>
 
-                    <div className="space-y-2 text-xs text-stone-700">
+                    <div className="space-y-2.5 text-xs text-stone-700">
                       <p>
                         <strong className="text-stone-900">What is LD50?</strong> LD50 is the dose of venom that kills 50% of test animals under controlled experimental conditions (mg/kg). Lower LD50 = more potent venom.
                       </p>
@@ -167,7 +167,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                       <p>
                         <strong className="text-stone-900">Lethal-dose equivalents:</strong> For a 70 kg reference body mass:
                       </p>
-                      <div className="font-mono text-[11px] bg-[#f5f2ea] p-2.5 rounded-md border border-stone-300/80 text-stone-900">
+                      <div className="font-mono text-[11px] bg-[#f5f2ea] py-2.5 px-3 rounded-lg border border-stone-300/80 text-stone-900">
                         lethalDoseEquivalents = venom yield ÷ (SC-equivalent LD50 × 70)
                       </div>
                       <p className="text-stone-500 italic text-[11px]">
@@ -186,7 +186,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
               onClick={() => toggleSection("clinical")}
               className="w-full flex items-center justify-between p-4 text-left font-bold text-sm text-stone-900 hover:bg-stone-50/80 transition-colors"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-stone-100 text-stone-600 border border-stone-200">02</span>
                 <span>Clinical Severity (45%)</span>
               </div>
@@ -204,14 +204,14 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                   transition={{ type: "spring", duration: 0.35, bounce: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="p-4 pt-0 text-xs sm:text-sm text-stone-600 space-y-3 border-t border-stone-100 leading-relaxed">
-                    <p className="font-semibold text-stone-900 pt-3">What happens when a person is bitten?</p>
+                  <div className="p-4 sm:p-5 text-xs sm:text-sm text-stone-600 space-y-3.5 border-t border-stone-100 leading-relaxed">
+                    <p className="font-semibold text-stone-900">What happens when a person is bitten?</p>
                     <p>
                       Lethality measures theoretical toxicological capacity. Clinical Severity measures what envenoming can actually do to a person.
                     </p>
 
                     {/* Real Example Box */}
-                    <div className="p-3.5 bg-[#f7f5f0] border border-stone-300/70 rounded-lg text-xs space-y-1.5">
+                    <div className="p-4 bg-[#f7f5f0] border border-stone-300/70 rounded-xl text-xs space-y-2">
                       <p className="font-bold text-stone-900">A real example: Black Mamba vs. Puff Adder</p>
                       <p>
                         The <strong>Black Mamba</strong> has severe neurotoxic effects causing rapid paralysis. The <strong>Puff Adder</strong> causes extensive local tissue damage and necrosis, sometimes requiring surgery or amputation.
@@ -221,33 +221,33 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                       </p>
                     </div>
 
-                    <div className="space-y-2 text-xs text-stone-700">
+                    <div className="space-y-2.5 text-xs text-stone-700">
                       <p>
-                        <strong className="text-stone-900">Step 1 — Fatality:</strong> Uses the midpoint of untreated fatality ranges (<code className="bg-stone-100 px-1 py-0.5 rounded border border-stone-200">midCFR = (low + high) / 2</code>). A square-root transformation (<code className="bg-stone-100 px-1 py-0.5 rounded border border-stone-200">√(midCFR / 100) × 100</code>) compresses upper-end variance so high-fatality estimates do not dominate the score.
+                        <strong className="text-stone-900">Step 1 — Fatality:</strong> Uses the midpoint of untreated fatality ranges (<code className="bg-stone-100 px-1.5 py-0.5 rounded border border-stone-200">midCFR = (low + high) / 2</code>). A square-root transformation (<code className="bg-stone-100 px-1.5 py-0.5 rounded border border-stone-200">√(midCFR / 100) × 100</code>) compresses upper-end variance so high-fatality estimates do not dominate the score.
                       </p>
                       <p>
                         <strong className="text-stone-900">Step 2 — Morbidity:</strong> Additive point bonuses for reported non-fatal harm:
                       </p>
                       <div className="overflow-x-auto">
-                        <table className="w-full text-xs text-left border-collapse border border-stone-200 mt-1.5">
+                        <table className="w-full text-xs text-left border-collapse border border-stone-200 mt-2">
                           <thead>
                             <tr className="bg-stone-100/90 text-stone-900 font-semibold">
-                              <th className="p-2 border border-stone-200">Clinical Severity</th>
-                              <th className="p-2 border border-stone-200 text-right">Bonus</th>
+                              <th className="p-2.5 border border-stone-200">Clinical Severity</th>
+                              <th className="p-2.5 border border-stone-200 text-right">Bonus</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td className="p-2 border border-stone-200 text-stone-700">Life-threatening</td>
-                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+20</td>
+                              <td className="p-2.5 border border-stone-200 text-stone-700">Life-threatening</td>
+                              <td className="p-2.5 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+20</td>
                             </tr>
                             <tr className="bg-stone-50/50">
-                              <td className="p-2 border border-stone-200 text-stone-700">Severe</td>
-                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+10</td>
+                              <td className="p-2.5 border border-stone-200 text-stone-700">Severe</td>
+                              <td className="p-2.5 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+10</td>
                             </tr>
                             <tr>
-                              <td className="p-2 border border-stone-200 text-stone-700">Moderate</td>
-                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+5</td>
+                              <td className="p-2.5 border border-stone-200 text-stone-700">Moderate</td>
+                              <td className="p-2.5 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+5</td>
                             </tr>
                           </tbody>
                         </table>
@@ -265,7 +265,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
               onClick={() => toggleSection("modifiers")}
               className="w-full flex items-center justify-between p-4 text-left font-bold text-sm text-stone-900 hover:bg-stone-50/80 transition-colors"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-stone-100 text-stone-600 border border-stone-200">03</span>
                 <span>Real-World Risk Modifiers</span>
               </div>
@@ -283,13 +283,13 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                   transition={{ type: "spring", duration: 0.35, bounce: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="p-4 pt-0 text-xs sm:text-sm text-stone-600 space-y-3 border-t border-stone-100 leading-relaxed">
-                    <p className="pt-3">
+                  <div className="p-4 sm:p-5 text-xs sm:text-sm text-stone-600 space-y-3.5 border-t border-stone-100 leading-relaxed">
+                    <p>
                       Intrinsic Danger tells us how harmful venom can be. Multipliers adjust the score based on how that venom is encountered and delivered:
                     </p>
 
                     {/* Real Example Box */}
-                    <div className="p-3.5 bg-[#f7f5f0] border border-stone-300/70 rounded-lg text-xs space-y-1.5">
+                    <div className="p-4 bg-[#f7f5f0] border border-stone-300/70 rounded-xl text-xs space-y-2">
                       <p className="font-bold text-stone-900">A real example: Inland Taipan vs. Russell&apos;s Viper</p>
                       <p>
                         The <strong>Inland Taipan</strong> has exceptionally potent venom, but inhabits sparsely populated regions of central Australia. The <strong>Russell&apos;s Viper</strong> is widespread across densely populated farmlands in South Asia.
@@ -299,7 +299,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                       </p>
                     </div>
 
-                    <div className="space-y-2 text-xs text-stone-700">
+                    <div className="space-y-2.5 text-xs text-stone-700">
                       <p>
                         <strong className="text-stone-900">Venom Onset (0.94×–1.08×):</strong> Measures venom onset speed. Rapidly acting venom reduces the window available to reach emergency care.
                       </p>
@@ -309,7 +309,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                       <p>
                         <strong className="text-stone-900">Human Exposure (0.70×–1.10×):</strong> Combines geographic encounter frequency with snake disposition:
                       </p>
-                      <div className="font-mono text-[11px] bg-[#f5f2ea] p-2.5 rounded-md border border-stone-300/80 text-stone-900">
+                      <div className="font-mono text-[11px] bg-[#f5f2ea] py-2.5 px-3 rounded-lg border border-stone-300/80 text-stone-900">
                         Aggressive: +15 | Defensive: +7.5 | Neutral: 0 | Docile: -10 | Placid: -20
                       </div>
                     </div>
@@ -325,7 +325,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
               onClick={() => toggleSection("who")}
               className="w-full flex items-center justify-between p-4 text-left font-bold text-sm text-stone-900 hover:bg-stone-50/80 transition-colors"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-stone-100 text-stone-600 border border-stone-200">04</span>
                 <span>WHO Classifications &amp; Methodology Notes</span>
               </div>
@@ -343,22 +343,22 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                   transition={{ type: "spring", duration: 0.35, bounce: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="p-4 pt-0 text-xs sm:text-sm text-stone-600 space-y-3 border-t border-stone-100 leading-relaxed">
-                    <div className="pt-3">
+                  <div className="p-4 sm:p-5 text-xs sm:text-sm text-stone-600 space-y-3.5 border-t border-stone-100 leading-relaxed">
+                    <div>
                       <p className="font-bold text-stone-900 mb-1">What about WHO classifications?</p>
                       <p className="text-xs text-stone-600">
                         WHO Medical Importance Categories are shown throughout the site as an <strong>external reference</strong>, but they aren&apos;t part of the numerical score. Adding a numerical WHO bonus would double-count characteristics already represented in the model.
                       </p>
                     </div>
 
-                    <div className="pt-2 border-t border-stone-200/70 text-xs space-y-1.5">
+                    <div className="pt-2.5 border-t border-stone-200/70 text-xs space-y-1.5">
                       <p className="font-bold text-stone-900">Model Disclaimer:</p>
                       <p className="text-stone-500">
                         The Danger Score is an <strong>experimental comparative index</strong>, not a clinically validated measure of individual bite risk. Weights and multipliers are modeling choices designed to make comparisons meaningful.
                       </p>
                     </div>
 
-                    <div className="pt-2 border-t border-stone-200/70 text-xs space-y-1 text-stone-500">
+                    <div className="pt-2.5 border-t border-stone-200/70 text-xs space-y-1 text-stone-500">
                       <p className="font-semibold text-stone-700">Data Sources:</p>
                       <p>
                         WHO Snakebite Information Platform, Snake Venom Database (SVDB), snakeDB.org, The Reptile Database, and Broad et al. (1979) LD50 conversion standards.
