@@ -239,15 +239,15 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                           <tbody>
                             <tr>
                               <td className="p-2 border border-stone-200 text-stone-700">Life-threatening</td>
-                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900">+20</td>
+                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+20</td>
                             </tr>
                             <tr className="bg-stone-50/50">
                               <td className="p-2 border border-stone-200 text-stone-700">Severe</td>
-                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900">+10</td>
+                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+10</td>
                             </tr>
                             <tr>
                               <td className="p-2 border border-stone-200 text-stone-700">Moderate</td>
-                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900">+5</td>
+                              <td className="p-2 border border-stone-200 text-right font-mono font-semibold text-stone-900 tabular-nums">+5</td>
                             </tr>
                           </tbody>
                         </table>
