@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, memo, useMemo } from "react";
+import { useState, memo, useMemo, useRef, MouseEvent } from "react";
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Snake } from "@/lib/types";
 import {
   getIntrinsicWeights,
@@ -13,7 +13,7 @@ import {
   deriveVenomClassification,
 } from "@/lib/dangerScore";
 import { DangerScoreInfoBox } from "@/components/DangerScoreInfoBox";
-import { ChevronRight, Zap, Skull, Globe2 } from "lucide-react";
+import { ChevronRight, Zap, Skull, Globe2, Sparkles } from "lucide-react";
 
 const CONTENT_H = 620;
 const CARD_H = CONTENT_H;
@@ -26,12 +26,59 @@ interface DangerScoreCardProps {
   snake: Snake;
 }
 
-function getDangerLabel(score: number): { label: string; bg: string; text: string } {
-  if (score >= 80) return { label: "VERY HIGH DANGER", bg: "bg-red-100/90 border-red-300/80", text: "text-red-900" };
-  if (score >= 60) return { label: "HIGH DANGER", bg: "bg-orange-100/90 border-orange-300/80", text: "text-orange-900" };
-  if (score >= 40) return { label: "MODERATE DANGER", bg: "bg-amber-100/90 border-amber-300/80", text: "text-amber-900" };
-  if (score >= 20) return { label: "LOW DANGER", bg: "bg-lime-100/90 border-lime-300/80", text: "text-lime-900" };
-  return { label: "MINIMAL DANGER", bg: "bg-stone-200/80 border-stone-300/80", text: "text-stone-800" };
+interface DangerTierConfig {
+  label: string;
+  badgeBg: string;
+  badgeText: string;
+  borderColor: string;
+  glowColor: string;
+  holoGradient: string;
+  tierName: string;
+}
+
+function getDangerTier(score: number): DangerTierConfig {
+  if (score >= 80) {
+    return {
+      label: "VERY HIGH DANGER",
+      badgeBg: "bg-red-950/90 border-red-500/80",
+      badgeText: "text-red-100",
+      borderColor: "border-red-600 shadow-red-900/40",
+      glowColor: "rgba(220, 38, 38, 0.35)",
+      holoGradient: "linear-gradient(135deg, rgba(239,68,68,0.25) 0%, rgba(245,158,11,0.2) 50%, rgba(220,38,38,0.3) 100%)",
+      tierName: "APEX HOLO",
+    };
+  }
+  if (score >= 60) {
+    return {
+      label: "HIGH DANGER",
+      badgeBg: "bg-orange-950/90 border-orange-500/80",
+      badgeText: "text-orange-100",
+      borderColor: "border-orange-500 shadow-orange-900/30",
+      glowColor: "rgba(249, 115, 22, 0.3)",
+      holoGradient: "linear-gradient(135deg, rgba(249,115,22,0.25) 0%, rgba(234,179,8,0.2) 50%, rgba(249,115,22,0.25) 100%)",
+      tierName: "HIGH FOIL",
+    };
+  }
+  if (score >= 40) {
+    return {
+      label: "MODERATE DANGER",
+      badgeBg: "bg-amber-950/90 border-amber-500/80",
+      badgeText: "text-amber-100",
+      borderColor: "border-amber-400 shadow-amber-900/25",
+      glowColor: "rgba(234, 179, 8, 0.25)",
+      holoGradient: "linear-gradient(135deg, rgba(234,179,8,0.2) 0%, rgba(132,204,22,0.15) 50%, rgba(234,179,8,0.2) 100%)",
+      tierName: "SOLAR FOIL",
+    };
+  }
+  return {
+    label: "LOW DANGER",
+    badgeBg: "bg-stone-800/90 border-stone-400/80",
+    badgeText: "text-stone-200",
+    borderColor: "border-stone-400 shadow-stone-900/20",
+    glowColor: "rgba(168, 162, 158, 0.2)",
+    holoGradient: "linear-gradient(135deg, rgba(214,211,209,0.2) 0%, rgba(168,162,158,0.15) 50%, rgba(214,211,209,0.2) 100%)",
+    tierName: "SILVER SPECIMEN",
+  };
 }
 
 function formatModPct(mod: number): { text: string; color: string } {
@@ -45,6 +92,31 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
   const [showInfoBox, setShowInfoBox] = useState(false);
+
+  // 3D Mouse Tilt & Holographic Tracking
+  const cardRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [12, -12]), { stiffness: 300, damping: 25 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-12, 12]), { stiffness: 300, damping: 25 });
+  const glareX = useTransform(mouseX, [0, 1], [0, 100]);
+  const glareY = useTransform(mouseY, [0, 1], [0, 100]);
+  const glareOpacity = useSpring(useTransform(mouseX, [0, 0.5, 1], [0.15, 0.4, 0.15]), { stiffness: 300, damping: 25 });
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  };
 
   const { intrinsicExact, speedMod, encounterMod, deliveryMod } = useMemo(() => {
     if (!snake.dangerScoreComponents) {
@@ -72,13 +144,13 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
 
   const lethalityScore = snake.dangerScoreComponents?.lethalityScore;
   const clinicalScore = snake.dangerScoreComponents?.clinicalScore;
-  const ratingBadge = getDangerLabel(snake.dangerScore);
+  const tierConfig = getDangerTier(snake.dangerScore);
 
   const totalSnakesCount = 142;
   const rankNumber = snake.dangerRank ? snake.dangerRank.split("/")[0] : null;
 
   const cardDetails = (
-    <div className="space-y-4 text-stone-900">
+    <div className="space-y-3.5 text-stone-900">
       {/* Intrinsic Danger Block */}
       <div className="space-y-2">
         <div className="flex items-center justify-between border-b border-stone-300/80 pb-1.5">
@@ -110,7 +182,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
       </div>
 
       {/* Real-World Risk Modifiers */}
-      <div className="space-y-2 pt-1">
+      <div className="space-y-2 pt-0.5">
         <div className="flex items-center justify-between border-b border-stone-300/80 pb-1.5">
           <span style={{ fontFamily: COMPRESSED }} className="text-[11px] font-black uppercase tracking-wider text-stone-900">
             REAL-WORLD MODIFIERS
@@ -120,10 +192,10 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
           Adjusts intrinsic danger based on encounter conditions.
         </p>
 
-        <div className="space-y-1.5 pt-1 text-xs">
+        <div className="space-y-1.5 pt-0.5 text-xs">
           {[
-            { icon: Zap, label: "Venom Onset", mod: speedMod, desc: "Action speed & antivenom window" },
-            { icon: Skull, label: "Delivery", mod: deliveryMod, desc: "Fang mechanics & injection efficiency" },
+            { icon: Zap, label: "Venom Onset", mod: speedMod, desc: "Action speed & treatment window" },
+            { icon: Skull, label: "Delivery", mod: deliveryMod, desc: "Fang efficiency & injection" },
             { icon: Globe2, label: "Human Exposure", mod: encounterMod, desc: "Habitat overlap & disposition" },
           ].map(({ icon: Icon, label, mod, desc }) => {
             const formatted = formatModPct(mod);
@@ -166,7 +238,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
     <>
       {/* Mobile Accordion Card */}
       <div className="relative z-20 mb-8 lg:hidden">
-        <div className="relative z-10 px-5 pb-5 pt-4 bg-[#fcfbf9] border border-stone-300/90 rounded-2xl shadow-xl">
+        <div className={`relative z-10 px-5 pb-5 pt-4 bg-[#fcfbf9] border-2 ${tierConfig.borderColor} rounded-2xl shadow-xl`}>
           <button
             type="button"
             onClick={() => setIsExpanded((prev) => !prev)}
@@ -175,8 +247,9 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
             aria-controls={`danger-score-mobile-${snake.id}`}
           >
             <div className="flex items-center justify-between mb-3">
-              <div className="text-[11px] font-black text-stone-500 uppercase tracking-wider">
-                DANGER SCORE
+              <div className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-stone-700" />
+                <span className="text-[11px] font-black text-stone-700 uppercase tracking-wider">{tierConfig.tierName}</span>
               </div>
               {rankNumber && (
                 <button
@@ -199,8 +272,8 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                 </span>
                 <span className="text-lg font-bold text-stone-500">/ 100</span>
               </div>
-              <span className={`px-2.5 py-1 rounded-md text-[11px] font-bold border ${ratingBadge.bg} ${ratingBadge.text}`}>
-                {ratingBadge.label}
+              <span className={`px-2.5 py-1 rounded-md text-[11px] font-bold border ${tierConfig.badgeBg} ${tierConfig.badgeText}`}>
+                {tierConfig.label}
               </span>
             </div>
 
@@ -226,45 +299,75 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
         </div>
       </div>
 
-      {/* Desktop Sliding Specimen Card */}
-      <div className="fixed bottom-[-40px] right-[68px] z-40 hidden w-[24%] max-w-[300px] min-w-[260px] pointer-events-none transition-[z-index] delay-300 duration-0 hover:z-[60] lg:block">
+      {/* Desktop 3D Holographic Specimen Card */}
+      <div className="fixed bottom-[-40px] right-[68px] z-40 hidden w-[24%] max-w-[300px] min-w-[260px] pointer-events-none transition-[z-index] delay-300 duration-0 hover:z-[60] lg:block perspective-1000">
         <motion.div
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
           onClick={() => setIsExpanded(!isExpanded)}
           initial={{ y: 800 }}
-          animate={{ y: isExpanded ? -80 : 330 }}
+          animate={{ 
+            y: isExpanded ? -80 : 330,
+            rotateX: isExpanded ? 0 : rotateX.get(),
+            rotateY: isExpanded ? 0 : rotateY.get(),
+          }}
           whileHover={{
             y: isExpanded ? -80 : 315,
             transition: { delay: 0.2, duration: 0.2, ease: "easeOut" },
           }}
           transition={{ ease: EASE, duration: 0.6 }}
-          className="relative flex cursor-pointer select-none flex-col will-change-transform pointer-events-auto"
-          style={{ height: CARD_H }}
+          className={`relative flex cursor-pointer select-none flex-col will-change-transform pointer-events-auto border-2 ${tierConfig.borderColor} rounded-3xl overflow-hidden shadow-2xl transition-shadow duration-300`}
+          style={{ 
+            height: CARD_H,
+            transformStyle: "preserve-3d",
+            boxShadow: `0 20px 40px ${tierConfig.glowColor}`,
+          }}
         >
-          {/* Parchment Background Frame */}
+          {/* Parchment Background Texture */}
           <div
             aria-hidden
-            className="absolute pointer-events-none select-none"
+            className="absolute pointer-events-none select-none inset-0"
             style={{
-              top: -48,
-              left: -48,
-              right: -48,
-              bottom: -100,
               backgroundImage: "url('/paper/paper-27.png')",
               backgroundSize: "100% 100%",
               backgroundPosition: "center center",
               backgroundRepeat: "no-repeat",
               filter: "drop-shadow(0 -15px 30px rgba(0,0,0,0.15))",
-              WebkitFilter: "drop-shadow(0 -15px 30px rgba(0,0,0,0.15))",
-              transform: "translateZ(0)",
             }}
           />
 
-          <div className="relative z-10 flex-1 px-7 pt-9 pb-12">
-            {/* Header: Title & Rank */}
-            <div className="flex items-center justify-between mb-4 border-b border-stone-300/80 pb-2">
-              <span style={{ fontFamily: COMPRESSED }} className="text-xs font-black text-stone-600 uppercase tracking-widest">
-                DANGER SCORE
-              </span>
+          {/* Simey-Style Holographic Rainbow Foil Layer */}
+          <motion.div
+            aria-hidden
+            className="absolute inset-0 pointer-events-none opacity-30 mix-blend-color-dodge transition-opacity duration-300"
+            style={{
+              background: tierConfig.holoGradient,
+            }}
+          />
+
+          {/* Dynamic Glare Spotlight Overlay */}
+          <motion.div
+            aria-hidden
+            className="absolute inset-0 pointer-events-none mix-blend-overlay transition-opacity duration-200"
+            style={{
+              opacity: glareOpacity,
+              background: useTransform(
+                [glareX, glareY],
+                ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%)`
+              ),
+            }}
+          />
+
+          <div className="relative z-10 flex-1 px-7 pt-8 pb-12">
+            {/* Header: Rarity Tier & Rank Badge */}
+            <div className="flex items-center justify-between mb-3 border-b border-stone-300/80 pb-2">
+              <div className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-stone-700" />
+                <span style={{ fontFamily: COMPRESSED }} className="text-[11px] font-black text-stone-700 uppercase tracking-widest">
+                  {tierConfig.tierName}
+                </span>
+              </div>
               {rankNumber && (
                 <button
                   type="button"
@@ -280,7 +383,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
             </div>
 
             {/* Hero Score & Rating Badge */}
-            <div className="flex flex-col items-center mb-5">
+            <div className="flex flex-col items-center mb-4">
               <div className="flex items-baseline gap-1">
                 <span
                   style={{
@@ -295,13 +398,13 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                 </span>
                 <span className="text-xl font-bold text-stone-600">/ 100</span>
               </div>
-              <div className={`mt-2 px-3 py-1 rounded-md text-[11px] font-extrabold border tracking-wider shadow-xs ${ratingBadge.bg} ${ratingBadge.text}`}>
-                {ratingBadge.label}
+              <div className={`mt-2 px-3 py-1 rounded-md text-[11px] font-extrabold border tracking-wider shadow-xs ${tierConfig.badgeBg} ${tierConfig.badgeText}`}>
+                {tierConfig.label}
               </div>
             </div>
 
             {/* Card Content Details */}
-            <motion.div animate={{ opacity: isExpanded ? 1 : 0.85 }} transition={{ duration: 0.2 }}>
+            <motion.div animate={{ opacity: isExpanded ? 1 : 0.9 }} transition={{ duration: 0.2 }}>
               {cardDetails}
             </motion.div>
           </div>
