@@ -756,7 +756,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
         const benchmarkR = taipanBaseY + MAX_POTENCY_EXTENSION;
         
         // Update or create radial gradient
-        let grad = svg.select("defs").select("#potency-ring-fill");
+        let grad: any = svg.select("defs").select("#potency-ring-fill");
         if (grad.empty()) {
           grad = svg.select("defs").append("radialGradient")
             .attr("id", "potency-ring-fill")
