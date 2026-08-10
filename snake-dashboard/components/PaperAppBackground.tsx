@@ -2,20 +2,20 @@
 
 export function PaperAppBackground() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#f5f0e6]">
-      {/* Grid Pattern with warmer line color */}
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#fbfaf8]">
+      {/* Grid Pattern with lighter, cooler lines */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.4]" 
+        className="absolute inset-0 pointer-events-none opacity-[0.3]" 
         style={{ 
-          backgroundImage: "linear-gradient(to right, #d4c5b0 1px, transparent 1px), linear-gradient(to bottom, #d4c5b0 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(to right, #e2e0db 1px, transparent 1px), linear-gradient(to bottom, #e2e0db 1px, transparent 1px)",
           backgroundSize: "20px 20px"
         }} 
       />
-      {/* Subtle vignette for an aged paper feel */}
+      {/* Extremely subtle vignette to maintain depth without the heavy yellow */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.6]"
+        className="absolute inset-0 pointer-events-none opacity-[0.4]"
         style={{
-          background: "radial-gradient(circle at center, transparent 40%, #e3d9c8 100%)"
+          background: "radial-gradient(circle at center, transparent 50%, #f0ede6 100%)"
         }}
       />
     </div>
