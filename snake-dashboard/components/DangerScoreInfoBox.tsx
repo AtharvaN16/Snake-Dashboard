@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Kbd } from "@/components/ui/kbd";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, X, FlaskConical, Stethoscope, Globe } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface DangerScoreInfoBoxProps {
@@ -77,7 +77,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
             </button>
           </div>
           <p className="text-xs text-stone-500 font-medium mt-1">
-            An experimental 0–100 comparative index of snakebite danger
+            An experimental 0–100 index of snakebite danger
           </p>
         </div>
 
@@ -86,18 +86,27 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
           <p className="text-stone-800 font-semibold tracking-tight">
             The most venomous snake isn&apos;t necessarily the most dangerous snake. The model combines:
           </p>
-          <div className="space-y-1.5 text-xs">
+          <div className="space-y-2 text-xs">
             <div className="flex items-start gap-2">
-              <span className="font-bold text-stone-900 shrink-0">🧪 55% Lethality:</span>
-              <span className="text-stone-600">How much toxic venom a bite can potentially deliver.</span>
+              <FlaskConical className="w-4 h-4 text-stone-700 mt-0.5 shrink-0" />
+              <div>
+                <span className="font-bold text-stone-900">55% Lethality: </span>
+                <span className="text-stone-600">How much toxic venom a bite can potentially deliver.</span>
+              </div>
             </div>
             <div className="flex items-start gap-2">
-              <span className="font-bold text-stone-900 shrink-0">🩺 45% Clinical Severity:</span>
-              <span className="text-stone-600">How severe the effects of envenoming can be—even if you survive.</span>
+              <Stethoscope className="w-4 h-4 text-stone-700 mt-0.5 shrink-0" />
+              <div>
+                <span className="font-bold text-stone-900">45% Clinical Severity: </span>
+                <span className="text-stone-600">How severe the effects of envenoming can be—even if you survive.</span>
+              </div>
             </div>
             <div className="flex items-start gap-2">
-              <span className="font-bold text-stone-900 shrink-0">🌎 Real-World Modifiers:</span>
-              <span className="text-stone-600">Venom onset · Delivery · Human exposure</span>
+              <Globe className="w-4 h-4 text-stone-700 mt-0.5 shrink-0" />
+              <div>
+                <span className="font-bold text-stone-900">Real-World Modifiers: </span>
+                <span className="text-stone-600">Venom onset · Delivery · Human exposure</span>
+              </div>
             </div>
           </div>
           <div className="pt-2 border-t border-stone-200 text-[11px] text-stone-500 italic">
@@ -292,13 +301,13 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
 
                     <div className="space-y-2 text-xs text-stone-700">
                       <p>
-                        <strong className="text-stone-900">⚡ Venom Onset (0.94×–1.08×):</strong> Measures venom onset speed. Rapidly acting venom reduces the window available to reach emergency care.
+                        <strong className="text-stone-900">Venom Onset (0.94×–1.08×):</strong> Measures venom onset speed. Rapidly acting venom reduces the window available to reach emergency care.
                       </p>
                       <p>
-                        <strong className="text-stone-900">🦷 Delivery (0.5×–1.0×):</strong> Non-highly venomous rear-fanged snakes receive a 0.5× multiplier to reflect lower delivery efficiency.
+                        <strong className="text-stone-900">Delivery (0.5×–1.0×):</strong> Non-highly venomous rear-fanged snakes receive a 0.5× multiplier to reflect lower delivery efficiency.
                       </p>
                       <p>
-                        <strong className="text-stone-900">🌎 Human Exposure (0.70×–1.10×):</strong> Combines geographic encounter frequency with snake disposition:
+                        <strong className="text-stone-900">Human Exposure (0.70×–1.10×):</strong> Combines geographic encounter frequency with snake disposition:
                       </p>
                       <div className="font-mono text-[11px] bg-[#f5f2ea] p-2.5 rounded-md border border-stone-300/80 text-stone-900">
                         Aggressive: +15 | Defensive: +7.5 | Neutral: 0 | Docile: -10 | Placid: -20
