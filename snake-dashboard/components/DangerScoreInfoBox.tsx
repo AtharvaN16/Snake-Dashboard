@@ -92,11 +92,11 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
               This compresses the extreme upper tail so high-CFR species remain distinct without letting noisy top-end estimates dominate rankings.
             </p>
             <p className="mt-2">
-              <strong className="text-stone-900">Step C: morbidity floors.</strong> We enforce a minimum score by clinical severity label so severe non-fatal outcomes are represented.
+              <strong className="text-stone-900">Step C: morbidity bonuses.</strong> We apply additive point bonuses based on clinical severity labels to ensure severe non-fatal outcomes (like necrosis) are heavily represented without hiding the fatality gap.
             </p>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">Life-threatening: 60, Severe: 35, Moderate: 15, otherwise: 0</p>
+            <p className="mt-1 font-mono text-[13px] text-stone-800">Life-threatening: +20, Severe: +10, Moderate: +5</p>
             <p className="mt-2">
-              <strong className="text-stone-900">Step D: WHO medical-importance bonus.</strong> WHO Category 1 gets +5; Category 2 gets +2.
+              <strong className="text-stone-900">Step D: WHO medical-importance bonus.</strong> WHO Category 1 gets +10; Category 2 gets +5.
             </p>
             <p className="mt-2">
               <strong className="text-stone-900">Step E: bound and round.</strong> Final clinical score is clamped to [0,100] and rounded.
@@ -109,16 +109,21 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
               The model treats speed, delivery efficiency, and encounter frequency as multipliers instead of additive point sources. These factors affect realized risk, but they should not create danger where intrinsic toxicity is low.
             </p>
             <p className="mt-2">
-              <strong className="text-stone-900">Speed score input:</strong> Extremely quick -&gt; 90, Quick -&gt; 55, Slow -&gt; 20.
+              <strong className="text-stone-900">Speed modifier:</strong> Extremely quick -&gt; 90, Quick -&gt; 55, Slow -&gt; 20.
             </p>
             <p className="mt-1 font-mono text-[13px] text-stone-800">speedMod = 0.9 + 0.2 x (speedScore / 100)</p>
+            
             <p className="mt-2">
-              <strong className="text-stone-900">Delivery modifier:</strong> 0.5 if rear-fanged and not classified as highly venomous; otherwise 1.0.
+              <strong className="text-stone-900">Delivery modifier:</strong> 0.5 if rear-fanged and not classified as highly venomous or venomous; otherwise 1.0.
             </p>
+
             <p className="mt-2">
               <strong className="text-stone-900">Encounter score input:</strong> Low -&gt; 20, Moderate -&gt; 40, High -&gt; 65, Very High -&gt; 85.
             </p>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">encounterMod = 0.85 + 0.3 x (encounterScore / 100)</p>
+            <p className="mt-1">
+              <strong className="text-stone-900">Disposition adjustment:</strong> A snake's aggression is folded directly into its encounter score to calculate an <code className="text-[12px] bg-stone-200 px-1 rounded">effectiveEncounterScore</code>. Aggressive adds +15, Defensive adds +7.5, Docile subtracts -10, Placid subtracts -20.
+            </p>
+            <p className="mt-1 font-mono text-[13px] text-stone-800">encounterMod = 0.70 + 0.40 x (effectiveEncounterScore / 100)</p>
             <p className="mt-2 text-stone-600">
               Using multipliers ensures these terms can amplify or attenuate intrinsic danger but cannot manufacture it.
             </p>
