@@ -772,7 +772,7 @@ export function HyperbolicTree({ root: rootData, currentSnakeId }: Props) {
           .attr("r", benchmarkR);
 
         // Update or create circle
-        let ring = benchGroup.select(".potency-benchmark-ring");
+        let ring: any = benchGroup.select(".potency-benchmark-ring");
         if (ring.empty()) {
           ring = benchGroup.append("circle")
             .attr("class", "potency-benchmark-ring")
