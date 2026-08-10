@@ -3,7 +3,7 @@
 import { useState, memo, useMemo, useRef, useEffect, MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, MotionValue } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { Snake } from "@/lib/types";
 import { getAllSnakes } from "@/lib/snakeData";
 import {
@@ -30,7 +30,7 @@ interface DangerTierConfig {
   cardFrameGradient: string;
   glowColor: string;
   hpColor: string;
-  typeSymbol: string;
+  badgeBg: string;
 }
 
 function getDangerTier(score: number): DangerTierConfig {
@@ -38,39 +38,39 @@ function getDangerTier(score: number): DangerTierConfig {
     return {
       label: "VERY HIGH DANGER",
       stageName: "STAGE 2 APEX",
-      cardFrameGradient: "from-[#ef4444] via-[#dc2626] to-[#7f1d1d]",
-      glowColor: "rgba(239, 68, 68, 0.55)",
-      hpColor: "text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.7)]",
-      typeSymbol: "🔥 POISON",
+      cardFrameGradient: "from-[#fce055] via-[#d4a017] to-[#6b4e03]",
+      glowColor: "rgba(220, 38, 38, 0.45)",
+      hpColor: "text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.7)]",
+      badgeBg: "from-red-600 to-amber-600",
     };
   }
   if (score >= 60) {
     return {
       label: "HIGH DANGER",
       stageName: "STAGE 1 HIGH",
-      cardFrameGradient: "from-[#f97316] via-[#ea580c] to-[#7c2d12]",
-      glowColor: "rgba(249, 115, 22, 0.5)",
-      hpColor: "text-orange-500 drop-shadow-[0_0_10px_rgba(249,115,22,0.7)]",
-      typeSymbol: "⚡ STRIKE",
+      cardFrameGradient: "from-[#fce055] via-[#d4a017] to-[#6b4e03]",
+      glowColor: "rgba(249, 115, 22, 0.4)",
+      hpColor: "text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,0.7)]",
+      badgeBg: "from-orange-500 to-amber-600",
     };
   }
   if (score >= 40) {
     return {
       label: "MODERATE DANGER",
       stageName: "BASIC MODERATE",
-      cardFrameGradient: "from-[#f5c518] via-[#d4a017] to-[#785b03]",
-      glowColor: "rgba(245, 158, 11, 0.45)",
-      hpColor: "text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.6)]",
-      typeSymbol: "🌿 NATURE",
+      cardFrameGradient: "from-[#fce055] via-[#d4a017] to-[#6b4e03]",
+      glowColor: "rgba(245, 158, 11, 0.35)",
+      hpColor: "text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]",
+      badgeBg: "from-amber-500 to-yellow-600",
     };
   }
   return {
     label: "LOW DANGER",
     stageName: "BASIC LOW",
-    cardFrameGradient: "from-[#9ca3af] via-[#6b7280] to-[#1f2937]",
-    glowColor: "rgba(156, 163, 175, 0.35)",
-    hpColor: "text-stone-300 drop-shadow-[0_0_10px_rgba(214,211,209,0.5)]",
-    typeSymbol: "⚙️ STEEL",
+    cardFrameGradient: "from-[#d1d5db] via-[#9ca3af] to-[#374151]",
+    glowColor: "rgba(156, 163, 175, 0.3)",
+    hpColor: "text-stone-300 drop-shadow-[0_0_8px_rgba(214,211,209,0.5)]",
+    badgeBg: "from-stone-600 to-stone-800",
   };
 }
 
@@ -114,7 +114,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
     return leaderboard.findIndex((s) => s.id === snake.id);
   }, [leaderboard, snake.id]);
 
-  // Simey 3D Motion Tracking System - TOP LEVEL HOOKS ONLY (Strict React Rules of Hooks compliance)
+  // Simey 3D Motion Tracking System (Top-Level Hooks)
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
@@ -125,28 +125,26 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
   const holoAngle = useTransform(mouseX, [0, 1], [70, 170]);
   const glareX = useTransform(mouseX, [0, 1], [0, 100]);
   const glareY = useTransform(mouseY, [0, 1], [0, 100]);
-  const glareOpacity = useSpring(useTransform(mouseX, [0, 0.5, 1], [0.35, 0.7, 0.35]), { stiffness: 260, damping: 20 });
+  const glareOpacity = useSpring(useTransform(mouseX, [0, 0.5, 1], [0.3, 0.75, 0.3]), { stiffness: 260, damping: 20 });
 
-  // Pre-created Top-Level Motion Value Transforms for Simey Holofoil Shimmer
+  // Authentic Silver Specular Foil Glare (Not Artificial Rainbow)
   const holoBgImage = useTransform(
     [holoAngle, glareX, glareY],
     ([angle, x, y]) => `
       linear-gradient(${angle}deg, 
-        transparent 0%, 
-        rgba(255, 0, 128, 0.5) 15%, 
-        rgba(255, 215, 0, 0.6) 30%, 
-        rgba(0, 255, 200, 0.5) 45%, 
-        rgba(0, 191, 255, 0.5) 60%,
-        rgba(138, 43, 226, 0.5) 75%, 
-        transparent 100%
+        transparent 20%, 
+        rgba(255, 255, 255, 0.12) 40%, 
+        rgba(255, 255, 255, 0.65) 50%, 
+        rgba(255, 255, 255, 0.12) 60%, 
+        transparent 80%
       ),
-      radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 25%, transparent 60%)
+      radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.2) 25%, transparent 60%)
     `
   );
 
   const glareBgImage = useTransform(
     [glareX, glareY],
-    ([x, y]) => `radial-gradient(farthest-corner circle at ${x}% ${y}%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.35) 20%, transparent 60%)`
+    ([x, y]) => `radial-gradient(farthest-corner circle at ${x}% ${y}%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.3) 20%, transparent 60%)`
   );
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -248,16 +246,16 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
 
   // Render Card Body (Front Face)
   const renderCardFront = (large = false) => (
-    <div className="flex-1 rounded-[18px] p-3.5 border border-amber-900/60 flex flex-col justify-between overflow-hidden relative shadow-inner text-amber-100"
+    <div className="flex-1 rounded-[16px] p-3.5 border border-amber-500/50 flex flex-col justify-between overflow-hidden relative shadow-inner text-amber-100 bg-[#16151a]"
       style={{
-        backgroundImage: "radial-gradient(circle at 50% 30%, #231c15 0%, #120e0a 100%)",
+        backgroundImage: "radial-gradient(circle at 50% 30%, #1e1d24 0%, #0d0c10 100%)",
       }}
     >
       <div className="relative z-10 space-y-2.5">
         {/* Header Band */}
         <div className="flex items-start justify-between gap-1.5 border-b border-amber-500/40 pb-1.5">
           <div>
-            <span className="inline-block px-1.5 py-0.5 rounded bg-gradient-to-r from-amber-500 to-yellow-600 text-stone-950 font-black text-[8.5px] uppercase tracking-widest shadow-xs">
+            <span className={`inline-block px-1.5 py-0.5 rounded bg-gradient-to-r ${tierConfig.badgeBg} text-white font-black text-[8.5px] uppercase tracking-widest shadow-xs`}>
               {tierConfig.stageName}
             </span>
             <h2 style={{ fontFamily: COMPRESSED }} className={`${large ? "text-2xl" : "text-xl"} font-black text-amber-50 leading-none mt-0.5 drop-shadow-md`}>
@@ -372,9 +370,9 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
   // Render Card Body (Back Face)
   const renderCardBack = (large = false) => (
     <div
-      className="flex-1 rounded-[16px] p-3.5 border border-amber-900/60 flex flex-col justify-between text-amber-100 overflow-y-auto relative shadow-inner"
+      className="flex-1 rounded-[16px] p-3.5 border border-amber-500/50 flex flex-col justify-between text-amber-100 overflow-y-auto relative shadow-inner bg-[#16151a]"
       style={{
-        backgroundImage: "radial-gradient(circle at 50% 30%, #231c15 0%, #120e0a 100%)",
+        backgroundImage: "radial-gradient(circle at 50% 30%, #1e1d24 0%, #0d0c10 100%)",
       }}
     >
       <div className="space-y-3">
@@ -449,7 +447,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
             {/* Header */}
             <div className="flex items-start justify-between gap-2 border-b border-amber-500/40 pb-1.5">
               <div>
-                <span className="inline-block px-1.5 py-0.5 rounded bg-gradient-to-r from-amber-500 to-yellow-600 text-stone-950 font-black text-[9px] uppercase tracking-widest">
+                <span className={`inline-block px-1.5 py-0.5 rounded bg-gradient-to-r ${tierConfig.badgeBg} text-white font-black text-[9px] uppercase tracking-widest`}>
                   {tierConfig.stageName}
                 </span>
                 <h2 style={{ fontFamily: COMPRESSED }} className="text-xl font-black text-amber-50 leading-none mt-1 drop-shadow-md">
@@ -554,16 +552,16 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
           >
             {/* FRONT FACE OF POKÉMON DOCKED CARD */}
             <div
-              className={`absolute inset-0 z-10 flex flex-col p-2.5 bg-gradient-to-b ${tierConfig.cardFrameGradient} rounded-[24px] border-2 border-amber-400/80 shadow-2xl overflow-hidden`}
+              className={`absolute inset-0 z-10 flex flex-col p-2 bg-gradient-to-b ${tierConfig.cardFrameGradient} rounded-[24px] border-2 border-amber-400/90 shadow-2xl overflow-hidden`}
               style={{
                 backfaceVisibility: "hidden",
                 WebkitBackfaceVisibility: "hidden",
               }}
             >
-              {/* Simey Dynamic Rainbow Holofoil Layer */}
+              {/* Simey Silver Specular Foil Glare Layer */}
               <motion.div
                 aria-hidden
-                className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-70 rounded-[22px]"
+                className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-60 rounded-[22px]"
                 style={{
                   backgroundImage: holoBgImage,
                   backgroundSize: "200% 200%",
@@ -585,7 +583,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
 
             {/* BACK FACE OF POKÉMON DOCKED CARD */}
             <div
-              className={`absolute inset-0 z-20 flex flex-col p-2.5 bg-gradient-to-b ${tierConfig.cardFrameGradient} rounded-[24px] border-2 border-amber-400/80 shadow-2xl overflow-hidden`}
+              className={`absolute inset-0 z-20 flex flex-col p-2 bg-gradient-to-b ${tierConfig.cardFrameGradient} rounded-[24px] border-2 border-amber-400/90 shadow-2xl overflow-hidden`}
               style={{
                 backfaceVisibility: "hidden",
                 WebkitBackfaceVisibility: "hidden",
@@ -643,16 +641,16 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
               >
                 {/* FRONT FACE (ENLARGED) */}
                 <div
-                  className={`absolute inset-0 z-10 flex flex-col p-3 bg-gradient-to-b ${tierConfig.cardFrameGradient} rounded-[28px] border-2 border-amber-400/90 shadow-2xl overflow-hidden`}
+                  className={`absolute inset-0 z-10 flex flex-col p-2.5 bg-gradient-to-b ${tierConfig.cardFrameGradient} rounded-[28px] border-2 border-amber-400/90 shadow-2xl overflow-hidden`}
                   style={{
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
                   }}
                 >
-                  {/* Simey Dynamic Rainbow Holofoil Layer */}
+                  {/* Simey Silver Specular Foil Glare Layer */}
                   <motion.div
                     aria-hidden
-                    className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-70 rounded-[26px]"
+                    className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-60 rounded-[26px]"
                     style={{
                       backgroundImage: holoBgImage,
                       backgroundSize: "200% 200%",
@@ -674,7 +672,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
 
                 {/* BACK FACE (ENLARGED) */}
                 <div
-                  className={`absolute inset-0 z-20 flex flex-col p-3 bg-gradient-to-b ${tierConfig.cardFrameGradient} rounded-[28px] border-2 border-amber-400/90 shadow-2xl overflow-hidden`}
+                  className={`absolute inset-0 z-20 flex flex-col p-2.5 bg-gradient-to-b ${tierConfig.cardFrameGradient} rounded-[28px] border-2 border-amber-400/90 shadow-2xl overflow-hidden`}
                   style={{
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
