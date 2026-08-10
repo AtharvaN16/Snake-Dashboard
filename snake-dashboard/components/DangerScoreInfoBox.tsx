@@ -9,6 +9,8 @@ interface DangerScoreInfoBoxProps {
 
 export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
   const [isMac, setIsMac] = useState(true);
+  const [interactiveMode, setInteractiveMode] = useState<"exposure" | "yield" | "morbidity">("exposure");
+  const [toggleState, setToggleState] = useState(true);
 
   useEffect(() => {
     const platform = navigator.platform || "";
@@ -44,107 +46,225 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
       </button>
 
       <div className="max-h-[84vh] overflow-y-auto bg-white/95 backdrop-blur-sm border border-stone-300 rounded-2xl shadow-2xl p-5 sm:p-6 animate-in slide-in-from-bottom-8 duration-300">
-        <div className="mb-5 pb-4 border-b border-stone-200">
-          <h3 className="text-xl font-black text-[#2c2c2c] tracking-tight">How the Danger Score Is Calculated</h3>
+        {/* Header */}
+        <div className="mb-4 pb-3 border-b border-stone-200">
+          <h3 className="text-xl font-black text-[#2c2c2c] tracking-tight">How the Danger Score Works</h3>
+          <p className="text-xs text-stone-500 mt-0.5">
+            Why the world&apos;s most toxic snake isn&apos;t always the most dangerous to humans.
+          </p>
         </div>
 
         <div className="space-y-5 text-sm text-stone-700 leading-relaxed">
-          <section className="rounded-lg border border-stone-200 bg-stone-50 px-3.5 py-3">
-            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-1.5">Formula</h4>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">intrinsic = 0.55 x lethality + 0.45 x clinical</p>
-            <p className="font-mono text-[13px] text-stone-800">dangerScore = intrinsic x speedMod x deliveryMod x encounterMod</p>
+          {/* Summary Banner */}
+          <div className="rounded-xl border border-amber-200/80 bg-amber-50/50 p-4 text-xs sm:text-sm">
+            <p className="font-semibold text-stone-800 mb-1">The 3-Second Summary:</p>
+            <p className="text-stone-600">
+              The <strong>Danger Score (0–100)</strong> measures overall risk to humans by balancing chemical venom power with real-world outcomes:
+            </p>
+            <div className="mt-2.5 flex flex-wrap gap-2 text-xs font-medium">
+              <span className="bg-white border border-amber-300/60 text-amber-900 px-2.5 py-1 rounded-md shadow-xs">
+                🧪 55% Venom Lethality
+              </span>
+              <span className="bg-white border border-amber-300/60 text-amber-900 px-2.5 py-1 rounded-md shadow-xs">
+                🩺 45% Human Outcomes
+              </span>
+              <span className="bg-white border border-amber-300/60 text-amber-900 px-2.5 py-1 rounded-md shadow-xs">
+                👤 Multiplied by Human Exposure
+              </span>
+            </div>
+          </div>
+
+          {/* Interactive Toggle Simulator Widget */}
+          <section className="rounded-xl border border-stone-200 bg-stone-50 p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500">
+                🎮 Interactive Ranking Simulator
+              </h4>
+              <span className="text-[11px] text-stone-400">See how formula rules change rankings</span>
+            </div>
+
+            {/* Sub-tabs */}
+            <div className="flex gap-1.5 p-1 bg-stone-200/60 rounded-lg mb-3 text-xs">
+              <button
+                onClick={() => { setInteractiveMode("exposure"); setToggleState(true); }}
+                className={`flex-1 py-1.5 px-2 rounded-md font-medium transition-all ${
+                  interactiveMode === "exposure" ? "bg-white text-stone-900 shadow-xs" : "text-stone-600 hover:text-stone-900"
+                }`}
+              >
+                Human Exposure
+              </button>
+              <button
+                onClick={() => { setInteractiveMode("yield"); setToggleState(true); }}
+                className={`flex-1 py-1.5 px-2 rounded-md font-medium transition-all ${
+                  interactiveMode === "yield" ? "bg-white text-stone-900 shadow-xs" : "text-stone-600 hover:text-stone-900"
+                }`}
+              >
+                Venom Volume
+              </button>
+              <button
+                onClick={() => { setInteractiveMode("morbidity"); setToggleState(true); }}
+                className={`flex-1 py-1.5 px-2 rounded-md font-medium transition-all ${
+                  interactiveMode === "morbidity" ? "bg-white text-stone-900 shadow-xs" : "text-stone-600 hover:text-stone-900"
+                }`}
+              >
+                Tissue Damage
+              </button>
+            </div>
+
+            {/* Toggle Switch */}
+            <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-stone-200 mb-3">
+              <span className="text-xs font-semibold text-stone-800">
+                {interactiveMode === "exposure" && "Include Human Encounter Frequency"}
+                {interactiveMode === "yield" && "Include Venom Dose Volume (Yield)"}
+                {interactiveMode === "morbidity" && "Include Morbidity / Permanent Tissue Damage"}
+              </span>
+              <button
+                onClick={() => setToggleState(!toggleState)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  toggleState ? "bg-stone-900" : "bg-stone-300"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    toggleState ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* Toggle Result Box */}
+            <div className="text-xs space-y-2">
+              {interactiveMode === "exposure" && (
+                toggleState ? (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-900">
+                    <p className="font-bold text-emerald-950 mb-0.5">🏆 #1 Russell&apos;s Viper &gt; #5 Inland Taipan</p>
+                    <p>
+                      <strong>Why?</strong> Russell&apos;s Viper lives in heavily populated farmlands across Asia, encountering thousands of people a year. Exposure multiplier boosts its real-world risk.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900">
+                    <p className="font-bold text-amber-950 mb-0.5">⚠️ #1 Inland Taipan &gt; #2 Russell&apos;s Viper</p>
+                    <p>
+                      <strong>Without Exposure:</strong> Inland Taipan takes #1 because its venom is drop-for-drop 100x more toxic, even though it lives in an empty desert and rarely sees a human.
+                    </p>
+                  </div>
+                )
+              )}
+
+              {interactiveMode === "yield" && (
+                toggleState ? (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-900">
+                    <p className="font-bold text-emerald-950 mb-0.5">🏆 Gaboon Viper (High Rank) &gt; Eastern Coral Snake</p>
+                    <p>
+                      <strong>Why?</strong> A Gaboon Viper injects a massive flood of venom (~450mg) in one bite, making it far more lethal overall than a tiny coral snake.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900">
+                    <p className="font-bold text-amber-950 mb-0.5">⚠️ Eastern Coral Snake &gt; Gaboon Viper</p>
+                    <p>
+                      <strong>Potency Only:</strong> The Coral Snake has higher drop-for-drop toxicity (LD50), but only produces a tiny 5mg droplet. Ignoring volume gives a false rank!
+                    </p>
+                  </div>
+                )
+              )}
+
+              {interactiveMode === "morbidity" && (
+                toggleState ? (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-900">
+                    <p className="font-bold text-emerald-950 mb-0.5">🏆 Puff Adder Gets High Clinical Rank</p>
+                    <p>
+                      <strong>Why?</strong> Even when victims survive a Puff Adder bite, the cytotoxic venom causes severe necrosis, tissue destruction, and frequent amputations.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900">
+                    <p className="font-bold text-amber-950 mb-0.5">⚠️ Puff Adder Score Drops Significantly</p>
+                    <p>
+                      <strong>Fatality Only:</strong> Ignoring non-fatal damage severely under-ranks snakes that maim people for life.
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
           </section>
 
+          {/* Section 1: Lethality */}
           <section>
-            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">1. Lethality (55%)</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-1.5">
+              1. Venom Lethality (55%)
+            </h4>
             <p>
-              Lethality is based on <strong className="text-stone-900">lethal doses per bite</strong>, not potency alone. Potency-only scoring can over-rank snakes with very toxic venom but tiny delivered volume. Yield-only scoring can over-rank snakes that inject a lot of venom that is comparatively weak.
+              We measure how many human-lethal doses a single bite can deliver. This combines two factors:
             </p>
-            <p className="mt-2">
-              <strong className="text-stone-900">LD50 basics:</strong> LD50 is the dose that kills 50% of test animals under controlled conditions, typically in mg/kg. Lower LD50 indicates higher venom potency.
-            </p>
-            <p className="mt-2">
-              <strong className="text-stone-900">Why we normalize LD50:</strong> published LD50 values use different administration routes (IV, IP, SC, IM). Route changes apparent potency because absorption and distribution differ. We convert to SC-equivalent values so all species are compared on one route baseline.
-            </p>
-            <p className="mt-2">
-              <strong className="text-stone-900">Composite lethality quantity:</strong>
-            </p>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">lethalDoses = yield_mg / (LD50_SC_mg_per_kg x 70)</p>
-            <p className="mt-1">
-              This estimates how many human-lethal doses one bite can deliver for a 70kg human reference mass. We then log-scale and clamp to a bounded 0-100 lethality score to stabilize large cross-species ranges.
-            </p>
-          </section>
-
-          <section className="pt-4 border-t border-stone-200">
-            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">2. Clinical severity (45%)</h4>
-            <p>
-              Clinical severity is the human-outcome branch of the model. It starts from untreated case-fatality-rate (CFR) range data and then applies medically motivated adjustments.
-            </p>
-            <p className="mt-2">
-              <strong className="text-stone-900">Step A: CFR midpoint.</strong> We use the midpoint of the untreated fatality range:
-            </p>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">midCfr = (low + high) / 2</p>
-            <p className="mt-2">
-              <strong className="text-stone-900">Step B: square-root transform.</strong> CFR is transformed with a square root before scaling to 0-100:
-            </p>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">base = sqrt(midCfr / 100) x 100</p>
-            <p className="mt-1 text-stone-600">
-              This compresses the extreme upper tail so high-CFR species remain distinct without letting noisy top-end estimates dominate rankings.
-            </p>
-            <p className="mt-2">
-              <strong className="text-stone-900">Step C: morbidity bonuses.</strong> We apply additive point bonuses based on clinical severity labels to ensure severe non-fatal outcomes (like necrosis) are heavily represented without hiding the fatality gap.
-            </p>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">Life-threatening: +20, Severe: +10, Moderate: +5</p>
-            <p className="mt-2">
-              <strong className="text-stone-900">Step D: bound and round.</strong> Final clinical score is clamped to [0,100] and rounded.
-            </p>
-            <p className="mt-2 text-stone-600 bg-stone-100 p-2.5 rounded-lg border border-stone-200 text-xs">
-              <strong className="text-stone-800">Note on WHO Classification:</strong> WHO Medical Importance Category is surfaced across the app as an external validation reference, but is not included as a numerical bonus in the score to prevent double-counting overlapping metrics.
-            </p>
-          </section>
-
-          <section className="pt-4 border-t border-stone-200">
-            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">3. Modifiers (multipliers)</h4>
-            <p>
-              The model treats speed, delivery efficiency, and encounter frequency as multipliers instead of additive point sources. These factors affect realized risk, but they should not create danger where intrinsic toxicity is low.
-            </p>
-            <p className="mt-2">
-              <strong className="text-stone-900">Speed modifier:</strong> Extremely quick -&gt; 90, Quick -&gt; 55, Slow -&gt; 20.
-            </p>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">speedMod = 0.9 + 0.2 x (speedScore / 100)</p>
-            
-            <p className="mt-2">
-              <strong className="text-stone-900">Delivery modifier:</strong> 0.5 if rear-fanged and not classified as highly venomous or venomous; otherwise 1.0.
-            </p>
-
-            <p className="mt-2">
-              <strong className="text-stone-900">Encounter score input:</strong> Low -&gt; 20, Moderate -&gt; 40, High -&gt; 65, Very High -&gt; 85.
-            </p>
-            <p className="mt-1">
-              <strong className="text-stone-900">Disposition adjustment:</strong> A snake's aggression is folded directly into its encounter score to calculate an <code className="text-[12px] bg-stone-200 px-1 rounded">effectiveEncounterScore</code>. Aggressive adds +15, Defensive adds +7.5, Docile subtracts -10, Placid subtracts -20.
-            </p>
-            <p className="mt-1 font-mono text-[13px] text-stone-800">encounterMod = 0.70 + 0.40 x (effectiveEncounterScore / 100)</p>
-            <p className="mt-2 text-stone-600">
-              Using multipliers ensures these terms can amplify or attenuate intrinsic danger but cannot manufacture it.
-            </p>
-          </section>
-
-          <section className="pt-4 border-t border-stone-200">
-            <h4 className="text-xs font-bold uppercase tracking-wide text-stone-500 mb-2">Sources</h4>
-            <ul className="list-disc pl-5 space-y-1 text-stone-700">
-              <li>WHO Snakebite Information Platform (medical importance categories and clinical context)</li>
-              <li>Snake Venom Database (SVDB) (venom profiles and LD50 references)</li>
-              <li>snakeDB.org (toxicity and morphology cross-reference)</li>
-              <li>The Reptile Database (taxonomy verification)</li>
-              <li>Wikipedia (secondary cross-reference for species-level context)</li>
-              <li>Broad et al. 1979 conversion factors for LD50 route normalization (IV to SC; IP to SC handling)</li>
+            <ul className="list-disc pl-5 mt-1.5 space-y-1 text-stone-600">
+              <li>
+                <strong className="text-stone-800">Potency (LD50):</strong> How toxic the venom is drop-for-drop. Lower LD50 means stronger venom.
+              </li>
+              <li>
+                <strong className="text-stone-800">Yield:</strong> How much venom the snake injects in a full bite.
+              </li>
             </ul>
-            <p className="mt-2 text-stone-600">
-              Species-specific citations are stored with records in <span className="font-mono text-[12px]">data/snakes/index.json</span> under the <span className="font-mono text-[12px]">sources</span> field.
+            <p className="mt-2 text-stone-600 text-xs">
+              *All published LD50 lab tests are normalized to a standard Subcutaneous (SC) baseline so different species can be compared fairly.
             </p>
           </section>
+
+          {/* Section 2: Clinical Severity */}
+          <section className="pt-4 border-t border-stone-200">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-1.5">
+              2. Clinical Severity &amp; Human Harm (45%)
+            </h4>
+            <p>
+              Lethality tells us if venom <em>can</em> kill. Clinical Severity measures what <em>actually happens</em> to human victims:
+            </p>
+            <ul className="list-disc pl-5 mt-1.5 space-y-1 text-stone-600">
+              <li>
+                <strong className="text-stone-800">Fatality Rate:</strong> The percentage of untreated bites that result in death.
+              </li>
+              <li>
+                <strong className="text-stone-800">Morbidity (Tissue Damage):</strong> Point bonuses for severe non-fatal harm like paralysis, organ damage, or necrosis (tissue destruction leading to amputation).
+              </li>
+            </ul>
+          </section>
+
+          {/* Section 3: Real-World Modifiers */}
+          <section className="pt-4 border-t border-stone-200">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-1.5">
+              3. Real-World Risk Multipliers
+            </h4>
+            <p>
+              Intrinsic toxicity is multiplied by real-world behavioral and ecological factors:
+            </p>
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <div className="p-2.5 rounded-lg bg-stone-50 border border-stone-200">
+                <span className="font-semibold text-stone-800 block mb-0.5">⚡ Venom Speed</span>
+                Fast-acting venom leaves less time to reach emergency care.
+              </div>
+              <div className="p-2.5 rounded-lg bg-stone-50 border border-stone-200">
+                <span className="font-semibold text-stone-800 block mb-0.5">🦷 Delivery Method</span>
+                Rear-fanged snakes that chew venom are less efficient than front-fanged vipers.
+              </div>
+              <div className="p-2.5 rounded-lg bg-stone-50 border border-stone-200">
+                <span className="font-semibold text-stone-800 block mb-0.5">👤 Human Exposure</span>
+                Combines geographic overlap with snake aggression (will it strike if approached?).
+              </div>
+            </div>
+            <p className="mt-2 text-stone-500 text-xs">
+              Because these are multipliers, a fast or aggressive snake that has non-venomous bite will still receive a Danger Score of 0.
+            </p>
+          </section>
+
+          {/* Footer Note */}
+          <div className="pt-3 border-t border-stone-200 text-xs text-stone-500">
+            <p>
+              <strong>Data Sources:</strong> WHO Snakebite Information Platform, Snake Venom Database (SVDB), snakeDB.org, The Reptile Database, and Broad et al. (1979) LD50 conversion standards.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
