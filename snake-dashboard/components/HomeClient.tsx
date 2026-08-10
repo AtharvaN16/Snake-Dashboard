@@ -9,10 +9,6 @@ import { SnakeGame } from "@/components/SnakeGame";
 import { useState, useEffect } from "react";
 import type { SnakeSummary } from "@/lib/types";
 
-const PaperAppBackground = dynamic(
-  () => import("@/components/PaperAppBackground").then((m) => m.PaperAppBackground),
-  { ssr: false }
-);
 
 interface HomeClientProps {
   snakes: SnakeSummary[];
@@ -55,9 +51,6 @@ export function HomeClient({ snakes }: HomeClientProps) {
 
   return (
     <div className="relative h-dvh w-full px-0 md:px-4 lg:px-[68px] overflow-hidden">
-      <PaperAppBackground />
-
-
       {/* Desktop Easter Egg Logo - Top Left */}
       <div className="hidden lg:block absolute left-[68px] top-8 z-20">
         <SnakeGame
