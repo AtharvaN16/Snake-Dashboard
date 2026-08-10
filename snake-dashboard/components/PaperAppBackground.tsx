@@ -7,11 +7,7 @@ export function PaperAppBackground() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // A small delay can help ensure all internal library textures are ready
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, 100);
-    return () => clearTimeout(timer);
+    setMounted(true);
   }, []);
 
   if (!mounted) {
