@@ -9,8 +9,11 @@ interface DangerScoreInfoBoxProps {
 
 export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
   const [isMac, setIsMac] = useState(true);
-  const [interactiveMode, setInteractiveMode] = useState<"exposure" | "yield" | "morbidity">("exposure");
-  const [toggleState, setToggleState] = useState(true);
+
+  // Section-specific toggle states
+  const [yieldToggle, setYieldToggle] = useState(true);
+  const [morbidityToggle, setMorbidityToggle] = useState(true);
+  const [exposureToggle, setExposureToggle] = useState(true);
 
   useEffect(() => {
     const platform = navigator.platform || "";
@@ -36,7 +39,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
   }, [onClose, closeKeys]);
 
   return (
-    <div className="fixed bottom-4 right-4 left-4 sm:left-auto z-30 w-auto sm:w-[620px]">
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto z-30 w-auto sm:w-[640px]">
       <button
         onClick={onClose}
         className="absolute right-0 -top-2 -translate-y-full text-stone-500 hover:text-stone-800 transition-colors"
@@ -45,223 +48,173 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
         <Kbd className="py-1 px-2 text-center">{closeKeyLabel}</Kbd>
       </button>
 
-      <div className="max-h-[84vh] overflow-y-auto bg-white/95 backdrop-blur-sm border border-stone-300 rounded-2xl shadow-2xl p-5 sm:p-6 animate-in slide-in-from-bottom-8 duration-300">
-        {/* Header */}
-        <div className="mb-4 pb-3 border-b border-stone-200">
-          <h3 className="text-xl font-black text-[#2c2c2c] tracking-tight">How the Danger Score Works</h3>
-          <p className="text-xs text-stone-500 mt-0.5">
-            Why the world&apos;s most toxic snake isn&apos;t always the most dangerous to humans.
+      <div className="max-h-[85vh] overflow-y-auto bg-[#fcfbf9] border border-stone-300 rounded-2xl shadow-2xl p-5 sm:p-6 animate-in slide-in-from-bottom-8 duration-300">
+        {/* Editorial Header */}
+        <div className="mb-5 pb-4 border-b border-stone-200">
+          <h3 className="text-xl font-black text-stone-900 tracking-tight">How the Danger Score Is Calculated</h3>
+          <p className="text-xs text-stone-500 mt-1">
+            An experimental 0–100 comparative index evaluating toxicological capacity, human clinical outcomes, and ecological risk factors.
           </p>
         </div>
 
-        <div className="space-y-5 text-sm text-stone-700 leading-relaxed">
-          {/* Summary Banner */}
-          <div className="rounded-xl border border-amber-200/80 bg-amber-50/50 p-4 text-xs sm:text-sm">
-            <p className="font-semibold text-stone-800 mb-1">The 3-Second Summary:</p>
-            <p className="text-stone-600">
-              The <strong>Danger Score (0–100)</strong> measures overall risk to humans by balancing chemical venom power with real-world outcomes:
-            </p>
-            <div className="mt-2.5 flex flex-wrap gap-2 text-xs font-medium">
-              <span className="bg-white border border-amber-300/60 text-amber-900 px-2.5 py-1 rounded-md shadow-xs">
-                🧪 55% Venom Lethality
-              </span>
-              <span className="bg-white border border-amber-300/60 text-amber-900 px-2.5 py-1 rounded-md shadow-xs">
-                🩺 45% Human Outcomes
-              </span>
-              <span className="bg-white border border-amber-300/60 text-amber-900 px-2.5 py-1 rounded-md shadow-xs">
-                👤 Multiplied by Human Exposure
-              </span>
-            </div>
-          </div>
-
-          {/* Interactive Toggle Simulator Widget */}
-          <section className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500">
-                🎮 Interactive Ranking Simulator
-              </h4>
-              <span className="text-[11px] text-stone-400">See how formula rules change rankings</span>
-            </div>
-
-            {/* Sub-tabs */}
-            <div className="flex gap-1.5 p-1 bg-stone-200/60 rounded-lg mb-3 text-xs">
-              <button
-                onClick={() => { setInteractiveMode("exposure"); setToggleState(true); }}
-                className={`flex-1 py-1.5 px-2 rounded-md font-medium transition-all ${
-                  interactiveMode === "exposure" ? "bg-white text-stone-900 shadow-xs" : "text-stone-600 hover:text-stone-900"
-                }`}
-              >
-                Human Exposure
-              </button>
-              <button
-                onClick={() => { setInteractiveMode("yield"); setToggleState(true); }}
-                className={`flex-1 py-1.5 px-2 rounded-md font-medium transition-all ${
-                  interactiveMode === "yield" ? "bg-white text-stone-900 shadow-xs" : "text-stone-600 hover:text-stone-900"
-                }`}
-              >
-                Venom Volume
-              </button>
-              <button
-                onClick={() => { setInteractiveMode("morbidity"); setToggleState(true); }}
-                className={`flex-1 py-1.5 px-2 rounded-md font-medium transition-all ${
-                  interactiveMode === "morbidity" ? "bg-white text-stone-900 shadow-xs" : "text-stone-600 hover:text-stone-900"
-                }`}
-              >
-                Tissue Damage
-              </button>
-            </div>
-
-            {/* Toggle Switch */}
-            <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-stone-200 mb-3">
-              <span className="text-xs font-semibold text-stone-800">
-                {interactiveMode === "exposure" && "Include Human Encounter Frequency"}
-                {interactiveMode === "yield" && "Include Venom Dose Volume (Yield)"}
-                {interactiveMode === "morbidity" && "Include Morbidity / Permanent Tissue Damage"}
-              </span>
-              <button
-                onClick={() => setToggleState(!toggleState)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  toggleState ? "bg-stone-900" : "bg-stone-300"
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    toggleState ? "translate-x-6" : "translate-x-1"
-                  }`}
-                />
-              </button>
-            </div>
-
-            {/* Toggle Result Box */}
-            <div className="text-xs space-y-2">
-              {interactiveMode === "exposure" && (
-                toggleState ? (
-                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-900">
-                    <p className="font-bold text-emerald-950 mb-0.5">🏆 #1 Russell&apos;s Viper &gt; #5 Inland Taipan</p>
-                    <p>
-                      <strong>Why?</strong> Russell&apos;s Viper lives in heavily populated farmlands across Asia, encountering thousands of people a year. Exposure multiplier boosts its real-world risk.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900">
-                    <p className="font-bold text-amber-950 mb-0.5">⚠️ #1 Inland Taipan &gt; #2 Russell&apos;s Viper</p>
-                    <p>
-                      <strong>Without Exposure:</strong> Inland Taipan takes #1 because its venom is drop-for-drop 100x more toxic, even though it lives in an empty desert and rarely sees a human.
-                    </p>
-                  </div>
-                )
-              )}
-
-              {interactiveMode === "yield" && (
-                toggleState ? (
-                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-900">
-                    <p className="font-bold text-emerald-950 mb-0.5">🏆 Gaboon Viper (High Rank) &gt; Eastern Coral Snake</p>
-                    <p>
-                      <strong>Why?</strong> A Gaboon Viper injects a massive flood of venom (~450mg) in one bite, making it far more lethal overall than a tiny coral snake.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900">
-                    <p className="font-bold text-amber-950 mb-0.5">⚠️ Eastern Coral Snake &gt; Gaboon Viper</p>
-                    <p>
-                      <strong>Potency Only:</strong> The Coral Snake has higher drop-for-drop toxicity (LD50), but only produces a tiny 5mg droplet. Ignoring volume gives a false rank!
-                    </p>
-                  </div>
-                )
-              )}
-
-              {interactiveMode === "morbidity" && (
-                toggleState ? (
-                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-900">
-                    <p className="font-bold text-emerald-950 mb-0.5">🏆 Puff Adder Gets High Clinical Rank</p>
-                    <p>
-                      <strong>Why?</strong> Even when victims survive a Puff Adder bite, the cytotoxic venom causes severe necrosis, tissue destruction, and frequent amputations.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-900">
-                    <p className="font-bold text-amber-950 mb-0.5">⚠️ Puff Adder Score Drops Significantly</p>
-                    <p>
-                      <strong>Fatality Only:</strong> Ignoring non-fatal damage severely under-ranks snakes that maim people for life.
-                    </p>
-                  </div>
-                )
-              )}
+        <div className="space-y-6 text-sm text-stone-700 leading-relaxed">
+          {/* Formula Overview */}
+          <section className="rounded-xl border border-stone-200 bg-stone-100/60 p-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">Master Formula Topology</h4>
+            <div className="font-mono text-xs text-stone-800 space-y-1">
+              <p>Intrinsic Danger = 0.55 × Lethality + 0.45 × Clinical Severity</p>
+              <p>Danger Score = Intrinsic Danger × SpeedMod × DeliveryMod × ExposureMod</p>
             </div>
           </section>
 
           {/* Section 1: Lethality */}
           <section>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-1.5">
-              1. Venom Lethality (55%)
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
+              1. Lethality (55% Intrinsic Weight)
             </h4>
             <p>
-              We measure how many human-lethal doses a single bite can deliver. This combines two factors:
+              Lethality measures the total theoretical human-lethal capacity delivered per bite, rather than drop-for-drop venom potency alone. Potency-only scoring over-ranks snakes with toxic venom that deliver minimal volume; yield-only scoring over-ranks snakes injecting massive quantities of weak venom.
             </p>
-            <ul className="list-disc pl-5 mt-1.5 space-y-1 text-stone-600">
-              <li>
-                <strong className="text-stone-800">Potency (LD50):</strong> How toxic the venom is drop-for-drop. Lower LD50 means stronger venom.
-              </li>
-              <li>
-                <strong className="text-stone-800">Yield:</strong> How much venom the snake injects in a full bite.
-              </li>
-            </ul>
-            <p className="mt-2 text-stone-600 text-xs">
-              *All published LD50 lab tests are normalized to a standard Subcutaneous (SC) baseline so different species can be compared fairly.
-            </p>
+
+            <div className="mt-3 space-y-2 text-xs">
+              <p>
+                <strong className="text-stone-900">LD50 Normalization:</strong> Published $\text{LD}_{50}$ values use varying administration routes (IV, IP, SC, IM). Because absorption kinetics differ by route, all published values are converted to a standard Subcutaneous ($\text{SC}$) baseline (Broad et al. 1979) prior to scoring.
+              </p>
+              <p>
+                <strong className="text-stone-900">Lethal Dose Equivalents:</strong> For a 70kg reference human body mass:
+              </p>
+              <div className="font-mono text-[12px] bg-stone-100 p-2 rounded border border-stone-200 text-stone-800">
+                lethalDoseEquivalents = yield_mg / (LD50_SC_mg_per_kg × 70)
+              </div>
+              <p>
+                Raw lethal dose equivalents span over three orders of magnitude. The value is log-scaled and bounded to [0, 100] to prevent extreme toxicological outliers from collapsing comparative spread across other species.
+              </p>
+            </div>
+
+            {/* Section 1 Interactive Toggle */}
+            <div className="mt-4 p-3.5 bg-stone-100/80 rounded-xl border border-stone-200/80 text-xs">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-stone-800">Example: Eastern Coral Snake vs. Gaboon Viper</span>
+                <button
+                  onClick={() => setYieldToggle(!yieldToggle)}
+                  className="px-2.5 py-1 bg-white border border-stone-300 rounded font-medium text-stone-700 hover:bg-stone-50 transition-colors"
+                >
+                  {yieldToggle ? "Mode: Potency + Yield" : "Mode: Potency Only"}
+                </button>
+              </div>
+              {yieldToggle ? (
+                <p className="text-stone-600">
+                  <strong className="text-stone-900">Combined Lethality (Current):</strong> The <strong>Gaboon Viper</strong> ranks significantly higher. Although its venom is moderately potent, it yields up to 450mg per bite, delivering dozens of lethal doses.
+                </p>
+              ) : (
+                <p className="text-stone-600">
+                  <strong className="text-stone-900">Potency Only (Hypothetical):</strong> The <strong>Eastern Coral Snake</strong> would rank higher due to its superior drop-for-drop $\text{LD}_{50}$ (0.3 mg/kg), despite yielding only 5mg of venom per bite.
+                </p>
+              )}
+            </div>
           </section>
 
           {/* Section 2: Clinical Severity */}
-          <section className="pt-4 border-t border-stone-200">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-1.5">
-              2. Clinical Severity &amp; Human Harm (45%)
+          <section className="pt-5 border-t border-stone-200">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
+              2. Clinical Severity (45% Intrinsic Weight)
             </h4>
             <p>
-              Lethality tells us if venom <em>can</em> kill. Clinical Severity measures what <em>actually happens</em> to human victims:
+              While Lethality evaluates theoretical chemical capacity, Clinical Severity measures real-world human medical outcomes. It combines untreated case-fatality rates (CFR) with non-fatal morbidity metrics.
             </p>
-            <ul className="list-disc pl-5 mt-1.5 space-y-1 text-stone-600">
-              <li>
-                <strong className="text-stone-800">Fatality Rate:</strong> The percentage of untreated bites that result in death.
-              </li>
-              <li>
-                <strong className="text-stone-800">Morbidity (Tissue Damage):</strong> Point bonuses for severe non-fatal harm like paralysis, organ damage, or necrosis (tissue destruction leading to amputation).
-              </li>
-            </ul>
+
+            <div className="mt-3 space-y-2 text-xs">
+              <p>
+                <strong className="text-stone-900">Untreated Fatality Rate (CFR):</strong> Uses the midpoint of published untreated mortality ranges ($\text{midCFR}$). A square-root transformation ($\sqrt{\text{midCFR}/100} \times 100$) compresses high-fatality estimates so top-end variance does not dominate the score.
+              </p>
+              <p>
+                <strong className="text-stone-900">Morbidity Bonuses:</strong> To capture permanent systemic damage, organ failure, or local tissue necrosis requiring amputation, additive point bonuses are applied based on clinical severity label:
+              </p>
+              <div className="font-mono text-[12px] bg-stone-100 p-2 rounded border border-stone-200 text-stone-800">
+                Life-threatening: +20 | Severe: +10 | Moderate: +5
+              </div>
+              <p className="text-stone-500">
+                *Note: WHO Medical Importance Category is displayed as an external validation reference and is not included as a numerical bonus to eliminate circular double-counting.
+              </p>
+            </div>
+
+            {/* Section 2 Interactive Toggle */}
+            <div className="mt-4 p-3.5 bg-stone-100/80 rounded-xl border border-stone-200/80 text-xs">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-stone-800">Example: Black Mamba vs. Puff Adder</span>
+                <button
+                  onClick={() => setMorbidityToggle(!morbidityToggle)}
+                  className="px-2.5 py-1 bg-white border border-stone-300 rounded font-medium text-stone-700 hover:bg-stone-50 transition-colors"
+                >
+                  {morbidityToggle ? "Mode: Fatality + Morbidity" : "Mode: Fatality Only"}
+                </button>
+              </div>
+              {morbidityToggle ? (
+                <p className="text-stone-600">
+                  <strong className="text-stone-900">Fatality + Morbidity (Current):</strong> The <strong>Puff Adder</strong> receives a substantial clinical boost for severe tissue necrosis, compartment syndrome, and amputation risk, reflecting total human medical impact alongside the highly fatal <strong>Black Mamba</strong>.
+                </p>
+              ) : (
+                <p className="text-stone-600">
+                  <strong className="text-stone-900">Fatality Only (Hypothetical):</strong> Cytotoxic snakes like the Puff Adder would drop significantly, ignoring non-fatal severe outcomes.
+                </p>
+              )}
+            </div>
           </section>
 
-          {/* Section 3: Real-World Modifiers */}
-          <section className="pt-4 border-t border-stone-200">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-1.5">
-              3. Real-World Risk Multipliers
+          {/* Section 3: Real-World Risk Modifiers */}
+          <section className="pt-5 border-t border-stone-200">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
+              3. Real-World Risk Modifiers (Multipliers)
             </h4>
             <p>
-              Intrinsic toxicity is multiplied by real-world behavioral and ecological factors:
+              Behavioral, physiological, and ecological factors modulate intrinsic danger as multiplicative terms. Multipliers can scale intrinsic danger up or down, but cannot generate danger where intrinsic toxicity is zero.
             </p>
-            <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-              <div className="p-2.5 rounded-lg bg-stone-50 border border-stone-200">
-                <span className="font-semibold text-stone-800 block mb-0.5">⚡ Venom Speed</span>
-                Fast-acting venom leaves less time to reach emergency care.
-              </div>
-              <div className="p-2.5 rounded-lg bg-stone-50 border border-stone-200">
-                <span className="font-semibold text-stone-800 block mb-0.5">🦷 Delivery Method</span>
-                Rear-fanged snakes that chew venom are less efficient than front-fanged vipers.
-              </div>
-              <div className="p-2.5 rounded-lg bg-stone-50 border border-stone-200">
-                <span className="font-semibold text-stone-800 block mb-0.5">👤 Human Exposure</span>
-                Combines geographic overlap with snake aggression (will it strike if approached?).
+
+            <div className="mt-3 space-y-2 text-xs">
+              <p>
+                <strong className="text-stone-900">Venom Onset Modifier ($0.94\times - 1.08\times$):</strong> Rapidly acting venom reduces the window available for antivenom administration ($\text{speedMod} = 0.90 + 0.20 \times \frac{\text{speedScore}}{100}$).
+              </p>
+              <p>
+                <strong className="text-stone-900">Delivery Modifier ($0.5\times - 1.0\times$):</strong> Rear-fanged (Colubrid) snakes possess inefficient delivery mechanics. Non-highly venomous rear-fanged species receive a $0.5\times$ penalty.
+              </p>
+              <p>
+                <strong className="text-stone-900">Human Exposure Modifier ($0.70\times - 1.10\times$):</strong> Evaluates geographic human density and habitat overlap. A snake&apos;s behavioral disposition adjusts its effective encounter score:
+              </p>
+              <div className="font-mono text-[12px] bg-stone-100 p-2 rounded border border-stone-200 text-stone-800">
+                Aggressive: +15 | Defensive: +7.5 | Neutral: 0 | Docile: -10 | Placid: -20
               </div>
             </div>
-            <p className="mt-2 text-stone-500 text-xs">
-              Because these are multipliers, a fast or aggressive snake that has non-venomous bite will still receive a Danger Score of 0.
-            </p>
+
+            {/* Section 3 Interactive Toggle */}
+            <div className="mt-4 p-3.5 bg-stone-100/80 rounded-xl border border-stone-200/80 text-xs">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-stone-800">Example: Inland Taipan vs. Russell&apos;s Viper</span>
+                <button
+                  onClick={() => setExposureToggle(!exposureToggle)}
+                  className="px-2.5 py-1 bg-white border border-stone-300 rounded font-medium text-stone-700 hover:bg-stone-50 transition-colors"
+                >
+                  {exposureToggle ? "Mode: With Human Exposure" : "Mode: Intrinsic Only"}
+                </button>
+              </div>
+              {exposureToggle ? (
+                <p className="text-stone-600">
+                  <strong className="text-stone-900">With Exposure (Current):</strong> <strong>Russell&apos;s Viper</strong> holds Rank #1 because it occupies dense agricultural farmlands across Asia. The <strong>Inland Taipan</strong> sits at Rank #5 because it inhabits sparsely populated central Australian deserts.
+                </p>
+              ) : (
+                <p className="text-stone-600">
+                  <strong className="text-stone-900">Intrinsic Danger Only:</strong> The <strong>Inland Taipan</strong> takes Rank #1 due to its unrivaled toxicological lethality and 80–100% untreated fatality rate.
+                </p>
+              )}
+            </div>
           </section>
 
-          {/* Footer Note */}
-          <div className="pt-3 border-t border-stone-200 text-xs text-stone-500">
+          {/* Sources Footnote */}
+          <section className="pt-4 border-t border-stone-200 text-xs text-stone-500 space-y-1">
+            <p className="font-semibold text-stone-700">Data Sources &amp; Literature Standards:</p>
             <p>
-              <strong>Data Sources:</strong> WHO Snakebite Information Platform, Snake Venom Database (SVDB), snakeDB.org, The Reptile Database, and Broad et al. (1979) LD50 conversion standards.
+              WHO Snakebite Information Platform, Snake Venom Database (SVDB), snakeDB.org, The Reptile Database, and Broad et al. (1979) conversion factors for $\text{LD}_{50}$ route normalization.
             </p>
-          </div>
+          </section>
         </div>
       </div>
     </div>
