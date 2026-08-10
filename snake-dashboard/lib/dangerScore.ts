@@ -152,10 +152,6 @@ export function calculateDispositionScore(
  * Replaced floors with additive bonuses to prevent score compression.
  * High-fatality snakes (Mambas) remain at the top, while high-disability
  * snakes (Puff Adders) get a significant boost without hiding the fatality gap.
- *
- * WHO Bonuses:
- * Category 1 adds a 10-point bonus (highest medical importance).
- * Category 2 adds a 5-point bonus (secondary medical importance).
  */
 export function calculateClinicalScore(clinical: ClinicalData): number {
   const midCfr = (clinical.untreatedFatalityRate.low + clinical.untreatedFatalityRate.high) / 2;
@@ -167,12 +163,7 @@ export function calculateClinicalScore(clinical: ClinicalData): number {
   else if (clinical.severity === "Severe") morbidityBonus = 10;
   else if (clinical.severity === "Moderate") morbidityBonus = 5;
 
-  // Apply WHO importance bonuses
-  let whoBonus = 0;
-  if (clinical.whoCategory === 1) whoBonus = 10;
-  else if (clinical.whoCategory === 2) whoBonus = 5;
-
-  return Math.round(Math.max(0, Math.min(100, base + morbidityBonus + whoBonus)));
+  return Math.round(Math.max(0, Math.min(100, base + morbidityBonus)));
 }
 
 /**

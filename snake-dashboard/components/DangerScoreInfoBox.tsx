@@ -96,10 +96,10 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
             </p>
             <p className="mt-1 font-mono text-[13px] text-stone-800">Life-threatening: +20, Severe: +10, Moderate: +5</p>
             <p className="mt-2">
-              <strong className="text-stone-900">Step D: WHO medical-importance bonus.</strong> WHO Category 1 gets +10; Category 2 gets +5.
+              <strong className="text-stone-900">Step D: bound and round.</strong> Final clinical score is clamped to [0,100] and rounded.
             </p>
-            <p className="mt-2">
-              <strong className="text-stone-900">Step E: bound and round.</strong> Final clinical score is clamped to [0,100] and rounded.
+            <p className="mt-2 text-stone-600 bg-stone-100 p-2.5 rounded-lg border border-stone-200 text-xs">
+              <strong className="text-stone-800">Note on WHO Classification:</strong> WHO Medical Importance Category is surfaced across the app as an external validation reference, but is not included as a numerical bonus in the score to prevent double-counting overlapping metrics.
             </p>
           </section>
 
