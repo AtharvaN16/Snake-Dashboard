@@ -3,7 +3,7 @@
 import { useState, memo, useMemo, useRef, useEffect, MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, MotionValue } from "framer-motion";
 import { Snake } from "@/lib/types";
 import { getAllSnakes } from "@/lib/snakeData";
 import {
@@ -114,19 +114,40 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
     return leaderboard.findIndex((s) => s.id === snake.id);
   }, [leaderboard, snake.id]);
 
-  // Simey 3D Motion Tracking System
+  // Simey 3D Motion Tracking System - TOP LEVEL HOOKS ONLY (Strict React Rules of Hooks compliance)
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  // Reactive Springs (Connected directly to style for 100% smooth 60fps 3D tilt)
   const tiltRotateX = useSpring(useTransform(mouseY, [0, 1], [18, -18]), { stiffness: 260, damping: 20 });
   const tiltRotateY = useSpring(useTransform(mouseX, [0, 1], [-18, 18]), { stiffness: 260, damping: 20 });
 
   const holoAngle = useTransform(mouseX, [0, 1], [70, 170]);
   const glareX = useTransform(mouseX, [0, 1], [0, 100]);
   const glareY = useTransform(mouseY, [0, 1], [0, 100]);
-  const glareOpacity = useSpring(useTransform(mouseX, [0, 0.5, 1], [0.3, 0.65, 0.3]), { stiffness: 260, damping: 20 });
+  const glareOpacity = useSpring(useTransform(mouseX, [0, 0.5, 1], [0.35, 0.7, 0.35]), { stiffness: 260, damping: 20 });
+
+  // Pre-created Top-Level Motion Value Transforms for Simey Holofoil Shimmer
+  const holoBgImage = useTransform(
+    [holoAngle, glareX, glareY],
+    ([angle, x, y]) => `
+      linear-gradient(${angle}deg, 
+        transparent 0%, 
+        rgba(255, 0, 128, 0.5) 15%, 
+        rgba(255, 215, 0, 0.6) 30%, 
+        rgba(0, 255, 200, 0.5) 45%, 
+        rgba(0, 191, 255, 0.5) 60%,
+        rgba(138, 43, 226, 0.5) 75%, 
+        transparent 100%
+      ),
+      radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 25%, transparent 60%)
+    `
+  );
+
+  const glareBgImage = useTransform(
+    [glareX, glareY],
+    ([x, y]) => `radial-gradient(farthest-corner circle at ${x}% ${y}%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.35) 20%, transparent 60%)`
+  );
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     const target = cardRef.current || e.currentTarget;
@@ -539,25 +560,12 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                 WebkitBackfaceVisibility: "hidden",
               }}
             >
-              {/* Simey Dynamic Holofoil Layer */}
+              {/* Simey Dynamic Rainbow Holofoil Layer */}
               <motion.div
                 aria-hidden
-                className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-60 rounded-[22px]"
+                className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-70 rounded-[22px]"
                 style={{
-                  backgroundImage: useTransform(
-                    [holoAngle, glareX, glareY],
-                    ([angle, x, y]) => `
-                      linear-gradient(${angle}deg, 
-                        transparent 0%, 
-                        rgba(255, 0, 128, 0.45) 20%, 
-                        rgba(255, 215, 0, 0.55) 40%, 
-                        rgba(0, 255, 200, 0.45) 60%, 
-                        rgba(138, 43, 226, 0.45) 80%, 
-                        transparent 100%
-                      ),
-                      radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.85) 0%, transparent 60%)
-                    `
-                  ),
+                  backgroundImage: holoBgImage,
                   backgroundSize: "200% 200%",
                 }}
               />
@@ -568,10 +576,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                 className="absolute inset-0 pointer-events-none z-30 mix-blend-overlay rounded-[22px]"
                 style={{
                   opacity: glareOpacity,
-                  background: useTransform(
-                    [glareX, glareY],
-                    ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.75) 0%, transparent 50%)`
-                  ),
+                  backgroundImage: glareBgImage,
                 }}
               />
 
@@ -644,25 +649,12 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                     WebkitBackfaceVisibility: "hidden",
                   }}
                 >
-                  {/* Simey Dynamic Holofoil Layer */}
+                  {/* Simey Dynamic Rainbow Holofoil Layer */}
                   <motion.div
                     aria-hidden
-                    className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-60 rounded-[26px]"
+                    className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-70 rounded-[26px]"
                     style={{
-                      backgroundImage: useTransform(
-                        [holoAngle, glareX, glareY],
-                        ([angle, x, y]) => `
-                          linear-gradient(${angle}deg, 
-                            transparent 0%, 
-                            rgba(255, 0, 128, 0.45) 20%, 
-                            rgba(255, 215, 0, 0.55) 40%, 
-                            rgba(0, 255, 200, 0.45) 60%, 
-                            rgba(138, 43, 226, 0.45) 80%, 
-                            transparent 100%
-                          ),
-                          radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.85) 0%, transparent 60%)
-                        `
-                      ),
+                      backgroundImage: holoBgImage,
                       backgroundSize: "200% 200%",
                     }}
                   />
@@ -673,10 +665,7 @@ const DangerScoreCardComponent = memo(function DangerScoreCard({ snake }: Danger
                     className="absolute inset-0 pointer-events-none z-30 mix-blend-overlay rounded-[26px]"
                     style={{
                       opacity: glareOpacity,
-                      background: useTransform(
-                        [glareX, glareY],
-                        ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.75) 0%, transparent 50%)`
-                      ),
+                      backgroundImage: glareBgImage,
                     }}
                   />
 
