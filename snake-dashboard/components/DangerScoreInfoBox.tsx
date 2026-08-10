@@ -78,7 +78,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
 
             <div className="mt-3 space-y-2 text-xs">
               <p>
-                <strong className="text-stone-900">LD50 Normalization:</strong> Published $\text{LD}_{50}$ values use varying administration routes (IV, IP, SC, IM). Because absorption kinetics differ by route, all published values are converted to a standard Subcutaneous ($\text{SC}$) baseline (Broad et al. 1979) prior to scoring.
+                <strong className="text-stone-900">LD50 Normalization:</strong> Published LD50 values use varying administration routes (IV, IP, SC, IM). Because absorption kinetics differ by route, all published values are converted to a standard Subcutaneous (SC) baseline (Broad et al. 1979) prior to scoring.
               </p>
               <p>
                 <strong className="text-stone-900">Lethal Dose Equivalents:</strong> For a 70kg reference human body mass:
@@ -108,7 +108,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
                 </p>
               ) : (
                 <p className="text-stone-600">
-                  <strong className="text-stone-900">Potency Only (Hypothetical):</strong> The <strong>Eastern Coral Snake</strong> would rank higher due to its superior drop-for-drop $\text{LD}_{50}$ (0.3 mg/kg), despite yielding only 5mg of venom per bite.
+                  <strong className="text-stone-900">Potency Only (Hypothetical):</strong> The <strong>Eastern Coral Snake</strong> would rank higher due to its superior drop-for-drop LD50 (0.3 mg/kg), despite yielding only 5mg of venom per bite.
                 </p>
               )}
             </div>
@@ -125,7 +125,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
 
             <div className="mt-3 space-y-2 text-xs">
               <p>
-                <strong className="text-stone-900">Untreated Fatality Rate (CFR):</strong> Uses the midpoint of published untreated mortality ranges ($\text{midCFR}$). A square-root transformation ($\sqrt{\text{midCFR}/100} \times 100$) compresses high-fatality estimates so top-end variance does not dominate the score.
+                <strong className="text-stone-900">Untreated Fatality Rate (CFR):</strong> Uses the midpoint of published untreated mortality ranges (midCFR). A square-root transformation (&radic;(midCFR / 100) &times; 100) compresses high-fatality estimates so top-end variance does not dominate the score.
               </p>
               <p>
                 <strong className="text-stone-900">Morbidity Bonuses:</strong> To capture permanent systemic damage, organ failure, or local tissue necrosis requiring amputation, additive point bonuses are applied based on clinical severity label:
@@ -172,13 +172,13 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
 
             <div className="mt-3 space-y-2 text-xs">
               <p>
-                <strong className="text-stone-900">Venom Onset Modifier ($0.94\times - 1.08\times$):</strong> Rapidly acting venom reduces the window available for antivenom administration ($\text{speedMod} = 0.90 + 0.20 \times \frac{\text{speedScore}}{100}$).
+                <strong className="text-stone-900">Venom Onset Modifier (0.94&times; - 1.08&times;):</strong> Rapidly acting venom reduces the window available for antivenom administration (speedMod = 0.90 + 0.20 &times; speedScore / 100).
               </p>
               <p>
-                <strong className="text-stone-900">Delivery Modifier ($0.5\times - 1.0\times$):</strong> Rear-fanged (Colubrid) snakes possess inefficient delivery mechanics. Non-highly venomous rear-fanged species receive a $0.5\times$ penalty.
+                <strong className="text-stone-900">Delivery Modifier (0.5&times; - 1.0&times;):</strong> Rear-fanged (Colubrid) snakes possess inefficient delivery mechanics. Non-highly venomous rear-fanged species receive a 0.5&times; penalty.
               </p>
               <p>
-                <strong className="text-stone-900">Human Exposure Modifier ($0.70\times - 1.10\times$):</strong> Evaluates geographic human density and habitat overlap. A snake&apos;s behavioral disposition adjusts its effective encounter score:
+                <strong className="text-stone-900">Human Exposure Modifier (0.70&times; - 1.10&times;):</strong> Evaluates geographic human density and habitat overlap. A snake&apos;s behavioral disposition adjusts its effective encounter score:
               </p>
               <div className="font-mono text-[12px] bg-stone-100 p-2 rounded border border-stone-200 text-stone-800">
                 Aggressive: +15 | Defensive: +7.5 | Neutral: 0 | Docile: -10 | Placid: -20
@@ -212,7 +212,7 @@ export function DangerScoreInfoBox({ onClose }: DangerScoreInfoBoxProps) {
           <section className="pt-4 border-t border-stone-200 text-xs text-stone-500 space-y-1">
             <p className="font-semibold text-stone-700">Data Sources &amp; Literature Standards:</p>
             <p>
-              WHO Snakebite Information Platform, Snake Venom Database (SVDB), snakeDB.org, The Reptile Database, and Broad et al. (1979) conversion factors for $\text{LD}_{50}$ route normalization.
+              WHO Snakebite Information Platform, Snake Venom Database (SVDB), snakeDB.org, The Reptile Database, and Broad et al. (1979) conversion factors for LD50 route normalization.
             </p>
           </section>
         </div>
