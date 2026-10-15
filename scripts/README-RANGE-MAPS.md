@@ -19,7 +19,7 @@ Alternative source:
 
 ## Step 2: Extract per-snake GeoJSON files
 
-From the project root (`snake-dashboard`):
+From the repo root:
 
 ```bash
 # Shapefile source (.shp + .dbf)
