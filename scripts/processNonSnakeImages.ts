@@ -3,7 +3,7 @@
  * Source and save non-snake thumbnails the same way as snakes:
  * Wikimedia Commons + iNaturalist + GBIF, then download best candidate and resize.
  * Writes to public/images/non-snakes/<id>/thumbnail.jpg and updates data/non-snakes.json.
- * Run from snake-dashboard: bun run scripts/processNonSnakeImages.ts
+ * Run from the repo root: bun run scripts/processNonSnakeImages.ts
  */
 
 import { readFileSync, writeFileSync } from "fs";

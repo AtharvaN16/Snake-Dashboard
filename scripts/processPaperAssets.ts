@@ -10,7 +10,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 
 const ROOT = join(import.meta.dir, "..");
-const ASSETS_DIR = join(ROOT, "..", ); // parent dir where SVGs live
+const ASSETS_DIR = join(ROOT, "design-assets"); // source SVGs live here
 const OUT_DIR = join(ROOT, "public", "paper");
 
 mkdirSync(OUT_DIR, { recursive: true });
