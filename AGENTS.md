@@ -1,13 +1,13 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `snake-dashboard/` is the primary Next.js app.
-- `snake-dashboard/app/` contains App Router pages (`page.tsx`, `snakes/[id]/page.tsx`) and API routes.
-- `snake-dashboard/components/` holds UI and domain components; `components/ui/` is shadcn/ui base.
-- `snake-dashboard/lib/` contains core logic (data loading, search, danger scoring).
-- `snake-dashboard/data/snakes/index.json` is the canonical snake dataset.
-- `snake-dashboard/public/images/snakes/` stores processed JPEG images.
-- `snake-dashboard/scripts/` includes data/image tooling run via Bun.
+- The repo root is the Next.js app. Design source assets (SVG/PNG textures, stamps, fonts) live in `design-assets/`.
+- `app/` contains App Router pages (`page.tsx`, `snakes/[id]/page.tsx`) and API routes.
+- `components/` holds UI and domain components; `components/ui/` is shadcn/ui base.
+- `lib/` contains core logic (data loading, search, danger scoring).
+- `data/snakes/index.json` is the canonical snake dataset.
+- `public/images/snakes/` stores processed JPEG images.
+- `scripts/` includes data/image tooling run via Bun.
 
 ## Architecture Overview
 - Data access flows through `lib/snakeData.ts`; avoid reading `data/snakes/index.json` directly in pages/components.
@@ -16,7 +16,7 @@
 - Distribution maps render via `components/DistributionMap.tsx` using GeoJSON from `public/geojson/ranges/`.
 
 ## Build, Test, and Development Commands
-Run commands from `snake-dashboard/`:
+Run commands from the repo root:
 - `bun install` installs dependencies.
 - `bun run dev` starts the dev server at `http://localhost:3000`.
 - `bun run build` creates a production build.
@@ -52,6 +52,6 @@ Run commands from `snake-dashboard/`:
   - Notes on data or image updates (and whether `data:build` or image scripts were run).
 
 ## Data & Image Updates
-- Data lives in `snake-dashboard/data/snakes/index.json`; keep entries aligned with `lib/types.ts`.
-- Image tooling is in `snake-dashboard/scripts/` and expects JPEGs at standard sizes.
+- Data lives in `data/snakes/index.json`; keep entries aligned with `lib/types.ts`.
+- Image tooling is in `scripts/` and expects JPEGs at standard sizes.
 - Prefer updating data and images together when adding new species.
